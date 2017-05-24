@@ -1,0 +1,310 @@
+#!/bin/bash
+# Download Raspbian Image, remove first-boot stuff, add repos and install packages.
+#
+# Open interactive Shell in chroot or write result to SD Card
+#
+# License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
+#
+# The following variables and arrays customize the behavior. To change them simply create a configuration
+# file `pirateship-image-creator.config` which overrides them.
+#
+# Add at least the following lines to override the internal configuration:
+# INSTALL_PACKAGES=()
+# ADD_REPOS=()
+# ADD_REPO_KEYS=()
+
+# Raspbian
+RASPBIAN_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/2017-01-11-raspbian-jessie.zip
+RASPBIAN_SHA1=f987935e3e99366a6f1bf0d60a7a83fe3edb013c
+
+# Setting some options to default
+SETUP_SSHKEYS=false
+SETUP_NOPASSWD=false
+SETUP_HOSTNAME="raspberrypi"
+SETUP_HOSTNAMEBYDHCP=false
+SETUP_UPGRADE=true
+SETUP_NOAUTORESIZE=true
+
+# List of packages to install
+INSTALL_PACKAGES=(
+    avahi-daemon vim lshw iotop screen #essentials
+#    debian-archive-keyring apt-transport-https #hypriot
+    docker-hypriot #docker
+    quicksynergy #dogi
+#    build-essential rlwrap python-dev python-rpi.gpio #install node http://nodered.org/docs/hardware/raspberrypi.html
+#    resolvconf #for https://www.npmjs.com/package/pirate-sh
+#    libdbus-1-dev libdbus-glib-1-dev libglib2.0-dev libical-dev libreadline-dev libudev-dev libusb-dev #install ble
+#    make #http://www.elinux.org/RPi_Bluetooth_LE
+)
+
+# List of packages to remove
+PURGE_PACKAGES=(
+    wolfram-engine
+    sonic-pi
+    scratch
+    squeak-plugins-scratch squeak-vm
+)
+
+# List of extra APT repositories
+ADD_REPOS=(
+    "deb https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
+    "deb-src https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
+)
+
+# List of extra GPG keys to import from the LOCAL SYSTEM!
+ADD_REPO_KEYS=(
+    D59097AB
+)
+
+# Extra command to run upon completion. This is run within a chroot environment.
+# Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
+CUSTOM_COMMAND="\
+    update-alternatives --set editor /usr/bin/vim.basic;
+    rm -rf /var/caches/apt/archives;
+    mkdir -p /var/caches/apt/archives
+#    docker pull dogi/rpi-couchdb    
+"
+
+############ End of User Cusomization
+
+if [[ -r ./pirateship-image-creator.config ]] ; then
+    source ./pirateship-image-creator.config
+fi
+
+function die {
+    echo 1>&2 ERROR: "$*"
+    exit 1
+}
+
+missing_deps=()
+for prog in kpartx wget gpg parted qemu-arm-static ; do
+    if ! type $prog &>/dev/null ; then
+        missing_deps+=( $prog )
+    fi
+done
+if (( ${#missing_deps[@]} > 0 )) ; then
+    die "Missing required programs: ${missing_deps[*]}
+    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted'"
+fi
+
+# Constants
+NL="$(echo)"
+
+# taken from http://debian-handbook.info/browse/wheezy/sect.automatic-upgrades.html
+MIRACLE_COMBINATION_AUTO_UPGRADE_SCRIPT="
+#!/bin/bash -e
+exec &>/var/log/miracle-combination-auto-upgrade.log
+date
+apt-get update
+export DEBIAN_FRONTEND=noninteractive
+yes '' | apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
+"
+
+function _op {
+    "$@" &> >(sed -e 's/^/| /')
+}
+
+function _umount {
+    for dir in "$@" ; do
+        if grep -q "$dir" /proc/self/mounts ; then
+            if ! sudo umount -f "$dir" ; then
+                die "Could not umount $dir, check running procs:$NL$(lsof 2>/dev/null | grep $(readlink -f $dir))"
+            fi
+        fi
+    done
+}
+
+function _get_image {
+    echo "Fetching $RASPBIAN_URL "
+    mkdir -p download
+    RASPBIAN_ARCHIVE_FILE=download/${RASPBIAN_URL##*/}
+    wget --no-verbose --continue --directory-prefix download $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
+    echo -n "Checksum of "
+    sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
+    unzip -q $RASPBIAN_ARCHIVE_FILE -d temp/ || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
+}
+
+function _open_image {
+    echo "Loop-back mounting" temp/*.img
+    kpartx="$(sudo kpartx -sav temp/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    read img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
+    test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
+    img_boot_dev=/dev/mapper/$img_boot_dev
+    img_root_dev=/dev/mapper/$img_root_dev
+#ls -al /dev/mapper
+#echo $img_boot_dev
+#echo $img_root_dev
+    sudo mkdir -p mnt/img_root
+    sudo mount -t ext4 $img_root_dev mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
+    sudo mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
+    sudo mount -t vfat $img_boot_dev mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
+    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
+    echo "Raspbian Image Details:"
+    df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
+}
+
+function _modify_image {
+    echo "Modifying Image"
+    chroot mnt/img_root date &>/dev/null || die "Could not chroot date"
+    mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
+    mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
+    mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"
+    sed -i -e 's/^/#/' mnt/img_root/etc/ld.so.preload || die "Could not disable ld.so.preload"
+    if [[ "$SETUP_NOAUTORESIZE" == true ]] ; then
+      sed -i 's| quiet init=/usr/lib/raspi-config/init_resize.sh||' mnt/img_root/boot/cmdline.txt || die "Could notdisable autoresize"
+    fi
+    for f in /etc/default/{keyboard,console-setup} /etc/{resolv.conf,localtime} ; do
+        if [[ -r $f ]] ; then
+            cp $f mnt/img_root/$f || die "Could not copy $f"
+        fi
+    done
+    if [[ "$SETUP_SSHKEYS" == "raspberrypi" ]] ; then
+        echo "$SETUP_SSHKEYS" > mnt/img_root/etc/hostname || die "Could not set hostname to $SETUP_SSHKEYS"
+    fi
+    if [[ "$SETUP_HOSTNAMEBYDHCP" == true ]] ; then
+        echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
+        > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
+    fi
+    if [[ "${ADD_REPOS:-}" ]] ; then
+        _op chroot mnt/img_root apt-get -qq update || die "Could not update package sources"
+        _op chroot mnt/img_root apt-get -qq install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
+        for repo in "${ADD_REPOS[@]}" ; do
+            echo "$repo" 
+        done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
+    fi
+    if [[ ${ADD_REPO_KEYS:-} ]] ; then
+        gpg --no-permission-warning --no-default-keyring --keyring /etc/apt/trusted.gpg --export ${ADD_REPO_KEYS[@]} | gpg --no-permission-warning --no-default-keyring --keyring mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
+    fi
+    if [[ "$SETUP_SSHKEYS" == true ]] ; then
+        IFS=: read a b c d e user_home g < <(getent passwd ${SUDO_USER:-$USER})
+        mkdir -p mnt/img_root/root/.ssh || die "Could not mkdir mnt/img_root/root/.ssh"
+        cat $user_home/.ssh/*.pub <<<"" >mnt/img_root/root/.ssh/authorized_keys || :
+        chmod 0600 mnt/img_root/root/.ssh/authorized_keys || die "Could not chmod 0600 mnt/img_root/root/.ssh/authorized_keys"
+        if (( $(wc -l <mnt/img_root/root/.ssh/authorized_keys) > 0 )) ; then
+            echo "Installed SSH keys from $user_home, disabling password access"
+            sed -i -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/i' mnt/img_root/etc/ssh/sshd_config || die "Could not disable password auth in mnt/img_root/etc/ssh/sshd_config"
+        fi
+        if [[ "$SETUP_NOPASSWD" == true ]] ; then
+            sed -i -e 's/.*disable_overscan=.*/disable_overscan=1/i' mnt/img_root/boot/config.txt || die "Could not disable overscan in mnt/img_root/boot/config.txt"
+        fi
+    fi
+
+    PURGE_PACKAGES=( $(
+        for package in "${PURGE_PACKAGES[@]}" ; do
+            if chroot mnt/img_root dpkg -s "$package" &>/dev/null ; then
+                echo "$package"
+            fi
+        done
+    ) )
+    if [[ ${PURGE_PACKAGES:-} ]] ; then
+        echo "Removing unwanted packages ${PURGE_PACKAGES[@]}"
+        _op chroot mnt/img_root apt-get -qq purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
+    fi
+
+    echo "Installing Updates"
+    _op chroot mnt/img_root apt-get -qq update || die "Could not update package sources"
+    if [[ "$SETUP_UPGRADE" == true ]] ; then
+      _op chroot mnt/img_root apt-get -qq dist-upgrade || die "Could not upgrade system"
+    fi
+    if [[ ${INSTALL_PACKAGES:-} ]] ; then
+        echo "Installing ${INSTALL_PACKAGES[@]}"
+        _op chroot mnt/img_root apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
+    fi
+    
+    if [[ "${CUSTOM_COMMAND:-}" ]] ; then
+        echo "Running Custom Command: $CUSTOM_COMMAND"
+        _op chroot mnt/img_root bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
+    fi
+    chroot mnt/img_root service rsyslog stop &>/dev/null || : # some packages start syslog
+}
+
+function _create_sdcard {
+    # putting it all onto SD card
+    DEST_DEVICE="$1"
+    test -b "$DEST_DEVICE" || die "Must give block device with SD Card as first parameter"
+
+    _umount mnt/img_root/{proc,sys,run,dev/pts}
+    
+    echo "Preparing SD card in $DEST_DEVICE"
+    umount -f ${DEST_DEVICE}* &>/dev/null || :
+    dd if=/dev/zero of=$DEST_DEVICE bs=1M count=100 status=none || die "Could not wipe SD card in $DEST_DEVICE"
+    parted -a minimal -s $DEST_DEVICE mklabel msdos mkpart primary fat32 0mb 64mb mkpart primary ext2 64mb 100% set 1 boot on || die "Could not parted $DEST_DEVICE"
+    if [ -e ${DEST_DEVICE}p1 ] ; then sd_boot_dev=${DEST_DEVICE}p1 ; elif [ -e ${DEST_DEVICE}1 ] ; then sd_boot_dev=${DEST_DEVICE}1 ; else die "Could not find sd-card partition 1" ; fi
+    if [ -e ${DEST_DEVICE}p2 ] ; then sd_root_dev=${DEST_DEVICE}p2 ; elif [ -e ${DEST_DEVICE}2 ] ; then sd_root_dev=${DEST_DEVICE}2 ; else die "Could not find sd-card partition 2" ; fi
+    mkdir -p mnt/sd_boot mnt/sd_root
+    mkfs.vfat >/dev/null -n RASPBIAN_BOOT -F 32 $sd_boot_dev -m - <<<"This is the boot partition of a Raspbian image intended for a Raspberry Pi" || die "Could not create boot partition"
+    mkfs.ext4 -q -L raspbian_root -E discard $sd_root_dev || die "Could not create root partition"
+    tune2fs >/dev/null $sd_root_dev -o journal_data,discard || die "Could not tune2fs $sd_root_dev"
+    mount -o data=writeback,nobarrier -t ext4 $sd_root_dev mnt/sd_root || die "Could not mount $sd_boot_dev mnt/sd_boot"
+    mkdir -p mnt/sd_root/boot || die "Could not mkdir boot"
+    mount -t vfat $sd_boot_dev mnt/sd_root/boot || die "Could not mount $sd_boot_dev mnt/sd_root/boot"
+
+    echo "Copying files to SD card."
+    cp -a mnt/img_root/* mnt/sd_root/ || die "Could not copy root fs"
+
+    echo "SD Card Details:"
+    _op parted -s $DEST_DEVICE print
+    df -h mnt/sd_root/boot mnt/sd_root | sed -e "s#$(pwd)/##"
+
+    sed -i -e 's/#//' mnt/sd_root/etc/ld.so.preload || die "Could not enable ld.so.preload"
+    echo
+    echo "SD Card Creation finished, please wait for script to complete."
+}
+
+export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
+shopt -s nullglob
+
+DESTDEVICE=
+if [[ -b "${1:-}" ]] ; then
+    DESTDEVICE="$1"
+fi
+
+if [[ $# -eq 0 || "$*" == *-h* ]] ; then
+    echo "
+Usage: $0 <--chroot|/dev/mmcblk0>
+
+Download Raspbian Image, remove first-boot stuff, add repos and install packages.
+
+Open interactive Shell in chroot or write result to SD Card
+
+License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
+"
+    exit 1
+fi
+
+if [[ "$USER" != root && $(id -u) != "0" ]] ; then
+    # restart as root
+    echo "Switching over to run as root"
+    exec sudo "$(readlink -f "$0")" "$@"
+    echo "Need sudo permission to run as root!"
+    exit 1
+fi
+
+rm -Rf mnt temp
+mkdir -p temp
+function exittrap {
+    set +u +e
+    _umount mnt/img_root/{proc,sys,run,dev/pts} mnt/sd_root/bo?t mnt/img_root/boot mnt/sd_ro?t mnt/img_root
+    kpartx -d temp/*.img >/dev/null
+    echo "Script execution time: $SECONDS seconds"
+}
+trap exittrap 0
+trap exittrap ERR
+
+
+_get_image
+_open_image
+_modify_image
+
+if [[ "$DESTDEVICE" ]] ; then
+    _create_sdcard "$DESTDEVICE"
+elif [[ "$1" == "--chroot" ]] ; then
+    echo "Starting interactive Shell in image chroot"
+    chroot mnt/img_root bash -i
+    exit 0
+else
+    die "Usage error. Try $0 --help"
+fi
+
+
+# vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
