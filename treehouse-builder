@@ -182,7 +182,7 @@ function _modify_image {
     fi
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
         GPG="gpg --no-permission-warning --no-default-keyring --keyring "
-        KEYRING=apt_keys.gpg
+        KEYRING=$PWD/apt_keys.gpg
         if [[ ! -e $KEYRING ]]; then
             $GPG $KEYRING --receive-keys ${ADD_REPO_KEYS[@]} || die "Could not download GPG keys ${ADD_REPO_KEYS[@]}"
         fi
