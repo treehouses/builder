@@ -143,6 +143,12 @@ function _open_image {
     cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     echo "Raspbian Image Details:"
     df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
+
+    # Prevent services from being started inside the chroot.
+    POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
+    echo "#!/bin/sh" >> $POLICY_RC_D
+    echo "exit 101"  >> $POLICY_RC_D
+    chmod +x $POLICY_RC_D
 }
 
 function _modify_image {
@@ -229,6 +235,9 @@ function _create_sdcard {
     # putting it all onto SD card
     DEST_DEVICE="$1"
     test -b "$DEST_DEVICE" || die "Must give block device with SD Card as first parameter"
+
+    POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
+    rm -f $POLICY_RC_D
 
     _umount mnt/img_root/{proc,sys,run,dev/pts}
     
