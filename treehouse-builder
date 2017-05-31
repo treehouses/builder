@@ -62,8 +62,6 @@ ADD_REPO_KEYS=(
 # Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
 CUSTOM_COMMAND="\
     update-alternatives --set editor /usr/bin/vim.basic;
-    rm -rf /var/caches/apt/archives;
-    mkdir -p /var/caches/apt/archives
 #    docker pull dogi/rpi-couchdb    
 "
 
@@ -143,6 +141,9 @@ function _open_image {
     cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     echo "Raspbian Image Details:"
     df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
+
+    sudo mkdir -p apt_cache
+    sudo mount --bind apt_cache mnt/img_root/var/cache/apt/archives
 
     # Prevent services from being started inside the chroot.
     POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
@@ -239,7 +240,7 @@ function _create_sdcard {
     POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
     rm -f $POLICY_RC_D
 
-    _umount mnt/img_root/{proc,sys,run,dev/pts}
+    _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts}
     
     echo "Preparing SD card in $DEST_DEVICE"
     umount -f ${DEST_DEVICE}* &>/dev/null || :
@@ -300,7 +301,7 @@ rm -Rf mnt temp
 mkdir -p temp
 function exittrap {
     set +u +e
-    _umount mnt/img_root/{proc,sys,run,dev/pts} mnt/sd_root/bo?t mnt/img_root/boot mnt/sd_ro?t mnt/img_root
+    _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts} mnt/sd_root/bo?t mnt/img_root/boot mnt/sd_ro?t mnt/img_root
     kpartx -d temp/*.img >/dev/null
     echo "Script execution time: $SECONDS seconds"
 }
