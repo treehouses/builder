@@ -62,6 +62,7 @@ ADD_REPO_KEYS=(
 # Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
 CUSTOM_COMMAND="\
     update-alternatives --set editor /usr/bin/vim.basic;
+    touch /boot/ssh;
 #    docker pull dogi/rpi-couchdb    
 "
 
