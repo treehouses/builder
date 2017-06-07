@@ -1,0 +1,70 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides: autorun
+# Required-Start: $all
+# Required-Stop: $remote_fs $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: adds the start of autorun.sh function
+# Description: adds the start of autorun.sh, autorunonce.sh and toggle-node function to the RPI/RPI2 build
+### END INIT INFO
+
+# Some things that run always
+touch /var/lock/autorun
+
+
+autorunonce(){
+  if [ -f $1/autorunonce.sh ]
+  then
+    echo timer > /sys/class/leds/led0/trigger
+    echo "$1/autorunone.sh"
+    sudo mv $1/autorunonce.sh $1/autoranonce.sh
+    sudo $1/autoranonce.sh
+  fi
+}
+
+
+autorun(){
+  if [ -f $1/autorun.sh ] && [ "$(runlevel | sed 's/.* //')" != 6 ]
+  then
+    echo heartbeat > /sys/class/leds/led0/trigger
+    echo "$1/autorun.sh"
+    sudo screen -dmS opk bash -c 'sudo '$1'/autorun.sh'
+  fi
+}
+
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo default-on > /sys/class/leds/led0/trigger
+    echo "Starting script checktogglenode"
+    sudo /root/checknode/toggle.sh
+    echo "Starting script autorun"
+    mkdir -p /data
+    if [ -b /dev/sda1 ]
+    then
+      echo "usb stick"
+      mountpoint -q /data || mount /dev/sda1 /data
+      cd /data
+      autorunonce /data
+      autorun /data
+    else
+      echo "no usb stick"
+      cd /boot
+      autorunonce /boot
+      autorun /boot
+    fi
+    ;;
+  stop)
+    echo "Stopping script autorun"
+    sudo screen -X -S "opk" quit
+    ;;
+  *)
+    echo "Usage: /etc/init.d/autorun {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
