@@ -1,0 +1,74 @@
+#!/bin/sh
+
+autorunonce(){
+  dir="$1"
+  for name in autorunonce autorunonce.sh autorunonce.txt; do
+    script="$dir/$name"
+
+    if [ -e "$script" ]; then
+      newname="$(echo "$sname" | sed -e 's/run/ran/')"
+      newscript="$dir/$newname"
+      echo timer > /sys/class/leds/led0/trigger
+      mv "$script" "$newscript"
+      "$newscript"
+      return
+    fi
+  done
+}
+
+autorun(){
+  dir="$1"
+  for name in autorun autorun.sh autorun.txt; do
+    script="$dir/$name"
+
+    if [ -e "$script" ]; then
+      echo heartbeat > /sys/class/leds/led0/trigger
+      sudo screen -dmS opk bash -c 'sudo '"$script"
+      return
+    fi
+  done
+}
+
+start() {
+  echo default-on > /sys/class/leds/led0/trigger
+  echo "Starting script autorun"
+  mkdir -p /data
+  if [ -b /dev/sda1 ]
+  then
+    echo "usb stick"
+    mountpoint -q /data || mount /dev/sda1 /data
+    cd /data
+    autorunonce /data
+    autorun /data
+  else
+    echo "no usb stick"
+    cd /boot
+    autorunonce /boot
+    autorun /boot
+  fi
+}
+
+stop() {
+  echo "Stopping script autorun"
+  sudo screen -X -S "opk" quit
+}
+
+
+# Some things that run always
+touch /var/lock/autorun
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

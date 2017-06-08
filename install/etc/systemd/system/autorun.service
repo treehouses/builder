@@ -1,0 +1,12 @@
+[Unit]
+Description=run autorun(once)(.sh) scripts from USB stick or in /boot
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/do_autorun start
+Restart=no
+After=local_fs.target remote_fs.target
+
+[Install]
+WantedBy=multi-user.target
