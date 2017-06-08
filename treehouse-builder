@@ -236,7 +236,7 @@ function _modify_image {
     fi
     
     echo "Installing files"
-    (cd install; tar c .) | _op chroot mnt/img_root tar vx
+    (cd install; tar c .) | _op chroot mnt/img_root tar vx --owner=root --group=root
 
     if [[ "${CUSTOM_COMMAND:-}" ]] ; then
         echo "Running Custom Command: $CUSTOM_COMMAND"
