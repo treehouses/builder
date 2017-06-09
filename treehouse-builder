@@ -63,6 +63,7 @@ ADD_REPO_KEYS=(
 # Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
 CUSTOM_COMMAND="\
     update-alternatives --set editor /usr/bin/vim.basic;
+    sudo touch /boot/ssh;
 #    docker pull dogi/rpi-couchdb    
 "
 
@@ -122,7 +123,10 @@ function _get_image {
     wget --no-verbose --continue --directory-prefix download $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-    unzip -q $RASPBIAN_ARCHIVE_FILE -d temp/ || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
+    mkdir -p temp
+    cd temp
+    unzip ../$RASPBIAN_ARCHIVE_FILE || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
+    cd ..
 }
 
 function _open_image {
