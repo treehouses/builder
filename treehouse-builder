@@ -33,6 +33,7 @@ INSTALL_PACKAGES=(
 #    debian-archive-keyring apt-transport-https #hypriot
     docker-hypriot #docker
     quicksynergy #dogi
+    matchbox-keyboard #virtual keyboard
 #    build-essential rlwrap python-dev python-rpi.gpio #install node http://nodered.org/docs/hardware/raspberrypi.html
 #    resolvconf #for https://www.npmjs.com/package/pirate-sh
 #    libdbus-1-dev libdbus-glib-1-dev libglib2.0-dev libical-dev libreadline-dev libudev-dev libusb-dev #install ble
