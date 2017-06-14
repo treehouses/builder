@@ -118,20 +118,17 @@ function _umount {
 
 function _get_image {
     echo "Fetching $RASPBIAN_URL "
-    mkdir -p download
-    RASPBIAN_ARCHIVE_FILE=download/${RASPBIAN_URL##*/}
-    wget --no-verbose --continue --directory-prefix download $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
+    mkdir -p images
+    RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
+    wget --no-verbose --continue --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-    mkdir -p temp
-    cd temp
-    unzip ../$RASPBIAN_ARCHIVE_FILE || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
-    cd ..
+    unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
 }
 
 function _open_image {
-    echo "Loop-back mounting" temp/*.img
-    kpartx="$(sudo kpartx -sav temp/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    echo "Loop-back mounting" images/*.img
+    kpartx="$(sudo kpartx -sav images/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
     read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
@@ -188,7 +185,7 @@ function _modify_image {
     fi
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
         GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
-        KEYRING=$PWD/temp/apt_keys.gpg
+        KEYRING=$PWD/images/apt_keys.gpg
         cat keys/*.key | $GPG $KEYRING --import
 
         missing_keys=()
