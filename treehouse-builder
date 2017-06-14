@@ -237,6 +237,9 @@ function _modify_image {
         _op chroot mnt/img_root apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
     fi
     
+    echo "Installing files"
+    (cd install; tar c .) | _op chroot mnt/img_root tar vx --owner=root --group=root
+
     if [[ "${CUSTOM_COMMAND:-}" ]] ; then
         echo "Running Custom Command: $CUSTOM_COMMAND"
         _op chroot mnt/img_root bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
