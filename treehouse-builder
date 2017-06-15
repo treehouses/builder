@@ -33,6 +33,7 @@ INSTALL_PACKAGES=(
 #    debian-archive-keyring apt-transport-https #hypriot
     docker-hypriot #docker
     quicksynergy #dogi
+    matchbox-keyboard #virtual keyboard
 #    build-essential rlwrap python-dev python-rpi.gpio #install node http://nodered.org/docs/hardware/raspberrypi.html
 #    resolvconf #for https://www.npmjs.com/package/pirate-sh
 #    libdbus-1-dev libdbus-glib-1-dev libglib2.0-dev libical-dev libreadline-dev libudev-dev libusb-dev #install ble
@@ -117,17 +118,17 @@ function _umount {
 
 function _get_image {
     echo "Fetching $RASPBIAN_URL "
-    mkdir -p download
-    RASPBIAN_ARCHIVE_FILE=download/${RASPBIAN_URL##*/}
-    wget --no-verbose --continue --directory-prefix download $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
+    mkdir -p images
+    RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
+    wget --no-verbose --continue --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-    unzip -q $RASPBIAN_ARCHIVE_FILE -d temp/ || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
+    unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
 }
 
 function _open_image {
-    echo "Loop-back mounting" temp/*.img
-    kpartx="$(sudo kpartx -sav temp/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    echo "Loop-back mounting" images/*.img
+    kpartx="$(sudo kpartx -sav images/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
     read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
@@ -184,7 +185,7 @@ function _modify_image {
     fi
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
         GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
-        KEYRING=$PWD/temp/apt_keys.gpg
+        KEYRING=$PWD/images/apt_keys.gpg
         cat keys/*.key | $GPG $KEYRING --import
 
         missing_keys=()
@@ -236,6 +237,9 @@ function _modify_image {
         _op chroot mnt/img_root apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
     fi
     
+    echo "Installing files"
+    (cd install; tar c .) | _op chroot mnt/img_root tar vx --owner=root --group=root
+
     if [[ "${CUSTOM_COMMAND:-}" ]] ; then
         echo "Running Custom Command: $CUSTOM_COMMAND"
         _op chroot mnt/img_root bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
