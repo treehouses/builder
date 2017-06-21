@@ -106,6 +106,10 @@ function _op {
     "$@" &> >(sed -e 's/^/| /')
 }
 
+function _chroot {
+    chroot mnt/img_root "$@"
+}
+
 function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
@@ -156,7 +160,7 @@ function _open_image {
 
 function _modify_image {
     echo "Modifying Image"
-    chroot mnt/img_root date &>/dev/null || die "Could not chroot date"
+    _chroot date &>/dev/null || die "Could not chroot date"
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
     mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
     mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"
@@ -177,8 +181,8 @@ function _modify_image {
         > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
     fi
     if [[ "${ADD_REPOS:-}" ]] ; then
-        _op chroot mnt/img_root apt-get -qq update || die "Could not update package sources"
-        _op chroot mnt/img_root apt-get -qq install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
+        _op _chroot apt-get -qq update || die "Could not update package sources"
+        _op _chroot apt-get -qq install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
         for repo in "${ADD_REPOS[@]}" ; do
             echo "$repo" 
         done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
@@ -217,34 +221,34 @@ function _modify_image {
 
     PURGE_PACKAGES=( $(
         for package in "${PURGE_PACKAGES[@]}" ; do
-            if chroot mnt/img_root dpkg -s "$package" &>/dev/null ; then
+            if _chroot dpkg -s "$package" &>/dev/null ; then
                 echo "$package"
             fi
         done
     ) )
     if [[ ${PURGE_PACKAGES:-} ]] ; then
         echo "Removing unwanted packages ${PURGE_PACKAGES[@]}"
-        _op chroot mnt/img_root apt-get -qq purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
+        _op _chroot apt-get -qq purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
     fi
 
     echo "Installing Updates"
-    _op chroot mnt/img_root apt-get -qq update || die "Could not update package sources"
+    _op _chroot apt-get -qq update || die "Could not update package sources"
     if [[ "$SETUP_UPGRADE" == true ]] ; then
-      _op chroot mnt/img_root apt-get -qq dist-upgrade || die "Could not upgrade system"
+      _op _chroot apt-get -qq dist-upgrade || die "Could not upgrade system"
     fi
     if [[ ${INSTALL_PACKAGES:-} ]] ; then
         echo "Installing ${INSTALL_PACKAGES[@]}"
-        _op chroot mnt/img_root apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
+        _op _chroot apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
     fi
     
     echo "Installing files"
-    (cd install; tar c .) | _op chroot mnt/img_root tar vx --owner=root --group=root
+    (cd install; tar c .) | _op _chroot tar vx --owner=root --group=root
 
     if [[ "${CUSTOM_COMMAND:-}" ]] ; then
         echo "Running Custom Command: $CUSTOM_COMMAND"
-        _op chroot mnt/img_root bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
+        _op _chroot bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
     fi
-    chroot mnt/img_root service rsyslog stop &>/dev/null || : # some packages start syslog
+    _chroot service rsyslog stop &>/dev/null || : # some packages start syslog
 }
 
 function _create_sdcard {
