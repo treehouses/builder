@@ -1,6 +1,6 @@
 before_install:
     - sudo apt install qemu-user-static
 
-script: sudo ./treehouse-builder --chroot
+script: sudo ./treehouse-builder --noninteractive
 
 install: true
