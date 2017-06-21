@@ -120,7 +120,7 @@ function _get_image {
     echo "Fetching $RASPBIAN_URL "
     mkdir -p images
     RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
-    wget --continue --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
+    wget --continue --progress=dot:giga --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
     unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
