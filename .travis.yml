@@ -1,3 +1,6 @@
+before_install:
+    - sudo apt install qemu-arm-static
+
 script: sudo ./treehouse-builder --chroot
 
 install: true
