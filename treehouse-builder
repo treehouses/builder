@@ -317,7 +317,7 @@ mkdir -p temp
 function exittrap {
     set +u +e
     _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts} mnt/sd_root/bo?t mnt/img_root/boot mnt/sd_ro?t mnt/img_root
-    kpartx -d temp/*.img >/dev/null
+    kpartx -d images/*.img >/dev/null
     echo "Script execution time: $SECONDS seconds"
 }
 trap exittrap 0
