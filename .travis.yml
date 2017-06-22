@@ -1,5 +1,5 @@
 before_install:
-    - sudo apt install qemu-user-static aria2c
+    - sudo apt install qemu-user-static aria2
 
 script: sudo ./treehouse-builder --noninteractive
 
