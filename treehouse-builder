@@ -235,9 +235,10 @@ function _modify_image {
     fi
 
     echo "Installing Updates"
-    _op _chroot apt-get -qq update || die "Could not update package sources"
+    # _op _chroot apt-get -qq update || die "Could not update package sources"
     if [[ "$SETUP_UPGRADE" == true ]] ; then
-      _op _chroot apt-get -qq dist-upgrade || die "Could not upgrade system"
+      # _op _chroot apt-get -qq dist-upgrade || die "Could not upgrade system"
+      # testing without dist-upgrade
     fi
     if [[ ${INSTALL_PACKAGES:-} ]] ; then
         echo "Installing ${INSTALL_PACKAGES[@]}"
