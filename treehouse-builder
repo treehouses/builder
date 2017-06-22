@@ -239,6 +239,7 @@ function _modify_image {
     if [[ "$SETUP_UPGRADE" == true ]] ; then
       # _op _chroot apt-get -qq dist-upgrade || die "Could not upgrade system"
       # testing without dist-upgrade
+      echo "Hi, I broke this, srry"
     fi
     if [[ ${INSTALL_PACKAGES:-} ]] ; then
         echo "Installing ${INSTALL_PACKAGES[@]}"
