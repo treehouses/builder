@@ -127,7 +127,7 @@ function _get_image {
     RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
     # wget --continue --progress=dot:giga --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     wget https://downloads.raspberrypi.org/raspbian_latest.torrent --directory-prefix images
-    aria2c images/raspbian_latest.torrent -d images
+    aria2c images/raspbian_latest.torrent -d images --seed-time=0
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
     unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
