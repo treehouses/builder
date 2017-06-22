@@ -14,7 +14,7 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_URL=http://director.downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/2017-04-10-raspbian-jessie.zip
+RASPBIAN_URL=http://people.sugarlabs.org/ignacio/2017-04-10-raspbian-jessie.zip
 RASPBIAN_SHA1=6d7b11bb3d64524203edf6c80c499456fb5fef53
 #RASPBIAN_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/2017-01-11-raspbian-jessie.zip
 #RASPBIAN_SHA1=f987935e3e99366a6f1bf0d60a7a83fe3edb013c
@@ -64,7 +64,7 @@ ADD_REPO_KEYS=(
 CUSTOM_COMMAND="\
     update-alternatives --set editor /usr/bin/vim.basic;
     sudo touch /boot/ssh;
-#    docker pull dogi/rpi-couchdb    
+#    docker pull dogi/rpi-couchdb
 "
 
 ############ End of User Cusomization
@@ -184,7 +184,7 @@ function _modify_image {
         _op _chroot apt-get -qq update || die "Could not update package sources"
         _op _chroot apt-get -qq install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
         for repo in "${ADD_REPOS[@]}" ; do
-            echo "$repo" 
+            echo "$repo"
         done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
     fi
     if [[ ${ADD_REPO_KEYS:-} ]] ; then
@@ -240,7 +240,7 @@ function _modify_image {
         echo "Installing ${INSTALL_PACKAGES[@]}"
         _op _chroot apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
     fi
-    
+
     echo "Installing files"
     (cd install; tar c .) | _op _chroot tar vx --owner=root --group=root
 
@@ -260,7 +260,7 @@ function _create_sdcard {
     rm -f $POLICY_RC_D
 
     _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts}
-    
+
     echo "Preparing SD card in $DEST_DEVICE"
     umount -f ${DEST_DEVICE}* &>/dev/null || :
     dd if=/dev/zero of=$DEST_DEVICE bs=1M count=100 status=none || die "Could not wipe SD card in $DEST_DEVICE"
