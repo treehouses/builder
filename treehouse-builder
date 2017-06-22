@@ -110,6 +110,10 @@ function _chroot {
     chroot mnt/img_root "$@"
 }
 
+function _apt {
+    _op _chroot apt-get -qq "$@"
+}
+
 function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
@@ -181,8 +185,8 @@ function _modify_image {
         > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
     fi
     if [[ "${ADD_REPOS:-}" ]] ; then
-        _op _chroot apt-get -qq update || die "Could not update package sources"
-        _op _chroot apt-get -qq install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
+        _apt update || die "Could not update package sources"
+        _apt install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
         for repo in "${ADD_REPOS[@]}" ; do
             echo "$repo"
         done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
@@ -228,17 +232,17 @@ function _modify_image {
     ) )
     if [[ ${PURGE_PACKAGES:-} ]] ; then
         echo "Removing unwanted packages ${PURGE_PACKAGES[@]}"
-        _op _chroot apt-get -qq purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
+        _apt purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
     fi
 
     echo "Installing Updates"
-    _op _chroot apt-get -qq update || die "Could not update package sources"
+    _apt update || die "Could not update package sources"
     if [[ "$SETUP_UPGRADE" == true ]] ; then
-      _op _chroot apt-get -qq dist-upgrade || die "Could not upgrade system"
+      _apt dist-upgrade || die "Could not upgrade system"
     fi
     if [[ ${INSTALL_PACKAGES:-} ]] ; then
         echo "Installing ${INSTALL_PACKAGES[@]}"
-        _op _chroot apt-get -qq install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
+        _apt install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
     fi
 
     echo "Installing files"
