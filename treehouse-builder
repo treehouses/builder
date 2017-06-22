@@ -14,10 +14,9 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_URL=http://people.sugarlabs.org/ignacio/2017-04-10-raspbian-jessie.zip
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian_latest.torrent
+RASPBIAN_FILENAME=2017-04-10-raspbian-jessie.zip
 RASPBIAN_SHA1=6d7b11bb3d64524203edf6c80c499456fb5fef53
-#RASPBIAN_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/2017-01-11-raspbian-jessie.zip
-#RASPBIAN_SHA1=f987935e3e99366a6f1bf0d60a7a83fe3edb013c
 
 # Setting some options to default
 SETUP_SSHKEYS=false
@@ -79,14 +78,14 @@ function die {
 }
 
 missing_deps=()
-for prog in kpartx wget gpg parted qemu-arm-static ; do
+for prog in kpartx aria2c wget gpg parted qemu-arm-static ; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( $prog )
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted'"
+    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted aria2'"
 fi
 
 # Constants
@@ -121,10 +120,12 @@ function _umount {
 }
 
 function _get_image {
-    echo "Fetching $RASPBIAN_URL "
+    echo "$(date) -- Fetching $RASPBIAN_TORRENT_URL"
     mkdir -p images
-    RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
-    wget --continue --progress=dot:giga --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
+    RASPBIAN_ARCHIVE_FILE=images/$RASPBIAN_FILENAME
+    wget --continue --progress=dot:giga --directory-prefix images $RASPBIAN_TORRENT_URL || die "Download of $RASPBIAN_TORRENT_URL failed"
+    aria2c images/raspbian_latest.torrent -d images --seed-time=0
+    echo "$(date) -- Download finished"
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
     unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
