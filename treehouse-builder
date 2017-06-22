@@ -80,7 +80,7 @@ function die {
 }
 
 missing_deps=()
-for prog in kpartx aria2 wget gpg parted qemu-arm-static ; do
+for prog in kpartx aria2c wget gpg parted qemu-arm-static ; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( $prog )
     fi
