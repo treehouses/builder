@@ -4,3 +4,11 @@ before_install:
 script: sudo ./treehouse-builder --noninteractive
 
 install: true
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/988fd5100b232d4ddff1
+    on_success: always # one of: always, never, change
+    on_failure: always
+    on_start: never
