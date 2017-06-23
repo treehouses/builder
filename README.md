@@ -36,10 +36,8 @@ WIP
 ### Retrieve builds
 
 Copy successful builds from `temp`.
-To remove otherwise:
-```bash
-bash clean.sh
-```
+
+To remove otherwise:`bash clean.sh`
 
 ## Built With
 
