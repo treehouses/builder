@@ -10,6 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ```
 System requirements
+class10 microSD card (minimum 8 Gb)
+
 Required packages
 kpartx wget gpg parted qemu-arm-static
 
@@ -23,6 +25,7 @@ git clone https://github.com/ole-vi/treehouse-builder.git
 cd treehouse-builder
 ./treehouse-builder --chroot 
  ``` 
+You should be in a chrooted environment when it is completed. You can access the RPi images' files and folders or carry on with any extra modifications. To exit the chrooted environment just type `exit` and then you should be back in your own shell again. The image in this stage is now ready to write to the microSD card.
 
 ### Add gpg key
 
