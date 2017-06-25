@@ -13,7 +13,8 @@ System requirements
 Required packages
 kpartx wget gpg parted qemu-arm-static
 
-To install the required packages, run the following command in Debian/Ubuntu: sudo apt-get install kpartx wget gpg parted qemu-arm-static. 
+To install the required packages, run the following command in Debian/Ubuntu: 
+sudo apt-get install kpartx wget gpg parted qemu-arm-static. 
 ```
 ### Getting Started 
 
@@ -32,12 +33,16 @@ sudo bash -c 'wget -O - https://packagecloud.io/gpg.key | apt-key add -'
 ### Customize
 
 ```
-INSTALL_PACKAGES - Install packages found in the APT repositories. To add a custom package not found in the default APT repositories: add the package name into INSTALL_PACKAGES and then add the custom repository to ADD_REPOS.
+INSTALL_PACKAGES - Install packages found in the APT repositories. 
+To add a custom package not found in the default APT repositories: 
+add the package name into INSTALL_PACKAGES and then add the custom repository to ADD_REPOS.
 
 PURGE_PACKAGES - Remove packages already installed on the default Raspbian image.
 
-CUSTOM_COMMANDS - Add extra commands to execute upon the completion of the treehouse-builder, which is run under a chroot environment. For instance to enable ssh on boot for the RPi, the command sudo touch /boot/ssh is included in CUSTOM_COMMANDS. The semi-colon is there to separate the commands and will execute regardless whether or not the previous command is successful.
-
+CUSTOM_COMMANDS - Add extra commands to execute upon the completion of the treehouse-builder, 
+which is run under a chroot environment. For instance to enable ssh on boot for the RPi, 
+the command sudo touch /boot/ssh is included in CUSTOM_COMMANDS. The semi-colon is there to 
+separate the commands and will execute regardless whether or not the previous command is successful.
 
 ```
 
