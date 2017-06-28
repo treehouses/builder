@@ -12,7 +12,7 @@ members = []
 for member in json_data:
     members.append(member['login'].encode('utf-8'))
 
-# Write the keys to /home/pi/.ssh/authorized_keys    
+# Write the keys to ./authorized_keys    
 f = open('./authorized_keys','w')
 for member in members:
     f.write(urllib2.urlopen('https://github.com/' + member + '.keys').read())
