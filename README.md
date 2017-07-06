@@ -53,16 +53,16 @@ separate the commands and will execute regardless whether or not the previous co
 
 After exiting from the chroot environment, successful builds are found in the `treehouse-builder/images` directory. There should be a few files in that directory. The .zip file is the unmodified base image, which is downloaded by the script when executed. The .img file is the new customized image and is now ready to be burned onto the microSD card.
 
-To remove otherwise:`bash clean.sh`
+##### To remove unwanted modifications otherwise:
+
+`bash clean.sh`
 
 ### Write to microSD Card
 
 There are many different ways to write to the microSD card. An easy approach is to download [Etcher](https://etcher.io) and run the program. It supports multiple Operating Systems such as Linux, OSX and Windows, and has a pretty simple GUI, where you select the location of the .img file, the destination of the microSD card and then press the flash button to write the image onto the microSD card. Remember that it will delete everything on that drive so make sure it is the correct drive!
 
 
-## Built With
+## Built with
 
-```
-WIP
-```
+* [rpi-image-creator](https://github.com/ImmobilienScout24/rpi-image-creator)
 
