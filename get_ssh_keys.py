@@ -6,7 +6,7 @@ import json
 import urllib2
 
 # Retrieve a list of public members using gitHub API
-api = 'https://api.github.com/orgs/ole-vi/members'
+api = 'https://api.github.com/orgs/open-learning-exchange/members'
 json_data = json.load(urllib2.urlopen(api))
 members = []
 for member in json_data:
