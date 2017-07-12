@@ -6,7 +6,7 @@ autorunonce(){
     script="$dir/$name"
 
     if [ -e "$script" ]; then
-      newname="$(echo "$sname" | sed -e 's/run/ran/')"
+      newname="$(echo "$name" | sed -e 's/run/ran/')"
       newscript="$dir/$newname"
       echo timer > /sys/class/leds/led0/trigger
       mv "$script" "$newscript"
