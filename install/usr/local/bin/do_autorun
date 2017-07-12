@@ -4,7 +4,7 @@ autorunonce(){
   dir="$1"
   echo "searching for autorunonce script"
 
-  for name in autorunonce autorunonce.sh autorunonce.txt; do
+  for name in autorunonce{,.sh,.txt}; do
     script="$dir/$name"
 
     if [ -e "$script" ]; then
@@ -23,7 +23,7 @@ autorun(){
   dir="$1"
   echo "searching for autorun script"
 
-  for name in autorun autorun.sh autorun.txt; do
+  for name in autorun{,.sh,.txt}: do
     script="$dir/$name"
 
     if [ -e "$script" ]; then
