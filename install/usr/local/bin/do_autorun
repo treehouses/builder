@@ -2,12 +2,15 @@
 
 autorunonce(){
   dir="$1"
+  echo "searching for autorunonce script"
+
   for name in autorunonce autorunonce.sh autorunonce.txt; do
     script="$dir/$name"
 
     if [ -e "$script" ]; then
       newname="$(echo "$name" | sed -e 's/run/ran/')"
       newscript="$dir/$newname"
+      echo "running autorunonce script $script"
       echo timer > /sys/class/leds/led0/trigger
       mv "$script" "$newscript"
       "$newscript"
@@ -18,10 +21,13 @@ autorunonce(){
 
 autorun(){
   dir="$1"
+  echo "searching for autorun script"
+
   for name in autorun autorun.sh autorun.txt; do
     script="$dir/$name"
 
     if [ -e "$script" ]; then
+      echo "running autorun script $script"
       echo heartbeat > /sys/class/leds/led0/trigger
       sudo screen -dmS opk bash -c 'sudo '"$script"
       return
