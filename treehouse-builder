@@ -140,47 +140,12 @@ function _modify_image {
     _cleanup_chroot
 }
 
-function _create_sdcard {
-    # putting it all onto SD card
-    DEST_DEVICE="$1"
-    test -b "$DEST_DEVICE" || die "Must give block device with SD Card as first parameter"
-
-    echo "Preparing SD card in $DEST_DEVICE"
-    umount -f ${DEST_DEVICE}* &>/dev/null || :
-    dd if=/dev/zero of=$DEST_DEVICE bs=1M count=100 status=none || die "Could not wipe SD card in $DEST_DEVICE"
-    parted -a minimal -s $DEST_DEVICE mklabel msdos mkpart primary fat32 0mb 64mb mkpart primary ext2 64mb 100% set 1 boot on || die "Could not parted $DEST_DEVICE"
-    if [ -e ${DEST_DEVICE}p1 ] ; then sd_boot_dev=${DEST_DEVICE}p1 ; elif [ -e ${DEST_DEVICE}1 ] ; then sd_boot_dev=${DEST_DEVICE}1 ; else die "Could not find sd-card partition 1" ; fi
-    if [ -e ${DEST_DEVICE}p2 ] ; then sd_root_dev=${DEST_DEVICE}p2 ; elif [ -e ${DEST_DEVICE}2 ] ; then sd_root_dev=${DEST_DEVICE}2 ; else die "Could not find sd-card partition 2" ; fi
-    mkdir -p mnt/sd_boot mnt/sd_root
-    mkfs.vfat >/dev/null -n RASPBIAN_BOOT -F 32 $sd_boot_dev -m - <<<"This is the boot partition of a Raspbian image intended for a Raspberry Pi" || die "Could not create boot partition"
-    mkfs.ext4 -q -L raspbian_root -E discard $sd_root_dev || die "Could not create root partition"
-    tune2fs >/dev/null $sd_root_dev -o journal_data,discard || die "Could not tune2fs $sd_root_dev"
-    mount -o data=writeback,nobarrier -t ext4 $sd_root_dev mnt/sd_root || die "Could not mount $sd_boot_dev mnt/sd_boot"
-    mkdir -p mnt/sd_root/boot || die "Could not mkdir boot"
-    mount -t vfat $sd_boot_dev mnt/sd_root/boot || die "Could not mount $sd_boot_dev mnt/sd_root/boot"
-
-    echo "Copying files to SD card."
-    cp -a mnt/img_root/* mnt/sd_root/ || die "Could not copy root fs"
-
-    echo "SD Card Details:"
-    _op parted -s $DEST_DEVICE print
-    df -h mnt/sd_root/boot mnt/sd_root | sed -e "s#$(pwd)/##"
-
-    echo
-    echo "SD Card Creation finished, please wait for script to complete."
-}
-
 export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
 shopt -s nullglob
 
-DESTDEVICE=
-if [[ -b "${1:-}" ]] ; then
-    DESTDEVICE="$1"
-fi
-
 if [[ $# -eq 0 || "$*" == *-h* ]] ; then
     echo "
-Usage: $0 <--chroot|/dev/mmcblk0>
+Usage: $0 <--chroot|--noninteractive>
 
 Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
@@ -217,9 +182,7 @@ _get_image
 _open_image
 _modify_image
 
-if [[ "$DESTDEVICE" ]] ; then
-    _create_sdcard "$DESTDEVICE"
-elif [[ "$1" == "--chroot" ]] ; then
+if [[ "$1" == "--chroot" ]] ; then
     echo "Starting interactive Shell in image chroot"
     chroot mnt/img_root bash -i
     exit 0
