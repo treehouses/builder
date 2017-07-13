@@ -1,7 +1,7 @@
 before_install:
     - sudo apt install qemu-user-static
 
-script: sudo ./treehouse-builder --noninteractive
+script: ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
 install: true
 
