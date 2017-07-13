@@ -4,7 +4,7 @@ source lib.sh
 
 is_installed() {
     pkg="$1"
-    dpkg-query -s "$pkg" 2>/dev/null | grep -qx 'Status: install ok installed'
+    _chroot dpkg-query -s "$pkg" 2>/dev/null | grep -qx 'Status: install ok installed'
 }
 
 install_stuff() {
