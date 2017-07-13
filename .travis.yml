@@ -1,5 +1,5 @@
 before_install:
-    - sudo apt install qemu-user-static
+    - sudo apt install qemu-user-static aria2
 
 script: ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
