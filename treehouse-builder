@@ -139,10 +139,7 @@ function _modify_image {
     _cleanup_chroot
 }
 
-export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
-shopt -s nullglob
-
-if [[ $# -eq 0 || "$*" == *-h* ]] ; then
+function _usage {
     echo "
 Usage: $0 <--chroot|--noninteractive>
 
@@ -152,6 +149,13 @@ Open interactive Shell in chroot or write result to SD Card
 
 License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
 "
+}
+
+export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
+shopt -s nullglob
+
+if [[ $# -eq 0 || "$*" == *-h* ]] ; then
+    _usage
     exit 1
 fi
 
