@@ -12,7 +12,8 @@ deploy:
     skip_cleanup: true
     script: ./deploy/deploy.sh
     on:
-        branch: master
+        all_branches: true
+        condition: $TRAVIS_BRANCH = master || $TRAVIS_BRANCH = deploy
 
 #deploy:
 #    provider: releases
