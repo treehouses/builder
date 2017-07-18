@@ -1,5 +1,6 @@
 #!/bin/bash
 image=$(ls images/*.img | head -1) # XXX
+test -n "$image" || exit 1
 image_gz=${image}.gz
 ssh='ssh -i deploy/id_deploy -o "UserKnownHostsFile deploy/known_hosts"'
 set -x
