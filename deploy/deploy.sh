@@ -6,6 +6,6 @@ ssh='ssh -i deploy/id_deploy -o "GlobalKnownHostsFile deploy/known_hosts"'
 set -x
 chmod 600 deploy/id_deploy
 if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
-     gzip -9k $image
+     gzip --keep -9 $image
 fi
 rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/deploy
