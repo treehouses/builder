@@ -192,7 +192,9 @@ _modify_image
 
 if [[ "$1" == "--chroot" ]] ; then
     echo "Starting interactive Shell in image chroot"
+    _prepare_chroot
     chroot mnt/img_root bash -i
+    _cleanup_chroot
     exit 0
 elif [[ "$1" == "--noninteractive" ]] ; then
     :
