@@ -7,6 +7,6 @@ set -e
 set -x
 chmod 600 deploy/id_deploy
 if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
-     gzip --keep -9 $image
+     gzip -c -9 < $image > $image_gz
 fi
 rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/deploy
