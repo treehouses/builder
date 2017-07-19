@@ -19,64 +19,9 @@ RASPBIAN_SHA1=6d7b11bb3d64524203edf6c80c499456fb5fef53
 #RASPBIAN_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/2017-01-11-raspbian-jessie.zip
 #RASPBIAN_SHA1=f987935e3e99366a6f1bf0d60a7a83fe3edb013c
 
-# Setting some options to default
-SETUP_SSHKEYS=false
-SETUP_NOPASSWD=false
-SETUP_HOSTNAME="raspberrypi"
-SETUP_HOSTNAMEBYDHCP=false
-SETUP_UPGRADE=true
-SETUP_NOAUTORESIZE=true
-
-# List of packages to install
-INSTALL_PACKAGES=(
-    avahi-daemon vim lshw iotop screen #essentials
-#    debian-archive-keyring apt-transport-https #hypriot
-    docker-hypriot #docker
-    quicksynergy #dogi
-    matchbox-keyboard #virtual keyboard
-#    build-essential rlwrap python-dev python-rpi.gpio #install node http://nodered.org/docs/hardware/raspberrypi.html
-#    resolvconf #for https://www.npmjs.com/package/pirate-sh
-#    libdbus-1-dev libdbus-glib-1-dev libglib2.0-dev libical-dev libreadline-dev libudev-dev libusb-dev #install ble
-#    make #http://www.elinux.org/RPi_Bluetooth_LE
-)
-
-# List of packages to remove
-PURGE_PACKAGES=(
-    wolfram-engine
-    sonic-pi
-    scratch
-    squeak-plugins-scratch squeak-vm
-)
-
-# List of extra APT repositories
-ADD_REPOS=(
-    "deb https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
-    "deb-src https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
-)
-
-# List of extra GPG keys to import from the LOCAL SYSTEM!
-ADD_REPO_KEYS=(
-    D59097AB
-)
-
-# Extra command to run upon completion. This is run within a chroot environment.
-# Example: CUSTOM_COMMAND="curl http://some.domain/script.sh | bash -i ; rm -f /some/file"
-CUSTOM_COMMAND="\
-    update-alternatives --set editor /usr/bin/vim.basic;
-    sudo touch /boot/ssh;
-#    docker pull dogi/rpi-couchdb
-"
-
 ############ End of User Cusomization
 
-if [[ -r ./pirateship-image-creator.config ]] ; then
-    source ./pirateship-image-creator.config
-fi
-
-function die {
-    echo 1>&2 ERROR: "$*"
-    exit 1
-}
+source lib.sh
 
 missing_deps=()
 for prog in kpartx wget gpg parted qemu-arm-static ; do
@@ -89,35 +34,10 @@ if (( ${#missing_deps[@]} > 0 )) ; then
     On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted'"
 fi
 
-# Constants
-NL="$(echo)"
-
-# taken from http://debian-handbook.info/browse/wheezy/sect.automatic-upgrades.html
-MIRACLE_COMBINATION_AUTO_UPGRADE_SCRIPT="
-#!/bin/bash -e
-exec &>/var/log/miracle-combination-auto-upgrade.log
-date
-apt-get update
-export DEBIAN_FRONTEND=noninteractive
-yes '' | apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
-"
-
-function _op {
-    "$@" &> >(sed -e 's/^/| /')
-}
-
-function _chroot {
-    chroot mnt/img_root "$@"
-}
-
-function _apt {
-    _op _chroot apt-get -qq "$@"
-}
-
 function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
-            if ! sudo umount -f "$dir" ; then
+            if ! umount -f "$dir" ; then
                 die "Could not umount $dir, check running procs:$NL$(lsof 2>/dev/null | grep $(readlink -f $dir))"
             fi
         fi
@@ -127,34 +47,13 @@ function _umount {
 function _get_image {
     echo "Fetching $RASPBIAN_URL "
     mkdir -p images
-    RASPBIAN_ARCHIVE_FILE=images/${RASPBIAN_URL##*/}
     wget --continue --progress=dot:giga --directory-prefix images $RASPBIAN_URL || die "Download of $RASPBIAN_URL failed"
     echo -n "Checksum of "
-    sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$RASPBIAN_ARCHIVE_FILE" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-    unzip $RASPBIAN_ARCHIVE_FILE -d images || die "Could not unzip $RASPBIAN_ARCHIVE_FILE"
+    sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
+    unzip $IMAGE_ZIP -d images || die "Could not unzip $IMAGE_ZIP"
 }
 
-function _open_image {
-    echo "Loop-back mounting" images/*.img
-    kpartx="$(sudo kpartx -sav images/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
-    read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
-    test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
-    img_boot_dev=/dev/mapper/$img_boot_dev
-    img_root_dev=/dev/mapper/$img_root_dev
-#ls -al /dev/mapper
-#echo $img_boot_dev
-#echo $img_root_dev
-    sudo mkdir -p mnt/img_root
-    sudo mount -t ext4 $img_root_dev mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
-    sudo mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
-    sudo mount -t vfat $img_boot_dev mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
-    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
-    echo "Raspbian Image Details:"
-    df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
-
-    sudo mkdir -p apt_cache
-    sudo mount --bind apt_cache mnt/img_root/var/cache/apt/archives
-
+function _disable_daemons {
     # Prevent services from being started inside the chroot.
     POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
     echo "#!/bin/sh" >> $POLICY_RC_D
@@ -162,146 +61,87 @@ function _open_image {
     chmod +x $POLICY_RC_D
 }
 
-function _modify_image {
-    echo "Modifying Image"
+function _enable_daemons {
+    POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
+    rm -f $POLICY_RC_D
+}
+
+function _disable_ld_preload {
+    cfg=mnt/img_root/etc/ld.so.preload
+
+    if grep -q '^[^#]' $cfg; then
+        sed -i -e 's/^/#/' $cfg || die "Could not disable ld.so.preload"
+    fi
+}
+
+function _enable_ld_preload {
+    cfg=mnt/img_root/etc/ld.so.preload
+
+    if grep -q '^#' $cfg; then
+        sed -i -e 's/^#//' $cfg || die "Could not enable ld.so.preload"
+    fi
+}
+
+function _open_image {
+    echo "Loop-back mounting" images/*.img
+    kpartx="$(kpartx -sav images/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
+    test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
+    img_boot_dev=/dev/mapper/$img_boot_dev
+    img_root_dev=/dev/mapper/$img_root_dev
+    mkdir -p mnt/img_root
+    mount -t ext4 $img_root_dev mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
+    mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
+    mount -t vfat $img_boot_dev mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
+    echo "Raspbian Image Details:"
+    df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
+}
+
+function _close_image {
+    _umount mnt/img_root/var/cache/apt/archives \
+        mnt/img_root/{proc,sys,run,dev/pts} \
+        mnt/sd_root/bo?t mnt/img_root/boot \
+        mnt/sd_ro?t mnt/img_root
+    kpartx -d images/*.img >/dev/null
+}
+
+function _prepare_chroot {
+    _disable_ld_preload
+
+    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     _chroot date &>/dev/null || die "Could not chroot date"
+
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
     mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
     mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"
-    sed -i -e 's/^/#/' mnt/img_root/etc/ld.so.preload || die "Could not disable ld.so.preload"
-    if [[ "$SETUP_NOAUTORESIZE" == true ]] ; then
-      sed -i 's| quiet init=/usr/lib/raspi-config/init_resize.sh||' mnt/img_root/boot/cmdline.txt || die "Could notdisable autoresize"
-    fi
-    for f in /etc/default/{keyboard,console-setup} /etc/{resolv.conf,localtime} ; do
-        if [[ -r $f ]] ; then
-            cp $f mnt/img_root/$f || die "Could not copy $f"
-        fi
-    done
-    if [[ "$SETUP_SSHKEYS" == "raspberrypi" ]] ; then
-        echo "$SETUP_SSHKEYS" > mnt/img_root/etc/hostname || die "Could not set hostname to $SETUP_SSHKEYS"
-    fi
-    if [[ "$SETUP_HOSTNAMEBYDHCP" == true ]] ; then
-        echo "unset old_host_name # this will make the system always set the hostname from DHCP" \
-        > mnt/img_root/etc/dhcp/dhclient-enter-hooks.d/unset_old_hostname || die "Could not apply fix http://blog.schlomo.schapiro.org/2013/11/setting-hostname-from-dhcp-in-debian.html"
-    fi
-    if [[ "${ADD_REPOS:-}" ]] ; then
-        _apt update || die "Could not update package sources"
-        _apt install debian-archive-keyring apt-transport-https || die "Could not install debian-archive-keyring apt-transport-https"
-        for repo in "${ADD_REPOS[@]}" ; do
-            echo "$repo"
-        done > mnt/img_root/etc/apt/sources.list.d/pirateship-image-creator.list || die "Could not add repos ${ADD_REPOS[@]}"
-    fi
-    if [[ ${ADD_REPO_KEYS:-} ]] ; then
-        GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
-        KEYRING=$PWD/images/apt_keys.gpg
-        cat keys/*.key | $GPG $KEYRING --import
 
-        missing_keys=()
-        for key in "${ADD_REPO_KEYS[@]}" ; do
-            if ! $GPG $KEYRING --list-keys $key >/dev/null 2>&1 ; then
-                missing_keys+=( $key )
-            fi
-        done
-
-        if [[ ${#missing_keys[@]} > 0 ]]; then
-            die "missing GPG keys! try: $GPG $KEYRING --recv-keys ${missing_keys[@]}"
-        fi
-
-        $GPG $KEYRING --export ${ADD_REPO_KEYS[@]} | $GPG mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
-    fi
-    if [[ "$SETUP_SSHKEYS" == true ]] ; then
-        IFS=: read a b c d e user_home g < <(getent passwd ${SUDO_USER:-$USER})
-        mkdir -p mnt/img_root/root/.ssh || die "Could not mkdir mnt/img_root/root/.ssh"
-        cat $user_home/.ssh/*.pub <<<"" >mnt/img_root/root/.ssh/authorized_keys || :
-        chmod 0600 mnt/img_root/root/.ssh/authorized_keys || die "Could not chmod 0600 mnt/img_root/root/.ssh/authorized_keys"
-        if (( $(wc -l <mnt/img_root/root/.ssh/authorized_keys) > 0 )) ; then
-            echo "Installed SSH keys from $user_home, disabling password access"
-            sed -i -e 's/.*PasswordAuthentication.*/PasswordAuthentication no/i' mnt/img_root/etc/ssh/sshd_config || die "Could not disable password auth in mnt/img_root/etc/ssh/sshd_config"
-        fi
-        if [[ "$SETUP_NOPASSWD" == true ]] ; then
-            sed -i -e 's/.*disable_overscan=.*/disable_overscan=1/i' mnt/img_root/boot/config.txt || die "Could not disable overscan in mnt/img_root/boot/config.txt"
-        fi
-    fi
-
-    PURGE_PACKAGES=( $(
-        for package in "${PURGE_PACKAGES[@]}" ; do
-            if _chroot dpkg -s "$package" &>/dev/null ; then
-                echo "$package"
-            fi
-        done
-    ) )
-    if [[ ${PURGE_PACKAGES:-} ]] ; then
-        echo "Removing unwanted packages ${PURGE_PACKAGES[@]}"
-        _apt purge "${PURGE_PACKAGES[@]}" || die "Could not remove ${PURGE_PACKAGES[@]}"
-    fi
-
-    echo "Installing Updates"
-    _apt update || die "Could not update package sources"
-    if [[ "$SETUP_UPGRADE" == true ]] ; then
-      _apt dist-upgrade || die "Could not upgrade system"
-    fi
-    if [[ ${INSTALL_PACKAGES:-} ]] ; then
-        echo "Installing ${INSTALL_PACKAGES[@]}"
-        _apt install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
-    fi
-
-    echo "Installing files"
-    (cd install; tar c .) | _op _chroot tar vx --owner=root --group=root
-
-    if [[ "${CUSTOM_COMMAND:-}" ]] ; then
-        echo "Running Custom Command: $CUSTOM_COMMAND"
-        _op _chroot bash -x -c "$CUSTOM_COMMAND" || die "Custom command failed"
-    fi
-    _chroot service rsyslog stop &>/dev/null || : # some packages start syslog
+    mkdir -p apt_cache
+    mount --bind apt_cache mnt/img_root/var/cache/apt/archives
 }
 
-function _create_sdcard {
-    # putting it all onto SD card
-    DEST_DEVICE="$1"
-    test -b "$DEST_DEVICE" || die "Must give block device with SD Card as first parameter"
-
-    POLICY_RC_D=mnt/img_root/usr/sbin/policy-rc.d
-    rm -f $POLICY_RC_D
-
-    _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts}
-
-    echo "Preparing SD card in $DEST_DEVICE"
-    umount -f ${DEST_DEVICE}* &>/dev/null || :
-    dd if=/dev/zero of=$DEST_DEVICE bs=1M count=100 status=none || die "Could not wipe SD card in $DEST_DEVICE"
-    parted -a minimal -s $DEST_DEVICE mklabel msdos mkpart primary fat32 0mb 64mb mkpart primary ext2 64mb 100% set 1 boot on || die "Could not parted $DEST_DEVICE"
-    if [ -e ${DEST_DEVICE}p1 ] ; then sd_boot_dev=${DEST_DEVICE}p1 ; elif [ -e ${DEST_DEVICE}1 ] ; then sd_boot_dev=${DEST_DEVICE}1 ; else die "Could not find sd-card partition 1" ; fi
-    if [ -e ${DEST_DEVICE}p2 ] ; then sd_root_dev=${DEST_DEVICE}p2 ; elif [ -e ${DEST_DEVICE}2 ] ; then sd_root_dev=${DEST_DEVICE}2 ; else die "Could not find sd-card partition 2" ; fi
-    mkdir -p mnt/sd_boot mnt/sd_root
-    mkfs.vfat >/dev/null -n RASPBIAN_BOOT -F 32 $sd_boot_dev -m - <<<"This is the boot partition of a Raspbian image intended for a Raspberry Pi" || die "Could not create boot partition"
-    mkfs.ext4 -q -L raspbian_root -E discard $sd_root_dev || die "Could not create root partition"
-    tune2fs >/dev/null $sd_root_dev -o journal_data,discard || die "Could not tune2fs $sd_root_dev"
-    mount -o data=writeback,nobarrier -t ext4 $sd_root_dev mnt/sd_root || die "Could not mount $sd_boot_dev mnt/sd_boot"
-    mkdir -p mnt/sd_root/boot || die "Could not mkdir boot"
-    mount -t vfat $sd_boot_dev mnt/sd_root/boot || die "Could not mount $sd_boot_dev mnt/sd_root/boot"
-
-    echo "Copying files to SD card."
-    cp -a mnt/img_root/* mnt/sd_root/ || die "Could not copy root fs"
-
-    echo "SD Card Details:"
-    _op parted -s $DEST_DEVICE print
-    df -h mnt/sd_root/boot mnt/sd_root | sed -e "s#$(pwd)/##"
-
-    sed -i -e 's/#//' mnt/sd_root/etc/ld.so.preload || die "Could not enable ld.so.preload"
-    echo
-    echo "SD Card Creation finished, please wait for script to complete."
+function _cleanup_chroot {
+    _umount mnt/img_root/var/cache/apt/archives \
+        mnt/img_root/{proc,sys,run,dev/pts}
+    _enable_daemons
+    _enable_ld_preload
 }
 
-export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
-shopt -s nullglob
+function _modify_image {
+    echo "Modifying Image"
 
-DESTDEVICE=
-if [[ -b "${1:-}" ]] ; then
-    DESTDEVICE="$1"
-fi
+    _prepare_chroot
+    _disable_daemons
 
-if [[ $# -eq 0 || "$*" == *-h* ]] ; then
+    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
+        die "Image modification scripts failed"
+
+    _enable_daemons
+    _cleanup_chroot
+}
+
+function _usage {
     echo "
-Usage: $0 <--chroot|/dev/mmcblk0>
+Usage: $0 <--chroot|--noninteractive>
 
 Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
@@ -309,6 +149,13 @@ Open interactive Shell in chroot or write result to SD Card
 
 License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
 "
+}
+
+export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
+shopt -s nullglob
+
+if [[ $# -eq 0 || "$*" == *-h* ]] ; then
+    _usage
     exit 1
 fi
 
@@ -320,25 +167,30 @@ if [[ "$USER" != root && $(id -u) != "0" ]] ; then
     exit 1
 fi
 
-rm -Rf mnt temp
-mkdir -p temp
+if grep -wq $(readlink -f mnt) /proc/self/mounts; then
+    die "mnt/ is already mounted!"
+fi
+
+rm -Rf --one-file-system mnt temp
 function exittrap {
     set +u +e
-    _umount mnt/img_root/var/cache/apt/archives mnt/img_root/{proc,sys,run,dev/pts} mnt/sd_root/bo?t mnt/img_root/boot mnt/sd_ro?t mnt/img_root
-    kpartx -d images/*.img >/dev/null
+    _close_image
     echo "Script execution time: $SECONDS seconds"
 }
 trap exittrap 0
 trap exittrap ERR
 
+IMAGE_ZIP=images/${RASPBIAN_URL##*/}
+IMAGE=${IMAGE_ZIP%.zip}.img
 
-_get_image
+if [ ! -e "$IMAGE" ]; then
+    _get_image
+fi
+
 _open_image
 _modify_image
 
-if [[ "$DESTDEVICE" ]] ; then
-    _create_sdcard "$DESTDEVICE"
-elif [[ "$1" == "--chroot" ]] ; then
+if [[ "$1" == "--chroot" ]] ; then
     echo "Starting interactive Shell in image chroot"
     chroot mnt/img_root bash -i
     exit 0
