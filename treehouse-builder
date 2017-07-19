@@ -16,7 +16,6 @@
 # Raspbian
 RASPBIAN_URL=http://people.sugarlabs.org/ignacio/2017-04-10-raspbian-jessie.zip
 RASPBIAN_SHA1=6d7b11bb3d64524203edf6c80c499456fb5fef53
-
 #RASPBIAN_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/2017-01-11-raspbian-jessie.zip
 #RASPBIAN_SHA1=f987935e3e99366a6f1bf0d60a7a83fe3edb013c
 
