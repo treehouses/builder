@@ -34,16 +34,15 @@ compress() {
 
 upload() {
     echo "Uploading image"
-    rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/images
+    rsync -P -e deploy/ssh.sh $image_gz deploy@dev.ole.org:/data/images
 
     if release_is_number; then
         echo "Marking release as latest image"
-        $ssh deploy@dev.ole.org ln -sf /data/images/$image_gz /data/images/latest.img.gz
+        deploy/ssh.sh deploy@dev.ole.org ln -sf /data/images/$image_gz /data/images/latest.img.gz
     fi
 }
 
 prefix=treehouse
-ssh='ssh -i deploy/id_deploy -o "GlobalKnownHostsFile deploy/known_hosts"'
 image=$(ls images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
 make_name
