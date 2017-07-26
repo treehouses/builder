@@ -150,6 +150,12 @@ License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html fo
 "
 }
 
+function _shell {
+    _prepare_chroot
+    chroot mnt/img_root bash -i
+    _cleanup_chroot
+}
+
 export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
 shopt -s nullglob
 
@@ -191,19 +197,17 @@ if [ ! -e "$IMAGE" ]; then
 fi
 
 _open_image
-_modify_image
 
 if [[ "$1" == "--chroot" ]] ; then
+    _modify_image
     echo "Starting interactive Shell in image chroot"
-    _prepare_chroot
-    chroot mnt/img_root bash -i
-    _cleanup_chroot
-    exit 0
+    _shell
 elif [[ "$1" == "--noninteractive" ]] ; then
-    :
+    _modify_image
+elif [[ "$1" == "--shell" ]]; then
+    _shell
 else
     die "Usage error. Try $0 --help"
 fi
-
 
 # vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
