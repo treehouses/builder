@@ -22,26 +22,30 @@ autorunonce(){
   echo "searching for autorunonce script"
   script=$(find_script "$1/autorunonce")
 
-  if [ -n "$script" ]; then
-    echo "running autorunonce script $script"
-    led_mode timer
-    bash "$script"
-    newname="$(echo "$name" | sed -e 's/run/ran/')"
-    newscript="$dir/$newname"
-    echo "moving autorunonce script: $script -> $newscript"
-    mv -v "$script" "$newscript"
+  if [ -z "$script" ]; then
+    return 1
   fi
+
+  echo "running autorunonce script $script"
+  led_mode timer
+  bash "$script"
+  newname="$(echo "$name" | sed -e 's/run/ran/')"
+  newscript="$dir/$newname"
+  echo "moving autorunonce script: $script -> $newscript"
+  mv -v "$script" "$newscript"
 }
 
 autorun(){
   echo "searching for autorun script"
   script=$(find_script "$1/autorun")
 
-  if [ -n "$script" ]; then
-    echo "running autorun script $script"
-    led_mode heartbeat
-    sudo screen -dmS opk bash -c 'sudo '"$script"
+  if [ -z "$script" ]; then
+    return 1
   fi
+
+  echo "running autorun script $script"
+  led_mode heartbeat
+  sudo screen -dmS opk bash -c 'sudo '"$script"
 }
 
 start() {
@@ -53,13 +57,11 @@ start() {
     echo "usb stick"
     mountpoint -q /data || mount /dev/sda1 /data
     cd /data
-    autorunonce /data
-    autorun /data
+    autorunonce /data || autorun /data
   else
     echo "no usb stick"
     cd /boot
-    autorunonce /boot
-    autorun /boot
+    autorunonce /boot || autorun /boot
   fi
 }
 
