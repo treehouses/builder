@@ -28,7 +28,8 @@ autorunonce(){
     bash "$script"
     newname="$(echo "$name" | sed -e 's/run/ran/')"
     newscript="$dir/$newname"
-    mv "$script" "$newscript"
+    echo "moving autorunonce script: $script -> $newscript"
+    mv -v "$script" "$newscript"
   fi
 }
 
