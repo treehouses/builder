@@ -13,7 +13,7 @@ deploy:
     script: ./deploy/deploy.sh
     on:
         all_branches: true
-        condition: $TRAVIS_BRANCH = master || $TRAVIS_BRANCH = deploy
+        tags: true
 
 #deploy:
 #    provider: releases
