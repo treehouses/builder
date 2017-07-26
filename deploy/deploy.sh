@@ -45,3 +45,8 @@ if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
 fi
 echo "Uploading image"
 rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/images
+
+if [ -n "$(get_release)" ]; then
+    echo "Marking release as latest image"
+    $ssh deploy@dev.ole.org ln -sf /data/images/$image_gz /data/images/latest.img.gz
+fi
