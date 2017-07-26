@@ -9,6 +9,7 @@ ADD_REPO_KEYS=(
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
 KEYRING=$PWD/apt_keys.gpg
+rm -f $KEYRING
 cat keys/*.key | $GPG $KEYRING --import
 
 missing_keys=()
@@ -25,3 +26,5 @@ fi
 $GPG $KEYRING --export ${ADD_REPO_KEYS[@]} | \
     $GPG mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || \
     die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
+rm -f $KEYRING
+
