@@ -13,6 +13,7 @@ deploy:
     script: ./deploy/deploy.sh
     on:
         all_branches: true
+        tags: true
 
 notifications:
   webhooks:
