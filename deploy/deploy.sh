@@ -44,4 +44,4 @@ if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
     gzip -c -9 < $image > $image_gz
 fi
 echo "Uploading image"
-rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/deploy
+rsync -P -e "$ssh" $image_gz deploy@dev.ole.org:/data/images
