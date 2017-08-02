@@ -2,7 +2,8 @@
 
 led_mode() {
   mode="$1"
-  echo "$mode" > /sys/class/leds/led0/trigger
+  trigger=/sys/class/leds/led0/trigger
+  [ -e $trigger ] && echo "$mode" > $trigger
 }
 
 find_script() {
