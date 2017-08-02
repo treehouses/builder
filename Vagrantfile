@@ -78,13 +78,10 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    sudo aptitude update
-    sudo aptitude install -y kpartx qemu-user-static parted
-    git clone https://github.com/ole-vi/treehouse-builder.git
-    cd treehouse-builder/
-    #git checkout <branch>
+    sudo apt update
+    sudo apt install -y kpartx qemu-user-static parted aria2
+    echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
-    ln -s /vagrant/images images
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /home/vagrant/treehouse-builder;./treehouse-builder --chroot'
+    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./treehouse-builder --chroot'
   SHELL
 end
