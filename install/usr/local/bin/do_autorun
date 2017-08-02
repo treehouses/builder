@@ -30,7 +30,7 @@ autorunonce(){
   echo "running autorunonce script $script"
   led_mode timer
   bash "$script"
-  newname="$(echo "$name" | sed -e 's/run/ran/')"
+  newname="$(basename "$script" | sed -e 's/run/ran/')"
   newscript="$(dirname $script)/$newname"
   echo "moving autorunonce script: $script -> $newscript"
   mv -v "$script" "$newscript"
