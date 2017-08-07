@@ -1,6 +1,6 @@
 # treehouse-builder
 
-Treehouse-builder is based on [Raspian](https://www.raspbian.org/) and allows the user to develop and tailor their own custom RPi images. The script will modify the latest Raspian image by installing packages, purging packages and executing custom commands, and then finally creates a bootable .img file that can be burned to the microSD card.
+Treehouse-builder is based on [Raspbian](https://www.raspbian.org/) and allows the user to develop and tailor their own custom RPi images. The script will modify the latest Raspian image by installing packages, purging packages and executing custom commands, and then finally creates a bootable .img file that can be burned to the microSD card.
 
 ## Instructions
 
@@ -8,16 +8,21 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-```
-System requirements
-class10 microSD card (minimum 8 Gb)
+System requirements:
 
-Required packages
-kpartx wget gpg parted qemu-arm-static
+* Operating System - Debian/Ubuntu 
+* microSD card reader
+* class10 microSD card (minimum 8 Gb)
+* Packages - kpartx wget gpg parted qemu-arm-static
+
+Note:
 
 To install the required packages, run the following command in Debian/Ubuntu: 
-sudo apt-get install kpartx wget gpg parted qemu-arm-static. 
+```bash
+sudo apt-get install kpartx wget gpg parted qemu-arm-static.
 ```
+
+For other operating systems like MacOS or Windows, check out [ole--vagrant-treehouses](https://github.com/ole-vi/ole--vagrant-treehouses)
 ### Getting Started 
 
 ```
