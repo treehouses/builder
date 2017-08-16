@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Disabled until we can make this conditional somehow
+exit 0
+
 set -e
 
 # Make the pi into a USB ethernet gadget.
