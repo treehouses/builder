@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Make the pi into a USB ethernet gadget.
 
