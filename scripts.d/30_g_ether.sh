@@ -4,9 +4,10 @@ set -e
 
 # Make the pi into a USB ethernet gadget.
 
-CONFIG=/boot/config.txt
-CMDLINE=/boot/cmdline.txt
-IFACES=/etc/network/interfaces
+ROOT=mnt/img_root
+CONFIG=$ROOT/boot/config.txt
+CMDLINE=$ROOT/boot/cmdline.txt
+IFACES=$ROOT/etc/network/interfaces
 
 # Set up firmware configuration
 
