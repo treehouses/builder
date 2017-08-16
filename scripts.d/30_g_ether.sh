@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Make the pi into a USB ethernet gadget.
 
 CONFIG=/boot/config.txt
@@ -8,7 +10,7 @@ IFACES=/etc/network/interfaces
 
 # Set up firmware configuration
 
-if !grep -q "^dtoverlay=" $CONFIG; then
+if ! grep -q "^dtoverlay=" $CONFIG; then
     #sed -i -e '${' -e 'a\\' -e 'a# Enable USB gadget mode' \
     #    -e 'adtoverlay=dwc2' -e '}' /boot/config.txt
     echo >> $CONFIG
@@ -18,13 +20,13 @@ fi
 
 # Load necessary modules
 
-if !grep -q dwc2 $CMDLINE; then
+if ! grep -q dwc2 $CMDLINE; then
     sed -i -e 's/$/ modules-load=dwc2,g_ether/' $CMDLINE
 fi
 
 # Configure the network interface
 
-if !grep -q usb0 $IFACES; then
+if ! grep -q usb0 $IFACES; then
     echo >> $IFACES
     echo "auto usb0" >> $IFACES
     echo "allow-hotplug usb0" >> $IFACES
