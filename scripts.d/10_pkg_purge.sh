@@ -8,6 +8,7 @@ PURGE_PACKAGES=(
     sonic-pi
     scratch
     squeak-plugins-scratch squeak-vm
+    dphys-swapfile
 )
 
 PURGE_PACKAGES=( $(
