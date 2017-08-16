@@ -1,14 +1,14 @@
 [Unit]
 Description=load Docker image
 After=local_fs.target remote_fs.target docker.service
+ConditionPathExists=/root/rpi-couchdb.tar.gz
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ConditionPathExists=/root/rpi-couchdb.tar.gz
 Environment=IMAGE=/root/rpi-couchdb.tar.gz
 ExecStart=/bin/sh -c "gzip -cd $IMAGE | docker load"
-ExecStart=rm $IMAGE
+ExecStart=/bin/rm $IMAGE
 Restart=no
 
 [Install]
