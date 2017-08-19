@@ -14,8 +14,8 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/2017-07-05-raspbian-jessie.zip.torrent
-RASPBIAN_SHA1=e1edd4d26090b3e67a66939fa77eeb656de8a2c5
+RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-08-17/2017-08-16-raspbian-stretch.zip.torrent
+RASPBIAN_SHA1=5076ea479c6014a83cb841ded834ff1a01acb4bd
 
 ############ End of User Cusomization
 
