@@ -1,3 +1,8 @@
-mnt
-download
-temp
+apt_cache/
+authorized_keys
+download/
+images/
+ip/
+mnt/
+temp/
+.*.sw[nop]

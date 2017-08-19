@@ -1,55 +1,81 @@
 #!/bin/sh
 
-autorunonce(){
-  dir="$1"
-  for name in autorunonce autorunonce.sh autorunonce.txt; do
-    script="$dir/$name"
+led_mode() {
+  mode="$1"
+  trigger=/sys/class/leds/led0/trigger
+  [ -e $trigger ] && echo "$mode" > $trigger
+}
+
+log() {
+    echo "do_autorun:" "$@"
+}
+
+find_script() {
+  base_name="$1"
+
+  for ext in "" .sh .txt; do
+    script="$base_name$ext"
 
     if [ -e "$script" ]; then
-      newname="$(echo "$sname" | sed -e 's/run/ran/')"
-      newscript="$dir/$newname"
-      echo timer > /sys/class/leds/led0/trigger
-      mv "$script" "$newscript"
-      "$newscript"
-      return
+        echo "$script"
+        return
     fi
   done
+}
+
+autorunonce(){
+  log "searching for autorunonce script"
+  script=$(find_script "$1/autorunonce")
+
+  if [ -z "$script" ]; then
+    log "no autorunonce found"
+    return 1
+  fi
+
+  log "running autorunonce script $script"
+  led_mode timer
+  bash "$script"
+  log "autorunonce script is done"
+  newname="$(basename "$script" | sed -e 's/run/ran/')"
+  newscript="$(dirname $script)/$newname"
+  log "moving autorunonce script: $script -> $newscript"
+  mv -v "$script" "$newscript"
 }
 
 autorun(){
-  dir="$1"
-  for name in autorun autorun.sh autorun.txt; do
-    script="$dir/$name"
+  log "searching for autorun script"
+  script=$(find_script "$1/autorun")
 
-    if [ -e "$script" ]; then
-      echo heartbeat > /sys/class/leds/led0/trigger
-      sudo screen -dmS opk bash -c 'sudo '"$script"
-      return
-    fi
-  done
+  if [ -z "$script" ]; then
+    log "no autorun script found"
+    return 1
+  fi
+
+  log "running autorun script $script"
+  led_mode heartbeat
+  sudo screen -dmS opk bash -c 'sudo '"$script"
+  log "autorun script started in screen"
 }
 
 start() {
-  echo default-on > /sys/class/leds/led0/trigger
-  echo "Starting script autorun"
+  led_mode default-on
+  log "starting"
   mkdir -p /data
   if [ -b /dev/sda1 ]
   then
-    echo "usb stick"
+    log "usb stick"
     mountpoint -q /data || mount /dev/sda1 /data
     cd /data
-    autorunonce /data
-    autorun /data
+    autorunonce /data || autorun /data
   else
-    echo "no usb stick"
+    log "no usb stick"
     cd /boot
-    autorunonce /boot
-    autorun /boot
+    autorunonce /boot || autorun /boot
   fi
 }
 
 stop() {
-  echo "Stopping script autorun"
+  log "stopping"
   sudo screen -X -S "opk" quit
 }
 

@@ -1,18 +1,19 @@
 before_install:
-    - sudo apt install qemu-user-static
+    - sudo apt install qemu-user-static kpartx aria2 npm docker
+    - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv
+        -in deploy/id_deploy.enc -out deploy/id_deploy -d
 
-script: sudo ./treehouse-builder --noninteractive
+script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
 install: true
 
 deploy:
-    provider: releases
-    api_key:
-        secure: "KalR4x53m+sEILDAayq425M5BdT2k3QEzRv/VD5HlVXBBVB0jATXKOviMH/SLzv2H1SxqqLLPtU2/TZKQDqit+/Lqll4fIJS+kk/mALdTkPawqnB0Clo+V4WvEkjSQyDc4wYWtxzPZNBpJmzVCVhzn3RbHBpY0uG6kmRcqPDqkNCPYBz2G4Y/NgvjPa+9c6eQ9OTsCLYnD7B1sgbQXrCfeKy6ZLgQe2pZs+PvaChOpPdKIzClywzkwnljg6pjw9MDi58SXpCjKO9ufIXobW54CCbpZpAkHUpJBTQVDt4jbiK9hJrike2PO1QWLl6zryfayP92zEU4CiSAzVfi21VBxCYmPRDuVDa4lcvdZvPA+nNJ1fUvtFRA0NivTgZAJYqozm2/r7i9MEE3UL+ZQ9CFN82CPtifdbgaLsOQeCQGNQ/DT+R67/3QqIDs9znJL3pbcKvcpAPhAhduJ3d39E7vrgyUeK3Fxk4UWR+9tuPNyMkZUb/T+m+JfifmAqbEBY5WN2f82gwDqyPYnuWtRn4oTTx/U85btgZxyt4p+gMD0nm3KpxA8ZF226a6t9sorhenAJlGNSKSiifs0srK652rmGQ7TGAqS+r5TilCiTtjFdaQPKfRyvLk4chkrcpwCFJRVOR5lArBMxwyi4JEWdV9tWB+z9YgEBmK7APkgRc/z4="
-    file: 2017-04-10-raspbian-jessie.img
+    provider: script
     skip_cleanup: true
+    script: ./deploy/deploy.sh
     on:
-        branch: master
+        all_branches: true
+        tags: true
 
 notifications:
   webhooks:

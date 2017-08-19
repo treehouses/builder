@@ -71,3 +71,6 @@ There are many different ways to write to the microSD card. An easy approach is 
 
 * [rpi-image-creator](https://github.com/ImmobilienScout24/rpi-image-creator)
 
+=======
+copy successful builds from `images` directory
+and use `bash clean.sh` to remove otherwise
