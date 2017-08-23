@@ -9,6 +9,7 @@ INSTALL_PACKAGES=(
     quicksynergy #dogi
     matchbox-keyboard #virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
+    elinks # text mode web browser
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
