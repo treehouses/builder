@@ -8,6 +8,7 @@ INSTALL_PACKAGES=(
     docker-hypriot #docker
     quicksynergy #dogi
     matchbox-keyboard #virtual keyboard
+    mdadm initramfs-tools rsync # for RAID1
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
