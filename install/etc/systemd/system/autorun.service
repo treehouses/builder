@@ -1,6 +1,6 @@
 [Unit]
 Description=run autorun(once)(.sh) scripts from USB stick or in /boot
-After=local_fs.target remote_fs.target
+After=local_fs.target remote_fs.target network-online.target
 
 [Service]
 Type=oneshot
