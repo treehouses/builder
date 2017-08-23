@@ -32,9 +32,14 @@ compress() {
     fi
 }
 
+checksum() {
+    echo "computing SHA1"
+    sha1sum $image_gz > $image_sha1
+}
+
 upload() {
     echo "Uploading image"
-    rsync -P -e deploy/ssh.sh $image_gz deploy@dev.ole.org:/data/images
+    rsync -P -e deploy/ssh.sh $image_gz $image_sha1 deploy@dev.ole.org:/data/images
 
     if release_is_number; then
         echo "Marking release as latest image"
@@ -48,7 +53,9 @@ test -n "$image" || die "image not found"
 make_name
 echo "Deploying as $name"
 image_gz=$name.img.gz
+image_sha1=$image_gz.sha1
 set -e
 chmod 600 deploy/id_deploy
 compress
+checksum
 upload
