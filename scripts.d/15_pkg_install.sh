@@ -10,6 +10,7 @@ INSTALL_PACKAGES=(
     matchbox-keyboard #virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks # text mode web browser
+    hostapd dnsmasq # rpi access point
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
