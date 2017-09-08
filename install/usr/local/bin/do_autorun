@@ -32,14 +32,15 @@ autorunonce(){
     return 1
   fi
 
-  log "running autorunonce script $script"
-  led_mode timer
-  bash "$script"
-  log "autorunonce script is done"
   newname="$(basename "$script" | sed -e 's/run/ran/')"
   newscript="$(dirname $script)/$newname"
   log "moving autorunonce script: $script -> $newscript"
   mv -v "$script" "$newscript"
+  sync
+  log "running autorunonce script $script"
+  led_mode timer
+  bash "$newscript"
+  log "autorunonce script is done"
 }
 
 autorun(){
