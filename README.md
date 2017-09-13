@@ -66,6 +66,18 @@ After exiting from the chroot environment, successful builds are found in the `t
 
 There are many different ways to write to the microSD card. An easy approach is to download [Etcher](https://etcher.io) and run the program. It supports multiple Operating Systems such as Linux, OSX and Windows, and has a pretty simple GUI, where you select the location of the .img file, the destination of the microSD card and then press the flash button to write the image onto the microSD card. Remember that it will delete everything on that drive so make sure it is the correct drive!
 
+## Release
+
+This project use Travis CI to automatically build and upload new treehouse image to [dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
+
+* New image's name will be `treehouse-` followed by whatever is after `release-` in the tag
+* New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
+* If the tag is formated like `release-` followed by only numbers,  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of the newly uploaded image and its SHA-1 checksum
+* At this time, both `stable.img.gz` and `branch.img.gz` on [dev.ole.org](http://dev.ole.org) are manually linked to their specific image
+
+## Relevant Links
+
+[Raspberry Pi project page on github.io](http://open-learning-exchange.github.io/#!pages/raspberrypi.md)
 
 ## Built with
 
