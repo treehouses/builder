@@ -10,6 +10,8 @@ node_js:
 
 before_install:
   - sudo apt install qemu-user-static kpartx aria2 curl
+  - node -v
+  - npm -v
   - curl -k -O -L https://npmjs.org/install.sh
   - sudo which sh
   - sudo ls -al
