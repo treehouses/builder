@@ -10,14 +10,6 @@ node_js:
 
 before_install:
   - sudo apt install qemu-user-static kpartx aria2 curl
-  - node -v
-  - npm -v
-  - curl -k -O -L https://npmjs.org/install.sh
-  - sudo which sh
-  - sudo ls -al
-  - cat install.sh
-  - sudo /bin/sh install.sh
-  #install.sh
   - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv
         -in deploy/id_deploy.enc -out deploy/id_deploy -d
 
