@@ -3,28 +3,15 @@ sudo: required
 services:
   - docker
 
-language: node_js
-
-node_js:
-  - "6"
-
-env:
-  - TRAVIS_NODE_VERSION="7.9.0"
-
-cache:
-   directories:
-     - $(npm root -g)
-     - node_modules
-
 before_install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
-  - sudo apt install qemu-user-static kpartx aria2
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - sudo apt install qemu-user-static kpartx aria2 nodejs
   - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv
         -in deploy/id_deploy.enc -out deploy/id_deploy -d
 
-script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
-
 install: true
+
+script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
 deploy:
   provider: script
