@@ -12,10 +12,10 @@ INSTALL_PACKAGES=(
     elinks # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
+    nodejs # installs new node
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[@]}"
     _apt install ${INSTALL_PACKAGES[@]} || die "Could not install ${INSTALL_PACKAGES[@]}"
 fi
-
