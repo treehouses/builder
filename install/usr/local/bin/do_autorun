@@ -36,6 +36,8 @@ autorunonce(){
   newscript="$(dirname $script)/$newname"
   log "moving autorunonce script: $script -> $newscript"
   mv -v "$script" "$newscript"
+  log "converting dos newlines to unix"
+  dos2unix "$newscript"
   sync
   log "running autorunonce script $script"
   led_mode timer
@@ -51,6 +53,9 @@ autorun(){
     log "no autorun script found"
     return 1
   fi
+
+  log "converting dos newlines to unix"
+  dos2unix "$script"
 
   log "running autorun script $script"
   led_mode heartbeat
