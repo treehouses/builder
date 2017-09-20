@@ -11,6 +11,7 @@ INSTALL_PACKAGES=(
     mdadm initramfs-tools rsync # for RAID1
     elinks # text mode web browser
     hostapd dnsmasq # rpi access point
+    nodejs # new node8.x
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
