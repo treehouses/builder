@@ -5,6 +5,7 @@ source lib.sh
 # List of extra GPG keys to import from the LOCAL SYSTEM!
 ADD_REPO_KEYS=(
     D59097AB
+    68576280
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "

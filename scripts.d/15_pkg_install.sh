@@ -4,7 +4,6 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen #essentials
-#    debian-archive-keyring apt-transport-https #hypriot
     docker-hypriot #docker
     quicksynergy #dogi
     matchbox-keyboard #virtual keyboard
@@ -12,6 +11,7 @@ INSTALL_PACKAGES=(
     elinks # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
+    nodejs # new node8.x
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then

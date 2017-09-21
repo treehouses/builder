@@ -27,8 +27,14 @@ install_stuff() {
 
 # List of extra APT repositories
 ADD_REPOS=(
+    #curl ... > keys/XYZ.key"
     "deb https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
     "deb-src https://packagecloud.io/Hypriot/Schatzkiste/raspbian/ jessie main"
+    #curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
+    #FIXME it should be /etc/apt/sources.list.d/nodesource.list
+    "deb https://deb.nodesource.com/node_8.x jessie main"
+    "deb-src https://deb.nodesource.com/node_8.x jessie main"
+
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouse-builder.list
