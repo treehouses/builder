@@ -45,8 +45,10 @@ function _umount {
 function _get_image {
     echo "Fetching $RASPBIAN_TORRENT_URL"
     mkdir -p images
-    wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
-    aria2c $RASPBIAN_TORRENT -d images --seed-time 0
+    if [ ! -f $RASPBIAN_TORRENT ]; then
+      wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
+    fi
+    aria2c --continue $RASPBIAN_TORRENT -d images --seed-time 0
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
     unzip $IMAGE_ZIP -d images || die "Could not unzip $IMAGE_ZIP"
