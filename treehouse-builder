@@ -197,7 +197,7 @@ echo $IMAGE_ZIP
 IMAGE=${IMAGE_ZIP%.zip}.img
 echo $IMAGE
 
-if [ ! -e "$IMAGE" ]; then
+if [ ! -e "$IMAGE_ZIP" ]; then
     _get_image
 fi
 
