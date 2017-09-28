@@ -11,4 +11,4 @@ mv node-v8.5.0-linux-armv6l/bin/node node-v8.5.0-linux-armv6l/bin/node-armv6l
 
 # armv7l
 _op _chroot mv /usr/bin/node /usr/bin/node-armv7l
-_op _chroot (cd /usr/bin; ln -s node-armv7l node)
+_op _chroot ln -sr /usr/bin/node-armv7l /usr/bin/node
