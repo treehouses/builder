@@ -11,7 +11,7 @@ INSTALL_PACKAGES=(
     elinks # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
-    nodejs # new node8.x
+    nodejs=8.5.0-1nodesource1 # new node8.x
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
