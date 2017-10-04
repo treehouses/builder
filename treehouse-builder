@@ -51,7 +51,10 @@ function _get_image {
     aria2c --continue $RASPBIAN_TORRENT -d images --seed-time 0
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-    unzip $IMAGE_ZIP -d images || die "Could not unzip $IMAGE_ZIP"
+}
+
+function _decompress_image {
+    unzip -o $IMAGE_ZIP -d images || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
@@ -194,10 +197,11 @@ echo $IMAGE_ZIP
 IMAGE=${IMAGE_ZIP%.zip}.img
 echo $IMAGE
 
-if [ ! -e "$IMAGE" ]; then
+if [ ! -e "$IMAGE_ZIP" ]; then
     _get_image
 fi
 
+_decompress_image
 _open_image
 
 if [[ "$1" == "--chroot" ]] ; then
