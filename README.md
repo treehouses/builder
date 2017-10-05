@@ -53,6 +53,8 @@ the command sudo touch /boot/ssh is included in CUSTOM_COMMANDS. The semi-colon 
 separate the commands and will execute regardless whether or not the previous command is successful.
 
 ```
+`INSTALL_PACKAGES`, `PURGE_PACKAGES` , and  `CUSTOM_COMMANDS` are in shell scripts that are important for making custom images. The name of the scripts are `15_pkg_install.sh` , `10_pkg_purge.sh` , and `N/A`.
+ found in `treehouse-builder/scripts.d`. In this directory  They . With a text editor of your choice, you can edit the files to customize the image.
 
 ### Retrieve builds
 
