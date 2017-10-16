@@ -25,7 +25,7 @@ deploy:
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/2fd0c9991bb0b1f5dda1
-    on_success: always # one of: always, never, change
-    on_failure: always
-    on_start: always
+      secure: "Aqo5s4yLOboXOWnK2WfafKQidLe/dlyOEt3hZbQqSX7XiiNgfTaUjkmFJjQrpMcx0lShlW0amd5UadvDbu5PFajaSqW7xagpxTof0w6JWTlaVseQ38olpXn1IgDqJH679ZnOQYpoFKNnvvgQNJ9+xs4lCDitQc+aHVdhVVfxBGQQtj+AOBv6+ILciTCmk+ComzbLjUxSj/TWnao2kR+x2GyXwZ7l3TXnX1/2/c9LCAwh9oA9t5nvvuZBoj3Uk1XHQWpFzfMEltOdCgYyhVqOddlfDNch7HqeHZQU0Y+B9zm3v4lM8s4DaX7gfofjw4yKi5Uj+pT+KePNNIjv+OPsyiXWqhIA7X2N4OSgbr7Fbvlf/IM3vPL+7Su7UtvR5mLUPMa+jEGARsJE68IOpss+oy2x2u2AHKKRA9rtGacVNPt/2EPMZiXSqGRsclft3dEVNEM4ryOZJNg/XHbPNtxEpKsBhPwD1ZpBkp/2NWNojpMTdUbYln1cEwcP6vl+c1KwJsbGs8tjm7ojuGmhAVHDdvm1WsVClROypgjsKiO17lOKOknq3Bv74L8s25Vz0ffDdcaHC2PBvNk2gTbl7Eu675rHujhcHZjXbw1UaTcNO9ZqlQTFXn72x76rIGmuopzKrouxdqAwJe5L2tFjAWYq+8m7/k+ZeuEG2vdDvss9vGc="
+      on_success: always # one of: always, never, change
+      on_failure: always
+      on_start: never
