@@ -4,7 +4,7 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen #essentials
-    docker-hypriot #docker
+    docker-ce
     docker-compose #docker-compose
     quicksynergy #dogi
     matchbox-keyboard #virtual keyboard

@@ -4,8 +4,9 @@ source lib.sh
 
 # List of extra GPG keys to import from the LOCAL SYSTEM!
 ADD_REPO_KEYS=(
-    D59097AB
+    #D59097AB # Hypriot docker
     68576280
+    0EBFCD88 # Docker Release (CE deb)
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
