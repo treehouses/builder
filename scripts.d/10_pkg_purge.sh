@@ -23,5 +23,7 @@ if [[ ${PURGE_PACKAGES:-} ]] ; then
     echo "Removing unwanted packages ${PURGE_PACKAGES[@]}"
     _apt purge "${PURGE_PACKAGES[@]}" ||\
         die "Could not remove ${PURGE_PACKAGES[@]}"
+    _apt autoremove ||\
+        die "Error in auto remove"
 fi
 
