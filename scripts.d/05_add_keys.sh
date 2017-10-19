@@ -4,8 +4,8 @@ source lib.sh
 
 # List of extra GPG keys to import from the LOCAL SYSTEM!
 ADD_REPO_KEYS=(
-    #D59097AB # Hypriot docker
-    68576280
+    D59097AB # hypriot docker
+    68576280 # nodesource
     0EBFCD88 # Docker Release (CE deb)
 )
 
