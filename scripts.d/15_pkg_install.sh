@@ -3,11 +3,11 @@
 source lib.sh
 
 INSTALL_PACKAGES=(
-    avahi-daemon vim lshw iotop screen #essentials
-    docker-hypriot #docker
+    avahi-daemon vim lshw iotop screen # essentials
+    docker-ce # docker
     docker-compose #docker-compose
-    quicksynergy #dogi
-    matchbox-keyboard #virtual keyboard
+    quicksynergy # dogi
+    matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks # text mode web browser
     hostapd dnsmasq # rpi access point
