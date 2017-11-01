@@ -1,0 +1,160 @@
+#!/bin/bash
+
+name='ole-vi'
+port='5984'
+version='0.13.19'
+
+# rename hostname of image to name
+pirateship rename $name
+pirateship docker
+
+# create couchdb docker container
+docker run -d -p $port:5984 --name $name -v /srv/data/$name:/usr/local/var/lib/couchdb -v /srv/log/$name:/usr/local/var/log/couchdb dogi/rpi-couchdb
+
+# download BeLL-Apps
+mkdir -p /root/ole/$version
+cd /root/ole/$version
+wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
+unzip *.zip
+sync
+sync
+sync
+ln -s BeLL-Apps-* BeLL-Apps
+cd BeLL-Apps
+chmod +x node_modules/.bin/couchapp
+
+cd app
+python minify_html.py
+mv MyApp/index.html MyApp/index1.html
+mv MyApp/index2.html MyApp/index.html
+mv nation/index.html nation/index1.html
+mv nation/index2.html nation/index.html
+cd ..
+sync
+sync
+sync
+
+# install community
+
+# check if docker is running
+while ! curl -X GET http://127.0.0.1:5984/_all_dbs ; do
+  sleep 1
+done
+
+## create databases & push design docs into them
+for database in databases/*.js; do
+  curl -X PUT http://127.0.0.1:$port/${database:10:-3}
+  ## do in all except communities languages configurations
+  case ${database:10:-3} in
+    "communities" | "languages" | "configurations" ) ;;
+    * ) node_modules/.bin/couchapp push $database http://127.0.0.1:$port/${database:10:-3} ;;
+  esac
+done
+
+## add bare minimal required data to couchdb for launching bell-apps smoothly
+for filename in init_docs/languages/*.txt; do
+  curl -d @$filename -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/languages;
+done
+curl -d @init_docs/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
+#curl -d @init_docs/admin.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/members
+
+# favicon.ico
+wget https://open-learning-exchange.github.io/favicon.ico
+mv favicon.ico /srv/data/$name/.
+curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
+
+# expand filesystem
+cd /usr/local/lib/
+npm update
+pirateship expandfs
+
+# redirect to bell
+mkdir -p /root/ole
+echo '#!/usr/bin/env node' > /root/ole/server.js
+echo '' >> /root/ole/server.js
+echo "var express = require('express')" >> /root/ole/server.js
+echo 'var PortJack = express()' >> /root/ole/server.js
+echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
+echo 'var options = {' >> /root/ole/server.js
+echo '"'$name'.local": "http://'$name'.local:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.0.99": "http://192.168.0.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.1.99": "http://192.168.1.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.99": "http://192.168.2.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.3.99": "http://192.168.3.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.4.99": "http://192.168.4.99:5984/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
+echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'else {' >> /root/ole/server.js
+echo "res.setHeader('Location', 'http://ole.org')" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'res.statusCode = 302' >> /root/ole/server.js
+echo 'res.end()' >> /root/ole/server.js
+echo '})' >> /root/ole/server.js
+echo 'PortJack.listen(80)' >> /root/ole/server.js
+chmod +x /root/ole/server.js
+cd /root/ole
+npm install express
+
+# real time clock
+# Setting up RasClock https://afterthoughtsoftware.com/products/rasclock
+cd /boot/overlays
+
+if [ -e i2c-rtc-overlay.dtb ] || [ -e i2c-rtc.dtbo ]; then
+  echo >> /boot/config.txt
+  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
+elif [ -e pcf2127-rtc-overlay.dtb ]; then
+  echo >> /boot/config.txt
+  echo 'dtoverlay=pcf2127-rtc' >> /boot/config.txt
+fi
+
+cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
+sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
+sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
+
+# disable fake-hwclock
+# remove cronjob
+rm /etc/cron.hourly/fake-hwclock
+# disable and remove init script
+update-rc.d -f fake-hwclock remove
+rm /etc/init.d/fake-hwclock
+# remove package
+apt-get remove -y fake-hwclock
+apt-get autoremove -y
+
+# second autorunonce
+mv /boot/autoranonce* /boot/autoranonce.first
+sync
+cat <<EOF > /boot/autorunonce
+#!/bin/sh
+sleep 10
+while ! curl -X GET https://google.com ; do
+  sleep 1
+done
+sudo service ntp restart
+sudo date > /boot/time
+sudo hwclock -w
+sudo hwclock -r >> /boot/time
+sudo hwclock -s
+sudo date >> /boot/time
+echo "server 127.127.1.0" >> /etc/ntp.conf
+echo "fudge 127.127.1.0 stratum 10" >> /etc/ntp.conf
+echo "restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap" >> /etc/ntp.conf
+# write '/boot/autrun'
+echo '#!/bin/sh' > /boot/autorun
+echo '' >> /boot/autorun
+echo 'sleep 1' >> /boot/autorun
+echo 'docker start '$name >> /boot/autorun
+echo '' >> /boot/autorun
+echo 'node /root/ole/server.js' >> /boot/autorun
+sync;sync;sync;reboot
+EOF
+
+pirateship hotspot treehouse
+
+sync
+sync
+sync
+
+reboot
