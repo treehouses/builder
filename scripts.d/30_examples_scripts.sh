@@ -1,5 +1,5 @@
 #!/bin/sh
 
 ROOT=mnt/img_root
-mkdir -p $ROOT/examples
+mkdir -p $ROOT/boot/examples
 cp -r ../examples/* $ROOT/boot/examples
