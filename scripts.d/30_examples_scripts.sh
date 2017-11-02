@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ROOT=mnt/img_root
 mkdir -p $ROOT/boot/examples
