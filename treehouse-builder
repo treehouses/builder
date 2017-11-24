@@ -21,6 +21,8 @@
 RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2017-09-08/2017-09-07-raspbian-stretch.zip.torrent
 RASPBIAN_SHA1=c35688583510fc93c5deac637976b7a5c9c55689
 
+RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
+
 ############ End of User Cusomization
 
 source lib.sh
@@ -91,8 +93,8 @@ function _enable_ld_preload {
 }
 
 function _open_image {
-    echo "Loop-back mounting" images/*.img
-    kpartx="$(kpartx -sav images/*.img)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    echo "Loop-back mounting" images/$RASPBIAN_IMAGE_FILE
+    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
     read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
@@ -110,7 +112,7 @@ function _close_image {
         mnt/img_root/{proc,sys,run,dev/pts} \
         mnt/sd_root/bo?t mnt/img_root/boot \
         mnt/sd_ro?t mnt/img_root
-    kpartx -d images/*.img >/dev/null
+    kpartx -d images/$RASPBIAN_IMAGE_FILE >/dev/null
 }
 
 function _prepare_chroot {
