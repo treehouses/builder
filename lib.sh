@@ -16,6 +16,6 @@ function _chroot {
 }
 
 function _apt {
-    _op _chroot apt-get -qq "$@"
+    _op _chroot apt-get -o Acquire::ForceIPv4=true -qq "$@"
 }
 
