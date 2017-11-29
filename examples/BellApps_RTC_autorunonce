@@ -2,7 +2,7 @@
 
 name='ole-vi'
 port='5984'
-version='0.13.19'
+version='0.13.20'
 
 # rename hostname of image to name
 pirateship rename $name
@@ -77,6 +77,7 @@ echo 'var PortJack = express()' >> /root/ole/server.js
 echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
 echo 'var options = {' >> /root/ole/server.js
 echo '"'$name'.local": "http://'$name'.local:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.1": "http://192.168.2.1:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
 echo '"192.168.0.99": "http://192.168.0.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
 echo '"192.168.1.99": "http://192.168.1.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
 echo '"192.168.2.99": "http://192.168.2.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
