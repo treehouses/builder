@@ -7,6 +7,7 @@ hotspotname='treehouse'
 pirateship rename $hostname
 
 # download Planet
+cd /root
 git clone https://github.com/ole-vi/planet.git
 cd planet/docker
 docker-compose -f rpi-planet.yml -p rpi-planet up -d --build
@@ -15,6 +16,6 @@ docker-compose -f rpi-planet.yml -p rpi-planet up -d --build
 echo '#!/bin/sh' > /boot/autorun
 echo '' >> /boot/autorun
 echo 'sleep 1' >> /boot/autorun
-echo 'docker-compose -f rpi-planet.yml -p rpi-planet start' >> /boot/autorun
+echo 'docker-compose -f /root/planet/docker/rpi-planet.yml -p rpi-planet start' >> /boot/autorun
 
 pirateship hotspot $hotspotname
