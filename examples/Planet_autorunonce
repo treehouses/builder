@@ -1,0 +1,21 @@
+#!/bin/bash
+
+hostname='ole-vi'
+hotspotname='treehouse'
+
+# rename hostname of image to hostname
+pirateship rename $hostname
+
+# download Planet
+cd /root
+git clone https://github.com/ole-vi/planet.git
+cd planet/docker
+docker-compose -f rpi-planet.yml -p rpi-planet up -d --build
+
+# write '/boot/autorun.sh'
+echo '#!/bin/sh' > /boot/autorun
+echo '' >> /boot/autorun
+echo 'sleep 1' >> /boot/autorun
+echo 'docker-compose -f /root/planet/docker/rpi-planet.yml -p rpi-planet start' >> /boot/autorun
+
+pirateship hotspot $hotspotname
