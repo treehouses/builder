@@ -3,7 +3,7 @@
 hostname='ole-vi'
 hotspotname='treehouse'
 
-# rename hostname of image to name
+# rename hostname of image to hostname
 pirateship rename $hostname
 
 # download Planet
