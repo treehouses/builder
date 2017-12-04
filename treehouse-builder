@@ -97,6 +97,7 @@ function _resize_image {
     truncate -s +600M images/$RASPBIAN_IMAGE_FILE
     losetup /dev/loop0 images/$RASPBIAN_IMAGE_FILE
     fdisk /dev/loop0 <<EOF
+p
 d
 2
 n
@@ -104,11 +105,11 @@ p
 2
 $start_sector
 
+p
 w
 EOF
     losetup -d /dev/loop0
-    losetup -o $(($start_sector*512)) /dev/loop0 images/$RASPBIAN_IMAGE_FILE
-    e2fsck -f /dev/loop0
+    losetup -o $((start_sector*512)) /dev/loop0 images/$RASPBIAN_IMAGE_FILE
     resize2fs /dev/loop0
     losetup -d /dev/loop0
 }
