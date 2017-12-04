@@ -93,7 +93,7 @@ function _enable_ld_preload {
 }
 
 function _resize_image {
-    start_sector=$(fdisk -l images/$RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed -e '$!d')
+    start_sector=$(fdisk -l images/$RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +600M images/$RASPBIAN_IMAGE_FILE
     losetup /dev/loop0 images/$RASPBIAN_IMAGE_FILE
     fdisk /dev/loop0 <<EOF
