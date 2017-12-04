@@ -92,9 +92,30 @@ function _enable_ld_preload {
     fi
 }
 
+function _resize_image {
+    start_sector=$(fdisk -l images/$RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed -e '$!d')
+    truncate -s +600M images/$RASPBIAN_IMAGE_FILE
+    losetup /dev/loop0 images/$RASPBIAN_IMAGE_FILE
+    fdisk /dev/loop0 <<EOF
+d
+2
+n
+p
+2
+$start_sector
+
+w
+EOF
+    losetup -d /dev/loop0
+    losetup -o $(($start_sector*512)) /dev/loop0 images/$RASPBIAN_IMAGE_FILE
+    e2fsck -f /dev/loop0
+    resize2fs /dev/loop0
+    losetup -d /dev/loop0
+}
+
 function _open_image {
     echo "Loop-back mounting" images/$RASPBIAN_IMAGE_FILE
-    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
     read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
@@ -208,6 +229,7 @@ if [ ! -e "$IMAGE_ZIP" ]; then
 fi
 
 _decompress_image
+_resize_image
 _open_image
 
 if [[ "$1" == "--chroot" ]] ; then
