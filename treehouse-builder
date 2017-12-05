@@ -112,6 +112,7 @@ EOF
     losetup -o $((start_sector*512)) /dev/loop6 images/$RASPBIAN_IMAGE_FILE
     e2fsck -y -f /dev/loop6
     resize2fs /dev/loop6
+    e2fsck -y -f /dev/loop6
     losetup -d /dev/loop6
 }
 
