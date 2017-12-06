@@ -96,7 +96,7 @@ function _resize_image {
     RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
     if [[ -L "images" ]];
     then
-        mv images/$RASPBIAN_IMAGE_FILE .
+        rsync -Pav images/$RASPBIAN_IMAGE_FILE .
         RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
     fi
 
@@ -122,7 +122,7 @@ EOF
     losetup -d /dev/loop2
     if [[ -L "images" ]];
     then
-        mv $RASPBIAN_IMAGE_FILE images/
+        rsync -Pav $RASPBIAN_IMAGE_FILE images/
         rm $RASPBIAN_IMAGE_FILE
     fi
 }
