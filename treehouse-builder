@@ -93,10 +93,16 @@ function _enable_ld_preload {
 }
 
 function _resize_image {
-    rsync -Prav images/$RASPBIAN_IMAGE_FILE .
-    start_sector=$(fdisk -l $RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +600M $RASPBIAN_IMAGE_FILE
-    losetup /dev/loop1 $RASPBIAN_IMAGE_FILE
+    RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
+    if [[ -L "images/$RASPBIAN_IMAGE_FILE" ]];
+    then
+        rsync -Prav images/$RASPBIAN_IMAGE_FILE .
+        RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
+    fi
+
+    start_sector=$(fdisk -l $RESIZE_IMAGE_PATH | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
+    truncate -s +600M $RESIZE_IMAGE_PATH
+    losetup /dev/loop1 $RESIZE_IMAGE_PATH
     fdisk /dev/loop1 <<EOF
 p
 d
@@ -110,12 +116,15 @@ p
 w
 EOF
     losetup -d /dev/loop1
-    losetup -o $((start_sector*512)) /dev/loop2 $RASPBIAN_IMAGE_FILE
+    losetup -o $((start_sector*512)) /dev/loop2 $RESIZE_IMAGE_PATH
     e2fsck -f /dev/loop2
     resize2fs -f /dev/loop2
     losetup -d /dev/loop2
-    rsync -Pav $RASPBIAN_IMAGE_FILE images/.
-    rm $RASPBIAN_IMAGE_FILE
+    if [[ -L "images/$RASPBIAN_IMAGE_FILE" ]];
+    then
+        rsync -Pav $RASPBIAN_IMAGE_FILE images/.
+        rm $RASPBIAN_IMAGE_FILE
+    fi
 }
 
 function _open_image {
