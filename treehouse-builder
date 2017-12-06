@@ -94,9 +94,9 @@ function _enable_ld_preload {
 
 function _resize_image {
     RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
-    if [[ -L "images/$RASPBIAN_IMAGE_FILE" ]];
+    if [[ -L "images" ]];
     then
-        rsync -Prav images/$RASPBIAN_IMAGE_FILE .
+        mv images/$RASPBIAN_IMAGE_FILE .
         RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
     fi
 
@@ -120,9 +120,9 @@ EOF
     e2fsck -f /dev/loop2
     resize2fs -f /dev/loop2
     losetup -d /dev/loop2
-    if [[ -L "images/$RASPBIAN_IMAGE_FILE" ]];
+    if [[ -L "images" ]];
     then
-        rsync -Pav $RASPBIAN_IMAGE_FILE images/.
+        mv $RASPBIAN_IMAGE_FILE images/
         rm $RASPBIAN_IMAGE_FILE
     fi
 }
