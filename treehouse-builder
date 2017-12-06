@@ -93,10 +93,11 @@ function _enable_ld_preload {
 }
 
 function _resize_image {
-    start_sector=$(fdisk -l images/$RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +600M images/$RASPBIAN_IMAGE_FILE
-    losetup /dev/loop7 images/$RASPBIAN_IMAGE_FILE
-    fdisk /dev/loop7 <<EOF
+    rsync -Prav images/$RASPBIAN_IMAGE_FILE .
+    start_sector=$(fdisk -l $RASPBIAN_IMAGE_FILE | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
+    truncate -s +600M $RASPBIAN_IMAGE_FILE
+    losetup /dev/loop1 $RASPBIAN_IMAGE_FILE
+    fdisk /dev/loop1 <<EOF
 p
 d
 2
@@ -108,11 +109,13 @@ $start_sector
 p
 w
 EOF
-    losetup -d /dev/loop7
-    losetup -o $((start_sector*512)) /dev/loop6 images/$RASPBIAN_IMAGE_FILE
-    e2fsck -y -f /dev/loop6
-    resize2fs -f /dev/loop6
-    losetup -d /dev/loop6
+    losetup -d /dev/loop1
+    losetup -o $((start_sector*512)) /dev/loop2 $RASPBIAN_IMAGE_FILE
+    e2fsck -f /dev/loop2
+    resize2fs -f /dev/loop2
+    losetup -d /dev/loop2
+    rsync -Pav $RASPBIAN_IMAGE_FILE images/.
+    rm $RASPBIAN_IMAGE_FILE
 }
 
 function _open_image {
