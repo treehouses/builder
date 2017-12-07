@@ -12,7 +12,7 @@ before_install:
 
 install: true
 
-script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
+script: mkdir bell && mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
 deploy:
   provider: script
