@@ -14,4 +14,6 @@ function _docker {
 mkdir -p mnt/img_root/root/dockerimages/
 _docker dogi/rpi-couchdb
 _docker portainer/portainer
+_docker arm32v7/postgres
+_docker treehouses/moodle:rpi-latest
 _op _chroot adduser pi docker
