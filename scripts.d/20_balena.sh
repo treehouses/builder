@@ -25,3 +25,6 @@ _op _chroot ln -sr /usr/bin/balena /usr/bin/balena-containerd-shim
 _op _chroot ln -sr /usr/bin/balena /usr/bin/balenad
 _op _chroot ln -sr /usr/bin/balena /usr/bin/balena-proxy
 _op _chroot ln -sr /usr/bin/balena /usr/bin/balena-runc
+
+_op _chroot addgroup balena
+_op _chroot adduser pi balena
