@@ -1,0 +1,62 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+port='5984'
+
+# rename hostname of image to name
+pirateship rename $hostname
+pirateship docker dogi-rpi-couchdb
+
+# create couchdb docker container
+docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
+
+# write '/boot/autrun.sh'
+echo '#!/bin/sh' > /boot/autorun.sh
+echo '' >> /boot/autorun.sh
+echo 'sleep 1' >> /boot/autorun.sh
+echo 'docker start '$name >> /boot/autorun.sh
+
+# expand filesystem
+cd /usr/local/lib/
+npm update
+pirateship expandfs
+
+# redirect to bell
+mkdir -p /root/ole
+echo '#!/usr/bin/env node' > /root/ole/server.js
+echo '' >> /root/ole/server.js
+echo "var express = require('express')" >> /root/ole/server.js
+echo 'var PortJack = express()' >> /root/ole/server.js
+echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
+echo 'var options = {' >> /root/ole/server.js
+echo '"'$hostname'.local": "http://'$hostname'.local:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.1": "http://192.168.2.1:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.0.99": "http://192.168.0.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.1.99": "http://192.168.4.99:5984/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
+echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'else {' >> /root/ole/server.js
+echo "res.setHeader('Location', 'http://ole.org')" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'res.statusCode = 302' >> /root/ole/server.js
+echo 'res.end()' >> /root/ole/server.js
+echo '})' >> /root/ole/server.js
+echo 'PortJack.listen(80)' >> /root/ole/server.js
+chmod +x /root/ole/server.js
+cd /root/ole
+npm install express
+
+# add to '/boot/autorun.sh'
+echo '' >> /boot/autorun.sh
+echo 'node /root/ole/server.js' >> /boot/autorun.sh
+
+pirateship hotspot $hotspotname
+
+sync
+sync
+sync
+
+reboot
