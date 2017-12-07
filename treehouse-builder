@@ -143,7 +143,6 @@ function _modify_image {
     _disable_daemons
 
     #run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
-        die "Image modification scripts failed"
     run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d/40_bellapps.sh ||\
         die "Image modification scripts failed"
 
