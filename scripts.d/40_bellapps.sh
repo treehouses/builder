@@ -47,7 +47,7 @@ done
 curl -d @init_docs/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
 #curl -d @init_docs/admin.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/members
 
-cd ..
+#cd ..
 
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico
