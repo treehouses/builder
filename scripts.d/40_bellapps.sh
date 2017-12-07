@@ -4,6 +4,7 @@ port='5984'
 version='0.13.20'
 
 docker pull klaemo/couchdb:1.6.1
+mkdir -p `pwd -P`/bell
 docker run -d -p $port:5984 --name bell -v `pwd -P`/bell:/usr/local/var/lib/couchdb klaemo/couchdb:1.6.1
 
 # download BeLL-Apps
