@@ -55,4 +55,4 @@ curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico'
 # copy *.couch from bell to /srv/data/bell
 ROOT=mnt/img_root
 mkdir -p $ROOT/srv/data
-cp -r bell $ROOT/srv/data/.
+cp -r `pwd -P`/bell $ROOT/srv/data/.
