@@ -4,6 +4,10 @@ name='ole-vi'
 port='5984'
 version='0.13.20'
 
+# real time clock: rasclock or ds3231
+rtc='rasclock'
+# rtc='ds3231'
+
 # rename hostname of image to name
 pirateship rename $name
 pirateship docker
@@ -99,15 +103,13 @@ cd /root/ole
 npm install express
 
 # real time clock
-# Setting up RasClock https://afterthoughtsoftware.com/products/rasclock
 cd /boot/overlays
+echo >> /boot/config.txt
 
-if [ -e i2c-rtc-overlay.dtb ] || [ -e i2c-rtc.dtbo ]; then
-  echo >> /boot/config.txt
+if [ "$rtc" = "rasclock" ]; then
   echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
-elif [ -e pcf2127-rtc-overlay.dtb ]; then
-  echo >> /boot/config.txt
-  echo 'dtoverlay=pcf2127-rtc' >> /boot/config.txt
+elif [ "$rtc" = "ds3231" ]; then
+  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
 fi
 
 cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old

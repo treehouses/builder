@@ -15,11 +15,11 @@
 
 # Raspbian
 # Jessie
-#RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/2017-07-05-raspbian-jessie.zip.torrent		￼ +RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2017-09-08/2017-09-07-raspbian-stretch.zip.torrent
-￼#RASPBIAN_SHA1=e1edd4d26090b3e67a66939fa77eeb656de8a2c5
+#RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/2017-07-05-raspbian-jessie.zip.torrent
+#RASPBIAN_SHA1=e1edd4d26090b3e67a66939fa77eeb656de8a2c5
 # Stretch
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2017-09-08/2017-09-07-raspbian-stretch.zip.torrent
-RASPBIAN_SHA1=c35688583510fc93c5deac637976b7a5c9c55689
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2017-12-01/2017-11-29-raspbian-stretch.zip.torrent
+RASPBIAN_SHA1=963dc69346fe20e8f849c694878b5fe1a63e6050
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
@@ -92,9 +92,44 @@ function _enable_ld_preload {
     fi
 }
 
+function _resize_image {
+    RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
+    if [[ -L "images" ]];
+    then
+        rsync -Pav images/$RASPBIAN_IMAGE_FILE .
+        RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
+    fi
+
+    start_sector=$(fdisk -l $RESIZE_IMAGE_PATH | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
+    truncate -s +600M $RESIZE_IMAGE_PATH
+    losetup /dev/loop1 $RESIZE_IMAGE_PATH
+    fdisk /dev/loop1 <<EOF
+p
+d
+2
+n
+p
+2
+$start_sector
+
+p
+w
+EOF
+    losetup -d /dev/loop1
+    losetup -o $((start_sector*512)) /dev/loop2 $RESIZE_IMAGE_PATH
+    e2fsck -f /dev/loop2
+    resize2fs -f /dev/loop2
+    losetup -d /dev/loop2
+    if [[ -L "images" ]];
+    then
+        rsync -Pav $RASPBIAN_IMAGE_FILE images/
+        rm $RASPBIAN_IMAGE_FILE
+    fi
+}
+
 function _open_image {
     echo "Loop-back mounting" images/$RASPBIAN_IMAGE_FILE
-    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_ARCHIVE_FILE:$NL$kpartx"
+    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
     read -d '' img_boot_dev img_root_dev <<<$(grep -o 'loop.p.' <<<"$kpartx")
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
@@ -208,6 +243,7 @@ if [ ! -e "$IMAGE_ZIP" ]; then
 fi
 
 _decompress_image
+_resize_image
 _open_image
 
 if [[ "$1" == "--chroot" ]] ; then
