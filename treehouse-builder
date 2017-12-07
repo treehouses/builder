@@ -142,8 +142,7 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    #run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
-    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d/40_bellapps.sh ||\
+    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
 
     _enable_daemons
