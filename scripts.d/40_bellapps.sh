@@ -50,8 +50,7 @@ curl -d @init_docs/ConfigurationsDoc-Community.txt -H "Content-Type: application
 cd ..
 
 # favicon.ico
-wget https://open-learning-exchange.github.io/favicon.ico
-mv favicon.ico bell/.
+wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
 curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
 
 # copy *.couch from bell to /srv/data/bell
