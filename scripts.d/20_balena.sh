@@ -11,14 +11,14 @@ armv7link=$(echo $releases | tr " " "\n" | grep armv7)
 
 # armv7
 wget -c $armv7link
-tar xvzf $(basename $arm7link) balena/balena
+tar xvzf $(basename $armv7link) balena/balena
 mv balena/balena mnt/img_root/usr/bin/balena-armv7l
 _op _chroot chown root:root /usr/bin/balena-armv7l
 rm -rf balena/
 
 # armv6
 wget -c $armv6link
-tar xvzf $(basename $arm6link) balena/balena0
+tar xvzf $(basename $armv6link) balena/balena
 mv balena/balena mnt/img_root/usr/bin/balena-armv6l
 _op _chroot chown root:root /usr/bin/balena-armv6l
 rm -rf balena/
