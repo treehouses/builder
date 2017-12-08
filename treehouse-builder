@@ -28,14 +28,14 @@ RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.i
 source lib.sh
 
 missing_deps=()
-for prog in kpartx wget gpg parted qemu-arm-static ; do
+for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( $prog )
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted'"
+    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted aria2 jq wget curl'"
 fi
 
 function _umount {

@@ -3,16 +3,22 @@
 source lib.sh
 
 echo "Balena installation"
+
+# get the latest version
+releases=$(curl -s https://api.github.com/repos/resin-os/balena/releases/latest | jq -r ".assets[].browser_download_url")
+armv6link=$(echo $releases | tr " " "\n" | grep armv6)
+armv7link=$(echo $releases | tr " " "\n" | grep armv7)
+
 # armv7
-wget -c https://github.com/resin-os/balena/releases/download/17.06-rc5/balena-17.06-rc5-armv7.tar.gz
-tar xvzf balena-17.06-rc5-armv7.tar.gz balena/balena
+wget -c $armv7link
+tar xvzf $(basename $arm7link) balena/balena
 mv balena/balena mnt/img_root/usr/bin/balena-armv7l
 _op _chroot chown root:root /usr/bin/balena-armv7l
 rm -rf balena/
 
 # armv6
-wget -c https://github.com/resin-os/balena/releases/download/17.06-rc5/balena-17.06-rc5-armv6.tar.gz
-tar xvzf balena-17.06-rc5-armv6.tar.gz balena/balena
+wget -c $armv6link
+tar xvzf $(basename $arm6link) balena/balena0
 mv balena/balena mnt/img_root/usr/bin/balena-armv6l
 _op _chroot chown root:root /usr/bin/balena-armv6l
 rm -rf balena/
