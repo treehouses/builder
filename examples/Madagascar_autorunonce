@@ -6,7 +6,6 @@ port='5984'
 
 # rename hostname of image to name
 pirateship rename $hostname
-pirateship docker dogi-rpi-couchdb
 
 # create couchdb docker container
 docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
