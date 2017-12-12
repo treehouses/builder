@@ -52,7 +52,8 @@ cd ..
 wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
 curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
 
-curl -X GET http://127.0.0.1:$port/configurations
+curl -X GET http://127.0.0.1:$port/configurations/_all_docs
+curl -X GET http://127.0.0.1:$port/languages/_all_docs
 
 # sync and stop docker
 sync; sync; sync
