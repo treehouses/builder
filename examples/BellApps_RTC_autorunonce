@@ -2,7 +2,7 @@
 
 name='ole-vi'
 port='5984'
-version='0.13.20'
+version='0.13.19'
 
 # real time clock: rasclock or ds3231
 rtc='rasclock'
