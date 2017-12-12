@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hostname='ole-vi'
+hostname='ole'
 hotspotname='treehouse'
 
 # rename hostname of image to hostname
