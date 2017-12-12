@@ -15,7 +15,7 @@ docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/cou
 echo '#!/bin/sh' > /boot/autorun.sh
 echo '' >> /boot/autorun.sh
 echo 'sleep 1' >> /boot/autorun.sh
-echo 'docker start '$name >> /boot/autorun.sh
+echo 'docker start bell' >> /boot/autorun.sh
 
 # expand filesystem
 cd /usr/local/lib/
