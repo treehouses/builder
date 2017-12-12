@@ -10,7 +10,6 @@ rtc='rasclock'
 
 # rename hostname of image to name
 pirateship rename $name
-pirateship docker
 
 # create couchdb docker container
 docker run -d -p $port:5984 --name $name -v /srv/data/$name:/usr/local/var/lib/couchdb -v /srv/log/$name:/usr/local/var/log/couchdb dogi/rpi-couchdb
