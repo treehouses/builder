@@ -55,7 +55,7 @@ curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico'
 
 # sync and stop docker
 sync; sync; sync
-docker bell stop
+docker stop bell
 
 # copy *.couch from bell to /srv/data/bell
 ROOT=mnt/img_root
