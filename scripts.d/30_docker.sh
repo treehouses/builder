@@ -2,18 +2,17 @@
 
 source lib.sh
 
-function _getfilename {
-  echo $@ | tr '/' '-'
-}
+IMAGES=(
+    dogi/rpi-couchdb
+    portainer/portainer
+    arm32v7/postgres
+    treehouses/moodle:rpi-latest
+)
 
-function _docker {
-  sudo docker pull $@
-}
+for image in "${IMAGES[@]}" ; do
+    sudo docker pull $image
+done
 
-_docker dogi/rpi-couchdb
-_docker portainer/portainer
-_docker arm32v7/postgres
-_docker treehouses/moodle:rpi-latest
 _op _chroot adduser pi docker
 
 sudo rm -rf mnt/var/lib/docker
