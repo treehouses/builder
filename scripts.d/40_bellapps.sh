@@ -1,7 +1,7 @@
 #!/bin/bash
 
 port='5984'
-version='0.13.20'
+version='0.13.19'
 
 docker pull klaemo/couchdb:1.6.1
 docker run -d -p $port:5984 --name bell -v `pwd -P`/bell:/usr/local/var/lib/couchdb klaemo/couchdb:1.6.1
@@ -52,6 +52,10 @@ cd ..
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
 curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
+
+# sync and stop docker
+sync; sync; sync
+docker bell stop
 
 # copy *.couch from bell to /srv/data/bell
 ROOT=mnt/img_root
