@@ -15,18 +15,7 @@ done
 
 _op _chroot adduser pi docker
 
-sudo rm -rf mnt/var/lib/docker
-
-was_docker_started=0
-if [ "`systemctl is-active docker`" == "active" ]
-then
-  was_docker_started=1
-  sudo systemctl stop docker
-fi
-
-sudo rsync -Pax /var/lib/docker mnt/var/lib/
-
-if [ "$was_docker_started" == 1 ]
-then
-  sudo systemctl start docker
-fi
+sudo rm -rf mnt/img_root/var/lib/docker
+sudo service docker stop
+sudo rsync -axP /var/lib/docker mnt/img_root/var/lib/
+sudo service docker start
