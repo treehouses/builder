@@ -28,7 +28,7 @@ make_name() {
 compress() {
     if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
         echo "Compressing image"
-        gzip -c -9 < $image > $image_gz
+        travis_wait 30 gzip -c -9 < $image > $image_gz
     fi
 }
 
