@@ -17,7 +17,7 @@ script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninter
 deploy:
   provider: script
   skip_cleanup: true
-  script: travis_wait 30 ./deploy/deploy.sh
+  script: travis_wait ./deploy/deploy.sh
   on:
     all_branches: true
     tags: true
