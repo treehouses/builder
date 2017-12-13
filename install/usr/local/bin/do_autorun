@@ -87,10 +87,35 @@ onenodeforall() {
   fi  
 }
 
+onebalenaforall() {
+  arch=`uname -m`
+  log "onebalenaforall"
+  if [ "$arch" == "armv6l" ]
+  then
+    log "$arch - rpi0/1"
+    if [ "$(readlink -- /usr/bin/balena)" != "balena-armv6l" ]
+    then
+      unlink /usr/bin/balena
+      ln -sr /usr/bin/balena-armv6l /usr/bin/balena
+    fi
+  elif [ "$arch" == "armv7l" ]
+  then
+    log "$arch - rpi2/3"
+    if [ "$(readlink -- /usr/bin/balena)" != "balena-armv7l" ]
+    then
+      unlink /usr/bin/balena
+      ln -sr /usr/bin/balena-armv7l /usr/bin/balena
+    fi
+  else
+    log "$arch - something went wrong"
+  fi
+}
+
 start() {
   led_mode default-on
   log "starting"
   onenodeforall
+  onebalenaforall
   mkdir -p /data
   if [ -b /dev/sda1 ]
   then
