@@ -35,7 +35,8 @@ for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt-get install kpartx qemu-user-static parted aria2 jq wget curl'"
+    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
+
 fi
 
 function _umount {
