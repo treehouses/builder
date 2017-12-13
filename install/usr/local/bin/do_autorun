@@ -109,12 +109,6 @@ onebalenaforall() {
   else
     log "$arch - something went wrong"
   fi
-
-  if  [[ ! -L "/var/lib/balena" ]];
-  then
-    sudo rm -rf /var/lib/balena
-    ln -sr /var/lib/docker /var/lib/balena
-  fi
 }
 
 start() {
