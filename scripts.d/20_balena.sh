@@ -35,3 +35,6 @@ _op _chroot ln -sr /usr/bin/balena /usr/bin/balena-runc
 _op _chroot groupadd balena
 _op _chroot usermod -aG balena pi
 _op _chroot usermod -aG balena root
+
+_op _chroot rm -rf /var/lib/balena
+_op _chroot ln -sr /var/lib/docker /var/lib/balena
