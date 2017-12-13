@@ -6,7 +6,6 @@ port='5984'
 
 # rename hostname of image to name
 pirateship rename $hostname
-pirateship docker dogi-rpi-couchdb
 
 # create couchdb docker container
 docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
@@ -15,7 +14,7 @@ docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/cou
 echo '#!/bin/sh' > /boot/autorun.sh
 echo '' >> /boot/autorun.sh
 echo 'sleep 1' >> /boot/autorun.sh
-echo 'docker start '$name >> /boot/autorun.sh
+echo 'docker start bell' >> /boot/autorun.sh
 
 # expand filesystem
 cd /usr/local/lib/
