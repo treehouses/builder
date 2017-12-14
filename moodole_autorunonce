@@ -1,0 +1,28 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+moodleversion='3.4'
+
+# rename hostname 
+pirateship rename $hostname
+pirateship expandfs
+
+wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/ole-vi/moodole/master/$moodleversion/arm/docker-compose-ready.yml
+docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
+
+# write '/boot/autorun.sh'
+echo '#!/bin/sh' > /boot/autorun
+echo '' >> /boot/autorun
+echo 'sleep 1' >> /boot/autorun
+echo 'rm -rf /home/pi/apache2' >> /boot/autorun
+echo 'mkdir -p /home/pi/apache2' >> /boot/autorun
+echo 'docker-compose -f /home/pi/moodole.yml -p moodole start' >> /boot/autorun
+
+pirateship hotspot $hotspotname
+
+sync
+sync
+sync
+
+reboot
