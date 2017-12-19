@@ -22,11 +22,11 @@ for image in "${IMAGES[@]}" ; do
     docker pull $image
 done
 
-_op _chroot adduser pi docker
-
 service docker stop
 unlink docker
 mv docker.temp docker
 service docker start
 
 cd $OLD
+
+_op _chroot adduser pi docker
