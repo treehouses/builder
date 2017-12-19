@@ -7,14 +7,11 @@ IMAGES=(
     portainer/portainer
     arm32v7/postgres
     treehouses/moodle:rpi-latest
-    treehouses/rpi-couchdb:2.0.0
 )
 
 for image in "${IMAGES[@]}" ; do
     sudo docker pull $image
 done
-
-sudo docker rmi treehouses/rpi-couchdb:2.0.0
 
 _op _chroot adduser pi docker
 
