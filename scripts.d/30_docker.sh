@@ -2,9 +2,6 @@
 
 source lib.sh
 
-OLD=`pwd -P`
-cd /var/lib
-
 IMAGES=(
     dogi/rpi-couchdb
     portainer/portainer
@@ -12,22 +9,24 @@ IMAGES=(
     treehouses/moodle:rpi-latest
 )
 
-sudo service docker stop
-sudo mv docker docker.temp
-sudo rm -rf $OLD/mnt/img_root/var/lib/docker
-sudo mkdir -p $OLD/mnt/img_root/var/lib/docker
-sudo ln -s $OLD/mnt/img_root/var/lib/docker docker
-sudo service docker start
+OLD=`pwd -P`
+cd /var/lib
+
+service docker stop
+mv docker docker.temp
+mkdir -p $OLD/mnt/img_root/var/lib/docker
+ln -s $OLD/mnt/img_root/var/lib/docker docker
+service docker start
 
 for image in "${IMAGES[@]}" ; do
-    sudo docker pull $image
+    docker pull $image
 done
 
 _op _chroot adduser pi docker
 
-sudo service docker stop
-sudo unlink docker
-sudo mv docker.temp docker
-sudo service docker start
+service docker stop
+unlink docker
+mv docker.temp docker
+service docker start
 
 cd $OLD
