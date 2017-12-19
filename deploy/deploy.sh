@@ -55,7 +55,6 @@ bell() {
     done
 }
 
-bell &
 prefix=treehouse
 image=$(ls images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
@@ -65,7 +64,9 @@ image_gz=$name.img.gz
 image_sha1=$image_gz.sha1
 set -e
 chmod 600 deploy/id_deploy
+bell &
 compress
+kill %1
 checksum
 upload
-kill %1
+
