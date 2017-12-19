@@ -8,7 +8,7 @@ docker run -d -p $port:5984 --name bell -v `pwd -P`/bell:/usr/local/var/lib/couc
 
 # download BeLL-Apps
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
-unzip *.zip
+unzip -qq *.zip
 sync
 ln -s BeLL-Apps-* BeLL-Apps
 cd BeLL-Apps
