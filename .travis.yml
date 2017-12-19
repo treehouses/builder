@@ -17,7 +17,7 @@ script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninter
 deploy:
   provider: script
   skip_cleanup: true
-  script: function bell() { while true; do echo -e "\a"; sleep 60; done; }; bell & ./deploy/deploy.sh; kill %1
+  script: ./deploy/deploy.sh
   on:
     all_branches: true
     tags: true
