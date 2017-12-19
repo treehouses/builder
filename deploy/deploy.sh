@@ -48,6 +48,14 @@ upload() {
     fi
 }
 
+bell() {
+    while true; do
+        echo -e "\a"
+        sleep 60
+    done
+}
+
+bell &
 prefix=treehouse
 image=$(ls images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
@@ -60,3 +68,4 @@ chmod 600 deploy/id_deploy
 compress
 checksum
 upload
+kill %1
