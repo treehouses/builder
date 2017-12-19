@@ -11,7 +11,7 @@ IMAGES=(
 
 sudo service docker stop
 mv /var/lib/docker /var/lib/docker.temp
-ln -sr mnt/img_root/var/lib/docker /var/lib/docker
+ln -sr `pwd -P`/mnt/img_root/var/lib/docker /var/lib/docker
 sudo service docker start
 
 for image in "${IMAGES[@]}" ; do
