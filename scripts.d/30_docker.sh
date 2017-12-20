@@ -9,13 +9,24 @@ IMAGES=(
     treehouses/moodle:rpi-latest
 )
 
+OLD=`pwd -P`
+cd /var/lib
+
+service docker stop
+mv docker docker.temp
+mkdir -p $OLD/mnt/img_root/var/lib/docker
+ln -s $OLD/mnt/img_root/var/lib/docker docker
+service docker start
+
 for image in "${IMAGES[@]}" ; do
-    sudo docker pull $image
+    docker pull $image
 done
 
-_op _chroot adduser pi docker
+service docker stop
+unlink docker
+mv docker.temp docker
+service docker start
 
-sudo rm -rf mnt/img_root/var/lib/docker
-sudo service docker stop
-sudo rsync -aqxP /var/lib/docker mnt/img_root/var/lib/
-sudo service docker start
+cd $OLD
+
+_op _chroot adduser pi docker
