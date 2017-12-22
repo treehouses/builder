@@ -29,10 +29,10 @@ echo "var express = require('express')" >> /root/ole/server.js
 echo 'var PortJack = express()' >> /root/ole/server.js
 echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
 echo 'var options = {' >> /root/ole/server.js
-echo '"'$hostname'.local": "http://'$hostname'.local:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.2.1": "http://192.168.2.1:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.0.99": "http://192.168.0.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.1.99": "http://192.168.4.99:5984/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
+echo '"'$hostname'.local": "http://'$hostname'.local:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.1": "http://192.168.2.1:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.0.99": "http://192.168.0.99:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.1.99": "http://192.168.4.99:'$bellport'/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
 echo '}' >> /root/ole/server.js
 echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
 echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js
