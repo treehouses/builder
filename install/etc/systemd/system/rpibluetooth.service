@@ -4,7 +4,7 @@ After=rpibluetooth.service
 Requires=rpibluetooth.service
 
 [Service]
-ExecStart=systemctl stop dbus-org.bluez && /usr/lib/bluetooth/bluetoothd -C & sleep 1 && /usr/bin/sdptool add SP && /usr/bin/rfcomm watch hci0 &; /usr/bin/python2 /usr/local/blueetothrpi/bluetooth-RPi-wifi.py
+ExecStart=/usr/bin/rfcomm watch hci0 &; /usr/bin/python2 /usr/local/blueetothrpi/bluetooth-RPi-wifi.py
 
 [Install]
 WantedBy=multi-user.target
