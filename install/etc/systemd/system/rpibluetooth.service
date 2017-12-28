@@ -1,0 +1,10 @@
+[Unit]
+Description=Bluetooth server
+After=rpibluetooth.service
+Requires=rpibluetooth.service
+
+[Service]
+ExecStart=/usr/bin/rfcomm watch hci0 &; /usr/bin/python2 /usr/local/bin/bluetooth-server.py
+
+[Install]
+WantedBy=multi-user.target

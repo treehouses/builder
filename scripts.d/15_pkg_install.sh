@@ -14,6 +14,7 @@ INSTALL_PACKAGES=(
     dos2unix # for converting dos characters to unix in autorunonce
     nodejs # version 8.5.0-1nodesource1
     autossh
+    bluez minicom bluez-tools # bluetooth hotspot
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
