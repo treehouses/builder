@@ -67,9 +67,6 @@ wget https://open-learning-exchange.github.io/favicon.ico
 mv favicon.ico /srv/data/$name/.
 curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
 
-cd /usr/local/lib/
-npm update
-
 # redirect to bell
 mkdir -p /root/ole
 echo '#!/usr/bin/env node' > /root/ole/server.js

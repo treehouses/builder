@@ -69,9 +69,6 @@ echo '' >> /boot/autorun.sh
 echo 'sleep 1' >> /boot/autorun.sh
 echo 'docker start '$name >> /boot/autorun.sh
 
-cd /usr/local/lib/
-npm update
-
 # redirect to bell
 mkdir -p /root/ole
 echo '#!/usr/bin/env node' > /root/ole/server.js

@@ -14,9 +14,6 @@ pirateship expandfs
 # create couchdb docker container
 docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
 
-cd /usr/local/lib/
-npm update
-
 # redirect to bell
 mkdir -p /root/ole
 echo '#!/usr/bin/env node' > /root/ole/server.js
