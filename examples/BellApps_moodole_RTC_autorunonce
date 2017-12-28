@@ -89,8 +89,6 @@ echo "restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap" >> /etc/ntp.conf
 echo '#!/bin/sh' > /boot/autorun
 echo '' >> /boot/autorun
 echo 'sleep 2' >> /boot/autorun
-echo 'rm -rf /home/pi/apache2' >> /boot/autorun
-echo 'mkdir -p /home/pi/apache2' >> /boot/autorun
 echo 'docker-compose -f /home/pi/moodole.yml -p moodole start' >> /boot/autorun
 echo '' >> /boot/autorun
 echo 'sleep 10' >> /boot/autorun
