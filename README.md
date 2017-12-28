@@ -77,7 +77,7 @@ This project use Travis CI to automatically build and upload new treehouse image
 
 ## Relevant Links
 
-[Raspberry Pi project page on github.io](http://open-learning-exchange.github.io/#!pages/raspberrypi.md)
+[Raspberry Pi project page on github.io](https://open-learning-exchange.github.io/#!pages/robots/rbts-raspberry-pi.md)
 
 ## Built with
 
