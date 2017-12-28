@@ -14,8 +14,6 @@ docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
 echo '#!/bin/sh' > /boot/autorun
 echo '' >> /boot/autorun
 echo 'sleep 1' >> /boot/autorun
-echo 'rm -rf /home/pi/apache2' >> /boot/autorun
-echo 'mkdir -p /home/pi/apache2' >> /boot/autorun
 echo 'docker-compose -f /home/pi/moodole.yml -p moodole start' >> /boot/autorun
 
 pirateship hotspot $hotspotname
