@@ -7,12 +7,14 @@ before_install:
   - sudo curl -k -O -sL https://deb.nodesource.com/setup_8.x
   - sudo bash setup_8.x
   - sudo apt install qemu-user-static kpartx aria2 nodejs docker-ce
-  - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv -in deploy/id_deploy.enc -out deploy/id_deploy -d
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 install: true
 
 script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv -in deploy/id_deploy.enc -out deploy/id_deploy -d
 
 deploy:
   provider: script
