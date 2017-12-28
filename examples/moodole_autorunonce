@@ -4,7 +4,6 @@ hostname='ole'
 hotspotname='treehouse'
 moodleversion='3.4'
 
-# rename hostname 
 pirateship rename $hostname
 pirateship expandfs
 

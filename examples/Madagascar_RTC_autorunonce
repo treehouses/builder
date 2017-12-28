@@ -8,16 +8,11 @@ port='5984'
 rtc='rasclock'
 # rtc='ds3231'
 
-# rename hostname
 pirateship rename $hostname
+pirateship expandfs
 
 # create couchdb docker container
 docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
-
-# expand filesystem
-cd /usr/local/lib/
-npm update
-pirateship expandfs
 
 # redirect to bell
 mkdir -p /root/ole
@@ -27,10 +22,10 @@ echo "var express = require('express')" >> /root/ole/server.js
 echo 'var PortJack = express()' >> /root/ole/server.js
 echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
 echo 'var options = {' >> /root/ole/server.js
-echo '"'$hostname'.local": "http://'$hostname'.local:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.2.1": "http://192.168.2.1:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.0.99": "http://192.168.0.99:5984/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.1.99": "http://192.168.4.99:5984/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
+echo '"'$hostname'.local": "http://'$hostname'.local:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.1": "http://192.168.2.1:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.0.99": "http://192.168.0.99:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.1.99": "http://192.168.4.99:'$port'/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
 echo '}' >> /root/ole/server.js
 echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
 echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js

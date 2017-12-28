@@ -3,8 +3,8 @@
 hostname='ole'
 hotspotname='treehouse'
 
-# rename hostname of image to hostname
 pirateship rename $hostname
+pirateship expandfs
 
 # download Planet
 cd /root
