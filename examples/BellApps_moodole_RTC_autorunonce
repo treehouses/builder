@@ -1,0 +1,106 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+moodleversion='3.4'
+moodoleport='8080'
+bellport='5984'
+
+# real time clock: rasclock or ds3231
+rtc='rasclock'
+# rtc='ds3231'
+
+pirateship rename $hostname
+pirateship expandfs
+
+# moodole
+wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/ole-vi/moodole/master/$moodleversion/arm/docker-compose-ready.yml
+sed -i "/ports:/ { n; s/80:80/$moodoleport:80/; }" /home/pi/moodole.yml
+docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
+
+# BellApps
+# create couchdb docker container
+docker run -d -p $bellport:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
+
+# redirect to bell
+mkdir -p /root/ole
+echo '#!/usr/bin/env node' > /root/ole/server.js
+echo '' >> /root/ole/server.js
+echo "var express = require('express')" >> /root/ole/server.js
+echo 'var PortJack = express()' >> /root/ole/server.js
+echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
+echo 'var options = {' >> /root/ole/server.js
+echo '"'$hostname'.local": "http://'$hostname'.local:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.2.1": "http://192.168.2.1:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.0.99": "http://192.168.0.99:'$bellport'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
+echo '"192.168.1.99": "http://192.168.4.99:'$bellport'/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
+echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'else {' >> /root/ole/server.js
+echo "res.setHeader('Location', 'http://ole.org')" >> /root/ole/server.js
+echo '}' >> /root/ole/server.js
+echo 'res.statusCode = 302' >> /root/ole/server.js
+echo 'res.end()' >> /root/ole/server.js
+echo '})' >> /root/ole/server.js
+echo 'PortJack.listen(80)' >> /root/ole/server.js
+chmod +x /root/ole/server.js
+cd /root/ole
+npm install express
+
+# real time clock
+cd /boot/overlays
+echo >> /boot/config.txt
+
+if [ "$rtc" = "rasclock" ]; then
+  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
+elif [ "$rtc" = "ds3231" ]; then
+  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
+fi
+
+cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
+sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
+sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
+
+# disable fake-hwclock
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+
+# second autorunonce
+mv /boot/autoranonce* /boot/autoranonce.first
+sync
+cat <<EOF > /boot/autorunonce
+#!/bin/sh
+sleep 10
+while ! curl -X GET https://google.com ; do
+  sleep 1
+done
+sudo service ntp restart
+sudo date > /boot/time
+sudo hwclock -w
+sudo hwclock -r >> /boot/time
+sudo hwclock -s
+sudo date >> /boot/time
+echo "server 127.127.1.0" >> /etc/ntp.conf
+echo "fudge 127.127.1.0 stratum 10" >> /etc/ntp.conf
+echo "restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap" >> /etc/ntp.conf
+# write '/boot/autorun', start moodole and BellApps on boot
+echo '#!/bin/sh' > /boot/autorun
+echo '' >> /boot/autorun
+echo 'sleep 2' >> /boot/autorun
+echo 'docker-compose -f /home/pi/moodole.yml -p moodole start' >> /boot/autorun
+echo '' >> /boot/autorun
+echo 'sleep 10' >> /boot/autorun
+echo 'docker start bell' >> /boot/autorun
+echo 'node /root/ole/server.js' >> /boot/autorun
+sync;sync;sync;reboot
+EOF
+
+pirateship hotspot $hotspotname
+
+sync
+sync
+sync
+
+reboot
