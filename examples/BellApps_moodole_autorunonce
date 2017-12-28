@@ -50,8 +50,6 @@ cat <<EOF > /boot/autorun
 #!/bin/sh
 
 sleep 2
-rm -rf /home/pi/apache2
-mkdir -p /home/pi/apache2
 docker-compose -f /home/pi/moodole.yml -p moodole start
 
 sleep 10
