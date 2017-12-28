@@ -50,8 +50,8 @@ upload() {
 
 bell() {
     while true; do
-        echo -e "\a"
         sleep 60
+        echo -e "\a"
     done
 }
 
