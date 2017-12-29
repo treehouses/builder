@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Disabled until we can make this conditional somehow
-exit 0
+#exit 0
 
 set -e
 
