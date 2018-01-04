@@ -12,7 +12,7 @@ get_release() {
 }
 
 release_is_number() {
-    echo "$(get_release)" | grep -Eqx "[0-9]+"
+    get_release | grep -Eqx "[0-9]+"
 }
 
 make_name() {
@@ -26,20 +26,20 @@ make_name() {
 } 
 
 compress() {
-    if [ \( ! -e $image_gz \) -o \( $image_gz -ot $image \) ]; then
+    if [[ ! -e "$image_gz" ]] || [[ "$image_gz" -ot "$image" ]]; then
         echo "Compressing image"
-        gzip -c -9 < $image > $image_gz
+        gzip -c -9 < "$image" > "$image_gz"
     fi
 }
 
 checksum() {
     echo "computing SHA1"
-    sha1sum $image_gz > $image_sha1
+    sha1sum "$image_gz" > "$image_sha1"
 }
 
 upload() {
     echo "Uploading image"
-    rsync -P -e deploy/ssh.sh $image_gz $image_sha1 deploy@dev.ole.org:/data/images
+    rsync -P -e deploy/ssh.sh "$image_gz" "$image_sha1" deploy@dev.ole.org:/data/images
 
     if release_is_number; then
         echo "Marking release as latest image"
@@ -51,12 +51,12 @@ upload() {
 bell() {
     while true; do
         sleep 60
-        echo -e "\a"
+        echo -e "\\a"
     done
 }
 
 prefix=treehouse
-image=$(ls images/*.img | head -1) # XXX
+image=$(find images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
 make_name
 echo "Deploying as $name"
