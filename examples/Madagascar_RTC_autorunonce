@@ -44,7 +44,7 @@ cd /root/ole || exit 1
 npm install express
 
 # real time clock
-cd /boot/overlays
+cd /boot/overlays || exit 1
 echo >> /boot/config.txt
 
 if [ "$rtc" = "rasclock" ]; then
