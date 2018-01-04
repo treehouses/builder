@@ -1,5 +1,6 @@
-
+#!/bin/bash
 # Constants
+# shellcheck disable=SC2034
 NL="$(echo)"
 
 function die {
