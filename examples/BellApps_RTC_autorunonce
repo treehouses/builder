@@ -17,23 +17,23 @@ docker run -d -p $port:5984 --name "$hostname" -v "/srv/data/$hostname:/usr/loca
 
 # download BeLL-Apps
 mkdir -p /root/ole/$version
-cd /root/ole/$version || echo 1>&2 "ERROR: /root/ole/$version folder doesn't exist, exiting" && exit 1
+cd /root/ole/$version || exit 1
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
 unzip ./*.zip
 sync
 sync
 sync
 ln -s BeLL-Apps-* BeLL-Apps
-cd BeLL-Apps || echo 1>&2 "ERROR: Bell-Apps folder doesn't exist, exiting" && exit 1
+cd BeLL-Apps || exit 1
 chmod +x node_modules/.bin/couchapp
 
-cd app || echo 1>&2 "ERROR: app folder doesn't exist, exiting" && exit 1
+cd app || exit 1
 python minify_html.py
 mv MyApp/index.html MyApp/index1.html
 mv MyApp/index2.html MyApp/index.html
 mv nation/index.html nation/index1.html
 mv nation/index2.html nation/index.html
-cd ..
+cd .. || exit 1
 sync
 sync
 sync
