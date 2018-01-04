@@ -12,7 +12,7 @@ install_stuff() {
     pkgs="debian-archive-keyring apt-transport-https"
 
     for pkg in $pkgs; do
-        if ! is_installed $pkg; then
+        if ! is_installed "$pkg"; then
             need_install="$need_install $pkg"
             echo "need to install $pkg"
         fi
@@ -21,7 +21,7 @@ install_stuff() {
     if [ -n "$need_install" ]; then
         echo "updating package sources"
         _apt update || die "Could not update package sources"
-        _apt install $pkgs
+        _apt install "$pkgs"
     fi
 }
 
@@ -44,6 +44,6 @@ if [[ "${ADD_REPOS:-}" && ! -f "$LIST" ]] ; then
     install_stuff
     for repo in "${ADD_REPOS[@]}" ; do
         echo "$repo"
-    done > $LIST || die "Could not add repos ${ADD_REPOS[@]}"
+    done > $LIST || die "Could not add repos ${ADD_REPOS[*]}"
     _apt update || die "Could not update package sources"
 fi
