@@ -22,13 +22,11 @@ for key in "${ADD_REPO_KEYS[@]}" ; do
 done
 
 if [[ ${#missing_keys[@]} -gt 0 ]]; then
-    # shellcheck disable=SC2145
-    die "missing GPG keys! try: $GPG $KEYRING --recv-keys ${missing_keys[@]}"
+    die "missing GPG keys! try: $GPG $KEYRING --recv-keys ${missing_keys[*]}"
 fi
 
-# shellcheck disable=SC2145
 $GPG "$KEYRING" --export "${ADD_REPO_KEYS[@]}" | \
     $GPG mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || \
-    die "Could not import GPG keys ${ADD_REPO_KEYS[@]} for apt"
+    die "Could not import GPG keys ${ADD_REPO_KEYS[*]} for apt"
 rm -f "$KEYRING"
 
