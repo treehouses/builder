@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source lib.sh
+
 port='5984'
 version='0.13.19'
 
@@ -11,16 +13,16 @@ wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
 unzip -qq ./*.zip
 sync
 ln -s BeLL-Apps-* BeLL-Apps
-cd BeLL-Apps || echo 1>&2 "ERROR: BeLL-Apps folder doesn't exist, exiting" && exit 1
+cd BeLL-Apps || die "ERROR: BeLL-Apps folder doesn't exist, exiting"
 chmod +x node_modules/.bin/couchapp
 
-cd app || echo 1>&2 "ERROR: app folder doesn't exist, exiting" && exit 1
+cd app || die "ERROR: app folder doesn't exist, exiting"
 python minify_html.py
 mv MyApp/index.html MyApp/index1.html
 mv MyApp/index2.html MyApp/index.html
 mv nation/index.html nation/index1.html
 mv nation/index2.html nation/index.html
-cd ..
+cd .. || die "ERROR: .. folder doesn't exist, exiting"
 sync
 
 # install community
@@ -46,7 +48,7 @@ for filename in init_docs/languages/*.txt; do
   curl -d "@$filename" -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/languages;
 done
 
-cd .. || echo 1>&2 "ERROR: .. folder doesn't exist, exiting" && exit 1
+cd .. || die "ERROR: .. folder doesn't exist, exiting"
 
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
