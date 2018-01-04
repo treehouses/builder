@@ -17,9 +17,11 @@ IFACES=$ROOT/etc/network/interfaces
 if ! grep -q "^dtoverlay=" $CONFIG; then
     #sed -i -e '${' -e 'a\\' -e 'a# Enable USB gadget mode' \
     #    -e 'adtoverlay=dwc2' -e '}' /boot/config.txt
-    echo >> $CONFIG
-    echo "# Enable USB gadget mode" >> $CONFIG
-    echo "dtoverlay=dwc2" >> $CONFIG
+    {
+        echo
+        echo "# Enable USB gadget mode"
+        echo "dtoverlay=dwc2" 
+    } >> $CONFIG
 fi
 
 # Load necessary modules
@@ -31,9 +33,12 @@ fi
 # Configure the network interface
 
 if ! grep -q usb0 $IFACES; then
-    echo >> $IFACES
-    echo "auto usb0" >> $IFACES
-    echo "allow-hotplug usb0" >> $IFACES
-    echo "iface usb0 inet ipv4ll" >> $IFACES
+    {
+        echo
+        echo "auto usb0"
+        echo "allow-hotplug usb0"
+        echo "iface usb0 inet ipv4ll"
+    } >> $IFACES
+
 fi
 
