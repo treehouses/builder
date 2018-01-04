@@ -16,29 +16,31 @@ docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/cou
 
 # redirect to bell
 mkdir -p /root/ole
-echo '#!/usr/bin/env node' > /root/ole/server.js
-echo '' >> /root/ole/server.js
-echo "var express = require('express')" >> /root/ole/server.js
-echo 'var PortJack = express()' >> /root/ole/server.js
-echo 'PortJack.get(/^(.+)$/, function(req, res) {' >> /root/ole/server.js
-echo 'var options = {' >> /root/ole/server.js
-echo '"'$hostname'.local": "http://'$hostname'.local:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.2.1": "http://192.168.2.1:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.0.99": "http://192.168.0.99:'$port'/apps/_design/bell/MyApp/index.html",' >> /root/ole/server.js
-echo '"192.168.1.99": "http://192.168.4.99:'$port'/apps/_design/bell/MyApp/index.html"' >> /root/ole/server.js
-echo '}' >> /root/ole/server.js
-echo 'if (options.hasOwnProperty(req.hostname)) {' >> /root/ole/server.js
-echo "res.setHeader('Location', options[req.hostname])" >> /root/ole/server.js
-echo '}' >> /root/ole/server.js
-echo 'else {' >> /root/ole/server.js
-echo "res.setHeader('Location', 'http://ole.org')" >> /root/ole/server.js
-echo '}' >> /root/ole/server.js
-echo 'res.statusCode = 302' >> /root/ole/server.js
-echo 'res.end()' >> /root/ole/server.js
-echo '})' >> /root/ole/server.js
-echo 'PortJack.listen(80)' >> /root/ole/server.js
+{
+  echo '#!/usr/bin/env node'
+  echo ''
+  echo "var express = require('express')"
+  echo 'var PortJack = express()'
+  echo 'PortJack.get(/^(.+)$/, function(req, res) {'
+  echo 'var options = {'
+  echo '"'$hostname'.local": "http://'$hostname'.local:'$port'/apps/_design/bell/MyApp/index.html",'
+  echo '"192.168.2.1": "http://192.168.2.1:'$port'/apps/_design/bell/MyApp/index.html",'
+  echo '"192.168.0.99": "http://192.168.0.99:'$port'/apps/_design/bell/MyApp/index.html",'
+  echo '"192.168.1.99": "http://192.168.4.99:'$port'/apps/_design/bell/MyApp/index.html"'
+  echo '}'
+  echo 'if (options.hasOwnProperty(req.hostname)) {'
+  echo "res.setHeader('Location', options[req.hostname])"
+  echo '}'
+  echo 'else {'
+  echo "res.setHeader('Location', 'http://ole.org')"
+  echo '}'
+  echo 'res.statusCode = 302'
+  echo 'res.end()'
+  echo '})'
+  echo 'PortJack.listen(80)'
+} > /root/ole/server.js
 chmod +x /root/ole/server.js
-cd /root/ole
+cd /root/ole || exit 1
 npm install express
 
 # real time clock
