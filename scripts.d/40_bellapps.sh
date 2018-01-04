@@ -4,17 +4,17 @@ port='5984'
 version='0.13.19'
 
 docker pull klaemo/couchdb:1.6.1
-docker run -d -p $port:5984 --name bell -v `pwd -P`/bell:/usr/local/var/lib/couchdb klaemo/couchdb:1.6.1
+docker run -d -p $port:5984 --name bell -v "$(pwd -P)/bell:/usr/local/var/lib/couchdb klaemo/couchdb:1.6.1"
 
 # download BeLL-Apps
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
-unzip -qq *.zip
+unzip -qq ./*.zip
 sync
 ln -s BeLL-Apps-* BeLL-Apps
-cd BeLL-Apps
+cd BeLL-Apps || echo 1>&2 "ERROR: BeLL-Apps folder doesn't exist, exiting" && exit 1
 chmod +x node_modules/.bin/couchapp
 
-cd app
+cd app || echo 1>&2 "ERROR: app folder doesn't exist, exiting" && exit 1
 python minify_html.py
 mv MyApp/index.html MyApp/index1.html
 mv MyApp/index2.html MyApp/index.html
@@ -32,11 +32,11 @@ done
 
 ## create databases & push design docs into them
 for database in databases/*.js; do
-  curl -X PUT http://127.0.0.1:$port/${database:10:-3}
+  curl -X PUT "http://127.0.0.1:$port/${database:10:-3}"
   ## do in all except communities languages configurations
   case ${database:10:-3} in
     "communities" | "languages" | "configurations" ) ;;
-    * ) node_modules/.bin/couchapp push $database http://127.0.0.1:$port/${database:10:-3} ;;
+    * ) node_modules/.bin/couchapp push "$database" "http://127.0.0.1:$port/${database:10:-3}" ;;
   esac
 done
 
@@ -46,7 +46,7 @@ for filename in init_docs/languages/*.txt; do
   curl -d "@$filename" -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/languages;
 done
 
-cd ..
+cd .. || echo 1>&2 "ERROR: .. folder doesn't exist, exiting" && exit 1
 
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
