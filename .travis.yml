@@ -4,6 +4,7 @@ services:
   - docker
 
 cache:
+  timeout: 1000
   directories:
   - .images
 
