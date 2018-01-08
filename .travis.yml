@@ -25,7 +25,7 @@ before_script:
 script:
   - ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
   - ls -al images/
-  - mv -i -n images/*zip .images/.
+  - mv -i -n images/* .images/.
   - ls -al .images/
 
 before_deploy:
