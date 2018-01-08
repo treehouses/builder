@@ -24,6 +24,8 @@ before_script:
 
 script:
   - ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
+
+before_cache:
   - rm -f cache/*torrent cache/*zip
   - ls -al cache/
 
