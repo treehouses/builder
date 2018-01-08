@@ -7,13 +7,19 @@ cache:
   directories:
   - .images
 
-before_install:
+addons:
+  apt:
+    packages:
+      - docker-ce
+      - kpartx
+      - qemu-user-static
+      - aria2
+
+install:
   - sudo curl -k -O -sL https://deb.nodesource.com/setup_8.x
   - sudo bash setup_8.x
-  - sudo apt install qemu-user-static kpartx aria2 nodejs docker-ce
+  - sudo apt install nodejs
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
-
-install: true
 
 before_script:
   - mkdir -p .images images && ls -al .images/
