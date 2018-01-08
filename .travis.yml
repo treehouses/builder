@@ -1,5 +1,9 @@
 sudo: required
 
+language: node_js
+node_js:
+  - 8
+
 services:
   - docker
 
@@ -16,9 +20,6 @@ addons:
       - aria2
 
 install:
-  - sudo curl -k -O -sL https://deb.nodesource.com/setup_8.x
-  - sudo bash setup_8.x
-  - sudo apt install nodejs
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 before_script:
