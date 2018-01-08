@@ -19,7 +19,7 @@ before_script: mkdir -p .images images && ls -al images/ && cp -i .images/* imag
 
 script: ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
-after_script: ls -al images/ && mv -i -n images/*zip .images/.
+after_script: ls -al images/ && mv -i -n images/*zip .images/. && ls -al .images/
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv -in deploy/id_deploy.enc -out deploy/id_deploy -d
