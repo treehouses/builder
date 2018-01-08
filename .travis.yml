@@ -5,7 +5,7 @@ services:
 
 cache:
   directories:
-  - $HOME/.images
+  - .images
 
 before_install:
   - sudo curl -k -O -sL https://deb.nodesource.com/setup_8.x
