@@ -56,13 +56,13 @@ function _get_image {
     if [ ! -f "$RASPBIAN_TORRENT" ]; then
       wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
     fi
-    aria2c --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
+    aria2c --continue "$RASPBIAN_TORRENT" -d cache --seed-time 0
     echo -n "Checksum of "
     sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
 
 function _decompress_image {
-    unzip -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
+    unzip -o "$IMAGE_ZIP" -d cache || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
@@ -95,10 +95,10 @@ function _enable_ld_preload {
 }
 
 function _resize_image {
-    RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
-    if [[ -L "images" ]];
+    RESIZE_IMAGE_PATH=cache/$RASPBIAN_IMAGE_FILE
+    if [[ -L "cache" ]];
     then
-        rsync -Pav "images/$RASPBIAN_IMAGE_FILE" .
+        rsync -Pav "cache/$RASPBIAN_IMAGE_FILE" .
         RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
     fi
 
@@ -122,11 +122,16 @@ EOF
     e2fsck -f /dev/loop2
     resize2fs -f /dev/loop2
     losetup -d /dev/loop2
-    if [[ -L "images" ]];
+    if [[ -L "cache" ]];
     then
-        rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
+        rsync -Pav "$RASPBIAN_IMAGE_FILE" cache/
         rm "$RASPBIAN_IMAGE_FILE"
     fi
+}
+
+function _copy_image {
+    echo "Copying Image from cache to images"
+    rsync -Pav "$IMAGE_RESIZE" "$IMAGE"
 }
 
 function _open_image {
@@ -235,19 +240,26 @@ function exittrap {
 trap exittrap 0
 trap exittrap ERR
 
-RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
+RASPBIAN_TORRENT=cache/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
 IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
 echo "$IMAGE_ZIP"
-IMAGE=${IMAGE_ZIP%.zip}.img
+IMAGE_RESIZE=${IMAGE_ZIP%.zip}.img
+echo "$IMAGE_RESIZE"
+IMAGE_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
+IMAGE=${IMAGE_TORRENT%.zip.torrent}.img
 echo "$IMAGE"
 
-if [ ! -e "$IMAGE_ZIP" ]; then
-    _get_image
+if [ ! -e "$IMAGE_RESIZE" ]; then
+    if [ ! -e "$IMAGE_ORIGINAL" ]; then
+        if [ ! -e "$IMAGE_ZIP" ]; then
+            _get_image
+        fi
+        _decompress_image
+    fi
+    _resize_image
 fi
-
-_decompress_image
-_resize_image
+_copy_image
 _open_image
 
 if [[ "$1" == "--chroot" ]] ; then
