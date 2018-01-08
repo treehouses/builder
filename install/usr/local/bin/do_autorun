@@ -33,7 +33,7 @@ autorunonce(){
   fi
 
   newname="$(basename "$script" | sed -e 's/run/ran/')"
-  newscript="$(dirname $script)/$newname"
+  newscript="$(dirname "$script")/$newname"
   log "moving autorunonce script: $script -> $newscript"
   mv -v "$script" "$newscript"
   log "converting dos newlines to unix"
@@ -64,7 +64,7 @@ autorun(){
 }
 
 onenodeforall() {
-  arch=`uname -m`
+  arch=$(uname -m)
   log "onenodeforall"
   if [ "$arch" == "armv6l" ]
   then
@@ -88,7 +88,7 @@ onenodeforall() {
 }
 
 onebalenaforall() {
-  arch=`uname -m`
+  arch=$(uname -m)
   log "onebalenaforall"
   if [ "$arch" == "armv6l" ]
   then
@@ -121,11 +121,11 @@ start() {
   then
     log "usb stick"
     mountpoint -q /data || mount /dev/sda1 /data
-    cd /data
+    cd /data || exit 1
     autorunonce /data || autorun /data
   else
     log "no usb stick"
-    cd /boot
+    cd /boot || exit 1
     autorunonce /boot || autorun /boot
   fi
 }
