@@ -25,10 +25,10 @@ install:
 
 before_script:
   - mkdir -p cache images && ls -al cache/
-  - cp -i cache images/. | true
 
 script:
   - ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
+  - rm -f cache/*torrent cache/*zip
   - ls -al cache/
 
 before_deploy:
