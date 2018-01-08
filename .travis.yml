@@ -15,11 +15,11 @@ before_install:
 
 install: true
 
-before_script: mkdir -p .images images && cp $HOME/.images/* $HOME/images/. | true
+before_script: mkdir -p .images images && cp -i $HOME/.images/* $HOME/images/. | true
 
 script: ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
-after_script: mv -n $HOME/images/*zip $HOME/.images/.
+after_script: mv -i -n $HOME/images/*zip $HOME/.images/.
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv -in deploy/id_deploy.enc -out deploy/id_deploy -d
