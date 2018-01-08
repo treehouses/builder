@@ -15,7 +15,7 @@ before_install:
 
 install: true
 
-before_script: mkdir -p .images images && cp $HOME/.images/* $HOME/images/.
+before_script: mkdir -p .images images && cp $HOME/.images/* $HOME/images/. 2>/dev/null
 
 script: ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
