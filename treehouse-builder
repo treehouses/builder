@@ -62,7 +62,7 @@ function _get_image {
 }
 
 function _decompress_image {
-    unzip -u -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
+    unzip -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
