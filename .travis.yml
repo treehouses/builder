@@ -1,15 +1,22 @@
 sudo: required
 
+language: node_js
+node_js:
+  - "8"
+
 services:
   - docker
 
-before_install:
-  - sudo curl -k -O -sL https://deb.nodesource.com/setup_8.x
-  - sudo bash setup_8.x
-  - sudo apt install qemu-user-static kpartx aria2 nodejs docker-ce
-  - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
+addons:
+  apt:
+    packages:
+      - docker-ce
+      - kpartx
+      - qemu-user-static
+      - aria2
 
-install: true
+install:
+  - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 script: mkdir images && ./get_ssh_keys.py && sudo ./treehouse-builder --noninteractive
 
