@@ -22,9 +22,9 @@ do
         user_name=$(echo "$member" | sed -rn "s/https:\\/\\/github\\.com\\/(.*?)\\.keys/\\1/p")
         if [ -n "$user_keys" ]
         then
-            while read key
+            while read -r key
             do
-                key=$(echo "$key $user_name")
+                key="$key $user_name"
                 if [[ -n "$keys" ]]
                 then
                     keys="$keys\\n$key"
