@@ -271,7 +271,7 @@ elif [[ "$1" == "--noninteractive" ]] ; then
     echo "dogi"
     ls -latr cache/
     ls -latr .
-    tree .
+    tree -I 'mnt*'
 elif [[ "$1" == "--shell" ]]; then
     _shell
 else
