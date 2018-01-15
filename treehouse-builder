@@ -267,8 +267,8 @@ if [[ "$1" == "--chroot" ]] ; then
     echo "Starting interactive Shell in image chroot"
     _shell
 elif [[ "$1" == "--noninteractive" ]] ; then
-    #_modify_image
-    echo "dogi"
+    _modify_image
+    #echo "dogi"
 elif [[ "$1" == "--shell" ]]; then
     _shell
 else
