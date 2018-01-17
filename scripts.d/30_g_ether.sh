@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Disabled until we can make this conditional somehow
-exit 0
-
 set -e
 
 # Make the pi into a USB ethernet gadget.
@@ -10,7 +7,7 @@ set -e
 ROOT=mnt/img_root
 CONFIG=$ROOT/boot/config.txt
 CMDLINE=$ROOT/boot/cmdline.txt
-IFACES=$ROOT/etc/network/interfaces
+USB0_IFACE=$ROOT/etc/network/interfaces.d/usb0
 
 # Set up firmware configuration
 
@@ -32,13 +29,10 @@ fi
 
 # Configure the network interface
 
-if ! grep -q usb0 $IFACES; then
-    {
-        echo
-        echo "auto usb0"
-        echo "allow-hotplug usb0"
-        echo "iface usb0 inet ipv4ll"
-    } >> $IFACES
-
-fi
+{
+    echo
+    echo "auto usb0"
+    echo "allow-hotplug usb0"
+    echo "iface usb0 inet ipv4ll"
+} >> $USB0_IFACE
 
