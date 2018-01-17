@@ -22,7 +22,16 @@ do
         user_name=$(echo "$member" | sed -rn "s/https:\\/\\/github\\.com\\/(.*?)\\.keys/\\1/p")
         if [ -n "$user_keys" ]
         then
-            keys="$keys\\n$user_keys"
+            while read -r key
+            do
+                key="$key $user_name"
+                if [[ -n "$keys" ]]
+                then
+                    keys="$keys\\n$key"
+                else
+                    keys="$key"
+                fi
+            done <<< "$user_keys"
             echo "info: user $user_name has keys"
         else
             echo "info: user $user_name has NO keys"
