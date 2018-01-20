@@ -119,11 +119,13 @@ usbgadget() {
             if grep -q -w "^#dtoverlay=dwc2" /boot/config.txt
             then 
               sed -i -e 's/#dtoverlay=dwc2/dtoverlay=dwc2/g' /boot/config.txt
+              rebootrequired=1
             fi
-            
+
             if grep -q "#modules-load=dwc2,g_ether" /boot/cmdline.txt
             then
               sed -i -e 's/#modules-load=dwc2,g_ether/modules-load=dwc2,g_ether/g' /boot/cmdline.txt
+              rebootrequired=1
             fi
             ;;
         *)
