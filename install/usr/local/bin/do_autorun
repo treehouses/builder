@@ -136,6 +136,7 @@ usbgadget() {
             if grep -q " modules-load=dwc2,g_ether" /boot/cmdline.txt
             then
               sed -i -e 's/ modules-load=dwc2,g_ether/ #modules-load=dwc2,g_ether/g' /boot/cmdline.txt
+              rebootrequired=1
             fi
   esac
 }
