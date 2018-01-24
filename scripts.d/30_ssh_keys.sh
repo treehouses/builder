@@ -2,16 +2,19 @@
 
 echo "Getting open-learning-exchange ssh keys"
 members=()
-next_page="https://api.github.com/orgs/open-learning-exchange/members?per_page=20&page=1"
-while [[ -n $next_page ]]; do
-    if [[ -n $next_page ]];
-    then
-        echo "Gettings key from: $next_page"
-    fi
-    api_url=$next_page
+page_number=1
+while [[ $page_number -gt 0 ]]; do
+    api_url="https://api.github.com/orgs/open-learning-exchange/members?per_page=20&page=$page_number"
+    echo "Gettings key from: $api_url"
+
     # shellcheck disable=SC2207
     members+=($(curl -s "$api_url"| jq '.[].url' | sed -rn "s/(.*)\\/users\\/(.*)\"/https:\\/\\/github.com\\/\\2.keys/p"))
-    next_page=$(curl -sI "$api_url" | sed -rn "s/Link: <(.*?)>; rel=\"next\",.*/\\1/p")
+    if curl -sI "$api_url" | grep -q "next"
+    then 
+        page_number=$[$page_number+1]
+    else
+        page_number=0
+    fi
 done
 
 for page in "${members[@]}"
