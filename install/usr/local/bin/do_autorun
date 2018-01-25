@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rebootrequired=0
+
 led_mode() {
   mode="$1"
   trigger=/sys/class/leds/led0/trigger
@@ -111,11 +113,46 @@ onebalenaforall() {
   fi
 }
 
+usbgadget() {
+  case "$(pirateship detectrpi)" in
+        RPIZ|RPIZW)
+            if grep -q -w "^#dtoverlay=dwc2" /boot/config.txt
+            then 
+              sed -i -e 's/#dtoverlay=dwc2/dtoverlay=dwc2/g' /boot/config.txt
+              rebootrequired=1
+            fi
+
+            if grep -q "#modules-load=dwc2,g_ether" /boot/cmdline.txt
+            then
+              sed -i -e 's/#modules-load=dwc2,g_ether/modules-load=dwc2,g_ether/g' /boot/cmdline.txt
+              rebootrequired=1
+            fi
+            ;;
+        *)
+            if grep -q -w "^dtoverlay=dwc2" /boot/config.txt
+            then 
+              sed -i -e 's/dtoverlay=dwc2/#dtoverlay=dwc2/g' /boot/config.txt
+              rebootrequired=1
+            fi
+
+            if grep -q " modules-load=dwc2,g_ether" /boot/cmdline.txt
+            then
+              sed -i -e 's/ modules-load=dwc2,g_ether/ #modules-load=dwc2,g_ether/g' /boot/cmdline.txt
+              rebootrequired=1
+            fi
+  esac
+}
+
 start() {
   led_mode default-on
   log "starting"
+  usbgadget
   onenodeforall
   onebalenaforall
+  if [[ rebootrequired -eq 1 ]]
+  then
+    reboot
+  fi
   mkdir -p /data
   if [ -b /dev/sda1 ]
   then
