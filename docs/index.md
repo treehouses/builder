@@ -1,7 +1,6 @@
 ---
 layout: doc
 title: treehouse-builder
-permalink: /builder
 repo: builder
 ---
 treehouse-builder is based on [Raspbian](https://www.raspbian.org/) and allows the user to develop and tailor their own custom RPi images. The script will modify the latest Raspian image by installing packages, purging packages and executing custom commands, and then finally creates a bootable .img file that can be burned to the microSD card.
