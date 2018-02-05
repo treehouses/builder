@@ -5,9 +5,9 @@ source lib.sh
 # List of packages to remove
 PURGE_PACKAGES=(
     wolfram-engine
-    sonic-pi
-    scratch
-    squeak-plugins-scratch squeak-vm
+#    sonic-pi
+#    scratch
+#    squeak-plugins-scratch squeak-vm
     dphys-swapfile
 )
 
