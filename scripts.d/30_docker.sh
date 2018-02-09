@@ -4,7 +4,7 @@ source lib.sh
 
 IMAGES=(
     dogi/rpi-couchdb
-    portainer/portainer
+    portainer/portainer:linux-arm
     arm32v7/postgres
     treehouses/moodle:rpi-latest
     treehouses/rpi-couchdb:2.0.0
