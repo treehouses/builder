@@ -7,7 +7,7 @@ moodleversion='3.4'
 pirateship rename $hostname
 pirateship expandfs
 
-wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/treehoueses/moodole/master/$moodleversion/arm/docker-compose-ready.yml
+wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/treehouses/moodole/master/$moodleversion/arm/docker-compose-ready.yml
 docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
 
 # write '/boot/autorun.sh'
