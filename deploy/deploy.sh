@@ -66,7 +66,6 @@ set -e
 chmod 600 deploy/id_deploy
 bell &
 compress
-kill %1
 checksum
 upload
 
