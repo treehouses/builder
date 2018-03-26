@@ -176,9 +176,10 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
+    echo $(df)
     space_left_digits=$(df | grep '/dev/root' | awk '{print $4}' | wc -c)
     if [[ "$space_left_digits" -lt 7 ]]; then
-        echo "The image has less than 1000M left:" "$space_left_digits" "K"
+        echo "The image's root partition has less than 1000M left:" "$space_left_digits" "K"
         exit 1
     fi
 }
