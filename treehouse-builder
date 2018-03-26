@@ -175,6 +175,14 @@ function _cleanup_chroot {
     _enable_ld_preload
 }
 
+function _check_space_left {
+    space_left_digits=$(df | grep '/dev/root' | awk '{print $4}' | wc -c)
+    if [[ "$space_left_digits" -lt 7 ]]; then
+        echo "The image has less than 1000M left:" "$space_left_digits" "K"
+        exit 1
+    fi
+}
+
 function _modify_image {
     echo "Modifying Image"
 
@@ -185,6 +193,7 @@ function _modify_image {
         die "Image modification scripts failed"
 
     _enable_daemons
+    _check_space_left
     _cleanup_chroot
 }
 
