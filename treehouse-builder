@@ -176,7 +176,6 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    echo $(df)
     space_left_digits=$(df | grep '/dev/root' | awk '{print $4}' | wc -c)
     if [[ "$space_left_digits" -lt 7 ]]; then
         echo "The image's root partition has less than 1000M left:" "$space_left_digits" "K"
@@ -189,6 +188,8 @@ function _modify_image {
 
     _prepare_chroot
     _disable_daemons
+
+    echo $(df)
 
     run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
