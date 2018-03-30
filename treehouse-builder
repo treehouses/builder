@@ -189,7 +189,7 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    echo $(df)
+    echo $(df -h)
 
     run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
