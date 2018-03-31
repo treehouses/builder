@@ -23,6 +23,8 @@ RASPBIAN_SHA1=963dc69346fe20e8f849c694878b5fe1a63e6050
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
+MINIMAL_SPACE_LEFT=102400
+
 ############ End of User Cusomization
 
 source lib.sh
@@ -176,11 +178,8 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left_digits=$(df | grep '/dev/root' | awk '{print $4}' | wc -c)
-    if [[ "$space_left_digits" -lt 7 ]]; then
-        echo "The image's root partition has less than 1000M left:" "$space_left_digits" "K"
-        exit 1
-    fi
+    space_left=$(df | grep 'dev/mapper/loop0p2' | awk '{printf $4}')
+    echo "Space left: ${space_left}K"
 }
 
 function _modify_image {
@@ -271,6 +270,11 @@ elif [[ "$1" == "--shell" ]]; then
     _shell
 else
     die "Usage error. Try $0 --help"
+fi
+
+if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
+    echo "Not enough space left."
+    exit 1
 fi
 
 # vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
