@@ -19,6 +19,8 @@ RASPBIAN_SHA1=2eb6296a732da7e9b5b5e5cb37864205282a45f5
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
+MINIMAL_SPACE_LEFT=102400
+
 ############ End of User Cusomization
 
 source lib.sh
@@ -171,6 +173,11 @@ function _cleanup_chroot {
     _enable_ld_preload
 }
 
+function _check_space_left {
+    space_left=$(df | grep 'dev/mapper/loop0p2' | awk '{printf $4}')
+    echo "Space left: ${space_left}K"
+}
+
 function _modify_image {
     echo "Modifying Image"
 
@@ -181,6 +188,7 @@ function _modify_image {
         die "Image modification scripts failed"
 
     _enable_daemons
+    _check_space_left
     _cleanup_chroot
 }
 
@@ -256,6 +264,11 @@ elif [[ "$1" == "--shell" ]]; then
     _shell
 else
     die "Usage error. Try $0 --help"
+fi
+
+if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
+    echo "Not enough space left."
+    exit 1
 fi
 
 # vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
