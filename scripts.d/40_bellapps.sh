@@ -50,7 +50,7 @@ done
 cd .. || die "ERROR: .. folder doesn't exist, exiting"
 
 mkdir -p mnt/img_root/srv/bell/conf
-cp -r BeLL-Apps/init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
+cp BeLL-Apps/init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
 
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico -O mnt/img_root/srv/bell/data/favicon.ico
