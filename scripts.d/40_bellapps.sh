@@ -43,15 +43,14 @@ for database in databases/*.js; do
 done
 
 ## add bare minimal required data to couchdb for launching bell-apps smoothly
-#curl -d @init_docs/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
-mkdir -p mnt/img_root/srv/bell/conf
-cp -r init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
-
 for filename in init_docs/languages/*.txt; do
   curl -d "@$filename" -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/languages;
 done
 
 cd .. || die "ERROR: .. folder doesn't exist, exiting"
+
+mkdir -p mnt/img_root/srv/bell/conf
+cp -r init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
 
 # favicon.ico
 wget https://open-learning-exchange.github.io/favicon.ico -O mnt/img_root/srv/bell/data/favicon.ico
