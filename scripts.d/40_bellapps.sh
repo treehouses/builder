@@ -6,7 +6,7 @@ port='5984'
 version='0.13.19'
 
 docker pull klaemo/couchdb:1.6.1
-docker run -d -p $port:5984 --name bell -v "$(pwd -P)/bell:/usr/local/var/lib/couchdb" klaemo/couchdb:1.6.1
+docker run -d -p $port:5984 --name bell -v "$(pwd -P)/mnt/img_root/srv/bell/data:/usr/local/var/lib/couchdb" klaemo/couchdb:1.6.1
 
 # download BeLL-Apps
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
@@ -43,15 +43,17 @@ for database in databases/*.js; do
 done
 
 ## add bare minimal required data to couchdb for launching bell-apps smoothly
-curl -d @init_docs/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
 for filename in init_docs/languages/*.txt; do
   curl -d "@$filename" -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/languages;
 done
 
 cd .. || die "ERROR: .. folder doesn't exist, exiting"
 
+mkdir -p mnt/img_root/srv/bell/conf
+cp BeLL-Apps/init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
+
 # favicon.ico
-wget https://open-learning-exchange.github.io/favicon.ico -O bell/favicon.ico
+wget https://open-learning-exchange.github.io/favicon.ico -O mnt/img_root/srv/bell/data/favicon.ico
 curl -X PUT 'http://127.0.0.1:'$port'/_config/httpd_global_handlers/favicon.ico' -d '"{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/var/lib/couchdb\"}"'
 
 curl -X GET http://127.0.0.1:$port/configurations/_all_docs
@@ -60,8 +62,3 @@ curl -X GET http://127.0.0.1:$port/languages/_all_docs
 # sync and stop docker
 sync; sync; sync
 docker stop bell
-
-# copy *.couch from bell to /srv/data/bell
-ROOT=mnt/img_root
-mkdir -p $ROOT/srv/data
-cp -r bell $ROOT/srv/data/.

@@ -8,7 +8,14 @@ pirateship rename $hostname
 pirateship expandfs
 
 # create couchdb docker container
-docker run -d -p $port:5984 --name bell -v /srv/data/bell:/usr/local/var/lib/couchdb -v /srv/log/bell:/usr/local/var/log/couchdb dogi/rpi-couchdb
+docker run -d -p $port:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb dogi/rpi-couchdb
+
+# check if docker is running
+while ! curl -X GET http://127.0.0.1:$port/_all_dbs ; do
+  sleep 1
+done
+
+curl -d @/srv/bell/conf/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
 
 # write '/boot/autrun.sh'
 {
