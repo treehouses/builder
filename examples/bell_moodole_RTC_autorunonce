@@ -27,7 +27,7 @@ while ! curl -X GET http://127.0.0.1:$bellport/_all_dbs ; do
   sleep 1
 done
 
-curl -d /srv/bell/conf/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$bellport/configurations
+curl -d @/srv/bell/conf/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$bellport/configurations
 
 # redirect to bell
 mkdir -p /root/ole

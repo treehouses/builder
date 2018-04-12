@@ -15,7 +15,7 @@ while ! curl -X GET http://127.0.0.1:$port/_all_dbs ; do
   sleep 1
 done
 
-curl -d /srv/bell/conf/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
+curl -d @/srv/bell/conf/ConfigurationsDoc-Community.txt -H "Content-Type: application/json" -X POST http://127.0.0.1:$port/configurations
 
 # write '/boot/autrun.sh'
 {
