@@ -20,3 +20,7 @@ function _apt {
     _op _chroot apt-get -o Acquire::ForceIPv4=true -qq "$@"
 }
 
+function _pip3 {
+    _op _chroot pip3 install "$@"
+}
+

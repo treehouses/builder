@@ -4,7 +4,7 @@ After=rpibluetooth.service
 Requires=rpibluetooth.service
 
 [Service]
-ExecStart=/usr/bin/rfcomm watch hci0 &; /usr/bin/python2 /usr/local/bin/bluetooth-server.py
+ExecStart=/usr/bin/python3 /usr/local/bin/bluetooth-server.py &
 
 [Install]
 WantedBy=multi-user.target
