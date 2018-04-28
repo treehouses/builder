@@ -16,7 +16,7 @@ docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
 
 # BellApps
 # create couchdb docker container
-docker run -d -p $bellport:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb dogi/rpi-couchdb
+docker run -d -p $bellport:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb treehouses/rpi-couchdb:1.7.1
 
 # check if docker is running
 while ! curl -X GET http://127.0.0.1:$bellport/_all_dbs ; do

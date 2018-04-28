@@ -3,10 +3,10 @@
 source lib.sh
 
 IMAGES=(
-    dogi/rpi-couchdb
     portainer/portainer:linux-arm
     arm32v7/postgres
     treehouses/moodle:rpi-latest
+    treehouses/rpi-couchdb:1.7.1
     treehouses/rpi-couchdb:2.1.1
     treehouses/planet:rpi-latest
     treehouses/planet:rpi-db-init-latest
