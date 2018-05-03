@@ -1,6 +1,6 @@
 # treehouse-builder
 
-Treehouse-builder is based on [Raspbian](https://www.raspbian.org/) and allows the user to develop and tailor their own custom RPi images. The script will modify the latest Raspian image by installing packages, purging packages and executing custom commands, and then finally creates a bootable .img file that can be burned to the microSD card.
+Treehouse-builder is based on [Raspbian](https://www.raspbian.org/) and allows the user to develop and tailor their own custom Raspberry Pi images. The script will modify the latest Raspbian image by installing packages, purging packages and executing custom commands, and then finally creates a bootable .img file that can be burned to the microSD card.
 
 ## Instructions
 
@@ -62,18 +62,25 @@ After exiting from the chroot environment, successful builds are found in the `t
 
 `bash clean.sh`
 
-### Write to microSD Card
+### Write to microSD card and try out the image
 
-There are many different ways to write to the microSD card. An easy approach is to download [Etcher](https://etcher.io) and run the program. It supports multiple Operating Systems such as Linux, OSX and Windows, and has a pretty simple GUI, where you select the location of the .img file, the destination of the microSD card and then press the flash button to write the image onto the microSD card. Remember that it will delete everything on that drive so make sure it is the correct drive!
+We will need a few hardware and software:
+
+* Raspberry Pi 3 (or Zero W) and 5V 2.4A (1.2A for Zero) power supply with microUSB connector
+* A microSD card reader
+* A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html) microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
+* Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io), but there are many from which to choose
+
+Open Etcher, select the location of the .img file, the destination drive of the microSD card, then press the flash button to write the image onto the microSD card. Remember that this process will wipe out everything on the selected drive, so make sure to select the right one.
 
 ## Release
 
-This project use Travis CI to automatically build and upload new treehouse image to [dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
+This project use Travis CI to automatically build and upload new treehouse image to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
 
 * New image's name will be `treehouse-` followed by whatever is after `release-` in the tag
 * New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
 * If the tag is formated like `release-` followed by only numbers,  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of the newly uploaded image and its SHA-1 checksum
-* At this time, both `stable.img.gz` and `branch.img.gz` on [dev.ole.org](http://dev.ole.org) are manually linked to their specific image
+* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org) are manually linked to their specific image
 
 ## Relevant Links
 
@@ -82,7 +89,3 @@ This project use Travis CI to automatically build and upload new treehouse image
 ## Built with
 
 * [rpi-image-creator](https://github.com/ImmobilienScout24/rpi-image-creator)
-
-=======
-copy successful builds from `images` directory
-and use `bash clean.sh` to remove otherwise
