@@ -75,12 +75,12 @@ Open Etcher, select the location of the .img file, the destination drive of the 
 
 ## Release
 
-This project use Travis CI to automatically build and upload new treehouse image to [dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
+This project use Travis CI to automatically build and upload new treehouse image to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
 
 * New image's name will be `treehouse-` followed by whatever is after `release-` in the tag
 * New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
 * If the tag is formated like `release-` followed by only numbers,  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of the newly uploaded image and its SHA-1 checksum
-* At this time, both `stable.img.gz` and `branch.img.gz` on [dev.ole.org](http://dev.ole.org) are manually linked to their specific image
+* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org) are manually linked to their specific image
 
 ## Relevant Links
 
@@ -89,7 +89,3 @@ This project use Travis CI to automatically build and upload new treehouse image
 ## Built with
 
 * [rpi-image-creator](https://github.com/ImmobilienScout24/rpi-image-creator)
-
-=======
-copy successful builds from `images` directory
-and use `bash clean.sh` to remove otherwise
