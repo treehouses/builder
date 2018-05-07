@@ -11,8 +11,8 @@ IMAGES=(
 MULTIS=(
     treehouses/couchdb:1.7.1
     treehouses/couchdb:2.1.1
-    treehouses/planet:latest
-    treehouses/planet:db-init
+    treehouses/planet-multi:latest
+    treehouses/planet-multi:db-init
 )
 
 OLD=$(pwd -P)
