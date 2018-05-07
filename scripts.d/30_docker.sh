@@ -28,13 +28,16 @@ for image in "${IMAGES[@]}" ; do
     docker pull "$image"
 done
 
+mkdir -p ~/.docker
+echo '{"experimental": "enabled"}' > ~/.docker/config.json
+
 for multi in "${MULTIS[@]}" ; do
     hash=$(echo `docker manifest inspect $multi | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest'` | sed -e 's/^"//' -e 's/"$//')
     docker pull $multi@$hash
     # name=
     # tag=
     # docker tag $name@$hash $name:$tag 
-    # TODO .docker/config.json {"experimental": "enabled"}
+    # TODO
     # https://docs.docker.com/edge/engine/reference/commandline/manifest_inspect/
 done
 
