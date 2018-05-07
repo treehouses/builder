@@ -6,10 +6,13 @@ IMAGES=(
     portainer/portainer:linux-arm
     arm32v7/postgres
     treehouses/moodle:rpi-latest
-    treehouses/rpi-couchdb:1.7.1
-    treehouses/rpi-couchdb:2.1.1
-    treehouses/planet:rpi-latest
-    treehouses/planet:rpi-db-init-latest
+)
+
+MULTIS=(
+    treehouses/couchdb:1.7.1
+    treehouses/couchdb:2.1.1
+    treehouses/planet:latest
+    treehouses/planet:db-init
 )
 
 OLD=$(pwd -P)
@@ -23,6 +26,12 @@ service docker start
 
 for image in "${IMAGES[@]}" ; do
     docker pull "$image"
+done
+
+for multi in "${MULTIS[@]}" ; do
+    docker manifest inspect "$multi" 
+    # TODO
+    # https://docs.docker.com/edge/engine/reference/commandline/manifest_inspect/
 done
 
 service docker stop
