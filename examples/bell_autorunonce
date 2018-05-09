@@ -4,8 +4,8 @@ hostname='ole'
 hotspotname='treehouse'
 port='5984'
 
-pirateship rename $hostname
-pirateship expandfs
+treehouses rename $hostname
+treehouses expandfs
 
 # create couchdb docker container
 docker run -d -p $port:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb treehouses/rpi-couchdb:1.7.1
@@ -58,7 +58,7 @@ npm install express
 echo '' >> /boot/autorun.sh
 echo 'node /root/ole/server.js' >> /boot/autorun.sh
 
-pirateship hotspot $hotspotname
+treehouses hotspot $hotspotname
 
 sync
 sync

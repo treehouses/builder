@@ -3,8 +3,8 @@
 hostname='ole'
 hotspotname='treehouse'
 
-pirateship rename $hostname
-pirateship expandfs
+treehouses rename $hostname
+treehouses expandfs
 
 # download Planet
 cd /root || exit 1
@@ -20,4 +20,4 @@ docker-compose -f rpi-planet.yml -p rpi-planet up -d --build
   echo 'docker-compose -f /root/planet/docker/rpi-planet.yml -p rpi-planet start'
 } > /boot/autorun
 
-pirateship hotspot $hotspotname
+treehouses hotspot $hotspotname

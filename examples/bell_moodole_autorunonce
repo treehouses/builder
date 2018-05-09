@@ -6,8 +6,8 @@ moodleversion='3.4'
 moodoleport='8080'
 bellport='5984'
 
-pirateship rename $hostname
-pirateship expandfs
+treehouses rename $hostname
+treehouses expandfs
 
 # moodole
 wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/ole-vi/moodole/master/$moodleversion/arm/docker-compose-ready.yml
@@ -66,4 +66,4 @@ docker start bell
 node /root/ole/server.js
 EOF
 
-pirateship hotspot $hotspotname
+treehouses hotspot $hotspotname
