@@ -41,6 +41,8 @@ done
 
 sync; sync; sync
 
+echo $(docker images)
+
 service docker stop
 unlink docker
 mv docker.temp docker
