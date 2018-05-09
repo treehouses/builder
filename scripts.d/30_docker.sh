@@ -34,7 +34,7 @@ echo '{"experimental": "enabled"}' > ~/.docker/config.json
 for multi in "${MULTIS[@]}" ; do
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
-    hash=$(echo `docker manifest inspect "$multi" | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest'` | sed -e 's/^"//' -e 's/"$//')
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
     docker pull "$name@$hash"
     docker tag "$name@$hash" "$name:$tag" 
 done
