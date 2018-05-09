@@ -10,8 +10,8 @@ bellport='5984'
 rtc='rasclock'
 # rtc='ds3231'
 
-pirateship rename $hostname
-pirateship expandfs
+treehouses rename $hostname
+treehouses expandfs
 
 # moodole
 wget -O /home/pi/moodole.yml https://raw.githubusercontent.com/ole-vi/moodole/master/$moodleversion/arm/docker-compose-ready.yml
@@ -106,7 +106,7 @@ echo 'node /root/ole/server.js' >> /boot/autorun
 sync;sync;sync;reboot
 EOF
 
-pirateship hotspot $hotspotname
+treehouses hotspot $hotspotname
 
 sync
 sync
