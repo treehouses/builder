@@ -11,7 +11,7 @@ while [[ $page_number -gt 0 ]]; do
     members+=($(curl -s "$api_url"| jq '.[].url' | sed -rn "s/(.*)\\/users\\/(.*)\"/https:\\/\\/github.com\\/\\2.keys/p"))
     if curl -sI "$api_url" | grep -q "next"
     then 
-        page_number=$[$page_number+1]
+        page_number=$((page_number+1))
     else
         page_number=0
     fi
