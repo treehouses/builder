@@ -12,7 +12,7 @@ treehouses rename $hostname
 treehouses expandfs
 
 # create couchdb docker container
-docker run -d -p $port:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb treehouses/rpi-couchdb:1.7.1
+docker run -d -p $port:5984 --name bell -v /srv/bell/data:/usr/local/var/lib/couchdb -v /srv/bell/log:/usr/local/var/log/couchdb treehouses/couchdb:1.7.1
 
 # check if docker is running
 while ! curl -X GET http://127.0.0.1:$port/_all_dbs ; do

@@ -6,10 +6,13 @@ IMAGES=(
     portainer/portainer:linux-arm
     arm32v7/postgres
     treehouses/moodle:rpi-latest
-    treehouses/rpi-couchdb:1.7.1
-    treehouses/rpi-couchdb:2.1.1
-    treehouses/planet:rpi-latest
-    treehouses/planet:rpi-db-init-latest
+)
+
+MULTIS=(
+    treehouses/couchdb:1.7.1
+    treehouses/couchdb:2.1.1
+    treehouses/planet-multi:latest
+    treehouses/planet-multi:db-init
 )
 
 OLD=$(pwd -P)
@@ -24,6 +27,21 @@ service docker start
 for image in "${IMAGES[@]}" ; do
     docker pull "$image"
 done
+
+mkdir -p ~/.docker
+echo '{"experimental": "enabled"}' > ~/.docker/config.json
+
+for multi in "${MULTIS[@]}" ; do
+    name=$(echo "$multi" | cut -d ":" -f 1)
+    tag=$(echo "$multi" | cut -d ":" -f 2)
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+    docker pull "$name@$hash"
+    docker tag "$name@$hash" "$name:$tag" 
+done
+
+sync; sync; sync
+
+docker images
 
 service docker stop
 unlink docker
