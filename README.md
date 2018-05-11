@@ -52,7 +52,7 @@ sudo bash -c 'wget -O - https://packagecloud.io/gpg.key | apt-key add -'
 
 ### Customize
 
-##### `INSTALL_PACKAGES`
+`INSTALL_PACKAGES`
 
 Install packages found in the APT repositories.
 
@@ -60,11 +60,11 @@ To add a custom package not found in the default APT repositories:
 add the package name into `INSTALL_PACKAGES`,
 then add the custom repository to `ADD_REPOS`.
 
-##### `PURGE_PACKAGES`
+`PURGE_PACKAGES`
 
 Remove packages already installed on the default Raspbian image.
 
-##### `CUSTOM_COMMANDS`
+`CUSTOM_COMMANDS`
 
 Add extra commands to execute upon the completion of
 the `treehouse-builder`, which is run under a chroot environment.
