@@ -87,10 +87,13 @@ is now ready to be burned onto the microSD card.
 
 We will need a few hardware and software:
 
-* Raspberry Pi 3 (or Zero W) and 5V 2.4A (1.2A for Zero) power supply with microUSB connector
+* Raspberry Pi 3 (or Zero W)
+* 5V 2.4A (1.2A for Pi Zero) power suppl with microUSB connector
 * A microSD card reader
-* A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html) microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
-* Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io), but there are many from which to choose
+* A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html)
+microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
+* Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io),
+but there are many from which to choose
 
 Open Etcher, select the location of the .img file,
 the destination drive of the microSD card,
@@ -100,12 +103,19 @@ so make sure to select the right one.
 
 ## Release
 
-This project use Travis CI to automatically build and upload new treehouse image to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
+This project use Travis CI to automatically build and upload new treehouse image
+to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file
+tells Travis CI to run the deployment script at `deploy/deploy.sh`
+if a tag is applied to the commit.
 
-* New image's name will be `treehouse-` followed by whatever is after `release-` in the tag
+* New image's name will be `treehouse-` followed by
+whatever is after `release-` in the tag
 * New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
-* If the tag is formated like `release-` followed by only numbers,  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of the newly uploaded image and its SHA-1 checksum
-* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org) are manually linked to their specific image
+* If the tag is formated like `release-` followed by only numbers,
+`latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of
+the newly uploaded image and its SHA-1 checksum
+* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org)
+are manually linked to their specific image
 
 ## Relevant Links
 
