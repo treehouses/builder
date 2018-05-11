@@ -91,9 +91,9 @@ We will need a few hardware and software:
 * 5V 2.4A (1.2A for Pi Zero) power suppl with microUSB connector
 * A microSD card reader
 * A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html)
-microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
+  microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
 * Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io),
-but there are many from which to choose
+  but there are many from which to choose
 
 Open Etcher, select the location of the .img file,
 the destination drive of the microSD card,
@@ -109,13 +109,13 @@ tells Travis CI to run the deployment script at `deploy/deploy.sh`
 if a tag is applied to the commit.
 
 * New image's name will be `treehouse-` followed by
-whatever is after `release-` in the tag
+  whatever is after `release-` in the tag
 * New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
 * If the tag is formated like `release-` followed by only numbers,
-`latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of
-the newly uploaded image and its SHA-1 checksum
+  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of
+  the newly uploaded image and its SHA-1 checksum
 * At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org)
-are manually linked to their specific image
+  are manually linked to their specific image
 
 ## Relevant Links
 
