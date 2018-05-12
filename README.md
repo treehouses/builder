@@ -52,22 +52,21 @@ sudo bash -c 'wget -O - https://packagecloud.io/gpg.key | apt-key add -'
 
 ### Customize
 
-```
-INSTALL_PACKAGES - Install packages found in the APT repositories.
-To add a custom package not found in the default APT repositories:
-add the package name into INSTALL_PACKAGES
-and then add the custom repository to ADD_REPOS.
+* `INSTALL_PACKAGES` - Install packages found in the APT repositories.
 
-PURGE_PACKAGES - Remove packages already installed on the default Raspbian image.
+  * To add a custom package not found in the default APT repositories:
+    add the package name into `INSTALL_PACKAGES`,
+    then add the custom repository to `ADD_REPOS`.
 
-CUSTOM_COMMANDS - Add extra commands to execute upon the completion of
-the treehouse-builder, which is run under a chroot environment.
-For instance to enable ssh on boot for the RPi,
-the command sudo touch /boot/ssh is included in CUSTOM_COMMANDS.
-The semi-colon is there to separate the commands and
-will execute regardless whether or not the previous command is successful.
+* `PURGE_PACKAGES` - Remove packages already installed on the default Raspbian image.
 
-```
+* `CUSTOM_COMMANDS` - Add extra commands to execute upon the completion of
+  the `treehouse-builder`, which is run under a chroot environment.
+
+  * For instance, to enable ssh on boot for the RPi,
+    the command `sudo touch /boot/ssh` is included in `CUSTOM_COMMANDS`.
+    The semi-colon is there to separate the commands and
+    will execute regardless whether or not the previous command is successful.
 
 ### Retrieve builds
 
@@ -87,10 +86,13 @@ is now ready to be burned onto the microSD card.
 
 We will need a few hardware and software:
 
-* Raspberry Pi 3 (or Zero W) and 5V 2.4A (1.2A for Zero) power supply with microUSB connector
+* Raspberry Pi 3 (or Zero W)
+* 5V 2.4A (1.2A for Pi Zero) power suppl with microUSB connector
 * A microSD card reader
-* A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html) microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
-* Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io), but there are many from which to choose
+* A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html)
+  microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
+* Software for burning OS image to microSD card. We recommend [Etcher](https://etcher.io),
+  but there are many from which to choose
 
 Open Etcher, select the location of the .img file,
 the destination drive of the microSD card,
@@ -100,12 +102,19 @@ so make sure to select the right one.
 
 ## Release
 
-This project use Travis CI to automatically build and upload new treehouse image to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file tells Travis CI to run the deployment script at `deploy/deploy.sh` if a tag is applied to the commit.
+This project use Travis CI to automatically build and upload new treehouse image
+to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file
+tells Travis CI to run the deployment script at `deploy/deploy.sh`
+if a tag is applied to the commit.
 
-* New image's name will be `treehouse-` followed by whatever is after `release-` in the tag
+* New image's name will be `treehouse-` followed by
+  whatever is after `release-` in the tag
 * New image's SHA-1 checksum will be calculated and uploaded as `<image_name>.img.gz.sha1`
-* If the tag is formated like `release-` followed by only numbers,  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of the newly uploaded image and its SHA-1 checksum
-* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org) are manually linked to their specific image
+* If the tag is formated like `release-` followed by only numbers,
+  `latest.img.gz` and `latest.img.gz.sha1` would be a symbolic link of
+  the newly uploaded image and its SHA-1 checksum
+* At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org)
+  are manually linked to their specific image
 
 ## Relevant Links
 
