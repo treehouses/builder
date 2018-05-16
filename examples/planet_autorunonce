@@ -9,6 +9,7 @@ treehouses expandfs
 # download Planet
 cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+docker-compose -f planet.yml -p planet pull
 docker-compose -f planet.yml -p planet up -d --build
 
 # write '/boot/autorun.sh'
