@@ -16,6 +16,7 @@ INSTALL_PACKAGES=(
     autossh
     python3-pip python3-dbus
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
+    rng-tools # for ap bridge
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
