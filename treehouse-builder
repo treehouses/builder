@@ -14,8 +14,8 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-03-14/2018-03-13-raspbian-stretch.zip.torrent
-RASPBIAN_SHA1=2eb6296a732da7e9b5b5e5cb37864205282a45f5
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-04-19/2018-04-18-raspbian-stretch.zip.torrent
+RASPBIAN_SHA1=f141331a5613c3d5d94ff60cdbf0a25097b3520a
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
