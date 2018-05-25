@@ -79,9 +79,10 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2
+    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
+    dos2unix /vagrant/* /vagrant/*/* /vagrant/*/*/* /vagrant/*/*/*/* /vagrant/*/*/*/*/* /vagrant/*/*/*/*/*/*
     sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./treehouse-builder --chroot'
   SHELL
 end
