@@ -38,7 +38,7 @@ ADD_REPOS=(
     "deb [arch=armhf] https://download.docker.com/linux/raspbian jessie stable"
 )
 
-LIST=mnt/img_root/etc/apt/sources.list.d/treehouse-builder.list
+LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
 
 if [[ "${ADD_REPOS:-}" && ! -f "$LIST" ]] ; then
     install_stuff
