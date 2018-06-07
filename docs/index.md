@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability)
+
 # builder
 
 `builder` is based on [Raspbian](https://www.raspbian.org/) and
