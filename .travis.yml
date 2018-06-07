@@ -20,8 +20,11 @@ install:
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./treehouse-builder --noninteractive
 
+env:
+  secure: "XGvxhP/wHifsawXvUouCDWmkuLEq7Bn56Yh+ntVRlWTP0f0kULT5Nj/zw5tIAK0Rt5WKGIdIO+bUhOl7zOpKexdWDQIiXOCQTU4NieV6Mm9VxM/U0A81HHkcKxqS0JDyVfOhXTxAx+3cr0ggMhMJb0q+CpNkLxdzvsK0Te97Afh0lf27RAfNP/AoELegd8OPVeOheXwlw/+aFpsIwQ56NGhngXx4CqPe0tFTt5eTWcKxdFbXINZLDcU/EUt4th6EKtlXgbgmKOmL3qV/dpX30MtjMmtxixh/YK+sMyZ8VY+IylWoD8FgsyHzVNL4m0W7dpGJyKlrai9v7JUe5WB+ut2eqpJWesyC32dMUXTIAZryV64t0ZYW4TQP1rTrLLIjSoFyHEmpfni3F9tCvLcrobk798CjT0Cl26MinMOkoZ1ih0vd5lfeMrc/B4Eq/YVNDnUY5xBNPBgNVr8EvcSPHFxeIF8cBf+3OSRLGuc6EoQ0auBfDA14jtAnSqrRa0JFPISWVCrhDga+sDw9fKFBLSInoo1g/GnqwosGBpWq6BY+9FYrzWkYhkdAEGjETn/lBfcjDWkKKDQdqzvEEraYLDhw/UWiBGlbAM+0KVxNtO4clQxZH8vmQFu0J8K0LlekoXb9TSUsAnlFD2OtdYL0pMok9/H50ree/ib0Q5SQklY="
+
 before_deploy:
-  - openssl aes-256-cbc -K $encrypted_cf15bf3bd0b6_key -iv $encrypted_cf15bf3bd0b6_iv -in .travis/id_deploy.enc -out .travis/id_deploy -d
+  - echo "$ssh_deploy_key" > .travis/id_deploy
 
 deploy:
   provider: script
