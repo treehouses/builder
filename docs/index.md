@@ -1,6 +1,6 @@
-# treehouse-builder
+# builder
 
-Treehouse-builder is based on [Raspbian](https://www.raspbian.org/) and
+`builder` is based on [Raspbian](https://www.raspbian.org/) and
 allows the user to develop and tailor their own custom Raspberry Pi images.
 The script will modify the latest Raspbian image by installing packages,
 purging packages and executing custom commands, and then finally
@@ -28,14 +28,14 @@ To install the required packages, run the following command in Debian/Ubuntu:
 sudo apt-get install kpartx wget gpg parted qemu-arm-static.
 ```
 
-For other operating systems like MacOS or Windows, check out [ole--vagrant-treehouses](https://github.com/ole-vi/ole--vagrant-treehouses)
+For other operating systems like MacOS or Windows, check out the `Vagrantfile` inside the repository.
 
 ### Getting Started
 
 ```
-git clone https://github.com/ole-vi/treehouse-builder.git
-cd treehouse-builder
-./treehouse-builder --chroot
+git clone https://github.com/treehouses/builder.git
+cd builder
+./builder --chroot
 ```
 
 You should be in a chrooted environment when it is completed.
@@ -61,7 +61,7 @@ sudo bash -c 'wget -O - https://packagecloud.io/gpg.key | apt-key add -'
 * `PURGE_PACKAGES` - Remove packages already installed on the default Raspbian image.
 
 * `CUSTOM_COMMANDS` - Add extra commands to execute upon the completion of
-  the `treehouse-builder`, which is run under a chroot environment.
+  the `builder`, which is run under a chroot environment.
 
   * For instance, to enable ssh on boot for the RPi,
     the command `sudo touch /boot/ssh` is included in `CUSTOM_COMMANDS`.
@@ -71,7 +71,7 @@ sudo bash -c 'wget -O - https://packagecloud.io/gpg.key | apt-key add -'
 ### Retrieve builds
 
 After exiting from the chroot environment, successful builds
-are found in the `treehouse-builder/images` directory.
+are found in the `builder/images` directory.
 There should be a few files in that directory.
 The .zip file is the unmodified base image,
 which is downloaded by the script when executed.

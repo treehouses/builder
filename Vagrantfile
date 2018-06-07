@@ -85,6 +85,6 @@ Vagrant.configure(2) do |config|
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
     python get_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./treehouse-builder --chroot'
+    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
   SHELL
 end
