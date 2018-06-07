@@ -39,12 +39,12 @@ checksum() {
 
 upload() {
     echo "Uploading image"
-    rsync -P -e deploy/ssh.sh "$image_gz" "$image_sha1" deploy@dev.ole.org:/data/images
+    rsync -P -e .travis/ssh.sh "$image_gz" "$image_sha1" deploy@dev.ole.org:/data/images
 
     if release_is_number; then
         echo "Marking release as latest image"
         # For some reason the cd has no effect if it's the first command? WTF.
-        deploy/ssh.sh deploy@dev.ole.org sh -c ":; cd /data/images; ln -sf $image_gz latest.img.gz; ln -sf $image_sha1 latest.img.gz.sha1"
+        .travis/ssh.sh deploy@dev.ole.org sh -c ":; cd /data/images; ln -sf $image_gz latest.img.gz; ln -sf $image_sha1 latest.img.gz.sha1"
     fi
 }
 
@@ -63,7 +63,7 @@ echo "Deploying as $name"
 image_gz=$name.img.gz
 image_sha1=$image_gz.sha1
 set -e
-chmod 600 deploy/id_deploy
+chmod 600 .travis/id_deploy
 bell &
 compress
 checksum

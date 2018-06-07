@@ -245,6 +245,15 @@ function exittrap {
 trap exittrap 0
 trap exittrap ERR
 
+function _print_tag {
+    tag=$(git tag --sort=-creatordate | sed -n '1p')
+    echo
+    echo "latest tag is '$tag'"
+    echo
+}
+
+_print_tag
+
 RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
 IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}

@@ -104,7 +104,7 @@ so make sure to select the right one.
 
 This project use Travis CI to automatically build and upload new treehouse image
 to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file
-tells Travis CI to run the deployment script at `deploy/deploy.sh`
+tells Travis CI to run the deployment script at `.travis/deploy.sh`
 if a tag is applied to the commit.
 
 * New image's name will be `treehouse-` followed by
