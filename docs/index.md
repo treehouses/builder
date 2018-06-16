@@ -1,4 +1,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability)
+[![Build Status](https://travis-ci.org/treehouses/builder.svg?branch=master)](https://travis-ci.org/treehouses/builder)
 
 # builder
 
