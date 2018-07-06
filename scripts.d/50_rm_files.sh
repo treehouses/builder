@@ -4,7 +4,7 @@ source lib.sh
 # List of files/directories to remove
 REMOVE=(
     /home/pi/MagPi
-    /home/travis/
+    /home/travis
 )
 
 for file in "${REMOVE[@]}" ; do
