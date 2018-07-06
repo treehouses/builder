@@ -13,4 +13,4 @@ for file in "${REMOVE[@]}" ; do
 done
 
 sync; sync; sync
-_op _chroot tree /home/
+# _op _chroot tree /home/
