@@ -5,6 +5,7 @@ hotspotname='treehouse'
 
 treehouses rename $hostname
 treehouses expandfs
+treehouses bluetooth on
 
 # download Planet
 cd /root || exit 1
