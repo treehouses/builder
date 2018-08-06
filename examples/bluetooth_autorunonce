@@ -1,0 +1,10 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+
+treehouses rename $hostname
+treehouses expandfs
+treehouses bluetooth on
+
+treehouses hotspot $hotspotname
