@@ -1,0 +1,4 @@
+#!/bin/bash
+
+  treehouses expandfs
+  treehouses bluetooth on
