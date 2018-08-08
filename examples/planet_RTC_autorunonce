@@ -1,0 +1,42 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+
+# real time clock: rasclock or ds3231
+rtc='rasclock'
+# rtc='ds3231'
+
+treehouses rename $hostname
+treehouses expandfs
+treehouses bluetooth on
+
+# download Planet
+cd /root || exit 1
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+docker-compose -f planet.yml -p planet pull
+docker-compose -f planet.yml -p planet up -d --build
+
+# real time clock
+cd /boot/overlays || exit 1
+echo >> /boot/config.txt
+
+if [ "$rtc" = "rasclock" ]; then
+  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
+elif [ "$rtc" = "ds3231" ]; then
+  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
+fi
+
+cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
+sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
+sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
+
+# write '/boot/autorun.sh'
+{
+  echo '#!/bin/sh'
+  echo ''
+  echo 'sleep 1'
+  echo 'docker-compose -f /root/planet.yml -p planet start'
+} > /boot/autorun
+
+treehouses hotspot $hotspotname
