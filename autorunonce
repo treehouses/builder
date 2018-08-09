@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#treehouses rename <new hostname>
+treehouses expandfs
+treehouses bluetooth on
+
+#treehouses wifi <wifiname> [password]
+#treehouses hotspot <hotspotname> [password]
+#treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
