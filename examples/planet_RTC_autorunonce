@@ -7,16 +7,6 @@ hotspotname='treehouse'
 rtc='rasclock'
 # rtc='ds3231'
 
-treehouses rename $hostname
-treehouses expandfs
-treehouses bluetooth on
-
-# download Planet
-cd /root || exit 1
-wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
-docker-compose -f planet.yml -p planet pull
-docker-compose -f planet.yml -p planet up -d --build
-
 # real time clock
 cd /boot/overlays || exit 1
 echo >> /boot/config.txt
@@ -31,12 +21,64 @@ cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
 sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
 sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
 
-# write '/boot/autorun.sh'
+# disable fake-hwclock
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+
+treehouses rename $hostname
+treehouses expandfs
+treehouses bluetooth on
+#treehouses wifi <wifiname> [password]
+
+# download Planet
+cd /root || exit 1
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
+
+sync; sync; sync
+
+docker-compose -f planet.yml -f install.yml -p planet pull
+docker-compose -f planet.yml -f install.yml -p planet up -d
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:latest treehouses/planet:local
+
+sync; sync; sync
+
+docker-compose -f planet.yml -p planet up -d
+
+# second autorunonce
+mv /boot/autoranonce* /boot/autoranonce.first
+sync
+
 {
   echo '#!/bin/sh'
-  echo ''
-  echo 'sleep 1'
-  echo 'docker-compose -f /root/planet.yml -p planet start'
-} > /boot/autorun
+  echo "sleep 10"
+  echo
+  echo "while ! curl -X GET https://google.com ; do"
+  echo "  sleep 1"
+  echo "done"
+  echo
+  echo "sudo service ntp restart"
+  echo "sudo date > /boot/time"
+  echo "sudo hwclock -w"
+  echo "sudo hwclock -r >> /boot/time"
+  echo "sudo hwclock -s"
+  echo "sudo date >> /boot/time"
+  echo
+  echo "{"
+  echo "  echo \"server 127.127.1.0\""
+  echo "  echo \"fudge 127.127.1.0 stratum 10\""
+  echo "  echo \"restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap\""
+  echo "} >> /etc/ntp.conf"
+  echo
+  # write '/boot/autorun', start moodole and BellApps on boot
+  echo "{"
+  echo "  echo \"@/bin/sh\""
+  echo "  echo \"sleep 1\""
+  echo "  echo \"docker-compose -f /root/planet.yml -p planet up -d\""
+  echo "} >> /boot/autorun"
+  echo "sed -i s/\@/#\!/g /boot/autorun"
+  echo "sync;sync;sync; reboot"
+} > /boot/autorunonce
 
 treehouses hotspot $hotspotname
