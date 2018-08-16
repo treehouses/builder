@@ -6,19 +6,31 @@ hotspotname='treehouse'
 treehouses rename $hostname
 treehouses expandfs
 treehouses bluetooth on
+#treehouses wifi <wifiname> [password]
 
 # download Planet
 cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
-docker-compose -f planet.yml -p planet pull
-docker-compose -f planet.yml -p planet up -d --build
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
+
+sync; sync; sync
+
+docker-compose -f planet.yml -f install.yml -p planet pull
+docker-compose -f planet.yml -f install.yml -p planet up -d
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:latest treehouses/planet:local
+
+sync; sync; sync
+
+docker-compose -f planet.yml -p planet up -d
+
 
 # write '/boot/autorun.sh'
 {
   echo '#!/bin/sh'
   echo ''
   echo 'sleep 1'
-  echo 'docker-compose -f /root/planet.yml -p planet start'
+  echo 'docker-compose -f /root/planet.yml -p planet up -d'
 } > /boot/autorun
 
 treehouses hotspot $hotspotname
