@@ -42,6 +42,10 @@ cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 
+ex -sc '8i|    volumes:' -cx planet.yml
+ex -sc '9i|      - "/srv/planet/data:/opt/couchdb/data"' -cx planet.yml
+ex -sc '10i|      - "/srv/planet/log:/opt/couchdb/var/log"' -cx planet.yml
+
 sync; sync; sync
 
 docker-compose -f planet.yml -f install.yml -p planet pull
