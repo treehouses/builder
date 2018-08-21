@@ -45,13 +45,13 @@ wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/dock
 sync; sync; sync
 
 docker-compose -f planet.yml -f install.yml -p planet pull
-docker-compose -f planet.yml -f install.yml -p planet up -d
+# docker-compose -f planet.yml -f install.yml -p planet up -d
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
 
 sync; sync; sync
 
-docker-compose -f planet.yml -p planet up -d
+# docker-compose -f planet.yml -p planet up -d
 
 # second autorunonce
 mv /boot/autoranonce* /boot/autoranonce.first
