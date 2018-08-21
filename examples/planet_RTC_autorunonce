@@ -14,9 +14,10 @@ treehouses led green none
 treehouses rename $hostname
 treehouses expandfs
 treehouses bluetooth on
+# this script was made to run using ethernet. If you have no access to it we recommend you switch to bridge
 #treehouses wifi <wifiname> [password]
-#treehouses hotspot MyHotspotName [MyHotspotPassword]
-#treehouses bridge MyNetworkName MyHotspotName [MyNetworkPassword] [MyHotspotPassword]
+treehouses hotspot $hotspotname
+#treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
 
 # real time clock
 cd /boot/overlays || exit 1
@@ -58,10 +59,12 @@ sync
 
 {
   echo '#!/bin/sh'
-  echo "sleep 10"
+  echo
+  echo "sudo treehouses led green timer"
+  echo "sudo treehouses led red timer"
   echo
   echo "while ! curl -X GET https://google.com ; do"
-  echo "  sleep 1"
+  echo "  sleep 5"
   echo "done"
   echo
   # On the second boot the GREEN led mode will be heartbeat and the RED led will be off
@@ -81,18 +84,14 @@ sync
   echo "  echo \"restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap\""
   echo "} >> /etc/ntp.conf"
   echo
-  # write '/boot/autorun', start moodole and BellApps on boot
-  echo "{"
-  echo "  echo \"@/bin/sh\""
-  echo "  echo \"treehouses led red timer & treehouses led green timer\""
-  echo "  echo \"sleep 1\""
-  echo "  echo \"docker-compose -f /root/planet.yml -p planet up -d\""
-  echo "  echo \"treehouses led red default-on & treehouses led green default-on\""
-  echo "} >> /boot/autorun"
-  echo "sed -i s/\@/#\!/g /boot/autorun"
   echo "sync;sync;sync; reboot"
 } > /boot/autorunonce
 
-treehouses hotspot $hotspotname
+{
+  echo "#!/bin/sh"
+  echo
+  echo "sleep 1"
+  echo "docker-compose -f /root/planet.yml -p planet up -d"
+} > /boot/autorun
 
 sync; sync; sync; reboot
