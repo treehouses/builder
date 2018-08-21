@@ -7,9 +7,6 @@ hotspotname='treehouse'
 rtc='rasclock'
 # rtc='ds3231'
 
-# treehouses led
-prevRedLedMode=$(treehouses led red)
-prevGreenLedMode=$(treehouses led green)
 # On the first boot the RED led mode will be heartbeat and the GREEN led will be off
 treehouses led red heartbeat
 treehouses led green none
@@ -87,8 +84,10 @@ sync
   # write '/boot/autorun', start moodole and BellApps on boot
   echo "{"
   echo "  echo \"@/bin/sh\""
+  echo "  echo \"treehouses led red timer & treehouses led green timer\""
   echo "  echo \"sleep 1\""
   echo "  echo \"docker-compose -f /root/planet.yml -p planet up -d\""
+  echo "  echo \"treehouses led red default-on & treehouses led green default-on\""
   echo "} >> /boot/autorun"
   echo "sed -i s/\@/#\!/g /boot/autorun"
   echo "sync;sync;sync; reboot"
@@ -96,6 +95,4 @@ sync
 
 treehouses hotspot $hotspotname
 
-# Once the script is done we restore the original LED mode
-treehouses led red "$prevRedLedMode"
-treehouses led green "$prevGreenLedMode"
+sync; sync; sync; reboot
