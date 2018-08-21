@@ -1,0 +1,98 @@
+#!/bin/bash
+
+hostname='ole'
+hotspotname='treehouse'
+
+# real time clock: rasclock or ds3231
+rtc='rasclock'
+# rtc='ds3231'
+
+# On the first boot the RED led mode will be heartbeat and the GREEN led will be off
+treehouses led red heartbeat
+treehouses led green none
+
+treehouses rename $hostname
+treehouses expandfs
+treehouses bluetooth on
+# this script was made to run using ethernet. If you have no access to it we recommend you switch to bridge
+#treehouses wifi <wifiname> [password]
+treehouses hotspot $hotspotname
+#treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
+
+# real time clock
+cd /boot/overlays || exit 1
+echo >> /boot/config.txt
+
+if [ "$rtc" = "rasclock" ]; then
+  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
+elif [ "$rtc" = "ds3231" ]; then
+  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
+fi
+
+cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
+sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
+sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
+
+# disable fake-hwclock
+sudo apt-get -y remove fake-hwclock
+sudo update-rc.d -f fake-hwclock remove
+
+# download Planet
+cd /root || exit 1
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
+
+ex -sc '8i|    volumes:' -cx planet.yml
+ex -sc '9i|      - "/srv/planet/data:/opt/couchdb/data"' -cx planet.yml
+ex -sc '10i|      - "/srv/planet/log:/opt/couchdb/var/log"' -cx planet.yml
+
+sync; sync; sync
+
+docker-compose -f planet.yml -f install.yml -p planet pull
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:latest treehouses/planet:local
+
+sync; sync; sync
+
+# second autorunonce
+mv /boot/autoranonce* /boot/autoranonce.first
+sync
+
+{
+  echo '#!/bin/sh'
+  echo
+  echo "sudo treehouses led green timer"
+  echo "sudo treehouses led red timer"
+  echo
+  echo "while ! curl -X GET https://google.com ; do"
+  echo "  sleep 5"
+  echo "done"
+  echo
+  # On the second boot the GREEN led mode will be heartbeat and the RED led will be off
+  echo "sudo treehouses led green heartbeat"
+  echo "sudo treehouses led red none"
+  echo
+  echo "sudo service ntp restart"
+  echo "sudo date > /boot/time"
+  echo "sudo hwclock -w"
+  echo "sudo hwclock -r >> /boot/time"
+  echo "sudo hwclock -s"
+  echo "sudo date >> /boot/time"
+  echo
+  echo "{"
+  echo "  echo \"server 127.127.1.0\""
+  echo "  echo \"fudge 127.127.1.0 stratum 10\""
+  echo "  echo \"restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap\""
+  echo "} >> /etc/ntp.conf"
+  echo
+  echo "sync;sync;sync; reboot"
+} > /boot/autorunonce
+
+{
+  echo "#!/bin/sh"
+  echo
+  echo "sleep 1"
+  echo "docker-compose -f /root/planet.yml -p planet up -d"
+} > /boot/autorun
+
+sync; sync; sync; reboot
