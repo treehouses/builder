@@ -57,7 +57,7 @@ sync
   echo "sudo treehouses led green heartbeat"
   echo "sudo treehouses led red none"
   echo
-  echo "sudo treehouses ntp off"
+  echo "sudo treehouses ntp local"
   echo
   echo "sync;sync;sync; reboot"
 } > /boot/autorunonce
