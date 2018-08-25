@@ -70,7 +70,7 @@ sleep 10
 while ! curl -X GET https://google.com ; do
   sleep 1
 done
-sudo treehouses ntp off
+sudo treehouses ntp local
 # write '/boot/autorun', start moodole and BellApps on boot
 echo '#!/bin/sh' > /boot/autorun
 echo '' >> /boot/autorun
