@@ -20,22 +20,7 @@ treehouses hotspot $hotspotname
 #treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
 
 # real time clock
-cd /boot/overlays || exit 1
-echo >> /boot/config.txt
-
-if [ "$rtc" = "rasclock" ]; then
-  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
-elif [ "$rtc" = "ds3231" ]; then
-  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
-fi
-
-cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
-sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
-sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
-
-# disable fake-hwclock
-sudo apt-get -y remove fake-hwclock
-sudo update-rc.d -f fake-hwclock remove
+treehouses rtc on "$rtc"
 
 # download Planet
 cd /root || exit 1
@@ -72,18 +57,7 @@ sync
   echo "sudo treehouses led green heartbeat"
   echo "sudo treehouses led red none"
   echo
-  echo "sudo service ntp restart"
-  echo "sudo date > /boot/time"
-  echo "sudo hwclock -w"
-  echo "sudo hwclock -r >> /boot/time"
-  echo "sudo hwclock -s"
-  echo "sudo date >> /boot/time"
-  echo
-  echo "{"
-  echo "  echo \"server 127.127.1.0\""
-  echo "  echo \"fudge 127.127.1.0 stratum 10\""
-  echo "  echo \"restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap\""
-  echo "} >> /etc/ntp.conf"
+  echo "sudo treehouses ntp off"
   echo
   echo "sync;sync;sync; reboot"
 } > /boot/autorunonce

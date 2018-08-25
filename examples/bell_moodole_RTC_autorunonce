@@ -59,22 +59,7 @@ cd /root/ole || exit 1
 npm install express
 
 # real time clock
-cd /boot/overlays || exit 1
-echo >> /boot/config.txt
-
-if [ "$rtc" = "rasclock" ]; then
-  echo 'dtoverlay=i2c-rtc,pcf2127' >> /boot/config.txt
-elif [ "$rtc" = "ds3231" ]; then
-  echo 'dtoverlay=i2c-rtc,ds3231' >> /boot/config.txt
-fi
-
-cp /lib/udev/hwclock-set /lib/udev/hwclock-set.old
-sed -e '/run\/systemd\/system/,+2 s/^#*/#/' -i /lib/udev/hwclock-set
-sed -e '/--systz/ s/^#*/#/' -i /lib/udev/hwclock-set
-
-# disable fake-hwclock
-sudo apt-get -y remove fake-hwclock
-sudo update-rc.d -f fake-hwclock remove
+treehouses rtc on "$rtc"
 
 # second autorunonce
 mv /boot/autoranonce* /boot/autoranonce.first
@@ -85,15 +70,7 @@ sleep 10
 while ! curl -X GET https://google.com ; do
   sleep 1
 done
-sudo service ntp restart
-sudo date > /boot/time
-sudo hwclock -w
-sudo hwclock -r >> /boot/time
-sudo hwclock -s
-sudo date >> /boot/time
-echo "server 127.127.1.0" >> /etc/ntp.conf
-echo "fudge 127.127.1.0 stratum 10" >> /etc/ntp.conf
-echo "restrict 192.168.0.0 mask 255.255.0.0 nomodify notrap" >> /etc/ntp.conf
+sudo treehouses ntp off
 # write '/boot/autorun', start moodole and BellApps on boot
 echo '#!/bin/sh' > /boot/autorun
 echo '' >> /boot/autorun
