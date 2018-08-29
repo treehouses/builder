@@ -3,34 +3,39 @@
 hostname='ole'
 hotspotname='treehouse'
 
+# On the first boot the RED led mode will be heartbeat and the GREEN led will be off
+treehouses led red heartbeat
+treehouses led green none
+
 treehouses rename $hostname
 treehouses expandfs
 treehouses bluetooth on
+# this script was made to run using ethernet. If you have no access to it we recommend you switch to bridge
 #treehouses wifi <wifiname> [password]
+treehouses ap internet $hotspotname
+#treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
 
 # download Planet
 cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 
 sync; sync; sync
 
-docker-compose -f planet.yml -f install.yml -p planet pull
-docker-compose -f planet.yml -f install.yml -p planet up -d
+docker-compose -f planet.yml -f volumes.yml -f install.yml -p planet pull
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
 
-sync; sync; sync
-
-docker-compose -f planet.yml -p planet up -d
-
-
-# write '/boot/autorun.sh'
 {
-  echo '#!/bin/sh'
-  echo ''
-  echo 'sleep 1'
-  echo 'docker-compose -f /root/planet.yml -p planet up -d'
+  echo "#!/bin/sh"
+  echo
+  echo "sleep 1"
+  echo "if [ -f /srv/planet/pwd/credentials.yml ]; then"
+  echo "  docker-compose -f /root/planet.yml -f /root/volumes.yml -f /srv/planet/pwd/credentials.yml -p planet up -d"
+  echo "else"
+  echo "  docker-compose -f /root/planet.yml -f /root/volumes.yml -p planet up -d"
+  echo "fi"
 } > /boot/autorun
 
-treehouses hotspot $hotspotname
+sync; sync; sync; reboot
