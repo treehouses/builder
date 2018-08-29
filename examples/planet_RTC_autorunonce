@@ -16,7 +16,7 @@ treehouses expandfs
 treehouses bluetooth on
 # this script was made to run using ethernet. If you have no access to it we recommend you switch to bridge
 #treehouses wifi <wifiname> [password]
-treehouses hotspot $hotspotname
+treehouses ap internet $hotspotname
 #treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
 
 # real time clock
@@ -25,15 +25,12 @@ treehouses rtc on "$rtc"
 # download Planet
 cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
-
-ex -sc '8i|    volumes:' -cx planet.yml
-ex -sc '9i|      - "/srv/planet/data:/opt/couchdb/data"' -cx planet.yml
-ex -sc '10i|      - "/srv/planet/log:/opt/couchdb/var/log"' -cx planet.yml
 
 sync; sync; sync
 
-docker-compose -f planet.yml -f install.yml -p planet pull
+docker-compose -f planet.yml -f volumes.yml -f install.yml -p planet pull
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
 
@@ -66,7 +63,12 @@ sync
   echo "#!/bin/sh"
   echo
   echo "sleep 1"
-  echo "docker-compose -f /root/planet.yml -p planet up -d"
+  echo
+  echo "if [ -f /srv/planet/pwd/credentials.yml ]; then"
+  echo "  docker-compose -f /root/planet.yml -f /root/volumes.yml -f /srv/planet/pwd/credentials.yml -p planet up -d"
+  echo "else"
+  echo "  docker-compose -f /root/planet.yml -f /root/volumes.yml -p planet up -d"
+  echo "fi"
 } > /boot/autorun
 
 sync; sync; sync; reboot
