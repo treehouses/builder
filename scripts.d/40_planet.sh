@@ -10,8 +10,17 @@ cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 #wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
 {
-
+echo 'services:'
+echo '  couchdb:'
+echo '    volumes:'
+echo '      - "$(pwd -P)/mnt/img_root/srv/planet/data:/opt/couchdb/data"'
+echo '      - "$(pwd -P)/mnt/img_root/srv/planet/log:/opt/couchdb/var/log"'
+echo '  planet:'
+echo '    volumes:'
+echo '      - "$(pwd -P)/mnt/img_root/srv/planet/pwd:/usr/share/nginx/html/credentials"'
+echo 'version: "2"'
 } > volumes.yml
+#docker run -d -p $port:5984 --name bell -v "$(pwd -P)/mnt/img_root/srv/bell/data:/usr/local/var/lib/couchdb" klaemo/couchdb:1.6.1
 
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 
@@ -31,10 +40,6 @@ sync; sync; sync
 ----------------------------
 port='5984'
 version='0.13.19'
-
-docker pull klaemo/couchdb:1.6.1
-docker run -d -p $port:5984 --name bell -v "$(pwd -P)/mnt/img_root/srv/bell/data:/usr/local/var/lib/couchdb" klaemo/couchdb:1.6.1
-
 
 mkdir -p mnt/img_root/srv/bell/conf
 cp BeLL-Apps/init_docs/ConfigurationsDoc-* mnt/img_root/srv/bell/conf/.
