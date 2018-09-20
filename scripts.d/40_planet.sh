@@ -5,8 +5,6 @@ source lib.sh
 planetdir='tenalp'
 
 # download Planet
-cd /root || exit 1
-
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
