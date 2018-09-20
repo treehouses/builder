@@ -10,19 +10,20 @@ cd /root || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
+
 {
-echo "services:"
-echo "  couchdb:"
-echo "    volumes:"
-echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/data:/opt/couchdb/data\""
-echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/log:/opt/couchdb/var/log\""
-echo "  planet:"
-echo "    volumes:"
-echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/pwd:/usr/share/nginx/html/credentials\""
-echo "version: \"2\""
+  echo "services:"
+  echo "  couchdb:"
+  echo "    volumes:"
+  echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/data:/opt/couchdb/data\""
+  echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/log:/opt/couchdb/var/log\""
+  echo "  planet:"
+  echo "    volumes:"
+  echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/pwd:/usr/share/nginx/html/credentials\""
+  echo "version: \"2\""
 } > volumestravis.yml
 
-cp planet.yml install.yml volumes.yml $(pwd -P)/mnt/img_root/root/.
+cp planet.yml install.yml volumes.yml "$(pwd -P)/mnt/img_root/root/."
 
 sync; sync; sync
 
