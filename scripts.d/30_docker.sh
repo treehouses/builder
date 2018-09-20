@@ -4,8 +4,9 @@ source lib.sh
 
 IMAGES=(
     portainer/portainer:linux-arm
-    arm32v7/postgres
-    treehouses/moodle:rpi-latest
+    firehol/netdata:armv7hf
+    #arm32v7/postgres
+    #treehouses/moodle:rpi-latest
 )
 
 MULTIS=(
