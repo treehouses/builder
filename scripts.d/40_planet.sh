@@ -33,6 +33,12 @@ sync; sync; sync
 
 docker-compose -f planet.yml -f volumestravis.yml -p planet up -d
 
+# check if couch-db is working
+while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
+  sleep 1
+done
+echo "couch is up"
+
 # sync and stop docker
 sync; sync; sync
 docker-compose -f planet.yml -f volumestravis.yml -p planet stop
