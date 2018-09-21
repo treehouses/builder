@@ -39,6 +39,12 @@ while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
 done
 echo "couch is up"
 
+# check if couch-db docker has finish
+while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-init* -a -q)") == "true"; do
+  sleep 1
+done
+echo "couch has finished"
+
 # sync and stop docker
 sync; sync; sync
 docker-compose -f planet.yml -f volumestravis.yml -p planet stop
