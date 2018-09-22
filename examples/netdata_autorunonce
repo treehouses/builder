@@ -22,4 +22,5 @@
   echo "docker-compose -f /root/netdata.yml -p netdata up -d"
 } > /boot/autorun
 
-sync; sync; sync; reboot
+sync; sync; sync
+/boot/autorun
