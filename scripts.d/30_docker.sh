@@ -40,6 +40,9 @@ for multi in "${MULTIS[@]}" ; do
     docker tag "$name@$hash" "$name:$tag" 
 done
 
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:latest treehouses/planet:local
+
 sync; sync; sync
 
 docker images
