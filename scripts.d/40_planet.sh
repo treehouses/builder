@@ -45,6 +45,8 @@ while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-in
 done
 echo "couch has finished"
 
+tree -f "mnt/img_root/srv/$planetdir"
+
 # sync and stop docker
 sync; sync; sync
 docker-compose -f planet.yml -f volumestravis.yml -p planet stop
