@@ -2,10 +2,11 @@
 
 #treehouses rename <new hostname>
 treehouses expandfs
-treehouses bluetooth on
+treehouses button bluetooth
 
 #treehouses wifi <wifiname> [password]
-#treehouses hotspot <hotspotname> [password]
+#treehouses ap internet <hotspotname> [password]
+#treehouses ap local <hotspotname> [password]
 #treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
 
 {
