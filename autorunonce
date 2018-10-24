@@ -1,13 +1,20 @@
 #!/bin/bash
 
-#treehouses rename <new hostname>
+treehouses rename treehouses
 treehouses expandfs
 treehouses button bluetooth
 
 #treehouses wifi <wifiname> [password]
 #treehouses ap internet <hotspotname> [password]
+treehouses ap internet treehouses
 #treehouses ap local <hotspotname> [password]
 #treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
+
+#have internet and wanna latest planet? - please uncomment
+#docker pull treehouses/planet:latest
+#docker pull treeohuses/planet:db-init
+#docker tag treehouses/planet:latest treehouses/planet:local
+#docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 
 {
   echo "#!/bin/sh"
