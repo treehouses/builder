@@ -14,8 +14,8 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-10-11/2018-10-09-raspbian-stretch.zip.torrent
-RASPBIAN_SHA256=6e3aa76e21473ef316c0bfc9efa5c27a27fe46bd698f71de3e06e66b64a55500
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-11-15/2018-11-13-raspbian-stretch.zip.torrent
+RASPBIAN_SHA256=a121652937ccde1c2583fe77d1caec407f2cd248327df2901e4716649ac9bc97
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
@@ -101,7 +101,7 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +900M "$RESIZE_IMAGE_PATH"
+    truncate -s +1G "$RESIZE_IMAGE_PATH"
     losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
     fdisk /dev/loop1 <<EOF
 p
