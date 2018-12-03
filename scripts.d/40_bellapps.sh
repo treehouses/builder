@@ -5,8 +5,8 @@ source lib.sh
 port='5984'
 version='0.13.19'
 
-docker pull klaemo/couchdb:1.6.1
-docker run -d -p $port:5984 --name bell -v "$(pwd -P)/mnt/img_root/srv/bell/data:/usr/local/var/lib/couchdb" klaemo/couchdb:1.6.1
+docker pull treehouses/couchdb:1.7.2
+docker run -d -p $port:5984 --name bell -v "$(pwd -P)/mnt/img_root/srv/bell/data:/usr/local/var/lib/couchdb" treehouses/couchdb:1.7.2
 
 # download BeLL-Apps
 wget https://github.com/open-learning-exchange/BeLL-Apps/archive/$version.zip
