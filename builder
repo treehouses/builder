@@ -14,8 +14,8 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-06-29/2018-06-27-raspbian-stretch.zip.torrent
-RASPBIAN_SHA1=6237cc8a46d135abc34b95c780dfe6be2c7db549
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-11-15/2018-11-13-raspbian-stretch.zip.torrent
+RASPBIAN_SHA256=a121652937ccde1c2583fe77d1caec407f2cd248327df2901e4716649ac9bc97
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
@@ -56,7 +56,7 @@ function _get_image {
     fi
     aria2c --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
     echo -n "Checksum of "
-    sha1sum --strict --check - <<<"$RASPBIAN_SHA1 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
+    sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
 
 function _decompress_image {
@@ -101,7 +101,7 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +900M "$RESIZE_IMAGE_PATH"
+    truncate -s +1500MB "$RESIZE_IMAGE_PATH"
     losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
     fdisk /dev/loop1 <<EOF
 p
@@ -286,8 +286,8 @@ if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
     exit 1
 fi
 
-if [[ $authorized_keys_lines -le 1 ]]; then
-    echo "/root/.ssh/authorized_keys has 1 line or less."
+if [[ $authorized_keys_lines -le 50 ]]; then
+    echo "/root/.ssh/authorized_keys has 50 line or less."
     exit 1
 fi
 

@@ -8,7 +8,7 @@ while [[ $page_number -gt 0 ]]; do
     echo "Gettings key from: $api_url"
 
     # shellcheck disable=SC2207
-    members+=($(curl -s "$api_url"| jq '.[].url' | sed -rn "s/(.*)\\/users\\/(.*)\"/https:\\/\\/github.com\\/\\2.keys/p"))
+    members+=($(curl -s "$api_url" -H "Authorization: token $GITHUB_KEY" | jq '.[].url' | sed -rn "s/(.*)\\/users\\/(.*)\"/https:\\/\\/github.com\\/\\2.keys/p"))
     if curl -sI "$api_url" | grep -q "next"
     then 
         page_number=$((page_number+1))
