@@ -46,6 +46,11 @@ upload() {
         # For some reason the cd has no effect if it's the first command? WTF.
         .travis/ssh.sh deploy@dev.ole.org sh -c ":; cd /data/images; ln -sf $image_gz latest.img.gz; ln -sf $image_sha1 latest.img.gz.sha1"
     fi
+
+    echo "Moving the images to build folder (to upload to s3)"
+    mkdir build/
+    mv "$image_gz" "build/$image_gz"
+    mv "$image_sha1" "build/$image_sha1"
 }
 
 bell() {
