@@ -1,4 +1,5 @@
 #!/bin/bash
+exit 0
 
 source lib.sh
 echo "Installing files"

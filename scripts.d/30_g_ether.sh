@@ -1,4 +1,5 @@
 #!/bin/bash
+exit 0
 
 # Make the pi into a USB ethernet gadget.
 ROOT=mnt/img_root

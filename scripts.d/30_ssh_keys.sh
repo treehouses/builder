@@ -1,4 +1,5 @@
 #!/bin/bash
+exit 0
 
 echo "Getting open-learning-exchange ssh keys"
 members=()
