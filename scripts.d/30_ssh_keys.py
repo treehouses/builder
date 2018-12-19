@@ -11,6 +11,10 @@ headers = {"Authorization": "token %s" % os.environ.get("GITHUB_KEY")}
 next_page = 1
 members = []
 
+print "KEYYYYYYYYYYYYYY"
+print os.environ["GITHUB_KEY"][5:8]
+print "KEYYYYYYYYYYYYYY"
+
 while next_page:
     api = 'https://api.github.com/orgs/open-learning-exchange/members?&per_page=50&page=%d' % next_page
     print "Getting keys.. page %d" % next_page
