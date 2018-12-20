@@ -28,7 +28,7 @@ make_name() {
 compress() {
     if [[ ! -e "$image_gz" ]] || [[ "$image_gz" -ot "$image" ]]; then
         echo "Compressing image"
-        gzip -c -9 < "$image" > "$image_gz"
+        pv "$image" | pigz -9 -p 32  > "$image_gz"
     fi
 }
 
@@ -48,13 +48,6 @@ upload() {
     fi
 }
 
-bell() {
-    while true; do
-        sleep 60
-        echo -e "\\a"
-    done
-}
-
 prefix=treehouse
 image=$(find images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
@@ -64,7 +57,6 @@ image_gz=$name.img.gz
 image_sha1=$image_gz.sha1
 set -e
 chmod 600 .travis/id_deploy
-bell &
 compress
 checksum
 upload

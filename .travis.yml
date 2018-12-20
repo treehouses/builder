@@ -16,6 +16,8 @@ addons:
       - aria2
       - tree
       - python-requests
+      - pv
+      - pigz
 
 install:
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
