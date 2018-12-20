@@ -33,7 +33,7 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./.travis/deploy.sh
+    script: ./.travis/compress.sh
     on:
       all_branches: true
       tags: true
@@ -44,6 +44,12 @@ deploy:
     bucket: treehouses
     local-dir: build
     skip_cleanup: true
+    on:
+      all_branches: true
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: ./.travis/upload.sh
     on:
       all_branches: true
       tags: true
