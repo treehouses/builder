@@ -52,7 +52,7 @@ deploy:
 notifications:
   webhooks:
     urls:
-      secure: "We5+2Vg00C2lW8/26uiRTZFX3SJhwTwxPWXXukA4PJdiqCGyPTq67EO2M+4kfH1od/ahqcqQQKN/IIuAKr6jfHCSA5LNJG2h466B93zXyP85Ih8bkQmBApvIEBx6fSwg+KzvswvGEUGYSn30Y8PwQhJWtfqp+7Svcg0U2er1Zq7OffMBZF0HYZJht9DqjLMp9l9zSun1y2S2TknqbBbob+NTxytxg8nc2YtOepYcXiTM0D6PUA42ngC6//cSlMC4uvGDgYl1BRPapfUnvLqh8HEQgMZV9u6OdseBSKtf5Er/xvfVpRIuwTZt0d8/WNX9JlEGWY6EiVhNq/I97s1mWF3vc79mkA+Nkg4RMUZTAHDHbQPRzQvhnzisWNHPhHrW+vQPpkb6PeF+v6lXe7FU5f8dTaZyJ5hcTbbUF4Z6C2HnuKREOlIR7ZujdrI22ZIytmvLJEUPBbuXJx/fD5n3iak8T2L+QF8geeP5Nxe1lDeGkklErwIgwZsCQCsAfNCSkyfOax/heN0wPolMmApUQksWAoceRv7VKwfBrDGwuxun8pCqFSFF9CeOPg/wp0vzG8x1dUxEoQ0fnujhaSQG0AH/eHWkXVpJNF1ZkiK+4sWHGLkXvdNrfbO3LoWx3YMHyAsFWoKWJgU0p+bAC7xxizurVflX8tedI6RaZHg7OSc="
-      on_success: always # one of: always, never, change
-      on_failure: always
-      on_start: always
+      - secure: "jEmKk13o+RGavkZJ1PpqUX2PvKOEGyec/BmtWZG9h2vBu6xXeW4nN/qfjucGeuYAWUzhYy8bDQTIa+FpFzgejPKyh3+LnSVtKtVSVdfnuJidqFfcS1xEPGbrHyuG8hGikCmicUVY+/s/dmxwTjnHFQRpGGd9uRXFRst1fksujQQFLlusEReRPkXSMrJtwaetiQPTKml+C+37OXOQUgNExQQ/EhDPDN6vl7cCkvF/8eTvRL6yi9BSQEbX0/1pCiMocOHiTHdbBr5nD1jCYMZeSnu/KYuWZbOXTUkEVCj6Mnzl10fTB8xvMxof7P43GrSgGWu9Z2U/ldcgBNIIgQ+ichABHcVDOxhba0bxb3Lb23wZcXJPqr1GYwIMjsecAVxON4FduXvdaUU125pYhnHFQMDY6/RNQs7e5NpiQu135Vo9pUo3QadQZqUkWqWE/AcHp+WTj6oEIao96VGIcAy3kHIbuHGs5UuE4a2mSZI7Z0CH1pKXTZ4BiP1tj6KhqYCYt7C1ESGg8osY+bq4bFc6BxtToxsnqvbKWiSLXippdxRRs5hSc8JZ+rJRVTzWqb1EuKK494LdTJytGXzCp6qrj1uaA/uyleZBNTEQ39RGXE8845yoLApgNwUyS0GyfmVMi8kojx6N6EQ+t0YLjQYkeMrmchhlRv84rA95HsnW01o="
+    on_success: always # one of: always, never, change
+    on_failure: always
+    on_start: always
