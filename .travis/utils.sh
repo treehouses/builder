@@ -37,6 +37,7 @@ bell() {
     done
 }
 
+prefix=treehouse
 image=$(find images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
 make_name
