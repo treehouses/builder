@@ -41,7 +41,9 @@ prefix=treehouse
 image=$(find images/*.img | head -1) # XXX
 test -n "$image" || die "image not found"
 make_name
-mkdir build/
+if [ ! -d "build" ]; then
+  mkdir build/
+fi
 image_gz="build/$name.img.gz"
 image_sha1=$image_gz.sha1
 set -e

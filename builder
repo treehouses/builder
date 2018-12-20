@@ -189,11 +189,8 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    python scripts.d/30_ssh_keys.py
-    bash scripts.d/31_install_ssh_keys.sh
-
-    #run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
-    #    die "Image modification scripts failed"
+    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
+        die "Image modification scripts failed"
 
     _enable_daemons
     _check_space_left
