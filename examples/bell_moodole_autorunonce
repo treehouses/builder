@@ -66,4 +66,4 @@ docker start bell
 node /root/ole/server.js
 EOF
 
-treehouses hotspot $hotspotname
+treehouses ap internet $hotspotname
