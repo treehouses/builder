@@ -83,7 +83,7 @@ echo 'node /root/ole/server.js' >> /boot/autorun
 sync;sync;sync;reboot
 EOF
 
-treehouses hotspot $hotspotname
+treehouses ap internet $hotspotname
 
 sync
 sync

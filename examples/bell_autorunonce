@@ -58,7 +58,7 @@ npm install express
 echo '' >> /boot/autorun.sh
 echo 'node /root/ole/server.js' >> /boot/autorun.sh
 
-treehouses hotspot $hotspotname
+treehouses ap internet $hotspotname
 
 sync
 sync

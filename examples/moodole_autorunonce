@@ -18,7 +18,7 @@ docker-compose -f /home/pi/moodole.yml -p moodole up -d --build
   echo 'docker-compose -f /home/pi/moodole.yml -p moodole start'
 } > /boot/autorun
 
-treehouses hotspot $hotspotname
+treehouses ap internet $hotspotname
 
 sync
 sync
