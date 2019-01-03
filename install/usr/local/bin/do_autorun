@@ -114,7 +114,7 @@ onebalenaforall() {
 }
 
 usbgadget() {
-  case "$(pirateship detectrpi)" in
+  case "$(treehouses detectrpi)" in
         RPIZ|RPIZW)
             if grep -q -w "^#dtoverlay=dwc2" /boot/config.txt
             then 
