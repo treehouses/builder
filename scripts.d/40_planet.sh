@@ -27,7 +27,6 @@ docker-compose -f planet.yml -f volumestravis.yml -f install.yml -p planet pull
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
 
-cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
 sync; sync; sync
 
 docker-compose -f planet.yml -f volumestravis.yml -p planet up -d
@@ -37,6 +36,8 @@ while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
   sleep 1
 done
 echo "couch is up"
+
+cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
 
 # check if couch-db docker has finish
 while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-init* -a -q)") == "true"; do
