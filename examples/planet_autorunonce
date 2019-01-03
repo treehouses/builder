@@ -16,6 +16,7 @@ treehouses ap internet $hotspotname
 #treehouses bridge <wifiname> $hotspotname [password] [hotspotpassword]
 
 # download Planet
+mkdir -p /srv/planet
 cd /srv/planet || exit 1
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
