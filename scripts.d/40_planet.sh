@@ -21,7 +21,7 @@ wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/dock
   echo "version: \"2\""
 } > volumestravis.yml
 
-cp -a planet.yml install.yml volumes.yml mnt/img_root/root/
+cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
 
 sync; sync; sync
 
