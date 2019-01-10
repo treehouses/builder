@@ -5,7 +5,6 @@ source lib.sh
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen # essentials
     docker-ce # docker
-    docker-compose #docker-compose
     quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
@@ -23,5 +22,5 @@ INSTALL_PACKAGES=(
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
-    _apt install "${INSTALL_PACKAGES[@]}" --allow-unauthenticated || die "Could not install ${INSTALL_PACKAGES[*]}"
+    _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
