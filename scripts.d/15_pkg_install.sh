@@ -18,6 +18,7 @@ INSTALL_PACKAGES=(
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
+    tor
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
