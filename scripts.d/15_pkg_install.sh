@@ -18,9 +18,10 @@ INSTALL_PACKAGES=(
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
+    tor
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
-    _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
+    _apt install "${INSTALL_PACKAGES[@]}" --allow-unauthenticated || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi

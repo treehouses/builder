@@ -7,6 +7,7 @@ ADD_REPO_KEYS=(
     D59097AB # hypriot docker
     68576280 # nodesource
     0EBFCD88 # Docker Release (CE deb)
+    A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 # Tor
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "

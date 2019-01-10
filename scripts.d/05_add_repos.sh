@@ -36,6 +36,8 @@ ADD_REPOS=(
     "deb-src https://deb.nodesource.com/node_8.x jessie main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
     "deb [arch=armhf] https://download.docker.com/linux/raspbian jessie stable"
+    "deb http://deb.torproject.org/torproject.org stretch main"
+    "deb-src http://deb.torproject.org/torproject.org stretch main"
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
