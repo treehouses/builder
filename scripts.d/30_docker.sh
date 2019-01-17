@@ -11,7 +11,7 @@ IMAGES=(
 
 MULTIS=(
     treehouses/couchdb:1.7.2
-    treehouses/couchdb:2.2.0
+    treehouses/couchdb:2.3.0
     treehouses/planet:latest
     treehouses/planet:db-init
 )
