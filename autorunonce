@@ -12,7 +12,7 @@ treehouses ap internet treehouses
 
 #have internet and wanna latest planet? - please uncomment
 #docker pull treehouses/planet:latest
-#docker pull treeohuses/planet:db-init
+#docker pull treehouses/planet:db-init
 #docker tag treehouses/planet:latest treehouses/planet:local
 #docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 
@@ -33,3 +33,7 @@ mv /srv/tenalp /srv/planet
 sync;sync;sync
 
 docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
+
+if $(treehouses rebootneeded); then
+  reboot
+fi
