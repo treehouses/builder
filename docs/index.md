@@ -1,5 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability)
-[![Build Status](https://travis-ci.org/treehouses/builder.svg?branch=master)](https://travis-ci.org/treehouses/builder)
+[![Build Status](https://travis-ci.org/treehouses/builder.svg?branch=master)](https://travis-ci.org/treehouses/builder) [![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/treehouses/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # builder
 
