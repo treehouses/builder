@@ -34,6 +34,6 @@ sync;sync;sync
 
 docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
 
-if $(treehouses rebootneeded); then
+if [ $(treehouses rebootneeded) = "true" ]; then
   reboot
 fi
