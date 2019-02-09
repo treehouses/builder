@@ -34,6 +34,11 @@ sync;sync;sync
 
 docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
 
+case "$(treehouses detectrpi)" in
+  RPIZW|RPI3A+)
+    treehouses bootoption console
+esac
+
 if [ "$(treehouses rebootneeded)" = "true" ]; then
   reboot
 fi
