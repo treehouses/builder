@@ -6,7 +6,7 @@ ROOT=mnt/img_root
 
 {
   echo "Host *.onion"
-  echo "  ProxyCommand nc -x localhost:9150 -X 5 %h %p"
+  echo "  ProxyCommand nc -x localhost:9050 -X 5 %h %p"
 } > config
 
 _install() {
