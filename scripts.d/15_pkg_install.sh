@@ -18,6 +18,7 @@ INSTALL_PACKAGES=(
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
     tor
+    jq # for parsing json / treehouses command
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
