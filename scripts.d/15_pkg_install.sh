@@ -19,6 +19,7 @@ INSTALL_PACKAGES=(
     rng-tools # for ap bridge
     tor
     jq # for parsing json / treehouses command
+    net-tools # netstat
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
