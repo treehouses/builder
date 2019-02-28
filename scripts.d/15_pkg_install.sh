@@ -17,7 +17,7 @@ INSTALL_PACKAGES=(
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
-    tor
+    tor openvpn
     jq # for parsing json / treehouses command
     net-tools # netstat
 )
