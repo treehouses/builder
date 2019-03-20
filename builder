@@ -83,6 +83,7 @@ function _disable_ld_preload {
     #if grep -q '^[^#]' $cfg; then
     #    sed -i -e 's/^/#/' $cfg || die "Could not disable ld.so.preload"
     #fi
+    true
 }
 
 function _enable_ld_preload {
@@ -91,6 +92,7 @@ function _enable_ld_preload {
     #if grep -q '^#' $cfg; then
     #    sed -i -e 's/^#//' $cfg || die "Could not enable ld.so.preload"
     #fi
+    true
 }
 
 function _resize_image {
