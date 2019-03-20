@@ -133,22 +133,17 @@ function _open_image {
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$ARMBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $ARMBIAN_IMAGE_FILE:$NL$kpartx"
     # shellcheck disable=SC2162
-    read -d '' img_boot_dev img_root_dev <<<"$(grep -o 'loop.p.' <<<"$kpartx")"
-    test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
-    img_boot_dev=/dev/mapper/$img_boot_dev
+    img_root_dev=$(echo $kpartx | grep -o "loop..p.")
     img_root_dev=/dev/mapper/$img_root_dev
     mkdir -p mnt/img_root
     mount -t ext4 "$img_root_dev" mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
-    mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
-    mount -t vfat "$img_boot_dev" mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
     echo "Armbian Image Details:"
-    df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
+    df -h mnt/img_root | sed -e "s#$(pwd)/##"
 }
 
 function _close_image {
     _umount mnt/img_root/var/cache/apt/archives \
         mnt/img_root/{proc,sys,run,dev/pts} \
-        mnt/sd_root/bo?t mnt/img_root/boot \
         mnt/sd_ro?t mnt/img_root
     kpartx -d "images/$ARMBIAN_IMAGE_FILE" >/dev/null
 }
