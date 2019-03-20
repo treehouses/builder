@@ -78,19 +78,19 @@ function _enable_daemons {
 }
 
 function _disable_ld_preload {
-    cfg=mnt/img_root/etc/ld.so.preload
+    #cfg=mnt/img_root/etc/ld.so.preload
 
-    if grep -q '^[^#]' $cfg; then
-        sed -i -e 's/^/#/' $cfg || die "Could not disable ld.so.preload"
-    fi
+    #if grep -q '^[^#]' $cfg; then
+    #    sed -i -e 's/^/#/' $cfg || die "Could not disable ld.so.preload"
+    #fi
 }
 
 function _enable_ld_preload {
-    cfg=mnt/img_root/etc/ld.so.preload
+    #cfg=mnt/img_root/etc/ld.so.preload
 
-    if grep -q '^#' $cfg; then
-        sed -i -e 's/^#//' $cfg || die "Could not enable ld.so.preload"
-    fi
+    #if grep -q '^#' $cfg; then
+    #    sed -i -e 's/^#//' $cfg || die "Could not enable ld.so.preload"
+    #fi
 }
 
 function _resize_image {
