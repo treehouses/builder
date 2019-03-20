@@ -109,10 +109,9 @@ function _resize_image {
     fdisk /dev/loop1 <<EOF
 p
 d
-2
 n
 p
-2
+1
 $start_sector
 
 p
