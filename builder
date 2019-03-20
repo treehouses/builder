@@ -1,5 +1,5 @@
 #!/bin/bash
-# Download Raspbian Image, remove first-boot stuff, add repos and install packages.
+# Download Armbian Image, remove first-boot stuff, add repos and install packages.
 #
 # Open interactive Shell in chroot or write result to SD Card
 #
@@ -13,11 +13,13 @@
 # ADD_REPOS=()
 # ADD_REPO_KEYS=()
 
-# Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2018-11-15/2018-11-13-raspbian-stretch.zip.torrent
-RASPBIAN_SHA256=a121652937ccde1c2583fe77d1caec407f2cd248327df2901e4716649ac9bc97
+# Armbian
+ARMBIAN_TORRENT_URL=https://dl.armbian.com/torrent/Armbian_5.75_Nanopim4_Debian_stretch_default_4.4.174.7z.torrent
+ARMBIAN_SHA256=8bf02e2fda7dcfbee69bca7879fadce9b747f8e959fbed94ca63e3bc63f71638
 
-RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
+ARMBIAN_IMAGE_FOLDER=$(basename $ARMBIAN_TORRENT_URL | sed -e "s/.7z.torrent//g")
+ARMBIAN_IMAGE_FILE="$ARMBIAN_IMAGE_FOLDER.img"
+
 
 MINIMAL_SPACE_LEFT=102400
 
@@ -26,14 +28,14 @@ MINIMAL_SPACE_LEFT=102400
 source lib.sh
 
 missing_deps=()
-for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
+for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl 7z; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( "$prog" )
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
+    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2 p7zip-full'"
 
 fi
 
@@ -49,18 +51,18 @@ function _umount {
 }
 
 function _get_image {
-    echo "Fetching $RASPBIAN_TORRENT_URL"
+    echo "Fetching $ARMBIAN_TORRENT_URL"
     mkdir -p images
-    if [ ! -f "$RASPBIAN_TORRENT" ]; then
-      wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
+    if [ ! -f "$ARMBIAN_TORRENT" ]; then
+      wget "$ARMBIAN_TORRENT_URL" -O "$ARMBIAN_TORRENT" || die "Download of $ARMBIAN_TORRENT failed"
     fi
-    aria2c --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
+    aria2c --continue "$ARMBIAN_TORRENT" -d images --seed-time 0
     echo -n "Checksum of "
-    sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
+    sha256sum --strict --check - <<<"$ARMBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
 
 function _decompress_image {
-    unzip -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
+    7z e "$IMAGE_ZIP" -o "$IMAGE_ZIP" || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
@@ -93,11 +95,11 @@ function _enable_ld_preload {
 }
 
 function _resize_image {
-    RESIZE_IMAGE_PATH=images/$RASPBIAN_IMAGE_FILE
+    RESIZE_IMAGE_PATH=images/$ARMBIAN_IMAGE_FILE
     if [[ -L "images" ]];
     then
-        rsync -Pav "images/$RASPBIAN_IMAGE_FILE" .
-        RESIZE_IMAGE_PATH=$RASPBIAN_IMAGE_FILE
+        rsync -Pav "images/$ARMBIAN_IMAGE_FILE" .
+        RESIZE_IMAGE_PATH=$ARMBIAN_IMAGE_FILE
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
@@ -122,15 +124,15 @@ EOF
     losetup -d /dev/loop2
     if [[ -L "images" ]];
     then
-        rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
-        rm "$RASPBIAN_IMAGE_FILE"
+        rsync -Pav "$ARMBIAN_IMAGE_FILE" images/
+        rm "$ARMBIAN_IMAGE_FILE"
     fi
 }
 
 function _open_image {
-    echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
+    echo "Loop-back mounting" "images/$ARMBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
-    kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
+    kpartx="$(kpartx -sav images/$ARMBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $ARMBIAN_IMAGE_FILE:$NL$kpartx"
     # shellcheck disable=SC2162
     read -d '' img_boot_dev img_root_dev <<<"$(grep -o 'loop.p.' <<<"$kpartx")"
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
@@ -140,7 +142,7 @@ function _open_image {
     mount -t ext4 "$img_root_dev" mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
     mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
     mount -t vfat "$img_boot_dev" mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
-    echo "Raspbian Image Details:"
+    echo "Armbian Image Details:"
     df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
 }
 
@@ -149,7 +151,7 @@ function _close_image {
         mnt/img_root/{proc,sys,run,dev/pts} \
         mnt/sd_root/bo?t mnt/img_root/boot \
         mnt/sd_ro?t mnt/img_root
-    kpartx -d "images/$RASPBIAN_IMAGE_FILE" >/dev/null
+    kpartx -d "images/$ARMBIAN_IMAGE_FILE" >/dev/null
 }
 
 function _prepare_chroot {
@@ -202,7 +204,7 @@ function _usage {
     echo "
 Usage: $0 <--chroot|--noninteractive>
 
-Download Raspbian Image, remove first-boot stuff, add repos and install packages.
+Download Armbian Image, remove first-boot stuff, add repos and install packages.
 
 Open interactive Shell in chroot or write result to SD Card
 
@@ -254,9 +256,9 @@ function _print_tag {
 
 _print_tag
 
-RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
-echo "$RASPBIAN_TORRENT"
-IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
+ARMBIAN_TORRENT=images/$(basename $ARMBIAN_TORRENT_URL)
+echo "$ARMBIAN_TORRENT"
+IMAGE_ZIP=${ARMBIAN_TORRENT%.torrent}
 echo "$IMAGE_ZIP"
 IMAGE=${IMAGE_ZIP%.zip}.img
 echo "$IMAGE"

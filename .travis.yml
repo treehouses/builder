@@ -16,6 +16,7 @@ addons:
       - aria2
       - tree
       - python-requests
+      - p7zip-full
 
 install:
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
