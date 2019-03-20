@@ -17,8 +17,7 @@
 ARMBIAN_TORRENT_URL=https://dl.armbian.com/torrent/Armbian_5.75_Nanopim4_Debian_stretch_default_4.4.174.7z.torrent
 ARMBIAN_SHA256=8bf02e2fda7dcfbee69bca7879fadce9b747f8e959fbed94ca63e3bc63f71638
 
-ARMBIAN_IMAGE_FOLDER=$(basename $ARMBIAN_TORRENT_URL | sed -e "s/.7z.torrent//g")
-ARMBIAN_IMAGE_FILE="$ARMBIAN_IMAGE_FOLDER.img"
+ARMBIAN_IMAGE_FILE=$(basename $ARMBIAN_TORRENT_URL | sed -e "s/.7z.torrent/.img/g")
 
 
 MINIMAL_SPACE_LEFT=102400
@@ -62,7 +61,7 @@ function _get_image {
 }
 
 function _decompress_image {
-    7z e "$IMAGE_ZIP" -o "$IMAGE_ZIP" || die "Could not unzip $IMAGE_ZIP"
+    7z e "$IMAGE_ZIP" -o "images/" || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
