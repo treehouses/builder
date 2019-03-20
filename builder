@@ -61,7 +61,7 @@ function _get_image {
 }
 
 function _decompress_image {
-    7z e "$IMAGE_ZIP" -o "images/" || die "Could not unzip $IMAGE_ZIP"
+    7z -o"images" e "$IMAGE_ZIP" || die "Could not unzip $IMAGE_ZIP"
 }
 
 function _disable_daemons {
@@ -259,7 +259,7 @@ ARMBIAN_TORRENT=images/$(basename $ARMBIAN_TORRENT_URL)
 echo "$ARMBIAN_TORRENT"
 IMAGE_ZIP=${ARMBIAN_TORRENT%.torrent}
 echo "$IMAGE_ZIP"
-IMAGE=${IMAGE_ZIP%.zip}.img
+IMAGE=${IMAGE_ZIP%.7z}.img
 echo "$IMAGE"
 
 if [ ! -e "$IMAGE_ZIP" ]; then
