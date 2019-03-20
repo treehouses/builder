@@ -132,9 +132,11 @@ function _open_image {
     echo "Loop-back mounting" "images/$ARMBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$ARMBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $ARMBIAN_IMAGE_FILE:$NL$kpartx"
+    echo $kpartx
     # shellcheck disable=SC2162
     img_root_dev=$(echo $kpartx | grep -o "loop..p.")
     img_root_dev=/dev/mapper/$img_root_dev
+    echo $img_root_dev
     mkdir -p mnt/img_root
     mount -t ext4 "$img_root_dev" mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
     echo "Armbian Image Details:"
