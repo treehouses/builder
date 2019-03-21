@@ -24,5 +24,5 @@ INSTALL_PACKAGES=(
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
-    _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
+    _apt install --allow-unauthenticated "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
