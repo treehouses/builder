@@ -166,6 +166,9 @@ function _prepare_chroot {
 
     mkdir -p apt_cache
     mount --bind apt_cache mnt/img_root/var/cache/apt/archives
+
+    _chroot chmod a+x /dev 
+    _chroot chmod a+r /dev 
 }
 
 function _cleanup_chroot {
