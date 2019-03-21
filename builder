@@ -105,8 +105,8 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +1250MB "$RESIZE_IMAGE_PATH"
-    losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
-    fdisk /dev/loop1 <<EOF
+    losetup /dev/loop2 "$RESIZE_IMAGE_PATH"
+    fdisk /dev/loop2 <<EOF
 p
 d
 n
@@ -117,11 +117,11 @@ $start_sector
 p
 w
 EOF
-    losetup -d /dev/loop1
-    losetup -o $((start_sector*512)) /dev/loop2 "$RESIZE_IMAGE_PATH"
-    e2fsck -f /dev/loop2
-    resize2fs -f /dev/loop2
     losetup -d /dev/loop2
+    losetup -o $((start_sector*512)) /dev/loop3 "$RESIZE_IMAGE_PATH"
+    e2fsck -f /dev/loop3
+    resize2fs -f /dev/loop3
+    losetup -d /dev/loop3
     if [[ -L "images" ]];
     then
         rsync -Pav "$ARMBIAN_IMAGE_FILE" images/
