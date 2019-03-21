@@ -157,6 +157,11 @@ function _prepare_chroot {
     cp -a "$(type -p qemu-aarch64-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-aarch64-static"
     _chroot date &>/dev/null || die "Could not chroot date"
 
+    # test
+    umount mnt/img_root/dev/pts
+    umount mnt/img_root/proc
+    umount mnt/img_root/run
+
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
     mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
     mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"
