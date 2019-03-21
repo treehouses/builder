@@ -158,17 +158,16 @@ function _prepare_chroot {
     _chroot date &>/dev/null || die "Could not chroot date"
 
     # test
-    mkdir mnt/img_root/dev/pts
+    rm -rf mnt/img_root/dev
+    mount --bind /dev/ mnt/img_root/dev
+    mount --bind /proc/ mnt/img_root/proc
 
-    mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
-    mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
+#    mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
+#    mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
     mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"
 
     mkdir -p apt_cache
     mount --bind apt_cache mnt/img_root/var/cache/apt/archives
-
-    _chroot chmod a+x /dev 
-    _chroot chmod a+r /dev 
 }
 
 function _cleanup_chroot {
