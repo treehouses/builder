@@ -158,7 +158,8 @@ function _prepare_chroot {
     _chroot date &>/dev/null || die "Could not chroot date"
 
     # test
-    rm -rf mnt/img_root/dev
+    rm -rf mnt/img_root/dev mnt/img_root/proc
+    mkdir mnt/img_root/dev mnt/img_root/proc
     mount --bind /dev/ mnt/img_root/dev
     mount --bind /proc/ mnt/img_root/proc
 
