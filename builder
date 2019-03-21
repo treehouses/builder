@@ -154,7 +154,7 @@ function _close_image {
 function _prepare_chroot {
     _disable_ld_preload
 
-    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
+    cp -a "$(type -p qemu-aarch64-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-aarch64-static"
     _chroot date &>/dev/null || die "Could not chroot date"
 
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
