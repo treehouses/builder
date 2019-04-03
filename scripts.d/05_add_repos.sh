@@ -9,9 +9,9 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    pkgs="raspbian-archive-keyring apt-transport-https"
+    pkgs=("raspbian-archive-keyring" "apt-transport-https")
 
-    for pkg in $pkgs; do
+    for pkg in ${pkgs[*]}; do
         if ! is_installed "$pkg"; then
             need_install="$need_install $pkg"
             echo "need to install $pkg"
@@ -21,7 +21,7 @@ install_stuff() {
     if [ -n "$need_install" ]; then
         echo "updating package sources"
         _apt update || die "Could not update package sources"
-        _apt install $pkgs
+        _apt install "${pkgs[@]}"
     fi
 }
 
