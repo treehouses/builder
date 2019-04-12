@@ -14,4 +14,10 @@ bell &
 compress
 checksum
 
-ln -s "$image_gz" "build/latest.img.gz"
+if release_is_number; then
+    cp -r "$image_gz" "build/latest.img.gz"
+    cp -r "$image_gz.sha1" "build/latest.img.gz.sha1"
+else
+    cp -r "$image_gz" "build/branch.img.gz"
+    cp -r "$image_gz.sha1" "build/branch.img.gz.sha1"
+fi
