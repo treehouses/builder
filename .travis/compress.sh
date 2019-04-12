@@ -13,3 +13,5 @@ echo "Deploying as $name"
 bell &
 compress
 checksum
+
+ln -s "$image_gz" "build/latest.img.gz"
