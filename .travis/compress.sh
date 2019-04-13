@@ -13,3 +13,11 @@ echo "Deploying as $name"
 bell &
 compress
 checksum
+
+if release_is_number; then
+    ln "$image_gz" "build/latest.img.gz"
+    ln "$image_gz.sha1" "build/latest.img.gz.sha1"
+else
+    ln "$image_gz" "build/branch.img.gz"
+    ln "$image_gz.sha1" "build/branch.img.gz.sha1"
+fi
