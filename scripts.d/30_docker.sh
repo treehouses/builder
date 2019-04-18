@@ -4,13 +4,14 @@ source lib.sh
 
 IMAGES=(
     portainer/portainer:linux-arm
-    firehol/netdata:armv7hf
+    #firehol/netdata:armv7hf
 )
 
 MULTIS=(
     treehouses/couchdb:2.3.0
     treehouses/planet:latest
     treehouses/planet:db-init
+    pihole/pihole:latest
 )
 
 OLD=$(pwd -P)
