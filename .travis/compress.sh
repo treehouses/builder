@@ -14,10 +14,18 @@ bell &
 compress
 checksum
 
+
+build_type="branch"
 if release_is_number; then
-    ln "$image_gz" "build/latest.img.gz"
-    ln "$image_gz.sha1" "build/latest.img.gz.sha1"
-else
-    ln "$image_gz" "build/branch.img.gz"
-    ln "$image_gz.sha1" "build/branch.img.gz.sha1"
+    build_type="latest"
 fi
+
+if [[ -f "build/$build_type.img.gz" ]]; then
+    rm -rf "build/$build_type.img.gz"
+fi
+rsync -Pav "$image_gz" "build/$build_type.img.gz"
+
+if [[ -f "build/$build_type.img.gz.sha1" ]]; then
+    rm -rf "build/$build_type.img.gz.sha1"
+fi
+rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
