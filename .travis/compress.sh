@@ -17,7 +17,7 @@ checksum
 
 build_type="branch"
 if release_is_number; then
-    build_type="release"
+    build_type="latest"
 fi
 
 if [[ -f "build/$build_type.img.gz" ]]; then
