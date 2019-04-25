@@ -20,6 +20,7 @@ INSTALL_PACKAGES=(
     tor openvpn
     jq # for parsing json / treehouses command
     net-tools # netstat
+    libffi-dev # for building docker-compose using pip
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
