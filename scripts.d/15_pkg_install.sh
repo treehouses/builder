@@ -4,7 +4,7 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen # essentials
-    docker-ce # docker
+    #docker-ce # docker
     quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
