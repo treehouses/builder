@@ -28,10 +28,10 @@ install_stuff() {
 # List of extra APT repositories
 ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
-    "deb https://deb.nodesource.com/node_8.x stretch main"
-    "deb-src https://deb.nodesource.com/node_8.x stretch main"
+    "deb https://deb.nodesource.com/node_8.x buster main"
+    "deb-src https://deb.nodesource.com/node_8.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=armhf] https://download.docker.com/linux/raspbian buster stable"
+    "deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable"
     # curl -fsSL http://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc > keys/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.key
     "deb http://deb.torproject.org/torproject.org buster main"
     "deb-src http://deb.torproject.org/torproject.org buster main"
