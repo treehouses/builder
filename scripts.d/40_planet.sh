@@ -62,7 +62,11 @@ cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
   echo "uuid = 2442283a086e83c280831811afce124c"
 } > local.ini
 
+sync; sync; sync
+mkdir "mnt/img_root/srv/$planetdir/conf/"
+ls -al
 cp -a local.ini "mnt/img_root/srv/$planetdir/conf/"
+tree -f "mnt/img_root/srv/$planetdir/conf"
 
 # check if couch-db docker has finish
 while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-init* -a -q)") == "true"; do
