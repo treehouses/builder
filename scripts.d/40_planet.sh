@@ -9,8 +9,6 @@ wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/dock
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
 
-sed -i "s/couchdb:2.2.0/couchdb:2.3.0/g" planet.yml
-
 {
   echo "services:"
   echo "  couchdb:"
