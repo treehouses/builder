@@ -5,10 +5,7 @@ source lib.sh
 echo "Balena installation"
 
 # get the latest version
-# releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/latest -H "Authorization: token $GITHUB_KEY" | jq -r ".assets[].browser_download_url")
-
-# FIXME: balena hasn't published the tar files for since v17.12.0
-releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/13499248 -H "Authorization: token $GITHUB_KEY" | jq -r ".assets[].browser_download_url")
+releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/latest -H "Authorization: token $GITHUB_KEY" | jq -r ".assets[].browser_download_url")
 armv6link=$(echo "$releases" | tr " " "\\n" | grep armv6)
 armv7link=$(echo "$releases" | tr " " "\\n" | grep armv7)
 
