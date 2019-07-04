@@ -64,7 +64,7 @@ cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
 
 sync; sync; sync
 mkdir "mnt/img_root/srv/$planetdir/conf/"
-ls -al
+
 cp -a local.ini "mnt/img_root/srv/$planetdir/conf/"
 tree -f "mnt/img_root/srv/$planetdir/conf"
 
