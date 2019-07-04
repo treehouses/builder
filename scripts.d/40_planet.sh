@@ -39,6 +39,35 @@ echo "couch is up"
 
 cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
 
+# temporary couchdb local.ini fix
+
+{
+  echo "; CouchDB Configuration Settings"
+  echo ""
+  echo "; Custom settings should be made in this file. They will override settings"
+  echo "; in default.ini, but unlike changes made to default.ini, this file won't be"
+  echo "; overwritten on server upgrade."
+  echo ""
+  echo "[chttpd]"
+  echo "bind_address = any"
+  echo ""
+  echo "[httpd]"
+  echo "bind_address = any"
+  echo ""
+  echo "[log]"
+  echo "writer = file"
+  echo "file = /opt/couchdb/var/log/couch.log"
+  echo ""
+  echo "[couchdb]"
+  echo "uuid = 2442283a086e83c280831811afce124c"
+} > local.ini
+
+sync; sync; sync
+mkdir "mnt/img_root/srv/$planetdir/conf/"
+
+cp -a local.ini "mnt/img_root/srv/$planetdir/conf/"
+tree -f "mnt/img_root/srv/$planetdir/conf"
+
 # check if couch-db docker has finish
 while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-init* -a -q)") == "true"; do
   sleep 1
