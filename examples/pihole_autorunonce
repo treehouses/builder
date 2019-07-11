@@ -1,0 +1,60 @@
+#!/bin/bash
+
+treehouses rename treehouses
+treehouses expandfs
+treehouses button bluetooth
+
+#treehouses wifi <wifiname> [password]
+#treehouses ap internet <hotspotname> [password]
+#treehouses ap local <hotspotname> [password]
+#treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
+
+
+case "$(treehouses detectrpi)" in
+  RPIZW|RPI3A+)
+    treehouses bootoption console
+esac
+
+if [ "$(treehouses rebootneeded)" = "true" ]; then
+  reboot
+fi
+
+mkdir -p /srv/pihole
+
+sync;sync;sync
+
+{
+  echo "version: \"3\""
+  echo
+  echo "# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/"
+  echo "services:"
+  echo "  pihole:"
+  echo "    container_name: pihole"
+  echo "    image: pihole/pihole:4.3.1-3_armhf"
+  echo "    ports:"
+  echo "      - \"53:53/tcp\""
+  echo "      - \"53:53/udp\""
+  echo "      - \"67:67/udp\""
+  echo "      - \"80:80/tcp\""
+  echo "      - \"443:443/tcp\""
+  echo "    environment:"
+  echo "      TZ: 'America/New_York'"
+  echo "      # WEBPASSWORD: 'set a secure password here or it will be random'"
+  echo "    # Volumes store your data between container upgrades"
+  echo "    volumes:"
+  echo "      - './etc-pihole/:/etc/pihole/'"
+  echo "      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'"
+  echo "    dns:"
+  echo "      - 127.0.0.1"
+  echo "      - 1.1.1.1"
+  echo "    # Recommended but not required (DHCP needs NET_ADMIN)"
+  echo "    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities"
+  echo "    cap_add:"
+  echo "      - NET_ADMIN"
+  echo "    restart: unless-stopped"
+} > /srv/pihole/pihole.yml
+
+sync;sync;sync
+
+#service dnsmasq stop
+#docker-compose -f pihole.yml -p pihole up
