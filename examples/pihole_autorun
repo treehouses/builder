@@ -1,2 +1,0 @@
-service dnsmasq stop
-docker-compose -f pihole.yml -p pihole up
