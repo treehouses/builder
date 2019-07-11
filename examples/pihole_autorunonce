@@ -54,6 +54,15 @@ sync;sync;sync
   echo "    restart: unless-stopped"
 } > /srv/pihole/pihole.yml
 
+{
+  echo "#!/bin/sh"
+  echo
+  echo "sleep 1"
+  echo
+  echo "service dnsmasq stop"
+  echo "docker-compose -f pihole.yml -p pihole up"
+} > /boot/autorun
+
 sync;sync;sync
 
 reboot
