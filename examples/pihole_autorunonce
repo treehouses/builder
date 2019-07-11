@@ -20,7 +20,7 @@ sync;sync;sync
   echo "services:"
   echo "  pihole:"
   echo "    container_name: pihole"
-  echo "    image: pihole/pihole:4.3.1-3_armhf"
+  echo "    image: pihole/pihole:4.3.1-4_armhf"
   echo "    ports:"
   echo "      - \"53:53/tcp\""
   echo "      - \"53:53/udp\""
