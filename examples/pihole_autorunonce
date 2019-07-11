@@ -50,7 +50,7 @@ sync;sync;sync
   echo "sleep 1"
   echo
   echo "service dnsmasq stop"
-  echo "docker-compose -f pihole.yml -p pihole up"
+  echo "docker-compose -f /srv/pihole/pihole.yml -p pihole up"
 } > /boot/autorun
 
 sync;sync;sync
