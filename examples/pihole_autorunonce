@@ -56,5 +56,4 @@ sync;sync;sync
 
 sync;sync;sync
 
-#service dnsmasq stop
-#docker-compose -f pihole.yml -p pihole up
+reboot
