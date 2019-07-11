@@ -20,7 +20,7 @@ install_stuff() {
 
     if [ -n "$need_install" ]; then
         echo "updating package sources"
-        _apt update || die "Could not update package sources"
+        _apt update --allow-releaseinfo-change || die "Could not update package sources"
         _apt install "${pkgs[@]}"
     fi
 }
@@ -44,5 +44,5 @@ if [[ "${ADD_REPOS:-}" && ! -f "$LIST" ]] ; then
     for repo in "${ADD_REPOS[@]}" ; do
         echo "$repo"
     done > $LIST || die "Could not add repos ${ADD_REPOS[*]}"
-    _apt update || die "Could not update package sources"
+    _apt update --allow-releaseinfo-change || die "Could not update package sources"
 fi
