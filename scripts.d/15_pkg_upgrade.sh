@@ -8,9 +8,7 @@ _op _chroot apt-mark hold nodejs
 chromium-browser chromium-browser-l10n chromium-codecs-ffmpeg-extra
 libfm-data libfm-extra4 libfm-gtk-data libfm-gtk4 libfm-modules libfm4
 
-#_op _chroot apt-mark hold chromium-browser
-#_op _chroot apt-mark hold chromium-browser-l10n
-#_op _chroot apt-mark hold chromium-codecs-ffmpeg-extra
+# temporay fix to not break GUI icons and background
 _op _chroot apt-mark hold libfm-data
 _op _chroot apt-mark hold libfm-extra4
 _op _chroot apt-mark hold libfm-gtk-data
@@ -22,9 +20,6 @@ echo "Installing Updates"
 _apt update || die "Could not update package sources"
 _apt dist-upgrade || die "Could not upgrade system"
 
-#_op _chroot apt-mark unhold chromium-browser
-#_op _chroot apt-mark unhold chromium-browser-l10n
-#_op _chroot apt-mark unhold chromium-codecs-ffmpeg-extra
 _op _chroot apt-mark unhold libfm-data
 _op _chroot apt-mark unhold libfm-extra4
 _op _chroot apt-mark unhold libfm-gtk-data
