@@ -17,7 +17,7 @@ INSTALL_PACKAGES=(
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
-    tor=0.3.5.8-1
+    tor=0.3.5.8-1 #TODO bring back to upstream
     openvpn
     jq # for parsing json / treehouses command
     net-tools # netstat
@@ -29,4 +29,4 @@ if [[ ${INSTALL_PACKAGES:-} ]] ; then
     _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
 
-_op _chroot apt-mark hold tor
+_op _chroot apt-mark hold tor #TODO bring back to upstream
