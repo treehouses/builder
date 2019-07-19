@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #Local variables
-configtor=false
-configdocker=true
-updateplanet=false
+configtor="false"
+configdocker="true"
+updateplanet="false"
 
 #Uncomment the appropriate line for your connection
 
