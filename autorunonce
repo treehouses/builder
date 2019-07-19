@@ -17,9 +17,8 @@ treehouses ap internet treehouses
 if [ $configtor = "true" ]; then
 	treehouses tor add 22
 	sleep 10
-	treehouses tor start
 	sync
-	sleep 10
+	treehouses tor start
 	treehouses tor notice on
 	sync
 	sleep 10
