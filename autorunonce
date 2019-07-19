@@ -5,6 +5,10 @@ configtor="false"
 configdocker="true"
 updateplanet="false"
 
+treehouses rename treehouses
+treehouses expandfs
+treehouses button bluetooth
+
 #Uncomment the appropriate line for your connection
 
 #treehouses wifi <wifiname> [password]
