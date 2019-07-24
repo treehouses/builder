@@ -22,6 +22,7 @@ INSTALL_PACKAGES=(
     jq # for parsing json / treehouses command
     net-tools # netstat
     libffi-dev # for building docker-compose using pip
+    python3-coral-enviro # Coral environmental board
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
