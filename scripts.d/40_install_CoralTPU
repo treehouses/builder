@@ -19,7 +19,7 @@
 # Downloading and unpacking files
 wget https://dl.google.com/coral/edgetpu_api/edgetpu_api_latest.tar.gz -O edgetpu_api.tar.gz
 tar xzf edgetpu_api.tar.gz
-cd edgetpu_api
+cd edgetpu_api || exit 1
 
 # Defining variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
