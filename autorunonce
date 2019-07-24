@@ -31,7 +31,7 @@ fi
 
 # Start environmental board demo
 if [ $enableenvboard = "true" ]; then
-	python3 /usr/lib/python3.7/dist-packages/coral/enviro/enviro_demo.py &&
+	python3 /usr/lib/python3.7/dist-packages/coral/enviro/enviro_demo.py && break
 fi
 
 # Update planet if there is an internet connection
