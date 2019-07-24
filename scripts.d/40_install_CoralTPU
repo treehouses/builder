@@ -46,7 +46,7 @@ cp -p "${LIBEDGETPU_SRC}" "${LIBEDGETPU_DST}"
 ldconfig
 
 # Python API.
-WHEEL="$(ls ${SCRIPT_DIR}/edgetpu-*-py3-none-any.whl 2>/dev/null)"
-if [ $?=0 ]; then
+WHEEL="$(ls "${SCRIPT_DIR}/edgetpu-*-py3-none-any.whl" 2>/dev/null)"
+if [ $? = 0 ]; then
   sudo python3 -m pip install --no-deps "${WHEEL}"
 fi
