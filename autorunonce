@@ -4,6 +4,7 @@
 configtor="false"
 configdocker="true"
 updateplanet="false"
+enableenvboard="false"
 
 treehouses rename treehouses
 treehouses expandfs
@@ -26,6 +27,11 @@ if [ $configtor = "true" ]; then
 	treehouses tor notice on
 	sync
 	sleep 10
+fi
+
+# Start environmental board demo
+if [ $enableenvboard = "true" ]; then
+	python3 /usr/lib/python3.7/dist-packages/coral/enviro/enviro_demo.py &&
 fi
 
 # Update planet if there is an internet connection
