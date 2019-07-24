@@ -23,6 +23,14 @@ INSTALL_PACKAGES=(
     net-tools # netstat
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
+    libusb-1.0-0 # For Coral TPU
+    python3-pip # For Coral TPU
+    python3-pil # For Coral TPU
+    python3-numpy # For Coral TPU
+    libc++1 # For Coral TPU
+    libc++abi1 # For Coral TPU
+    libunwind8 # For Coral TPU
+    libgcc1 # For Coral TPU
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
