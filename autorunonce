@@ -1,24 +1,57 @@
 #!/bin/bash
 
-#Local variables
-configtor="false"
-configdocker="true"
-updateplanet="false"
-enableenvboard="false"
+# Treehouses Autorunonce file v0.1
 
-treehouses rename treehouses
+
+# Local variables. 
+
+configtor="false" # If set to true, starts tor service and publishes the onion address of the system to ole gitter. Default: false
+configdocker="true" # If set to true, starts the docker service. Default: true
+updateplanet="false" # If set to true, updates the planet to the latest revision. Default: false
+enablecoralboard="false" # If set to true, starts the demo on coral board.  Default: false
+bluetooth="button" # If set to "button" is enabled unless GPIO 19 is pulled to ground, and if set to "on" is always on.  Default: button
+name="treehouses" # Changes the system name to the one indicated. Default: treehouses
+
+# Internet configuration
+connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "bridge" type of connection
+			  # "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection
+			  # "aplocal" turns raspberry pi into a hotspot without internet connection
+			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections 
+wifiname="treehouses" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration)
+hotspotname="treehouses" # Change to the name you want your Raspberry Pi to have in SSID 
+			 # (used in apinternet, aplocal or bridge configuration)
+wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration)
+hotspotpassword="" # Insert the password you want your Raspberry Pi to have in SSID. Can be blank for no password
+			          # (used in apinternet, aplocal or bridge configuration)
+
+
+#Do not change below this line
+
+
+case [ $conectiontype ] in
+	"wifi") treehouses wifi $wifiname $password;;
+	"apinternet") treehouses ap internet $hotspotname $hotspotpassword;;
+	"aplocal") treehouses ap local $hotspotname $hotspotpassword;;
+	"bridge") treehouses bridge $wifiname $password $hotspotname $hotspotpassword;;
+	*) warn "Unsupported configuration. Switching to default ap internet config";
+		treehouses ap internet treehouses;;
+esac
+
+# Changes "treehouses" to the desired name for your Raspberry Pi system
+treehouses rename $name
+
+# Expands the filesystem
 treehouses expandfs
-treehouses button bluetooth
 
-#Uncomment the appropriate line for your connection
+# Disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
+if [ $enablecoralboard ] || [ $bluetooth = "on" ]; then
+	treehouses bluetooth on
+elif [ ! $enablecoralboard ] && [ $bluetooth = "button" ]; then
+	treehouses button bluetooth
+else treehouses button bluetooth
+fi
 
-#treehouses wifi <wifiname> [password]
-#treehouses ap internet <hotspotname> [password]
-treehouses ap internet treehouses
-#treehouses ap local <hotspotname> [password]
-#treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
-
-# Start tor service
+# Starts tor service
 if [ $configtor = "true" ]; then
 	treehouses tor add 22
 	sleep 10
@@ -29,12 +62,12 @@ if [ $configtor = "true" ]; then
 	sleep 10
 fi
 
-# Start environmental board demo
-if [ $enableenvboard = "true" ]; then
-	python3 /usr/lib/python3.7/dist-packages/coral/enviro/enviro_demo.py ; :
+# Starts Coral environmental board demo
+if [ $enablecoralboard = "true" ]; then
+	python3 /usr/lib/python3/dist-packages/coral/enviro/enviro_demo.py ; :
 fi
 
-# Update planet if there is an internet connection
+# Updates planet if there is an internet connection
 if [ $updateplanet = "true" ]; then
 	docker pull treehouses/planet:latest
 	docker pull treehouses/planet:db-init
@@ -63,7 +96,7 @@ if [ $configdocker = "true" ]; then
 	docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
 fi
 
-# Reset if RPiZero or RPi3A
+# Resets if RPiZero or RPi3A
 case "$(treehouses detectrpi)" in
   RPIZW|RPI3A+)
     treehouses bootoption console
