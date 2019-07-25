@@ -5,6 +5,9 @@
 
 # Local variables. 
 
+# Change variables as required inside the quotes, leaving the quotes untouched.
+# Example: connectiontype="wifi" or wifipassword="mypassword1234"
+
 configtor="false" # If set to true, starts tor service and publishes the onion address of the system to ole gitter. Default: false
 configdocker="true" # If set to true, starts the docker service. Default: true
 updateplanet="false" # If set to true, updates the planet to the latest revision. Default: false
@@ -13,25 +16,27 @@ bluetooth="button" # If set to "button", bluetooth is enabled unless GPIO 19 is 
 name="treehouses" # Changes the system name to the one indicated. Default: treehouses
 
 # Internet configuration
-connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "bridge" type of connection
-			  # "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection
-			  # "aplocal" turns raspberry pi into a hotspot without internet connection
-			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections 
-wifiname="treehouses" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration)
-hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID 
-			 # (used in apinternet, aplocal or bridge configuration)
-wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration)
+connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
+			  # "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection.
+			  # "aplocal" turns Raspberry Pi into a hotspot without internet connection.
+			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
+wifiname="treehouses" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration).
+hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
+			 # (used in apinternet, aplocal or bridge configuration).
+wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration).
+		# Leave empty for open networks.
 hotspotpassword="" # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
-		   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password)
-		   # (used in apinternet, aplocal or bridge configuration)
+		   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password).
+		   # (used in apinternet, aplocal or bridge configuration).
 
 
 #Do not change below this line
 
 case $connectiontype in
 	"wifi") treehouses wifi ${wifiname@Q} ${wifipassword@Q};;
-	"apinternet") treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
-	"aplocal") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi;
+	"apinternet") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi; # Checks if the password is > 8 characters long, and if not resets to no password
+		      treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
+	"aplocal") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi; 
 		   treehouses ap local ${hotspotname@Q} ${hotspotpassword@Q};;
 	"bridge") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi;
 		  treehouses bridge ${wifiname@Q} ${wifipassword@Q} ${hotspotname@Q} ${hotspotpassword@Q};;
