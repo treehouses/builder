@@ -8,19 +8,31 @@
 # Change variables as required inside the quotes, leaving the quotes untouched.
 # Example: connectiontype="wifi" or wifipassword="mypassword1234"
 
-configtor="false" # If set to true, starts tor service and publishes the onion address of the system to ole gitter. Default: false
-configdocker="true" # If set to true, starts the docker service. Default: true
-updateplanet="false" # If set to true, updates the planet to the latest revision. Default: false
-enablecoralboard="false" # If set to true, starts the demo on coral board.  Default: false
-bluetooth="button" # If set to "button", bluetooth is enabled unless GPIO 19 is pulled to ground, and if set to "on" bluetooth is always on.  Default: button
-name="treehouses" # Changes the system name to the one indicated. Default: treehouses
+# If set to true, starts tor service and publishes the onion address of the system to ole gitter. Default: false
+configtor="false" 
+
+# If set to true, starts the docker service. Default: true
+configdocker="true" 
+
+# If set to true, updates the planet to the latest revision. Default: false
+updateplanet="false" 
+
+# If set to true, starts the demo on coral board.  Default: false
+enablecoralboard="false" 
+
+# If set to "button", bluetooth is enabled unless GPIO 19 is pulled to ground, and if set to "on" bluetooth is always on.  Default: button
+bluetooth="button"  
+
+# Changes the system name to the one indicated. Default: treehouses
+name="treehouses" 
 
 # Internet configuration
 connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
 			  # "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection.
 			  # "aplocal" turns Raspberry Pi into a hotspot without internet connection.
 			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
-wifiname="myrouterSSID" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration).
+wifiname="myrouterSSID" # Change to the name (SSID) of your wifi router.
+			# (used in wifi or bridge configuration).
 hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
 			 # (used in apinternet, aplocal or bridge configuration).
 wifipassword="" # Insert the password of your wifi router. Leave the field empty for open networks.
