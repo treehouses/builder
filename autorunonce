@@ -20,7 +20,7 @@ connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "brid
 			  # "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection.
 			  # "aplocal" turns Raspberry Pi into a hotspot without internet connection.
 			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
-wifiname="treehouses" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration).
+wifiname="myrouterSSID" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration).
 hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
 			 # (used in apinternet, aplocal or bridge configuration).
 wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration).
