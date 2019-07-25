@@ -23,8 +23,8 @@ connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "brid
 wifiname="myrouterSSID" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration).
 hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
 			 # (used in apinternet, aplocal or bridge configuration).
-wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration).
-		# Leave empty for open networks.
+wifipassword="" # Insert the password of your wifi router. Leave the field empty for open networks.
+		# (used in wifi or bridge configuration).
 hotspotpassword="" # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
 		   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password).
 		   # (used in apinternet, aplocal or bridge configuration).
