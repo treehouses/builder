@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exit 0 # TEMPORARY
+# exit 0
 
 source lib.sh
 
