@@ -31,9 +31,9 @@ hotspotpassword="" # Insert the password you want your Raspberry Pi hotspot to h
 case $connectiontype in
 	"wifi") treehouses wifi ${wifiname@Q} ${wifipassword@Q};;
 	"apinternet") treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
-	"aplocal") [ ${#hotspotpassword} < 8 ] && hotspotpassword="" || true;
+	"aplocal") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi;
 		   treehouses ap local ${hotspotname@Q} ${hotspotpassword@Q};;
-	"bridge") [ ${#hotspotpassword} < 8 ] && hotspotpassword="" || true;
+	"bridge") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi;
 		  treehouses bridge ${wifiname@Q} ${wifipassword@Q} ${hotspotname@Q} ${hotspotpassword@Q};;
 	*) warn "Unsupported configuration. Switching to default ap internet config";
 		treehouses ap internet treehouses;;
