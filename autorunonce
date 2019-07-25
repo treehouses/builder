@@ -9,7 +9,7 @@ configtor="false" # If set to true, starts tor service and publishes the onion a
 configdocker="true" # If set to true, starts the docker service. Default: true
 updateplanet="false" # If set to true, updates the planet to the latest revision. Default: false
 enablecoralboard="false" # If set to true, starts the demo on coral board.  Default: false
-bluetooth="button" # If set to "button" is enabled unless GPIO 19 is pulled to ground, and if set to "on" is always on.  Default: button
+bluetooth="button" # If set to "button", bluetooth is enabled unless GPIO 19 is pulled to ground, and if set to "on" bluetooth is always on.  Default: button
 name="treehouses" # Changes the system name to the one indicated. Default: treehouses
 
 # Internet configuration
@@ -18,21 +18,23 @@ connectiontype="apinternet" # Change to "wifi", "apinternet", "aplocal" or "brid
 			  # "aplocal" turns raspberry pi into a hotspot without internet connection
 			  # and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections 
 wifiname="treehouses" # Change to the name (SSID) of your wifi router (used in wifi or bridge configuration)
-hotspotname="treehouses" # Change to the name you want your Raspberry Pi to have in SSID 
+hotspotname="treehouses" # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID 
 			 # (used in apinternet, aplocal or bridge configuration)
 wifipassword="" # Insert the password of your wifi router (used in wifi or bridge configuration)
-hotspotpassword="" # Insert the password you want your Raspberry Pi to have in SSID. Can be blank for no password
-			          # (used in apinternet, aplocal or bridge configuration)
+hotspotpassword="" # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
+		   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password)
+		   # (used in apinternet, aplocal or bridge configuration)
 
 
 #Do not change below this line
 
-
 case $connectiontype in
 	"wifi") treehouses wifi ${wifiname@Q} ${wifipassword@Q};;
 	"apinternet") treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
-	"aplocal") treehouses ap local ${hotspotname@Q} ${hotspotpassword@Q};;
-	"bridge") treehouses bridge ${wifiname@Q} ${wifipassword@Q} ${hotspotname@Q} ${hotspotpassword@Q};;
+	"aplocal") [ ${#hotspotpassword} < 8 ] && hotspotpassword="" || true;
+		   treehouses ap local ${hotspotname@Q} ${hotspotpassword@Q};;
+	"bridge") [ ${#hotspotpassword} < 8 ] && hotspotpassword="" || true;
+		  treehouses bridge ${wifiname@Q} ${wifipassword@Q} ${hotspotname@Q} ${hotspotpassword@Q};;
 	*) warn "Unsupported configuration. Switching to default ap internet config";
 		treehouses ap internet treehouses;;
 esac
