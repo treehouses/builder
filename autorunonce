@@ -51,9 +51,9 @@ treehouses rename $name
 treehouses expandfs
 
 # Disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ $enablecoralboard ] || [ $bluetooth = "on" ]; then
+if [ $enablecoralboard = "true" ] || [ $bluetooth = "on" ]; then
 	treehouses bluetooth on
-elif [ ! $enablecoralboard ] && [ $bluetooth = "button" ]; then
+elif [ $enablecoralboard = "false" ] && [ $bluetooth = "button" ]; then
 	treehouses button bluetooth
 else treehouses button bluetooth
 fi
