@@ -45,7 +45,7 @@ hotspotpassword="" # Insert the password you want your Raspberry Pi hotspot to h
 #Do not change below this line
 
 case $connectiontype in
-	"wifi") treehouses wifi ${wifiname@Q} ${wifipassword@Q};;
+	"wifi") treehouses wifi ${wifiname@Q} ${wifipassword@Q};; # The parameter expansion ${parameter@Q} expands the string value of the variable (accomodates special chars in the variable)
 	"apinternet") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi; # Checks if the password is > 8 characters long, and if not resets to no password
 		      treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
 	"aplocal") if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword="" else true; fi; 
