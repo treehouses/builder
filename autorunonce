@@ -83,7 +83,7 @@ fi
 
 # Starts Coral environmental board demo
 if [ $enablecoralboard = "true" ]; then
-	python3 /usr/lib/python3/dist-packages/coral/enviro/enviro_demo.py ; :
+	treehouses coralenv demo
 fi
 
 # Updates planet if there is an internet connection
