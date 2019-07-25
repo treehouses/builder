@@ -28,7 +28,7 @@ hotspotpassword="" # Insert the password you want your Raspberry Pi to have in S
 #Do not change below this line
 
 
-case [ $conectiontype ] in
+case $conectiontype in
 	"wifi") treehouses wifi $wifiname $password;;
 	"apinternet") treehouses ap internet $hotspotname $hotspotpassword;;
 	"aplocal") treehouses ap local $hotspotname $hotspotpassword;;
