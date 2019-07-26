@@ -125,8 +125,11 @@ if [ $startplanet = "true" ]; then
 fi
 
 # starts coral environmental board demo
-if [ $startcoralenviroboard = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
-  treehouses coralenv demo-always-on || true #TODO remove trap when coralenv is integrated in cli
+if [ $startcoralenviroboard = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ] && [ $(treehouses coralenv demo-always-on) ]; then
+  true
+else nohup python3 /usr/lib/python3/dist-packages/coral/enviro/enviro_demo.py &>/dev/null &
+     sed -i 's/exit 0/nohup python3 \/usr\/lib\/python3\/dist-packages\/coral\/enviro\/enviro_demo\.py \&>\/dev\/null \&/g' /etc/rc.local;
+     sed -i '$ a exit 0' /etc/rc.local; 
 fi
 
 # boots to console if RPiZero or RPi3A+ (not enough RAM?)
