@@ -86,7 +86,7 @@ if [ $starttor = "true" ]; then
   sync
   treehouses tor start
   if [ $starttornotice = "true" ]; then
-    if [ ${#tornoticeapiurl} > 0 ]; then
+    if [ ${#tornoticeapiurl} -ge 0 ]; then
       treehouses tor notice delete
       treehouses tor notice add $tornoticeapiurl
     fi
