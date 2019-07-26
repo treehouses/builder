@@ -23,7 +23,7 @@ cd edgetpu_api || exit 1
 
 # Defining variables
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LIBEDGETPU_SRC="${SCRIPT_DIR}/libedgetpu/libedgetpu_arm32.so"
+LIBEDGETPU_SRC="$PWD/libedgetpu/libedgetpu_arm32.so"
 LIBEDGETPU_DST="/usr/lib/arm-linux-gnueabihf/libedgetpu.so.1.0"
 UDEV_RULE_PATH="/etc/udev/rules.d/99-edgetpu-accelerator.rules"
 
@@ -33,7 +33,7 @@ if [[ -f "${UDEV_RULE_PATH}" ]]; then
   rm -f "${UDEV_RULE_PATH}"
 fi
 
-cp -p "${SCRIPT_DIR}/99-edgetpu-accelerator.rules" "${UDEV_RULE_PATH}"
+cp -p "$PWD/99-edgetpu-accelerator.rules" "${UDEV_RULE_PATH}"
 udevadm control --reload-rules && udevadm trigger
 
 # Installing Edge TPU runtime library
@@ -46,7 +46,7 @@ cp -p "${LIBEDGETPU_SRC}" "${LIBEDGETPU_DST}"
 ldconfig
 
 # Python API.
-WHEEL="$(ls "${SCRIPT_DIR}/edgetpu-*-py3-none-any.whl" 2>/dev/null)"
+WHEEL="$(ls "$PWD/edgetpu-*-py3-none-any.whl" 2>/dev/null)"
 if [ $? = 0 ]; then
   python3 -m pip install --no-deps "${WHEEL}"
 fi
