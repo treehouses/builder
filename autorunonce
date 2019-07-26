@@ -106,7 +106,7 @@ if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
 fi
 
 # removes ole team members ssh keys and places keys to .ssh folder
-if [ $keepolesshkeys = "false" ]; then
+if [ $olesshkeys = "false" ]; then
   rm -f home/pi/.ssh/authorized_keys
   if [ ! -d /home/pi/.ssh ]; then
     mkdir /home/pi/.ssh
