@@ -82,7 +82,7 @@ if [ $configtor = "true" ]; then
 fi
 
 # Starts Coral environmental board demo
-if [ $enablecoralboard = "true" ]; then
+if [ $enablecoralboard = "true" ] && [ -f /sys/bus/iio/devices/iio:device0 ]; then
 	treehouses coralenv demo-always-on || true # todo: remove trap when coralenv is integrated in cli
 fi
 
