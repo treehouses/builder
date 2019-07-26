@@ -3,11 +3,12 @@
 # Changes the hostname to the one indicated. (default: treehouses)
 hostname='treehouses' 
 
-# If set to "button", bluetooth is enabled unless GPIO 19 is pulled to ground,
-# and if set to "normal" bluetooth is always on.  Default: button
+# If set to "button", bluetooth is enabled unless GPIO 18 is pulled to ground,
+# and if set to "normal" bluetooth is always on (default: button).
 bluetooth="button"  
 
-#TODO sshkeys ... remove treehouse team and your on key(s)
+#If set to true, will allow OLE team members to log on to the system without a password (default: false)
+keepolesshkeys="false"
 
 # Internet configuration:
 # Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
@@ -101,6 +102,12 @@ if [ $updateplanet = "true" ] && [ $(treehouses internet) ]; then
   docker tag treehouses/planet:latest treehouses/planet:local
   docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 fi
+
+# removes ole team members ssh keys
+if [ $keepolesshkeys = "false" ]; then
+  rm -f home/pi/.ssh/authorized_keys
+fi
+	  
 
 # starts planet
 if [ $startplanet = "true" ]; then
