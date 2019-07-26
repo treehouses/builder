@@ -90,7 +90,7 @@ if [ $starttor = "true" ]; then
       treehouses tor notice add $tornoticeapiurl
     fi 
     treehouses tor notice on
-  if
+  fi
   sync
   sleep 10
 fi
