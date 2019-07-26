@@ -22,7 +22,7 @@ tar xzf edgetpu_api.tar.gz
 cd edgetpu_api || exit 1
 
 # Defining variables
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIBEDGETPU_SRC="$PWD/libedgetpu/libedgetpu_arm32.so"
 LIBEDGETPU_DST="/usr/lib/arm-linux-gnueabihf/libedgetpu.so.1.0"
 UDEV_RULE_PATH="/etc/udev/rules.d/99-edgetpu-accelerator.rules"
