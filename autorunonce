@@ -37,7 +37,9 @@ tornoticeapiurl=""
 startplanet="true" 
 updateplanet="false" 
 
-# If set to true, starts the demo on coral enviro board.  (default: false)
+# If enablecoralboard is set to true, it enables Coral Enviro board use. (default: false)
+# If startcoralenvirodemo is set to true, starts the demo on Coral Enviro board. (default: false)
+enablecoralboard="false"
 startcoralenvirodemo="false" 
 
 
@@ -68,7 +70,7 @@ case $connectiontype in
 esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ $bluetooth = "button" ] || [ $enablecoralboard = "false" ]; then
+if [ "$bluetooth" = "button" ] || [ "$enablecoralboard" = "false" ]; then
   treehouses button bluetooth
 else 
   treehouses bluetooth on
@@ -88,7 +90,7 @@ if [ $starttor = "true" ]; then
     if [ ${#tornoticeapiurl} -ge 0 ]; then
       treehouses tor notice delete
       treehouses tor notice add $tornoticeapiurl
-    fi 
+    fi
     treehouses tor notice on
   fi
   sync
@@ -96,7 +98,7 @@ if [ $starttor = "true" ]; then
 fi
 
 # updates planet if there is an internet connection
-if [ $updateplanet = "true" ] && [ $(treehouses internet) ]; then
+if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
   docker pull treehouses/planet:latest
   docker pull treehouses/planet:db-init
   docker tag treehouses/planet:latest treehouses/planet:local
@@ -131,7 +133,7 @@ fi
 
 # starts coral environmental board demo
 if [ $startcoralenviroboard = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
-   $(treehouses coralenv demo-always-on) 
+   treehouses coralenv demo-always-on
 fi
 
 # boots to console if RPiZero or RPi3A+ (not enough RAM?)
