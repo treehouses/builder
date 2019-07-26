@@ -83,7 +83,7 @@ fi
 
 # Starts Coral environmental board demo
 if [ $enablecoralboard = "true" ]; then
-	treehouses coralenv demo
+	treehouses coralenv demo-always-on || true # todo: remove trap when coralenv is integrated in cli
 fi
 
 # Updates planet if there is an internet connection
