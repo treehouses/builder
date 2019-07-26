@@ -39,7 +39,7 @@ updateplanet="false"
 
 # If enablecoralboard is set to true, it enables Coral Enviro board use. (default: false)
 # If startcoralenvirodemo is set to true, starts the demo on Coral Enviro board. (default: false)
-enablecoralboard="false"
+enablecoralenviroboard="false"
 startcoralenvirodemo="false" 
 
 
@@ -70,7 +70,7 @@ case $connectiontype in
 esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ "$bluetooth" = "button" ] || [ "$enablecoralboard" = "false" ]; then
+if [ "$bluetooth" = "button" ] || [ "$enablecoralenviroboard" = "false" ]; then
   treehouses button bluetooth
 else 
   treehouses bluetooth on
@@ -132,7 +132,7 @@ if [ $startplanet = "true" ]; then
 fi
 
 # starts coral environmental board demo
-if [ $startcoralenviroboard = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
+if [ "$startcoralenvirodemo" = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
    treehouses coralenv demo-always-on
 fi
 
