@@ -38,7 +38,7 @@ udevadm control --reload-rules && udevadm trigger
 
 # Installing Edge TPU runtime library
 if [[ -f "${LIBEDGETPU_DST}" ]]; then
-  warn "File already exists. Replacing it..."
+  echo "File already exists. Replacing it..."
   rm -f "${LIBEDGETPU_DST}"
 fi
 
