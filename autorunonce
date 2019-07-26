@@ -8,7 +8,7 @@ hostname='treehouses'
 bluetooth="button"  
 
 #If set to true, will allow OLE team members to log on to the system without a password (default: false)
-keepolesshkeys="false"
+olesshkeys="false"
 
 # Internet configuration:
 # Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
@@ -57,15 +57,15 @@ treehouses expandfs
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword='' else true; fi; # no password if the password is < 8 characters long
 case $connectiontype in
   "wifi")
-    treehouses wifi ${wifiname@Q} ${wifipassword@Q};; # ${variable@Q} accomodates special chars in the variable
+    treehouses wifi $wifiname $wifipassword;;
   "apinternet")
-    treehouses ap internet ${hotspotname@Q} ${hotspotpassword@Q};;
+    treehouses ap internet $hotspotname $hotspotpassword;;
   "aplocal")
-    treehouses ap local ${hotspotname@Q} ${hotspotpassword@Q};;
+    treehouses ap local $hotspotname $hotspotpassword;;
   "bridge")
-    treehouses bridge ${wifiname@Q} ${wifipassword@Q} ${hotspotname@Q} ${hotspotpassword@Q};;
+    treehouses bridge $wifiname $wifipassword $hotspotname $hotspotpassword;;
   *)
-    warn "Unsupported configuration. Switching to default ap internet config";
+    echo "Unsupported configuration. Switching to default ap internet config";
     treehouses ap internet treehouses;;
 esac
 
@@ -105,9 +105,15 @@ if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
   docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 fi
 
-# removes ole team members ssh keys
+# removes ole team members ssh keys and places keys to .ssh folder
 if [ $keepolesshkeys = "false" ]; then
   rm -f home/pi/.ssh/authorized_keys
+  if [ ! -d /home/pi/.ssh ]; then
+    mkdir /home/pi/.ssh
+  fi
+  find "/boot/id_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+  find "/boot/ic_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+  find "/boot/authorized_keys" -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
 fi
 	  
 
