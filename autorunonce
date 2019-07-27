@@ -56,7 +56,7 @@ treehouses rename $hostname
 treehouses expandfs
 
 # configures the wifi antenna of the RPi
-if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword='' else true; fi; # no password if the password is < 8 characters long
+if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
   "wifi")
     treehouses wifi $wifiname $wifipassword;;
