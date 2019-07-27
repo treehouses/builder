@@ -9,8 +9,8 @@ bluetooth="button"
 
 #If set to true, will allow OLE team members to log on to the system without a password 
 # Additionally, it will search for key pairs or authorized_key files directly in /boot folder 
-# to incorporate in the ssh server (default: false)
-olesshkeys="false"
+# to incorporate in the ssh server (default: true)
+olesshkeys="true"
 
 # Internet configuration:
 # Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
@@ -65,7 +65,7 @@ case $connectiontype in
   "aplocal")
     treehouses ap local $hotspotname $hotspotpassword;;
   "bridge")
-    treehouses bridge $wifiname $wifipassword $hotspotname $hotspotpassword;;
+    treehouses bridge $wifiname $hotspotname $wifipassword $hotspotpassword;;
   *)
     echo "Unsupported configuration. Switching to default ap internet config";
     treehouses ap internet treehouses;;
