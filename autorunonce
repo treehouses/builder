@@ -72,7 +72,7 @@ case $connectiontype in
 esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ "$bluetooth" = "button" ] || [ "$enablecoralenviroboard" = "false" ]; then
+if [ $bluetooth = "button" ] || [ $enablecoralenviroboard = "false" ]; then
   treehouses button bluetooth
 else 
   treehouses bluetooth on
@@ -108,7 +108,7 @@ if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
 fi
 
 # removes ole team members ssh keys and places keys to .ssh folder
-if [ "$olesshkeys" = "false" ]; then
+if [ $olesshkeys = "false" ]; then
   rm -f home/pi/.ssh/authorized_keys
   if [ ! -d /home/pi/.ssh ]; then
     mkdir /home/pi/.ssh
