@@ -1,66 +1,153 @@
 #!/bin/bash
 
-#Local variables
-configtor="false"
-configdocker="true"
-updateplanet="false"
+# Changes the hostname to the one indicated. (default: treehouses)
+hostname='treehouses' 
 
-treehouses rename treehouses
+# If set to "button", bluetooth is enabled unless GPIO 18 is pulled to ground,
+# and if set to "normal" bluetooth is always on (default: button).
+bluetooth="button"  
+
+#If set to true, will allow trusted treehouses team members to log on to the system without a password 
+# Additionally, it will search for key pairs or authorized_key files directly in /boot folder 
+# to incorporate in the ssh server (default: true)
+treehousesteamsshkeys="true"
+
+# Internet configuration:
+# Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
+# "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection.
+# "aplocal" turns Raspberry Pi into a hotspot without internet connection.
+# and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
+connectiontype="apinternet"
+
+wifiname='' # Insert the name (SSID) of your wifi router. (used in wifi or bridge configuration).
+hotspotname='treehouses' # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
+                         # (used in apinternet, aplocal or bridge configuration).
+wifipassword=''  # Insert the password of your wifi router. Leave the field empty for open networks.
+                # (used in wifi or bridge configuration).
+hotspotpassword='' # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
+                   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password).
+                   # (used in apinternet, aplocal or bridge configuration).
+
+# If starttor is set to true, it starts a tor hidden service, (default: false)
+# starttornotice publishes these address to treehouses gitter or tornoticeurl. (default: false)
+starttor="false"
+starttornotice="false"
+tornoticeapiurl=""
+
+# If startplanet is set to true, starts the docker service, (default: true)
+# and if updateplanet is set to true, updates the planet to the latest revision. (default: false)
+startplanet="true" 
+updateplanet="false" 
+
+# If enablecoralboard is set to true, it enables Coral Enviro board use. (default: false)
+# If startcoralenvirodemo is set to true, starts the demo on Coral Enviro board. (default: false)
+enablecoralenviroboard="false"
+startcoralenvirodemo="false" 
+
+
+
+# No need to edit below this line
+#----------------------------------------------------------------------------------------------------#
+
+# sets the desired hostname for your Raspberry Pi
+treehouses rename $hostname
+
+# expands the filesystem
 treehouses expandfs
-treehouses button bluetooth
 
-#Uncomment the appropriate line for your connection
+# configures the wifi antenna of the RPi
+if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
+case $connectiontype in
+  "wifi")
+    treehouses wifi $wifiname $wifipassword;;
+  "apinternet")
+    treehouses ap internet $hotspotname $hotspotpassword;;
+  "aplocal")
+    treehouses ap local $hotspotname $hotspotpassword;;
+  "bridge")
+    treehouses bridge $wifiname $hotspotname $wifipassword $hotspotpassword;;
+  *)
+    echo "Unsupported configuration. Switching to default ap internet config";
+    treehouses ap internet treehouses;;
+esac
 
-#treehouses wifi <wifiname> [password]
-#treehouses ap internet <hotspotname> [password]
-treehouses ap internet treehouses
-#treehouses ap local <hotspotname> [password]
-#treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
-
-# Start tor service
-if [ $configtor = "true" ]; then
-	treehouses tor add 22
-	sleep 10
-	sync
-	treehouses tor start
-	treehouses tor notice on
-	sync
-	sleep 10
+# disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
+if [ $bluetooth = "button" ] || [ $enablecoralenviroboard = "false" ]; then
+  treehouses button bluetooth
+else 
+  treehouses bluetooth on
 fi
 
-# Update planet if there is an internet connection
-if [ $updateplanet = "true" ]; then
-	docker pull treehouses/planet:latest
-	docker pull treehouses/planet:db-init
-	docker tag treehouses/planet:latest treehouses/planet:local
-	docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+# starts tor service
+if [ $starttor = "true" ]; then
+  treehouses tor add 22
+  if [ $startplanet = "true" ]; then
+    treehouses tor add 80
+    treehouses tor add 2200
+  fi  
+  sleep 10
+  sync
+  treehouses tor start
+  if [ $starttornotice = "true" ]; then
+    if [ ${#tornoticeapiurl} -ge 0 ]; then
+      treehouses tor notice delete
+      treehouses tor notice add $tornoticeapiurl
+    fi
+    treehouses tor notice on
+  fi
+  sync
+  sleep 10
 fi
 
-# Starts docker container
-if [ $configdocker = "true" ]; then
-	{	
-	echo "#!/bin/sh"
-	echo
-	echo "sleep 1"
-	echo
-	echo "if [ -f /srv/planet/pwd/credentials.yml ]; then"
-	echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -f /srv/planet/pwd/credentials.yml -p planet up -d"
-	echo "else"
-	echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d"
-	echo "fi"
-	} > /boot/autorun
-
-	mv /srv/tenalp /srv/planet
-
-	sync;sync;sync
-	
-	docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
+# updates planet if there is an internet connection
+if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
+  docker pull treehouses/planet:latest
+  docker pull treehouses/planet:db-init
+  docker tag treehouses/planet:latest treehouses/planet:local
+  docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 fi
 
-# Reset if RPiZero or RPi3A
+# removes treehouses team members sshkeys and places keys to .ssh folder
+if [ $treehousesteamsshkeys = "false" ]; then
+  rm -f home/pi/.ssh/authorized_keys
+  if [ ! -d /home/pi/.ssh ]; then
+    mkdir /home/pi/.ssh
+  fi
+  find "/boot/id_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+  find "/boot/ic_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+  find "/boot/authorized_keys" -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+fi
+	  
+
+# starts planet
+if [ $startplanet = "true" ]; then
+    {    
+    echo "#!/bin/sh"
+    echo
+    echo "sleep 1"
+    echo
+    echo "if [ -f /srv/planet/pwd/credentials.yml ]; then"
+    echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -f /srv/planet/pwd/credentials.yml -p planet up -d"
+    echo "else"
+    echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d"
+    echo "fi"
+    } > /boot/autorun
+
+    mv /srv/tenalp /srv/planet
+    sync;sync;sync
+    
+    docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
+fi
+
+# starts coral environmental board demo
+if [ "$startcoralenvirodemo" = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
+   treehouses coralenv demo-always-on
+fi
+
+# boots to console if RPiZero or RPi3A+ (not enough RAM?)
 case "$(treehouses detectrpi)" in
   RPIZW|RPI3A+)
-    treehouses bootoption console
+    treehouses bootoption console;;
 esac
 
 if [ "$(treehouses rebootneeded)" = "true" ]; then
