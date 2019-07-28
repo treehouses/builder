@@ -1,4 +1,5 @@
 sudo: required
+dist: xenial
 
 language: node_js
 node_js:
@@ -12,12 +13,14 @@ addons:
     packages:
       - docker-ce
       - kpartx
-      - qemu-user-static
       - aria2
       - tree
       - python-requests
 
 install:
+  - wget https://launchpadlibrarian.net/433338128/qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
+  - wget https://launchpad.net/ubuntu/+source/binfmt-support/2.2.0-2/+build/16376983/+files/binfmt-support_2.2.0-2_amd64.deb
+  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
