@@ -19,7 +19,7 @@ addons:
 
 install:
   - dpkg -l | grep qemu
-  - apt show qemu-user-static
+  - apt-cache show qemu-user-static
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
