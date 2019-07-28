@@ -7,10 +7,10 @@ hostname='treehouses'
 # and if set to "normal" bluetooth is always on (default: button).
 bluetooth="button"  
 
-#If set to true, will allow OLE team members to log on to the system without a password 
+#If set to true, will allow trusted treehouses team members to log on to the system without a password 
 # Additionally, it will search for key pairs or authorized_key files directly in /boot folder 
 # to incorporate in the ssh server (default: true)
-olesshkeys="true"
+treehousesteamsshkeys="true"
 
 # Internet configuration:
 # Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
@@ -107,8 +107,8 @@ if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
   docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 fi
 
-# removes ole team members ssh keys and places keys to .ssh folder
-if [ $olesshkeys = "false" ]; then
+# removes treehouses team members sshkeys and places keys to .ssh folder
+if [ $treehousesteamsshkeys = "false" ]; then
   rm -f home/pi/.ssh/authorized_keys
   if [ ! -d /home/pi/.ssh ]; then
     mkdir /home/pi/.ssh
