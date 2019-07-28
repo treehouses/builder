@@ -1,5 +1,6 @@
 sudo: required
 dist: xenial
+
 language: node_js
 node_js:
   - "8"
@@ -18,19 +19,9 @@ addons:
       - python-requests
 
 install:
-#  - sudo add-apt-repository -y ppa:ubuntu-security-proposed/ppa
-#  - cat /etc/apt/sources.list.d/ubuntu-security-proposed-ubuntu-ppa-xenial.list
-#  - sudo sed -i -e "s#xenial#artful#g" /etc/apt/sources.list.d/ubuntu-security-proposed-ubuntu-ppa-xenial.list
-#  - cat /etc/apt/sources.list.d/ubuntu-security-proposed-ubuntu-ppa-xenial.list
-#  - sudo apt-get update && sudo apt-get install -y qemu-user-static
-#  - wget http://launchpadlibrarian.net/371553480/qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
-#  - sudo dpkg -i qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
-  - wget http://launchpadlibrarian.net/433338128/qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
+  - wget https://launchpadlibrarian.net/433338128/qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
   - wget https://launchpad.net/ubuntu/+source/binfmt-support/2.2.0-2/+build/16376983/+files/binfmt-support_2.2.0-2_amd64.deb
-  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb
-  - sudo dpkg -i --auto-deconfigure qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
-  - dpkg -l | grep qemu
-  - apt-cache show qemu-user-static
+  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
