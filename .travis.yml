@@ -18,7 +18,7 @@ addons:
       - python-requests
 
 install:
-  - sudo add-apt-repository ppa:ubuntu-security-proposed/ppa && sudo apt-get update && sudo apt-get install qemu-user-static
+  - sudo add-apt-repository ppa:ubuntu-security-proposed/ppa && sudo apt-get update && sudo apt-get install -y qemu-user-static
   - dpkg -l | grep qemu
   - apt-cache show qemu-user-static
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
