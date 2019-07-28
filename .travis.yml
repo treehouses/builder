@@ -23,8 +23,10 @@ install:
 #  - sudo sed -i -e "s#xenial#artful#g" /etc/apt/sources.list.d/ubuntu-security-proposed-ubuntu-ppa-xenial.list
 #  - cat /etc/apt/sources.list.d/ubuntu-security-proposed-ubuntu-ppa-xenial.list
 #  - sudo apt-get update && sudo apt-get install -y qemu-user-static
-  - wget http://launchpadlibrarian.net/371553480/qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
-  - sudo dpkg -i qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
+#  - wget http://launchpadlibrarian.net/371553480/qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
+#  - sudo dpkg -i qemu-user-static_2.10+dfsg-0ubuntu3.8_amd64.deb
+  - wget http://launchpadlibrarian.net/433337470/qemu-user-static_2.11+dfsg-1ubuntu7.16_amd64.deb
+  - sudo dpkg -i qemu-user-static_2.11+dfsg-1ubuntu7.16_amd64.deb
   - dpkg -l | grep qemu
   - apt-cache show qemu-user-static
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
