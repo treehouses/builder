@@ -12,12 +12,13 @@ addons:
     packages:
       - docker-ce
       - kpartx
-      - qemu-user-static
+#      - qemu-user-static
       - aria2
       - tree
       - python-requests
 
 install:
+  - sudo add-apt-repository ppa:ubuntu-security-proposed/ppa && sudo apt-get update && sudo apt-get install qemu-user-static
   - dpkg -l | grep qemu
   - apt-cache show qemu-user-static
   - sudo service docker stop && sudo rm -rf /var/lib/docker && sudo service docker start
