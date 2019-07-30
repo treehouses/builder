@@ -11,6 +11,8 @@ headers = {"Authorization": "token %s" % os.environ.get("GITHUB_KEY")}
 next_page = 1
 members = []
 
+print https://api.github.com/orgs/treehouses/teams/sshkeys
+
 while next_page:
 #    api = 'https://api.github.com/orgs/treehouses/teams/sshkeys/members?&per_page=50&page=%d' % next_page
     api = 'https://api.github.com/orgs/treehouses/members?&per_page=50&page=%d' % next_page
