@@ -12,7 +12,8 @@ next_page = 1
 members = []
 
 while next_page:
-    api = 'https://api.github.com/orgs/treehouses/teams/sshkeys/members?&per_page=50&page=%d' % next_page
+#    api = 'https://api.github.com/orgs/treehouses/teams/sshkeys/members?&per_page=50&page=%d' % next_page
+    api = 'https://api.github.com/orgs/treehouses/members?&per_page=50&page=%d' % next_page
     print "Getting keys.. page %d" % next_page
 
     request = requests.get(api, headers=headers)
