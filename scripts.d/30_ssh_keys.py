@@ -10,7 +10,7 @@ headers = {"Authorization": "token %s" % os.environ.get("GITHUB_KEY")}
 # Retrieve a list of public members using gitHub API
 members = []
 
-api = 'https://api.github.com/teams/3087744/members
+api = 'https://api.github.com/teams/3087744/members?page=1
 
 request = requests.get(api, headers=headers)
 users = request.json()
