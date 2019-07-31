@@ -7,16 +7,16 @@ hostname='treehouses'
 # and if set to "normal" bluetooth is always on (default: button).
 bluetooth="button"  
 
-# If set to true, will allow trusted treehouses team members to log on to the system without a password 
+# If set to true, this will allow trusted treehouses team members to log on to the system without a password 
 # Additionally, it will search for key pairs or authorized_key files directly in /boot folder 
 # to incorporate in the ssh server (default: true)
 treehousesteamsshkeys="true"
 
 # Internet configuration:
 # Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
-# "wifi" connects to an existing router, "apinternet" turns raspberry pi into a hotspot with internet connection.
-# "aplocal" turns Raspberry Pi into a hotspot without internet connection.
-# and "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
+# "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection.
+# "aplocal" turns the Raspberry Pi into a hotspot without internet connection.
+# "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
 connectiontype="apinternet"
 
 wifiname='' # Insert the name (SSID) of your wifi router. (used in wifi or bridge configuration).
@@ -26,22 +26,22 @@ wifipassword=''  # Insert the password of your wifi router. Leave the field empt
 hotspotname='treehouses' # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
                          # (used in apinternet, aplocal or bridge configuration).
 hotspotpassword='' # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
-                   # Passwords must be 8 characters or more. If your password has less, it will be configured as open network (no password).
-                   # (used in apinternet, aplocal or bridge configuration).
+                   # Passwords must be 8 characters or more. If your password has less, it will be configured as an open network (no password).
+                   # (used for apinternet, aplocal or bridge configuration).
 
-# If starttor is set to true, it starts a tor hidden service, (default: false)
-# starttornotice publishes these address to treehouses gitter or tornoticeurl. (default: false)
+# If "starttor" is set to true, it starts a tor hidden service, (default: false)
+# "starttornotice" publishes these addresses to treehouses gitter or "tornoticeurl". (default: false)
 starttor="false"
 starttornotice="false"
 tornoticeapiurl=""
 
-# If startplanet is set to true, starts the docker service, (default: true)
-# and if updateplanet is set to true, updates the planet to the latest revision. (default: false)
+# If "startplanet" is set to true, this starts the docker service, (default: true)
+# If "updateplanet" is set to true, this updates the planet to the latest revision. (default: false)
 startplanet="true" 
 updateplanet="false" 
 
-# If enablecoralboard is set to true, it enables Coral Enviro board use. (default: false)
-# If startcoralenvirodemo is set to true, starts the demo on Coral Enviro board. (default: false)
+# If "enablecoralboard" is set to true, this enables the use of the Coral Enviro board. (default: false)
+# If "startcoralenvirodem"o is set to true, this starts the demo on Coral Enviro board. (default: false)
 enablecoralenviroboard="false"
 startcoralenvirodemo="false" 
 
