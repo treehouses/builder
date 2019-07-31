@@ -5,12 +5,15 @@
 import requests
 import os
 
-headers = {"Authorization": "token %s" % os.environ.get("GITHUB_KEY")}
+headers = {
+    "Authorization": "token %s" % os.environ.get("GITHUB_KEY"),
+    "Connection": "close"
+}
 
 # Retrieve a list of public members using gitHub API
 members = []
 
-api = 'https://api.github.com/teams/3087744/members?page=1
+api = 'https://api.github.com/teams/3087744/members
 
 request = requests.get(api, headers=headers)
 users = request.json()
