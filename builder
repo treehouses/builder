@@ -287,7 +287,6 @@ if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
     exit 1
 fi
 
-echo "There was $authorized_keys_lines sshkeys."
 if [[ $authorized_keys_lines -le 20 ]]; then
     echo "/root/.ssh/authorized_keys has 20 line or less."
     exit 1
