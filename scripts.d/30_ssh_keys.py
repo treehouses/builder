@@ -8,23 +8,15 @@ import os
 headers = {"Authorization": "token %s" % os.environ.get("GITHUB_KEY")}
 
 # Retrieve a list of public members using gitHub API
-next_page = 1
 members = []
 
-while next_page:
-    api = 'https://api.github.com/teams/3087744/members?&per_page=50&page=%d' % next_page
-    print "Getting keys.. page %d" % next_page
+api = 'https://api.github.com/teams/3087744/members?&per_page=50&page=%d' % next_page
+print "Getting keys.. page %d" % next_page
 
-    request = requests.get(api, headers=headers)
-    users = request.json()
-    for user in users:
-        members.append(user['login'])
-
-    if 'rel="next"' in request.headers.get("Link"):
-        next_page += 1
-    else:
-        next_page = 0
-
+request = requests.get(api, headers=headers)
+users = request.json()
+for user in users:
+    members.append(user['login'])
 
 print "Found %d members. Getting keys for users" % len(members)
 
