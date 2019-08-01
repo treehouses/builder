@@ -129,7 +129,7 @@ fi
 if [ $treehousesteamsshkeys = "false" ]; then
   treehouses sshkey deleteall
 fi
-if [[ -z $addauthorizedkey ]]; then
+if [[ ! -z $addauthorizedkey ]]; then
   treehouses sshkey add $addauthorizedkey
 fi
 
