@@ -1,50 +1,62 @@
 #!/bin/bash
 
-# Changes the hostname to the one indicated. (default: treehouses)
+# ----- BASIC CONFIGURATIONS: -----
+
+# Sets hostname to a desirable name
+# (default: treehouses)
 hostname='treehouses' 
 
-# If set to "button", bluetooth is enabled unless GPIO 18 is pulled to ground,
-# and if set to "normal" bluetooth is always on (default: button).
+# If "button", bluetooth is enabled unless GPIO 18 is pulled to ground
+# If "normal", bluetooth is always on.
+# (default: button)
 bluetooth="button"  
 
-# If set to true, this will allow trusted treehouses team members to log on to the system without a password 
-# Additionally, it will search for key pairs or authorized_key files directly in /boot folder 
-# to incorporate in the ssh server (default: true)
+# If true, this allows trusted treehouses team members to log on to the system without a password 
+# It will search for key pairs or authorized_key files directly in /boot folder to incorporate in the ssh server
+# (default: true)
 treehousesteamsshkeys="true"
 
-# Internet configuration:
-# Change connectiontype to "wifi", "apinternet", "aplocal" or "bridge" type of connection.
-# "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection.
-# "aplocal" turns the Raspberry Pi into a hotspot without internet connection.
-# "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections. 
+
+# ----- INTERNET CONFIGURATIONS: -----
+
+# Options for connectiontype:
+#   "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection
+#   "aplocal" turns the Raspberry Pi into a hotspot without internet connection
+#   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
 
-wifiname='' # Insert the name (SSID) of your wifi router. (used in wifi or bridge configuration).
-wifipassword=''  # Insert the password of your wifi router. Leave the field empty for open networks.
-                # (used in wifi or bridge configuration).
+# wifiname: Insert the name (SSID) of your wifi router
+# wifipassword: Insert the password of your wifi router. Leave field empty for open networks
+# (Edit if "connectiontype" is "wifi" or "bridge")
+wifiname='' 
+wifipassword=''
 
-hotspotname='treehouses' # Change to the name you want your hotspot to have. Raspberry Pi will be a hotspot with this name as SSID.
-                         # (used in apinternet, aplocal or bridge configuration).
-hotspotpassword='' # Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network).
-                   # Passwords must be 8 characters or more. If your password has less, it will be configured as an open network (no password).
-                   # (used for apinternet, aplocal or bridge configuration).
+# hotspotname: Change to the name you want your hotspot to have, Raspberry Pi will be a hotspot with this name as SSID
+# hotspotpassword:
+#   Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network)
+#   Passwords must be 8 characters or more. If your password has less, it will be configured as an no password (open network)
+# (Edit if "connectiontype" is "apinternet", "aplocal" or "bridge")
+hotspotname='treehouses'
+hotspotpassword='' 
+                   
+                   
+# ----- OTHER CONFIGURATION: -----
 
-# If "starttor" is set to true, it starts a tor hidden service, (default: false)
-# "starttornotice" publishes these addresses to treehouses gitter or "tornoticeurl". (default: false)
+# "starttor": If true, it starts a tor hidden service (default: false)
+# "starttornotice": If true, publishes these addresses to treehouses gitter or "tornoticeurl" (default: false)
 starttor="false"
 starttornotice="false"
 tornoticeapiurl=""
 
-# If "startplanet" is set to true, this starts the docker service, (default: true)
-# If "updateplanet" is set to true, this updates the planet to the latest revision. (default: false)
+# "startplanet": If true, this starts the docker service (default: true)
+# "updateplanet": If true, this updates the planet to the latest revision (default: false)
 startplanet="true" 
 updateplanet="false" 
 
-# If "enablecoralboard" is set to true, this enables the use of the Coral Enviro board. (default: false)
-# If "startcoralenvirodem"o is set to true, this starts the demo on Coral Enviro board. (default: false)
+# "enablecoralboard": If true, this enables the use of the Coral Enviro board. (default: false)
+# "startcoralenvirodem": If true, this starts the demo on Coral Enviro board. (default: false)
 enablecoralenviroboard="false"
 startcoralenvirodemo="false" 
-
 
 
 # No need to edit below this line
