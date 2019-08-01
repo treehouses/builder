@@ -15,6 +15,7 @@ bluetooth="button"
 # It will search for key pairs or authorized_key files directly in /boot folder to incorporate in the ssh server
 # (default: true)
 treehousesteamsshkeys="true"
+addauthorizedkey=""
 
 
 # ----- INTERNET CONFIGURATIONS: -----
@@ -30,7 +31,7 @@ connectiontype="apinternet"
 # wifiname: Insert the name (SSID) of your wifi router
 # wifipassword: Insert the password of your wifi router. Leave field empty for open networks
 # (Edit if "connectiontype" is "wifi" or "bridge")
-wifiname='' 
+wifiname=''
 wifipassword=''
 
 # hotspotname: Change to the name you want your hotspot to have, raspberry pi will be a hotspot with this name as SSID
@@ -39,9 +40,9 @@ wifipassword=''
 #   Passwords must be 8 characters or more. If your password has less, it will be configured as open network
 # (Edit if "connectiontype" is "apinternet", "aplocal" or "bridge")
 hotspotname='treehouses'
-hotspotpassword='' 
-                   
-                   
+hotspotpassword=''
+
+
 # ----- OTHER CONFIGURATION: -----
 
 # starttor: If true, it starts a tor hidden service (default: false)
@@ -52,13 +53,13 @@ tornoticeapiurl=""
 
 # startplanet: If true, this starts the docker service (default: true)
 # updateplanet: If true, this updates the planet to the latest revision (default: false)
-startplanet="true" 
-updateplanet="false" 
+startplanet="true"
+updateplanet="false"
 
 # enablecoralboard: If true, this enables the use of the Coral Enviro board. (default: false)
 # startcoralenvirodemo: If true, this starts the demo on Coral Enviro board. (default: false)
 enablecoralenviroboard="false"
-startcoralenvirodemo="false" 
+startcoralenvirodemo="false"
 
 
 # No need to edit below this line
@@ -126,19 +127,15 @@ fi
 
 # removes treehouses team members sshkeys and places keys to .ssh folder
 if [ $treehousesteamsshkeys = "false" ]; then
-  rm -f home/pi/.ssh/authorized_keys
-  if [ ! -d /home/pi/.ssh ]; then
-    mkdir /home/pi/.ssh
-  fi
-  find "/boot/id_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
-  find "/boot/ic_"* -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
-  find "/boot/authorized_keys" -type f -print0 | xargs -0 -I{} cp -f {} /home/pi/.ssh/
+  treehouses sshkey deleteall
 fi
-	  
+if [[ -z $addauthorizedkey ]]; then
+  treehouses sshkey add $addauthorizedkey
+fi
 
 # starts planet
 if [ $startplanet = "true" ]; then
-    {    
+  {    
     echo "#!/bin/sh"
     echo
     echo "sleep 1"
@@ -148,17 +145,17 @@ if [ $startplanet = "true" ]; then
     echo "else"
     echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d"
     echo "fi"
-    } > /boot/autorun
+  } > /boot/autorun
 
-    mv /srv/tenalp /srv/planet
-    sync;sync;sync
-    
-    docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
+  mv /srv/tenalp /srv/planet
+  sync;sync;sync
+
+  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
 fi
 
 # starts coral environmental board demo
 if [ "$startcoralenvirodemo" = "true" ] && [ -e /sys/bus/iio/devices/iio:device0 ]; then
-   treehouses coralenv demo-always-on
+  treehouses coralenv demo-always-on
 fi
 
 # boots to console if RPiZero or RPi3A+ (not enough RAM?)
