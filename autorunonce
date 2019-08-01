@@ -20,7 +20,9 @@ treehousesteamsshkeys="true"
 # ----- INTERNET CONFIGURATIONS: -----
 
 # Options for connectiontype:
-#   "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection
+#   "ethernet" connects to ethernet only
+#   "wifi" connects to an existing router
+#   "apinternet" turns the raspberry pi into a hotspot with internet connection
 #   "aplocal" turns the raspberry pi into a hotspot without internet connection
 #   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
@@ -71,6 +73,8 @@ treehouses expandfs
 # configures the wifi antenna of the raspberry pi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
+  "ethernet")
+    ;;
   "wifi")
     treehouses wifi $wifiname $wifipassword;;
   "apinternet")
