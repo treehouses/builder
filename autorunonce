@@ -21,7 +21,7 @@ treehousesteamsshkeys="true"
 
 # Options for connectiontype:
 #   "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection
-#   "aplocal" turns the Raspberry Pi into a hotspot without internet connection
+#   "aplocal" turns the raspberry pi into a hotspot without internet connection
 #   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
 
@@ -31,10 +31,10 @@ connectiontype="apinternet"
 wifiname='' 
 wifipassword=''
 
-# hotspotname: Change to the name you want your hotspot to have, Raspberry Pi will be a hotspot with this name as SSID
+# hotspotname: Change to the name you want your hotspot to have, raspberry pi will be a hotspot with this name as SSID
 # hotspotpassword:
 #   Insert the password you want your Raspberry Pi hotspot to have. Can be blank for no password (open network)
-#   Passwords must be 8 characters or more. If your password has less, it will be configured as an no password (open network)
+#   Passwords must be 8 characters or more. If your password has less, it will be configured as open network
 # (Edit if "connectiontype" is "apinternet", "aplocal" or "bridge")
 hotspotname='treehouses'
 hotspotpassword='' 
@@ -42,19 +42,19 @@ hotspotpassword=''
                    
 # ----- OTHER CONFIGURATION: -----
 
-# "starttor": If true, it starts a tor hidden service (default: false)
-# "starttornotice": If true, publishes these addresses to treehouses gitter or "tornoticeurl" (default: false)
+# starttor: If true, it starts a tor hidden service (default: false)
+# starttornotice: If true, publishes these addresses to treehouses gitter or "tornoticeurl" (default: false)
 starttor="false"
 starttornotice="false"
 tornoticeapiurl=""
 
-# "startplanet": If true, this starts the docker service (default: true)
-# "updateplanet": If true, this updates the planet to the latest revision (default: false)
+# startplanet: If true, this starts the docker service (default: true)
+# updateplanet: If true, this updates the planet to the latest revision (default: false)
 startplanet="true" 
 updateplanet="false" 
 
-# "enablecoralboard": If true, this enables the use of the Coral Enviro board. (default: false)
-# "startcoralenvirodem": If true, this starts the demo on Coral Enviro board. (default: false)
+# enablecoralboard: If true, this enables the use of the Coral Enviro board. (default: false)
+# startcoralenvirodemo: If true, this starts the demo on Coral Enviro board. (default: false)
 enablecoralenviroboard="false"
 startcoralenvirodemo="false" 
 
@@ -62,13 +62,13 @@ startcoralenvirodemo="false"
 # No need to edit below this line
 #----------------------------------------------------------------------------------------------------#
 
-# sets the desired hostname for your Raspberry Pi
+# sets the desired hostname for your raspberry pi
 treehouses rename $hostname
 
 # expands the filesystem
 treehouses expandfs
 
-# configures the wifi antenna of the RPi
+# configures the wifi antenna of the raspberry pi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
   "wifi")
