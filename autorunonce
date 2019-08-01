@@ -102,7 +102,7 @@ if [ $starttor = "true" ]; then
   if [ $startplanet = "true" ]; then
     treehouses tor add 80
     treehouses tor add 2200
-  fi  
+  fi
   sleep 10
   sync
   treehouses tor start
