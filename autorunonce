@@ -20,7 +20,8 @@ treehousesteamsshkeys="true"
 # ----- INTERNET CONFIGURATIONS: -----
 
 # Options for connectiontype:
-#   "wifi" connects to an existing router, "apinternet" turns the raspberry pi into a hotspot with internet connection
+#   "wifi" connects to an existing router
+#   "apinternet" turns the raspberry pi into a hotspot with internet connection
 #   "aplocal" turns the raspberry pi into a hotspot without internet connection
 #   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
