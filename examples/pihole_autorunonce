@@ -7,7 +7,7 @@ treehouses button bluetooth
 #treehouses wifi <wifiname> [password]
 #treehouses ap internet <hotspotname> [password]
 #treehouses ap local <hotspotname> [password]
-#treehouses bridge <wifiname> <hotspotname> [wifipassword] [hotspotpassword]
+treehouses bridge "wifiname" treehouses "wifipassword" 
 
 mkdir -p /srv/pihole
 
@@ -25,11 +25,11 @@ sync;sync;sync
   echo "      - \"53:53/tcp\""
   echo "      - \"53:53/udp\""
   echo "      - \"67:67/udp\""
-  echo "      - \"80:80/tcp\""
+  echo "      - \"8053:80/tcp\""
   echo "      - \"443:443/tcp\""
   echo "    environment:"
   echo "      TZ: 'America/New_York'"
-  echo "      # WEBPASSWORD: 'set a secure password here or it will be random'"
+  echo "      WEBPASSWORD: ''"
   echo "    # Volumes store your data between container upgrades"
   echo "    volumes:"
   echo "      - './etc-pihole/:/etc/pihole/'"
@@ -50,7 +50,7 @@ sync;sync;sync
   echo "sleep 1"
   echo
   echo "service dnsmasq stop"
-  echo "docker-compose -f /srv/pihole/pihole.yml -p pihole up"
+  echo "docker-compose -f /srv/pihole/pihole.yml -p pihole up -d"
 } > /boot/autorun
 
 sync;sync;sync
@@ -59,9 +59,5 @@ case "$(treehouses detectrpi)" in
   RPIZW|RPI3A+)
     treehouses bootoption console
 esac
-
-#if [ "$(treehouses rebootneeded)" = "true" ]; then
-#  reboot
-#fi
 
 reboot
