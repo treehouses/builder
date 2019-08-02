@@ -17,9 +17,9 @@ addons:
       - python-requests
 
 install:
-  - wget https://launchpadlibrarian.net/433338128/qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
+  - wget http://launchpadlibrarian.net/427214739/qemu-user-static_3.1+dfsg-2ubuntu3.2_i386.deb
   - wget https://launchpad.net/ubuntu/+source/binfmt-support/2.2.0-2/+build/16376983/+files/binfmt-support_2.2.0-2_amd64.deb
-  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb qemu-user-static_3.1+dfsg-2ubuntu3.3_amd64.deb
+  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb qemu-user-static_3.1+dfsg-2ubuntu3.2_i386.deb
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
