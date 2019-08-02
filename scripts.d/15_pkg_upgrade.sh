@@ -11,6 +11,7 @@ _op _chroot apt-mark hold libfm-gtk-data
 _op _chroot apt-mark hold libfm-gtk4
 _op _chroot apt-mark hold libfm-modules
 _op _chroot apt-mark hold libfm4
+_op _chroot apt-mark hold raspberrypi-ui-mods
 
 echo "Installing Updates"
 _apt update || die "Could not update package sources"
@@ -22,3 +23,4 @@ _op _chroot apt-mark unhold libfm-gtk-data
 _op _chroot apt-mark unhold libfm-gtk4
 _op _chroot apt-mark unhold libfm-modules
 _op _chroot apt-mark unhold libfm4
+_op _chroot apt-mark unhold raspberrypi-ui-mods
