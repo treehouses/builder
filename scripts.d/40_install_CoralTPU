@@ -7,8 +7,8 @@ cd edgetpu_api || exit 1
 
 rm -f install.sh
 touch install.sh
-cat > install.sh << EOF
-'#!/bin/bash
+cat > install.sh << 'EOF'
+#!/bin/bash
 #
 # Copyright 2019 Google LLC
 #
@@ -135,5 +135,5 @@ if [[ $? == 0 ]]; then
   info "Installing Edge TPU Python API..."
   sudo python3 -m pip install --no-deps "${WHEEL}"
   info "Done."
-fi'
+fi
 EOF
