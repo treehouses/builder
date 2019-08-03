@@ -14,7 +14,7 @@ before_install:
   - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 871920D1991BC93C
   - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
   - sudo dpkg --add-architecture i386
-  - sudo apt-get qemu-user-static:i386
+  - sudo apt-get install qemu-user-static:i386
 
 addons:
   apt:
