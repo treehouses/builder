@@ -11,8 +11,7 @@ services:
 before_install:
 
   - sudo add-apt-repository "deb [arch=i386] http://us.archive.ubuntu.com/ubuntu/ disco main"
-  - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 871920D1991BC93C
-  - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
+  - sudo add-apt-repository "deb [arch=i386]http://us-east-1.ec2.archive.ubuntu.com/ubuntu disco/universe"
   - sudo dpkg --add-architecture i386
   - sudo apt-cache policy qemu-user-static:i386
   - sudo apt-cache policy binfmt-support
