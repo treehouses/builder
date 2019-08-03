@@ -11,7 +11,8 @@ services:
 before_install:
 
   - sudo add-apt-repository "deb [arch=i386] http://us.archive.ubuntu.com/ubuntu/ disco main"
-  - sudo add-apt-repository "deb [arch=i386] http://us-east-1.ec2.archive.ubuntu.com/ubuntu disco universe"
+  - sudo add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ disco main"
+  - sudo apt-get update
   - sudo dpkg --add-architecture i386
   - sudo apt-cache policy qemu-user-static:i386
   - sudo apt-cache policy binfmt-support
