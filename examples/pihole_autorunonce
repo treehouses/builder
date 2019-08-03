@@ -7,7 +7,7 @@ treehouses button bluetooth
 #treehouses wifi <wifiname> [password]
 #treehouses ap internet <hotspotname> [password]
 #treehouses ap local <hotspotname> [password]
-treehouses bridge "wifiname" treehouses "wifipassword" 
+treehouses bridge 'wifiname' 'treehouses' 'wifipassword'
 
 mkdir -p /srv/pihole
 
