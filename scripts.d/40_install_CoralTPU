@@ -137,3 +137,7 @@ if [[ $? == 0 ]]; then
   info "Done."
 fi
 EOF
+
+chmod +x ./install.sh
+./install.sh || exit 1
+exit 0
