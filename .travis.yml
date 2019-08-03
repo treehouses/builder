@@ -8,6 +8,14 @@ node_js:
 services:
   - docker
 
+before_install:
+
+  - sudo add-apt-repository "deb [arch=i386] http://us.archive.ubuntu.com/ubuntu/ disco main"
+  - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 871920D1991BC93C
+  - sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get qemu-user-static:i386
+
 addons:
   apt:
     packages:
@@ -17,9 +25,8 @@ addons:
       - python-requests
 
 install:
-  - wget https://launchpadlibrarian.net/427214739/qemu-user-static_3.1+dfsg-2ubuntu3.2_i386.deb
   - wget https://launchpad.net/ubuntu/+source/binfmt-support/2.2.0-2/+build/16376983/+files/binfmt-support_2.2.0-2_amd64.deb
-  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb qemu-user-static_3.1+dfsg-2ubuntu3.2_i386.deb
+  - sudo dpkg -i binfmt-support_2.2.0-2_amd64.deb
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
