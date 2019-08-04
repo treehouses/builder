@@ -47,50 +47,11 @@ function warn {
 function error {
   echo -e "${RED}${1}${CLEAR}"
 }
-
-if [[ -f /etc/mendel_version ]]; then
-  warn "Looks like you're using a Coral Dev Board. You should instead use Debian packages to manage Edge TPU software."
-  exit 0
-fi
-
-if [[ "${CPU_ARCH}" == "x86_64" ]] && [[ "${OS_VERSION}" == *"Debian"* || "${OS_VERSION}" == *"Ubuntu"* ]]; then
-  info "Recognized as Linux on x86_64."
-  LIBEDGETPU_SUFFIX=x86_64
-  HOST_GNU_TYPE=x86_64-linux-gnu
-elif [[ "${CPU_ARCH}" == "armv6l" ]]; then
-    info "Recognized as Raspberry Pi Zero."
-    LIBEDGETPU_SUFFIX=arm32
-    HOST_GNU_TYPE=arm-linux-gnueabihf
-elif [[ "${CPU_ARCH}" == "armv7l" ]]; then
-  MODEL=$(cat /proc/device-tree/model)
-  if [[ "${MODEL}" == "Raspberry Pi 3 Model B Rev"* ]]; then
-    info "Recognized as Raspberry Pi 3 B."
-    LIBEDGETPU_SUFFIX=arm32
-    HOST_GNU_TYPE=arm-linux-gnueabihf
-  elif [[ "${MODEL}" == "Raspberry Pi 3 Model B Plus Rev"* ]]; then
-    info "Recognized as Raspberry Pi 3 B+."
-    LIBEDGETPU_SUFFIX=arm32
-    HOST_GNU_TYPE=arm-linux-gnueabihf
-  elif [[ "${MODEL}" == "Raspberry Pi 4 Model B Rev"* ]]; then
-    info "Raspberry Pi 4 Model B."
-    LIBEDGETPU_SUFFIX=arm32
-    HOST_GNU_TYPE=arm-linux-gnueabihf
- fi
-elif [[ "${CPU_ARCH}" == "aarch64" ]]; then
-  info "Recognized as generic ARM64 platform."
-  LIBEDGETPU_SUFFIX=arm64
-  HOST_GNU_TYPE=aarch64-linux-gnu
-fi
-
-if [[ -z "${HOST_GNU_TYPE}" ]]; then
-  error "Your platform is not supported."
-  exit 1
-fi
-
-    LIBEDGETPU_SRC="${SCRIPT_DIR}/libedgetpu/libedgetpu_${LIBEDGETPU_SUFFIX}.so"
-
-
-LIBEDGETPU_DST="/usr/lib/${HOST_GNU_TYPE}/libedgetpu.so.1.0"
+   
+  LIBEDGETPU_SUFFIX=arm32
+  HOST_GNU_TYPE=arm-linux-gnueabihf
+  LIBEDGETPU_SRC="${SCRIPT_DIR}/libedgetpu/libedgetpu_${LIBEDGETPU_SUFFIX}.so"
+  LIBEDGETPU_DST="/usr/lib/${HOST_GNU_TYPE}/libedgetpu.so.1.0"
 
 # Install dependent libraries.
 info "Installing library dependencies..."
