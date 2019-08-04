@@ -101,4 +101,10 @@ EOF
 
 chmod +x ./install.sh
 ./install.sh || exit 1
+
+cd .. && rm -rf edgetpu_api && rm -f edgetpu_api.tar.gz || exit 1
+
+cd /usr/local/lib/python3.7/dist-packages/edgetpu/swig/ || exit 1
+        
+cp _edgetpu_cpp_wrapper.cpython-35m-arm-linux-gnueabihf.so _edgetpu_cpp_wrapper.cpython-37m-arm-linux-gnueabihf.so
 exit 0
