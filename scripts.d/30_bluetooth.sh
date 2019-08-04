@@ -14,3 +14,4 @@ bluetoothd -P hostname
 
 # Setting the same device class with hciconfig
 hciconfig hci0 class 020108
+
