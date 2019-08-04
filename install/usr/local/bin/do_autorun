@@ -61,7 +61,7 @@ autorun(){
 
   log "running autorun script $script"
   led_mode heartbeat
-  sudo screen -dmS opk bash -c 'sudo '"$script"
+  sudo screen -dmS treehouses bash -c 'sudo '"$script"
   log "autorun script started in screen"
 }
 
@@ -169,7 +169,7 @@ start() {
 
 stop() {
   log "stopping"
-  sudo screen -X -S "opk" quit
+  sudo screen -X -S "treehouses" quit
 }
 
 
