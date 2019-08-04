@@ -105,7 +105,6 @@ if [ $starttor = "true" ]; then
   fi
   sleep 10
   sync
-  treehouses tor start
   if [ $starttornotice = "true" ]; then
     if [ ${#tornoticeapiurl} -ge 0 ]; then
       treehouses tor notice delete
