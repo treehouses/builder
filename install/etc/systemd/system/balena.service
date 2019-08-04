@@ -1,6 +1,6 @@
 [Unit]
 Description=Balena Application Container Engine
-Documentation=https://www.balena.io
+Documentation=https://www.balena.io/engine/
 After=network-online.target balena.socket firewalld.service
 Wants=network-online.target
 Requires=balena.socket
