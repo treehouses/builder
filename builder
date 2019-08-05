@@ -190,7 +190,7 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    run-parts --exit-on-error -v --regex '[*]+' scripts.d ||\
+    run-parts --exit-on-error -v scripts.d ||\
         die "Image modification scripts failed"
 
     _enable_daemons
