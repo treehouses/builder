@@ -10,7 +10,7 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by balena
-ExecStart=/usr/bin/balena-engine-daemon
+ExecStart=/usr/bin/balena-engine-daemon -H tcp://0.0.0.0:2375 -H unix:///var/run/balena-engine.sock
 ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=1048576
 # Having non-zero Limit*s causes performance problems due to accounting overhead
