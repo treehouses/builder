@@ -139,6 +139,7 @@ if [ $startplanet = "true" ]; then
     echo "#!/bin/sh"
     echo
     echo "sleep 1"
+    echo "export DOCKER_HOST=localhost:2375"
     echo
     echo "if [ -f /srv/planet/pwd/credentials.yml ]; then"
     echo "  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -f /srv/planet/pwd/credentials.yml -p planet up -d"
