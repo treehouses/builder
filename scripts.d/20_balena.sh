@@ -31,10 +31,11 @@ _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-containerd-shim
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-daemon
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-proxy
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-runc
+_op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena
 
 _op _chroot groupadd balena
 _op _chroot usermod -aG balena pi
 _op _chroot usermod -aG balena root
 
-_op _chroot rm -rf /var/lib/balena
-_op _chroot ln -sr /var/lib/docker /var/lib/balena
+_op _chroot rm -rf /var/lib/balena-engine
+_op _chroot ln -sr /var/lib/docker /var/lib/balena-engine
