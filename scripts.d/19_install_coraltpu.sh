@@ -42,6 +42,7 @@ if [[ -f "${LIBEDGETPU_DST}" ]]; then
   rm -f "${LIBEDGETPU_DST}"
 fi
 
+mkdir /usr/lib/arm-linux-gnueabihf
 cp -p "${LIBEDGETPU_SRC}" "${LIBEDGETPU_DST}"
 ldconfig
 
