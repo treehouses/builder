@@ -35,6 +35,7 @@ fi
 
 cp -p "$PWD/99-edgetpu-accelerator.rules" "${UDEV_RULE_PATH}"
 udevadm control --reload-rules && udevadm trigger
+echo "Updated rules"
 
 # Installing Edge TPU runtime library
 if [[ -f "${LIBEDGETPU_DST}" ]]; then
@@ -43,13 +44,18 @@ if [[ -f "${LIBEDGETPU_DST}" ]]; then
 fi
 
 mkdir /usr/lib/arm-linux-gnueabihf
+echo "Created arm-linux-gnueabihf directory"
 cp -p "${LIBEDGETPU_SRC}" "${LIBEDGETPU_DST}"
+echo "Copied EdgeTPU files"
 ldconfig
+echo "Updated libraries"
 
 # Python API.
 WHEEL="$(ls "$PWD/edgetpu-*-py3-none-any.whl" 2>/dev/null)"
 if [ $? = 0 ]; then
   python3 -m pip install --no-deps "${WHEEL}"
+  echo "Installed Python API"
 fi
 
 cd .. && rm -rf edgetpu_api && rm -f edgetpu_api.tar.gz || exit 1
+echo "Leaving directory and removing files"
