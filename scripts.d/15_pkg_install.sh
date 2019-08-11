@@ -22,7 +22,7 @@ INSTALL_PACKAGES=(
     jq # for parsing json / treehouses command
     net-tools # netstat
     libffi-dev # for building docker-compose using pip
-    python3-coral-enviro # Coral environmental board 
+    python3-coral-enviro # Coral environmental board
     libusb-1.0-0 python3-pil python3-numpy libc++1 libc++abi1 libunwind8 libgcc1 # For Coral TPU
 )
 
