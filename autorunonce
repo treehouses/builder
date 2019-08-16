@@ -89,6 +89,8 @@ case $connectiontype in
     treehouses ap internet treehouses;;
 esac
 
+ecryptfs-setup-private
+
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
 if [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
   treehouses button bluetooth
