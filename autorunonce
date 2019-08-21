@@ -70,6 +70,8 @@ treehouses rename $hostname
 
 # expands the filesystem
 treehouses expandfs
+# Sets vnc default to on
+treehouses vnc on
 
 # configures the wifi antenna of the raspberry pi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
