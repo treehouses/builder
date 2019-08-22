@@ -9,7 +9,7 @@ IMAGES=(
 )
 
 MULTIS=(
-    treehouses/couchdb:2.3.0
+    treehouses/couchdb:2.3.1
     treehouses/planet:latest
     treehouses/planet:db-init
 )
