@@ -45,6 +45,9 @@ hotspotpassword=''
 
 # ----- OTHER CONFIGURATION: -----
 
+# startvnc: If true, it starts vnc and gui (default: false)
+startvnc="false"
+
 # starttor: If true, it starts a tor hidden service (default: false)
 # starttornotice: If true, publishes these addresses to treehouses gitter or "tornoticeurl" (default: false)
 starttor="false"
@@ -97,8 +100,8 @@ else
 fi
 
 # disables vnc as dafault setting
-if [$vnc = "true" ]; then
-  treehouses vnc off
+if [ $startvnc = "true" ]; then
+  treehouses vnc on
 fi
 
 # starts tor service
