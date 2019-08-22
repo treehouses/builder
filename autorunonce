@@ -99,7 +99,7 @@ else
   treehouses bluetooth on
 fi
 
-# disables vnc as dafault setting
+# starts vnc and gui services
 if [ $startvnc = "true" ]; then
   treehouses vnc on
 fi
