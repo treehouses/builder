@@ -30,6 +30,9 @@ done
 mkdir -p ~/.docker
 echo '{"experimental": "enabled"}' > ~/.docker/config.json
 
+mkdir -p "$OLD/mnt/img_root/root/.docker"
+cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
+
 for multi in "${MULTIS[@]}" ; do
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
