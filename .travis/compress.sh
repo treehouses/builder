@@ -19,7 +19,6 @@ build_type="branch"
 if release_is_number; then
     build_type="latest"
 fi
-export experiment="$build_type"
 
 if [[ -f "build/$build_type.img.gz" ]]; then
     rm -rf "build/$build_type.img.gz"
