@@ -25,7 +25,7 @@ addons:
 #script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 script:
   - mkdir -p images
-  - echo "hello" > images/hello.img
+  - echo "test" > images/test.img
   - ls -al images
 
 env:
