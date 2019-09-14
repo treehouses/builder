@@ -6,26 +6,22 @@ node_js:
   - "8"
 
 services:
-#  - docker
+  - docker
 
 before_install:
-#  - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ disco universe"
-#  - sudo apt-get update
-#  - sudo apt-get install qemu-user-static:i386
+  - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ disco universe"
+  - sudo apt-get update
+  - sudo apt-get install qemu-user-static:i386
 
 addons:
-#  apt:
-#    packages:
-#      - kpartx
-#      - aria2
-#      - tree
-#      - python-requests
+  apt:
+    packages:
+      - kpartx
+      - aria2
+      - tree
+      - python-requests
 
-#script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
-script:
-  - mkdir -p images
-  - echo "test" > images/test.img
-  - ls -al images
+script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
 env:
   global:
@@ -65,13 +61,12 @@ deploy:
     on:
       condition: "$experiment = branch"
       tags: true
-#  - provider: script
-#    skip_cleanup: true
-#    script: ./.travis/upload.sh
-#    on:
-#      all_branches: true
-#      tags: true
-
+  - provider: script
+    skip_cleanup: true
+    script: ./.travis/upload.sh
+    on:
+      all_branches: true
+      tags: true
 
 notifications:
   webhooks:
