@@ -9,7 +9,6 @@ services:
   - docker
 
 before_install:
-  - sudo add-apt-repository "deb [arch=i386] http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ disco universe"
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ disco universe"
   - sudo apt-get update
   - sudo apt-get install qemu-user-static:i386
@@ -51,7 +50,7 @@ deploy:
     local-dir: build
     skip_cleanup: true
     on:
-      branch: master
+      condition: $experiment = "latest"
       tags: true
 #  - provider: s3
 #    access_key_id: AKIAISP267FQ2JXEHXYA
