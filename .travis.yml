@@ -22,10 +22,11 @@ addons:
       - tree
       - python-requests
 
-install:
-
 #script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
-script: echo "hello" > build/hello.txt
+script:
+  - mkdir -p build
+  - echo "hello" > build/hello.txt
+  - ls -al build
 
 env:
   global:
