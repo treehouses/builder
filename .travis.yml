@@ -50,7 +50,7 @@ deploy:
     local-dir: build
     skip_cleanup: true
     on:
-      condition: $experiment = "latest"
+      condition: "$experiment = latest"
       tags: true
 #  - provider: s3
 #    access_key_id: AKIAISP267FQ2JXEHXYA
