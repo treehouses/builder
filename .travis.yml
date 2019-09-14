@@ -49,7 +49,7 @@ deploy:
     local-dir: build
     skip_cleanup: true
     on:
-      master: true
+      branch: master
       tags: true
   - provider: s3
     access_key_id: AKIAISP267FQ2JXEHXYA
