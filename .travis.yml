@@ -34,6 +34,7 @@ env:
 
 before_deploy:
   - echo "$ssh_deploy_key" | base64 --decode --ignore-garbage > .travis/id_deploy
+  - ./.travis/experiment.sh
 
 deploy:
   - provider: script
