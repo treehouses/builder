@@ -61,7 +61,7 @@ deploy:
     skip_cleanup: true
     on:
       all_branches: true
-      condition: $TRAVIS_BRANCH ~= master
+      condition: $TRAVIS_BRANCH =~ master
       tags: true
   - provider: script
     skip_cleanup: true
