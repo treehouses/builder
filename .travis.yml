@@ -36,7 +36,6 @@ before_deploy:
   - echo "$ssh_deploy_key" | base64 --decode --ignore-garbage > .travis/id_deploy
   - . .travis/experiment.sh
   - echo "$experiment"
-  - echo "dogi"
 
 deploy:
   - provider: script
@@ -53,8 +52,7 @@ deploy:
     local-dir: build
     skip_cleanup: true
     on:
-#      condition: "$experiment = latest"
-      condition: "$experiment = branch"
+      condition: "$experiment = latest"
       tags: true
 #  - provider: s3
 #    access_key_id: AKIAISP267FQ2JXEHXYA
@@ -66,7 +64,7 @@ deploy:
 #    skip_cleanup: true
 #    on:
 #      all_branches: true
-#      condition: $TRAVIS_BRANCH =~ master
+#      condition: "$experiment = branch"
 #      tags: true
 #  - provider: script
 #    skip_cleanup: true
