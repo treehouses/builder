@@ -9,4 +9,4 @@ if release_is_number; then
     image_dir=""
 fi
 export experiment="$build_type"
-export image_path="$image_dir$image_gz"
+export image_path="$image_dir$name.img.gz"
