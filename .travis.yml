@@ -69,7 +69,7 @@ deploy:
       tags: true
       
 after_deploy:
-  - echo "Download url: http://download.treehouses.io/$image_gz"
+  - echo "Download url: http://download.treehouses.io/$img_name"
 
 notifications:
   webhooks:
