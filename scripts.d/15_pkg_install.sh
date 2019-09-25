@@ -21,6 +21,7 @@ INSTALL_PACKAGES=(
     openvpn
     jq # for parsing json / treehouses command
     net-tools # netstat
+    speedtest-cli # speedtest.net
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
 )
