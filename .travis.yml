@@ -70,9 +70,7 @@ deploy:
       tags: true
       
 after_deploy:
-  - echo "Hello!"
-  - echo "Download url:\ http://download.treehouses.io/$image_path"
-  - echo "Download url: http://download.treehouses.io/$image_path"
+  - "echo Download url:\ http://download.treehouses.io/$image_path"
 
 notifications:
   webhooks:
