@@ -30,8 +30,9 @@ env:
 
 before_deploy:
   - echo "$ssh_deploy_key" | base64 --decode --ignore-garbage > .travis/id_deploy
-  - . .travis/experiment.sh
+  - . .travis/environment.sh
   - echo "$experiment"
+  - echo "$image_path"
 
 deploy:
   - provider: script
@@ -67,6 +68,9 @@ deploy:
     on:
       all_branches: true
       tags: true
+      
+after_deploy:
+  - "echo Download url: http://download.treehouses.io/$image_path"
 
 notifications:
   webhooks:
