@@ -2,7 +2,7 @@
 
 source lib.sh
 
-echo "Installing ip script"
+echo "Installing @treehouses/cli script"
 
 mkdir node_root
 npm config set prefix "$PWD/node_root"
