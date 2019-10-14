@@ -102,7 +102,7 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +1850MB "$RESIZE_IMAGE_PATH"
+    truncate -s +1700MB "$RESIZE_IMAGE_PATH"
     losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
     fdisk /dev/loop1 <<EOF
 p
