@@ -22,6 +22,8 @@ RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.i
 
 MINIMAL_SPACE_LEFT=102400
 
+EXTRA_IMAGE_SIZE=1700MB
+
 ############ End of User Cusomization
 
 source lib.sh
@@ -102,7 +104,7 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +1700MB "$RESIZE_IMAGE_PATH"
+    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
     losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
     fdisk /dev/loop1 <<EOF
 p
