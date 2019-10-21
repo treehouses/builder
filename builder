@@ -20,11 +20,11 @@ RASPBIAN_SHA256=6a1a5f20329e580d5161a0255b3d4163db6f56c3997e1c3b36bdd51140bd768e
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
-MINIMAL_SPACE_LEFT=102400
-
 EXTRA_IMAGE_SIZE=1700MB
 
-############ End of User Cusomization
+MINIMAL_SPACE_LEFT=102400
+
+############ End of User Customization
 
 source lib.sh
 
