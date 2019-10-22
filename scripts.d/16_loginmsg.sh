@@ -13,5 +13,6 @@ echo " "
 echo "For more information, please visit: http://treehouses.io/"
 echo " "
 echo "To begin using treehouses type \`treehouses help\` "
-echo " " } >> $motd
+echo " " 
+} >> $motd
 
