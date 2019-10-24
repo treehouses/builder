@@ -20,9 +20,11 @@ RASPBIAN_SHA256=6a1a5f20329e580d5161a0255b3d4163db6f56c3997e1c3b36bdd51140bd768e
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
+EXTRA_IMAGE_SIZE=1700MB
+
 MINIMAL_SPACE_LEFT=102400
 
-############ End of User Cusomization
+############ End of User Customization
 
 source lib.sh
 
@@ -102,7 +104,7 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +1700MB "$RESIZE_IMAGE_PATH"
+    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
     losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
     fdisk /dev/loop1 <<EOF
 p
