@@ -1,7 +1,6 @@
 #!/bin/bash
 
-motd=/etc/motd
-chmod u+x etc/motd
+motd=mnt/img_root/boot /etc/motd
 
 {
 echo " "
