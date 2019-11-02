@@ -1,6 +1,6 @@
 #!/bin/bash
 
-motd=mnt/img_root/boot/etc/motd
+motd=mnt/img_root/etc/motd
 
 {
 echo " "
