@@ -1,6 +1,7 @@
 #!/bin/bash
 
 motd=/etc/motd
+chmod u+x etc/motd
 
 {
 echo " "
