@@ -18,3 +18,5 @@ echo " "
 echo "To begin using treehouses type \`treehouses help\` "
 echo " " 
 } >> $motd
+
+chmod u+x /etc/motd
