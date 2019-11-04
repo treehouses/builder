@@ -1,6 +1,6 @@
 #!/bin/bash
 
-motd=mnt/img_root/etc/motd
+motd=mnt/img_root/etc/update-motd.d/10-uname
 
 {
 echo " "
