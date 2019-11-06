@@ -1,5 +1,5 @@
 #!/bin/bash
-chmod -x $motd
+chmod -x mnt/img_root/etc/motd/*
 motd=mnt/img_root/etc/motd
 
 {
