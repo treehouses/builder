@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm mnt/img_root/etc/motd
-touch mnt/img_root/etc/motd
 motd=mnt/img_root/etc/motd
 
 {
@@ -14,6 +12,6 @@ motd=mnt/img_root/etc/motd
   echo "#                                                                               #"
   echo "#                    Welcome to the treehouses project!                         #"
   echo "#################################################################################" 
-} >> $motd
+} > $motd
 
 chmod +x $motd
