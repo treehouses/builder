@@ -16,7 +16,7 @@
 # Raspbian
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2019-09-30/2019-09-26-raspbian-buster.zip.torrent
 
-RASPBIAN_SHA256=549da0fa9ed52a8d7c2d66cb06afac9fe856638b06d8f23df4e6b72e67ed4cea
+RASPBIAN_SHA256=2c4067d59acf891b7aa1683cb1918da78d76d2552c02749148d175fa7f766842
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
