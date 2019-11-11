@@ -163,7 +163,7 @@ function _prepare_chroot {
 
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
     mount -t proc proc mnt/img_root/proc || die "Could not mount /proc"
-    mount -t sys sys mnt/img_root/sys || die "Could not mount /sys"
+    mount -t sysfs sys mnt/img_root/sys || die "Could not mount /sys"
     mount -t tmpfs -o mode=1777 none mnt/img_root/run || "Could not mount /run"  
 
     mkdir -p apt_cache
