@@ -26,7 +26,8 @@ INSTALL_PACKAGES=(
     speedtest-cli # speedtest.net
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
-    bc # for memory command 
+    bc # for memory command
+    dnsutils 
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
