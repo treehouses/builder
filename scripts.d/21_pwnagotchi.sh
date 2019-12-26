@@ -4,14 +4,16 @@ source lib.sh
 
 # Make the pi into a USB ethernet gadget.
 ROOT=mnt/img_root
+BETTERCAPSERVICE=$ROOT/etc/systemd/system/bettercap.service
+BETTERCAPLAUNCHER=$ROOT/usr/bin/bettercap-launcher
+PWNGRIDSERVICE=$ROOT/etc/systemd/system/pwngrid-peer.service
 CONFIG=$ROOT/boot/config.txt
 CMDLINE=$ROOT/boot/cmdline.txt
-USB0IFACE=$ROOT/etc/network/interfaces.d/usb0
 
 # Install bettercap
 wget "https://github.com/bettercap/bettercap/releases/download/v2.26.1/bettercap_linux_armhf_v2.26.1.zip"
 unzip bettercap_linux_armhf_v2.26.1.zip
-mv bettercap /usr/bin/
+mv bettercap $ROOT/usr/bin/
 bettercap -eval "caplets.update; ui.update; quit"
 
 cat <<EOFA > /etc/systemd/system/bettercap.service
@@ -50,8 +52,8 @@ EOFB
 # Install pwngrid
 wget "https://github.com/evilsocket/pwngrid/releases/download/v1.10.3/pwngrid_linux_armhf_v1.10.3.zip"
 unzip pwngrid_linux_armhf_v1.10.3.zip
-mv pwngrid /usr/bin/
-pwngrid -generate -keys /etc/pwnagotchi
+mv pwngrid $ROOT/usr/bin/
+pwngrid -generate -keys $ROOT/etc/pwnagotchi
 
 cat <<EOFC > /etc/systemd/system/pwngrid-peer.service
 [Unit]
