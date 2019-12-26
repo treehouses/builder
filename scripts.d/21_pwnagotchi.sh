@@ -7,6 +7,7 @@ ROOT=mnt/img_root
 BETTERCAPSERVICE=$ROOT/etc/systemd/system/bettercap.service
 BETTERCAPLAUNCHER=$ROOT/usr/bin/bettercap-launcher
 PWNGRIDSERVICE=$ROOT/etc/systemd/system/pwngrid-peer.service
+PWNAGOTCHICONFIG=$ROOT/boot/config.yml
 CONFIG=$ROOT/boot/config.txt
 CMDLINE=$ROOT/boot/cmdline.txt
 
@@ -17,7 +18,7 @@ mv bettercap $ROOT/usr/bin/
 bettercap -eval "caplets.update; ui.update; quit"
 
 # Create bettercap service
-cat <<EOFA > /etc/systemd/system/bettercap.service
+cat <<EOFA > $BETTERCAPSERVICE
 [Unit]
 Description=bettercap api.rest service.
 Documentation=https://bettercap.org
@@ -36,7 +37,7 @@ WantedBy=multi-user.target
 EOFA
 
 # Create bettercap launcher
-cat <<EOFB > /usr/bin/bettercap-launcher
+cat <<EOFB > $BETTERCAPLAUNCHER
 #!/usr/bin/env bash
 /usr/bin/monstart
 if [[ $(ifconfig | grep usb0 | grep RUNNING) ]] || [[ $(cat /sys/class/net/eth0/carrier) ]]; then
@@ -57,6 +58,7 @@ unzip pwngrid_linux_armhf_v1.10.3.zip
 mv pwngrid $ROOT/usr/bin/
 pwngrid -generate -keys $ROOT/etc/pwnagotchi
 
+# Create pwngrid launcher
 cat <<EOFC > /etc/systemd/system/pwngrid-peer.service
 [Unit]
 Description=pwngrid peer service.
@@ -79,3 +81,22 @@ wget "https://github.com/evilsocket/pwnagotchi/archive/v1.4.3.zip"
 unzip v1.4.3.zip
 cd pwnagotchi-1.4.3
 pip3 install .
+
+# Create configuration file for pwnagotchi
+cat <<EOFD > $PWNAGOTCHICONFIG
+main:
+  name: hostname
+  whitelist:
+    - HomeNetwork
+  plugins:
+    grid:
+      enabled: true
+      report: true
+      exclude:
+        - HomeNetwork
+
+ui:
+  display:
+    type: display
+    color: color
+EOFD
