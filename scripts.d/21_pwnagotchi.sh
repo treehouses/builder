@@ -2,7 +2,7 @@
 
 source lib.sh
 
-# Make the pi into a USB ethernet gadget.
+# System variables
 ROOT=mnt/img_root
 BETTERCAPSERVICE=$ROOT/etc/systemd/system/bettercap.service
 BETTERCAPLAUNCHER=$ROOT/usr/bin/bettercap-launcher
