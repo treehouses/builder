@@ -2,6 +2,12 @@
 
 source lib.sh
 
+# Make the pi into a USB ethernet gadget.
+ROOT=mnt/img_root
+CONFIG=$ROOT/boot/config.txt
+CMDLINE=$ROOT/boot/cmdline.txt
+USB0IFACE=$ROOT/etc/network/interfaces.d/usb0
+
 # Install bettercap
 wget "https://github.com/bettercap/bettercap/releases/download/v2.26.1/bettercap_linux_armhf_v2.26.1.zip"
 unzip bettercap_linux_armhf_v2.26.1.zip
