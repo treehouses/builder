@@ -1,1 +1,3 @@
-ph
+#!/bin/bash
+
+source lib.sh
