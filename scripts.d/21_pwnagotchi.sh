@@ -42,4 +42,4 @@ ui:
     enabled: displayenabled
     type: "displaytype"
     color: "colortype"
-EOFD
+EOF
