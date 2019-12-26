@@ -65,6 +65,22 @@ enablecoralenviroboard="false"
 startcoralenvirodemo="false"
 
 
+# pwnagotchi configuration
+# start pwnagotchi: If true, starts the pwnagotchi services to attack wi-fi networks
+# pwndisplay: type of dipslay for pwnagotchi to use [none, waveshare_2, waveshare_1, waveshare27inch, waveshare154inch,
+# inky, papirus, oledhat, dfrobot] (default = waveshare_2)
+# pwncolor: color of your display [black, blue, red, yellow] (default = black)
+# pwnreport: determines what will report to pwnagotchi servers (not related to treehouses)
+# [none, partial, full] (default = none)
+# wifiname: Add any network you don't want pwnagotchi to attack
+# Attention: When pwnagotchi is enabled, the wifi will not be available to connect to a router and therefore only "ethernet"
+# network configuration will be enabled
+wifiname=''
+startpwnagotchi="false"
+pwndisplay="waveshare_2"
+pwncolor="black"
+pwnreport="none"
+
 # No need to edit below this line
 #----------------------------------------------------------------------------------------------------#
 
@@ -123,6 +139,138 @@ if [ $starttor = "true" ]; then
   sync
   sleep 10
 fi
+
+# Configures pwnagotchi
+# Creates services if pwnagotchi is enabled
+if [ $startpwnagotchi = "true" ]; then
+   # Create bettercap service
+   cat <<EOFA > /etc/systemd/system/bettercap.service
+   [Unit]
+   Description=bettercap api.rest service.
+   Documentation=https://bettercap.org
+   Wants=network.target
+   After=pwngrid.service
+
+   [Service]
+   Type=simple
+   PermissionsStartOnly=true
+   ExecStart=/usr/bin/bettercap-launcher
+   Restart=always
+   RestartSec=30
+
+   [Install]
+   WantedBy=multi-user.target
+   EOFA
+
+   # Create bettercap launcher
+   cat <<EOFB > /usr/bin/bettercap-launcher
+   #!/usr/bin/env bash
+   /usr/bin/monstart
+   if [[ $(ifconfig | grep usb0 | grep RUNNING) ]] || [[ $(cat /sys/class/net/eth0/carrier) ]]; then
+     # if override file exists, go into auto mode
+     if [ -f /root/.pwnagotchi-auto ]; then
+       /usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface mon0
+     else
+       /usr/bin/bettercap -no-colors -caplet pwnagotchi-manual -iface mon0
+     fi
+   else
+     /usr/bin/bettercap -no-colors -caplet pwnagotchi-auto -iface mon0
+   fi
+   EOFB
+   
+   # Create pwngrid launcher
+   cat <<EOFC > /etc/systemd/system/pwngrid-peer.service
+   [Unit]
+   Description=pwngrid peer service.
+   Documentation=https://pwnagotchi.ai
+   Wants=network.target
+
+   [Service]
+   Type=simple
+   PermissionsStartOnly=true
+   ExecStart=/usr/bin/pwngrid -keys /etc/pwnagotchi -address 127.0.0.1:8666 -client-token /root/.api-enrollment.json -wait -log /var/log/pwngrid-peer.log -iface mon0
+   Restart=always
+   RestartSec=30
+
+   [Install]
+   WantedBy=multi-user.target
+   EOFC
+fi
+# Whitelists and excludes your home wifi network
+sed 's/HomeNetwork/$wifiname/g' /boot/config.yml
+
+# Configures the config.txt
+grep -qxF 'dtoverlay=dwc2' /boot/config.txt || echo 'dtoverlay=dwc2' >> /boot/config.txt
+grep -qxF 'dtoverlay=spi1-3cs' /boot/config.txt || echo 'dtoverlay=spi1-3cs' >> /boot/config.txt
+grep -qxF 'dtparam=spi=on' /boot/config.txt || echo 'dtparam=spi=on' >> /boot/config.txt
+grep -qxF 'dtparam=i2c_arm=on' /boot/config.txt || echo 'dtparam=i2c_arm=on' >> /boot/config.txt
+grep -qxF 'dtparam=i2c1=on' /boot/config.txt || echo 'dtparam=i2c1=on' >> /boot/config.txt
+grep -qxF 'gpu_mem=16' /boot/config.txt || echo 'gpu_mem=16' >> /boot/config.txt
+
+# Selects the display type you have attached to your RPi
+case $pwndisplay in
+  "none")
+    sed 's/displayenabled/false/g' /boot/config.yml;;
+  "waveshare_2")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/waveshare_2/g' /boot/config.yml;;
+  "waveshare_1")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/waveshare_1/g' /boot/config.yml;;
+  "waveshare27inch")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/waveshare27inch/g' /boot/config.yml;;
+  "waveshare154inch")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/waveshare154inch/g' /boot/config.yml;;
+  "inky")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/inky/g' /boot/config.yml;;
+  "papirus")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/papirus/g' /boot/config.yml;;
+  "oledhat")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/oledhat/g' /boot/config.yml;;
+  "dfrobot")
+    sed 's/displayenabled/true/g' /boot/config.yml;;
+    sed 's/displaytype/dfrobot/g' /boot/config.yml;;
+  *)
+    echo "Unsupported configuration. Switching to no display";
+    sed 's/displayenabled/false/g' /boot/config.yml;;
+esac
+   
+# Selects the color of your e-ink display
+case $pwncolor in
+  "black")
+    sed 's/colortype/black/g' /boot/config.yml;;
+  "blue")
+    sed 's/colortype/blue/g' /boot/config.yml;;
+  "red")
+    sed 's/colortype/red/g' /boot/config.yml;;
+  "yellow")
+    sed 's/colortype/yellow/g' /boot/config.yml;;
+  *)
+    echo "Unsupported configuration. Switching to default color";
+    sed 's/colortype/black/g' /boot/config.yml;;
+esac
+
+# Selects the level of reporting to pwnagotchi servers
+case $pwnreport in
+  "none")
+    sed 's/gridenabled/false/g' /boot/config.yml;;
+    sed 's/gridreport/false/g' /boot/config.yml;;
+  "partial")
+    sed 's/gridenabled/true/g' /boot/config.yml;;
+    sed 's/gridreport/false/g' /boot/config.yml;;
+  "full")
+    sed 's/gridenabled/true/g' /boot/config.yml;;
+    sed 's/gridreport/true/g' /boot/config.yml;;
+  *)
+    echo "Unsupported configuration. Switching to default reporting";
+    sed 's/gridenabled/false/g' /boot/config.yml;;
+    sed 's/gridreport/false/g' /boot/config.yml;;
+esac
 
 # updates planet if there is an internet connection
 if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
