@@ -28,6 +28,55 @@ INSTALL_PACKAGES=(
     python3-coral-enviro # Coral environmental board
     bc # for memory command
     dnsutils 
+    vim # pwnagotchi packages >
+    screen
+    golang
+    git
+    build-essential
+    python3-pip
+    python3-mpi4py
+    python3-smbus
+    unzip
+    gawk
+    libopenmpi-dev
+    libatlas-base-dev
+    libjasper-dev
+    libqtgui4
+    libqt4-test
+    libopenjp2-7
+    libtiff5
+    tcpdump
+    lsof
+    libilmbase23
+    libopenexr23
+    libgstreamer1.0-0
+    libavcodec58
+    libavformat58
+    libswscale5
+    libpcap-dev
+    libusb-1.0-0-dev
+    libnetfilter-queue-dev
+    libopenmpi3
+    dphys-swapfile
+    kalipi-kernel
+    kalipi-bootloader
+    kalipi-re4son-firmware
+    kalipi-kernel-headers
+    libraspberrypi0
+    libraspberrypi-dev
+    libraspberrypi-doc
+    libraspberrypi-bin
+    fonts-dejavu
+    fonts-dejavu-core
+    fonts-dejavu-extra
+    python3-pil
+    python3-smbus
+    libfuse-dev
+    fonts-freefont-ttf
+    fbi
+    python3-flask
+    python3-flask-cors
+    python3-flaskext.wtf # < pwnagotchi packages
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
