@@ -16,6 +16,7 @@ unzip bettercap_linux_armhf_v2.26.1.zip
 mv bettercap $ROOT/usr/bin/
 bettercap -eval "caplets.update; ui.update; quit"
 
+# Create bettercap service
 cat <<EOFA > /etc/systemd/system/bettercap.service
 [Unit]
 Description=bettercap api.rest service.
@@ -34,6 +35,7 @@ RestartSec=30
 WantedBy=multi-user.target
 EOFA
 
+# Create bettercap launcher
 cat <<EOFB > /usr/bin/bettercap-launcher
 #!/usr/bin/env bash
 /usr/bin/monstart
