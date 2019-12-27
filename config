@@ -1,0 +1,17 @@
+IMG_NAME=treehouse
+ENABLE_SSH=1
+STAGE_LIST='stage0 stage1 stage2 stage3'
+FIRST_USER_NAME=treehouses
+FIRST_USER_PASS=treehouses
+DEPLOY_ZIP=0
+# Uncomment this if a build fails and you'd like to try again
+#CONTINUE=1
+
+# Uncomment this to have the container stick around after building.
+# Useful for running:
+#   docker run --rm --privileged --volumes-from=pigen_work -it pi-gen /bin/bash
+# (Run 'dpkg-reconfigure qemu-user-static' as the first command)
+#PRESERVE_CONTAINER=1
+IMG_VERSION=116
+IMG_FILENAME=treehouse-116
+ZIP_FILENAME=treehouse-116

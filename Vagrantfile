@@ -12,11 +12,12 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ole/jessie64"
-  config.vm.box_version = "0.1.6"
-
+  
+  config.vm.box = "bento/debian-10"  
   config.vm.hostname = "treehouses"
-
+  config.vm.synced_folder ".", "/vagrant"
+  config.vm.synced_folder "./images", "/deploy"  
+  
   config.vm.define "treehouses" do |treehouses|
   end
 
@@ -72,19 +73,24 @@ Vagrant.configure(2) do |config|
   # https://docs.vagrantup.com/v2/push/atlas.html for more information.
   # config.push.define "atlas" do |push|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
-
+  # end  
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  config.vm.provision "docker" do |d|
+  end
+  config.vm.provision "shell",
+    inline: "echo - e 'binfmt_misc\n\nloop\n' >> /etc/modules"
+  config.vm.provision :reload 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix
-    echo "git checkout <branch> ?"
-    mkdir -p /vagrant/images
-    cd /vagrant
-    dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
-    python get_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
+	apt update
+	apt install -y git dos2unix
+	cd /		
+	git clone https://github.com/RPi-Distro/pi-gen 
+	cp /vagrant/config /pi-gen/config
+	dos2unix /pi-gen/config
+	touch /pi-gen/stage2/SKIP_IMAGES
+	cp /pi-gen/stage4/EXPORT_IMAGE /pi-gen/stage3/EXPORT_IMAGE	
+	sudo bash /pi-gen/build-docker.sh	
   SHELL
 end
