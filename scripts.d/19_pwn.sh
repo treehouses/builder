@@ -30,7 +30,7 @@ pwngrid -generate -keys $ROOT/etc/pwnagotchi
 wget "https://github.com/evilsocket/pwnagotchi/archive/v1.4.3.zip"
 unzip v1.4.3.zip
 cd pwnagotchi-1.4.3
-pip-3.2 install .
+pip-3.4 install .
 
 # Create configuration file for pwnagotchi
 cat <<EOF > $PWNAGOTCHICONFIG
