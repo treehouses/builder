@@ -270,7 +270,7 @@ function _print_tag {
 
 _print_tag
 
-_install_python37
+#_install_python37
 
 RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
