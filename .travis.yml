@@ -20,6 +20,7 @@ addons:
       - aria2
       - tree
       - python-requests
+      - python3.7
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
