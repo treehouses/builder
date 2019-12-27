@@ -35,6 +35,7 @@ before_deploy:
   - . .travis/environment.sh
   - echo "$experiment"
   - echo "$image_path"
+  - dpkg -L python3-pip
 
 deploy:
   - provider: script
