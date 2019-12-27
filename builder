@@ -270,6 +270,8 @@ function _print_tag {
 
 _print_tag
 
+_install_python37
+
 RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
 IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
@@ -284,7 +286,6 @@ fi
 _decompress_image
 _resize_image
 _open_image
-_install_python37
 
 if [[ "$1" == "--chroot" ]] ; then
     _modify_image
