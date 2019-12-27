@@ -12,12 +12,6 @@ before_install:
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ disco universe"
   - sudo apt-get update
   - sudo apt-get install qemu-user-static:i386
-  - provider: script
-    script: ./install_python3.7.sh
-    skip_cleanup: true
-    on:
-      all_branches: true
-      tags: true
       
 addons:
   apt:
