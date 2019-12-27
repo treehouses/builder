@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source lib.sh
+
 # System variables
 ROOT=mnt/img_root
 PWNAGOTCHICONFIG=$ROOT/boot/config.yml
