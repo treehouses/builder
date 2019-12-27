@@ -269,7 +269,6 @@ function _print_tag {
 }
 
 _print_tag
-dpkg -L python3-pip
 
 #_install_python37
 
