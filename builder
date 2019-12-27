@@ -284,6 +284,7 @@ fi
 _decompress_image
 _resize_image
 _open_image
+_install_python37
 
 if [[ "$1" == "--chroot" ]] ; then
     _modify_image
