@@ -21,6 +21,7 @@ addons:
       - tree
       - python-requests
       - python3
+      - python3-pip
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
