@@ -18,6 +18,14 @@ unzip pwngrid_linux_armhf_v1.10.3.zip
 mv pwngrid $ROOT/usr/bin/
 pwngrid -generate -keys $ROOT/etc/pwnagotchi
 
+# Install python 3.7.4
+wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+sudo tar zxf Python-3.7.0.tgz
+cd Python-3.7.0
+sudo ./configure
+sudo make -j 4
+sudo make altinstall
+
 # Install pwnagotchi
 wget "https://github.com/evilsocket/pwnagotchi/archive/v1.4.3.zip"
 unzip v1.4.3.zip
