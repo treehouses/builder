@@ -27,7 +27,8 @@ INSTALL_PACKAGES=(
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
     bc # for memory command
-    dnsutils 
+    dnsutils
+    links
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
