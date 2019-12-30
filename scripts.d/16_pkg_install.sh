@@ -28,6 +28,7 @@ INSTALL_PACKAGES=(
     python3-coral-enviro # Coral environmental board
     bc # for memory command
     libusb-dev # for usb.sh
+    dnsutils
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
