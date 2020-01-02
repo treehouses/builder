@@ -159,7 +159,6 @@ if [ $startplanet = "true" ]; then
     echo "    docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d"
     echo "  fi"
     echo "fi"
-    echo
   } > /boot/autorun
 
   mv /srv/tenalp /srv/planet
