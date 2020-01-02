@@ -8,7 +8,7 @@ INSTALL_PACKAGES=(
     quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
-    elinks # text mode web browser
+    elinks links # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
     nodejs # version 8.5.0-1nodesource1
@@ -27,7 +27,7 @@ INSTALL_PACKAGES=(
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
     bc # for memory command
-    dnsutils 
+    dnsutils
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
