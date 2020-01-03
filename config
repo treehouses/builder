@@ -1,0 +1,12 @@
+IMG_NAME=raspbian
+ENABLE_SSH=0
+STAGE_LIST='stage0 stage1 stage2 stage3'
+FIRST_USER_NAME=pi
+FIRST_USER_PASS=raspberry
+DEPLOY_ZIP=0
+# Uncomment this if a build fails and you'd like to try again
+#CONTINUE=1
+IMG_VERSION=100
+IMG_FILENAME=raspbian
+ZIP_FILENAME=raspbian
+DEPLOY_DIR=./images

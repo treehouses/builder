@@ -12,13 +12,7 @@
 # INSTALL_PACKAGES=()
 # ADD_REPOS=()
 # ADD_REPO_KEYS=()
-
-# Raspbian
-RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2019-09-30/2019-09-26-raspbian-buster.zip.torrent
-
-RASPBIAN_SHA256=2c4067d59acf891b7aa1683cb1918da78d76d2552c02749148d175fa7f766842
-
-RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
+RASPBIAN_IMAGE_FILE="raspbian.img"
 
 EXTRA_IMAGE_SIZE=1700MB
 
@@ -29,14 +23,14 @@ MINIMAL_SPACE_LEFT=102400
 source lib.sh
 
 missing_deps=()
-for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
+for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl git; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( "$prog" )
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
+    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2 git'"
 
 fi
 
@@ -52,18 +46,17 @@ function _umount {
 }
 
 function _get_image {
-    echo "Fetching $RASPBIAN_TORRENT_URL"
+    echo "Fetching Image"
     mkdir -p images
-    if [ ! -f "$RASPBIAN_TORRENT" ]; then
-      wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
-    fi
-    aria2c --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
-    echo -n "Checksum of "
-    sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
-}
 
-function _decompress_image {
-    unzip -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
+	# Runs pi-gen to create a 1.2gb Raspbian image
+	git clone https://github.com/RPi-Distro/pi-gen .		
+	touch ./stage2/SKIP_IMAGES
+	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
+	sudo bash ./build-docker.sh	
+	
+    #echo -n "Checksum of "
+    #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
 
 function _disable_daemons {
@@ -257,19 +250,7 @@ function _print_tag {
 }
 
 _print_tag
-
-RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
-echo "$RASPBIAN_TORRENT"
-IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
-echo "$IMAGE_ZIP"
-IMAGE=${IMAGE_ZIP%.zip}.img
-echo "$IMAGE"
-
-if [ ! -e "$IMAGE_ZIP" ]; then
-    _get_image
-fi
-
-_decompress_image
+_get_image
 _resize_image
 _open_image
 
