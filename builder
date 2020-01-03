@@ -53,6 +53,8 @@ function _get_image {
 	git clone https://github.com/RPi-Distro/pi-gen .		
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
+    ls
+	echo - e 'binfmt_misc\n\nloop\n' >> /etc/modules	
 	sudo bash ./build-docker.sh	
 	
     #echo -n "Checksum of "
