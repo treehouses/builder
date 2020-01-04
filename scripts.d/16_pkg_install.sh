@@ -27,6 +27,7 @@ INSTALL_PACKAGES=(
     libffi-dev # for building docker-compose using pip
     python3-coral-enviro # Coral environmental board
     bc # for memory command
+    libusb-dev # for usb.sh
     dnsutils
 )
 
