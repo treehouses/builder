@@ -50,7 +50,8 @@ function _get_image {
     mkdir -p images
 
 	# Runs pi-gen to create a 1.2gb Raspbian image
-	git clone https://github.com/RPi-Distro/pi-gen .		
+	git clone https://github.com/RPi-Distro/pi-gen 
+    mv ./pi-gen/* ./
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
     ls
