@@ -22,7 +22,7 @@ touch ./stage2/SKIP_IMAGES
 cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 ls
 echo - e 'binfmt_misc\n\nloop\n' >> /etc/modules
-cp ./builder /etc/init.d/builder
+mv ./builder /etc/init.d/builder
 chmod +x /etc/init.d/builder
 sudo update-rc.d /etc/init.d/builder defaults
 sudo reboot
