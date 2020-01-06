@@ -7,4 +7,4 @@ curl "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o 
 echo "Switching bluetooth device class to 0x00010c - computer"
 sed -i -e 's/#Class = .*/Class = 0x00010c/g' mnt/img_root/etc/bluetooth/main.conf
 
-_pip3_install pybluez
+_pip3_install 'pybluez==0.22'
