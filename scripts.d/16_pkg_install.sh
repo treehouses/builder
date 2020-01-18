@@ -30,6 +30,8 @@ INSTALL_PACKAGES=(
     libusb-dev # for usb.sh
     dnsutils
     sl
+    $ which sl
+    /usr/games/sl
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
