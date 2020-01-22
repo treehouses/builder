@@ -21,6 +21,6 @@ mv ./pi-gen/* ./
 touch ./stage2/SKIP_IMAGES
 cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 ls
-echo - e 'binfmt_misc\n\nloop\n' >> /etc/modules
-sudo mv ./builder /etc/rc.local
-sudo reboot
+sudo apt-get install user-mode-linux
+sudo vido --uml -- /bin/sh -c builder2.sh
+./builder2.sh
