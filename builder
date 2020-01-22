@@ -21,7 +21,4 @@ mv ./pi-gen/* ./
 touch ./stage2/SKIP_IMAGES
 cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 ls
-sudo apt-get install binfmt-support
-load_kernelmodule loop
-load_kernelmodule binfmt_misc
-./builder2
+sudo ./builder2
