@@ -49,7 +49,7 @@ function _get_image {
 	sudo rm -rf temp mnt
 	echo "Fetching Image"
 	mkdir -p images
-	apt-get install libarchive-tools coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+	apt-get -y install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
 	dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
 	git clone https://github.com/RPi-Distro/pi-gen 
 	mv ./pi-gen/* ./
