@@ -21,6 +21,7 @@ mv ./pi-gen/* ./
 touch ./stage2/SKIP_IMAGES
 cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 ls
-sudo apt-get install user-mode-linux
-sudo vido --uml -- /bin/sh -c builder2.sh
-./builder2.sh
+sudo apt-get install binfmt-support
+load_kernelmodule loop
+load_kernelmodule binfmt_misc
+./builder2
