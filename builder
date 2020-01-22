@@ -46,6 +46,7 @@ function _umount {
 }
 
 function _get_image {
+	sudo rm -rf temp mnt
 	echo "Fetching Image"
 	mkdir -p images
 	apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
@@ -56,8 +57,7 @@ function _get_image {
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 	ls
-	chmod +x ./build.sh
-	sudo ./build.sh	
+	sudo bash ./build.sh	
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
