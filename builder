@@ -55,7 +55,8 @@ function _get_image {
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 	ls
-	sudo bash ./build-docker.sh	
+	chmod +x ./build.sh
+	sudo ./build.sh	
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
