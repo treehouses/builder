@@ -20,8 +20,9 @@ addons:
       - aria2
       - tree
       - python-requests
+      - binfmt-support
 
-script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
+script: mkdir images && sudo PATH=./node_modules/.bin:$PATH sudo ./builder --noninteractive
 
 env:
   global:
