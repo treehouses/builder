@@ -56,6 +56,9 @@ function _get_image {
 	ls
 	# Runs pi-gen to create a 1.2gb Raspbian image instead of downloading 5gb one
 	sudo bash ./build-docker.sh	
+	ls -la
+	ls -la ./deploy
+	ls -la ./images
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
