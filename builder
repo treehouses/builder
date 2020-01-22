@@ -48,7 +48,8 @@ function _umount {
 function _get_image {
 	echo "Fetching Image"
 	mkdir -p images
-	apt-get install git
+	apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+	dosfstools bsdtar libcap2-bin grep rsync xz-utils file git curl
 	# Runs pi-gen to create a 1.2gb Raspbian image
 	git clone https://github.com/RPi-Distro/pi-gen 
 	mv ./pi-gen/* ./
