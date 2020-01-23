@@ -36,7 +36,7 @@ function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
             if ! umount -f "$dir" ; then
-                # shellcheck disable=SC2046,SC2086 deploy
+                # shellcheck disable=SC2046,SC2086
                 die "Could not umount $dir, check running procs:$NL$(lsof 2>/dev/null | grep $(readlink -f $dir))"
             fi
         fi
