@@ -49,10 +49,11 @@ function _get_image {
 	echo "Fetching Image"
 	cd /
 	git clone https://github.com/RPi-Distro/pi-gen
-	touch ./pi-gen/stage2/SKIP_IMAGES
-	cp ./pi-gen/stage4/EXPORT_IMAGE ./pi-gen/stage3/EXPORT_IMAGE	
-	bash ./pi-gen/build-docker.sh	
-	mv ./pi-gen/images/raspbian.img ./home/travis/build/treehouses/builder/images/raspbian.img
+	cd /pi-gen
+	touch ./stage2/SKIP_IMAGES
+	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
+	sudo bash ./build-docker.sh	
+	mv ./images/raspbian.img /home/travis/build/treehouses/builder/images/raspbian.img
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
