@@ -48,6 +48,7 @@ function _umount {
 function _get_image {
 	sudo rm -rf temp mnt
 	echo "Fetching Image"
+	pwd
 	cd /
 	mkdir -p images
 	git clone https://github.com/RPi-Distro/pi-gen 
