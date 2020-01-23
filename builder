@@ -18,6 +18,7 @@ EXTRA_IMAGE_SIZE=1700MB
 
 MINIMAL_SPACE_LEFT=102400
 
+￼
 ############ End of User Customization
 
 source lib.sh
@@ -46,6 +47,15 @@ function _umount {
 }
 
 function _get_image {
+	set -xeuo pipefail
+
+	for i in {0..5}
+	do
+	    if [ ! -b /dev/loop${i} ]; then
+		mknod -m 0660 /dev/loop${i} b 7 ${i}
+	    fi
+	done
+	chown root:disk /dev/loop*
 	echo "Fetching Image"
 	git clone https://github.com/RPi-Distro/pi-gen
 	touch ./pi-gen/stage2/SKIP_IMAGES
