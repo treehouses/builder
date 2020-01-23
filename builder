@@ -50,9 +50,8 @@ function _get_image {
 	git clone https://github.com/RPi-Distro/pi-gen /pi-gen/
 	touch /pi-gen/stage2/SKIP_IMAGES
 	cp /pi-gen/stage4/EXPORT_IMAGE /pi-gen/stage3/EXPORT_IMAGE	
-	chmod +x /pi-gen/build-docker.sh
-	/pi-gen/build-docker.sh	
-	mv /pi-gen/images/* /home/travis/build/treehouses/builder/images/*
+	bash /pi-gen/build-docker.sh	
+	mv /pi-gen/images/raspbian.img /home/travis/build/treehouses/builder/images/raspbian.img
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
