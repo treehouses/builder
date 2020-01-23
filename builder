@@ -2,7 +2,7 @@
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 #
 # Open interactive Shell in chroot or write result to SD Card
-#
+#issing_deps[
 # License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
 #
 # The following variables and arrays customize the behavior. To change them simply create a configuration
@@ -47,6 +47,7 @@ function _umount {
 }
 
 function _get_image {
+        sudo apt install kpartx qemu-user-static parted wget curl jq aria2 git
 	set -xeuo pipefail
 
 	for i in {0..5}
@@ -58,12 +59,14 @@ function _get_image {
 	chown root:disk /dev/loop*
 	echo "Fetching Image"
 	git clone https://github.com/RPi-Distro/pi-gen
-	touch ./pi-gen/stage2/SKIP_IMAGES
-	find ./pi-gen/ -type f -iname "*.sh" -exec chmod +x {} \;
-	cp ./config ./pi-gen/config
-	cp ./pi-gen/stage4/EXPORT_IMAGE ./pi-gen/stage3/EXPORT_IMAGE
-	bash ./pi-gen/build-docker.sh	
-	mv ./pi-gen/images/* ./images/*
+	chown travis pi-gen/*
+	chmod 755 travis pi-gen/*
+	touch pi-gen/stage2/SKIP_IMAGES
+	find pi-gen/ -type f -iname "*.sh" -exec chmod +x {} \;
+	cp config pi-gen/config
+	cp pi-gen/stage4/EXPORT_IMAGE pi-gen/stage3/EXPORT_IMAGE
+	sudo bash pi-gen/build-docker.sh	
+	mv pi-gen/images/*.img images/*.img
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
