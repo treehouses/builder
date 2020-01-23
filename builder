@@ -18,9 +18,6 @@ EXTRA_IMAGE_SIZE=1700MB
 
 MINIMAL_SPACE_LEFT=102400
 
-￼
-############ End of User Customization
-
 source lib.sh
 
 missing_deps=()
