@@ -32,7 +32,7 @@ if (( ${#missing_deps[@]} > 0 )) ; then
 
 fi
 
-fsent 6unction _umount {
+function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
             if ! umount -f "$dir" ; then
