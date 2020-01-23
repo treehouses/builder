@@ -48,21 +48,22 @@ function _umount {
 function _get_image {
 	sudo rm -rf temp mnt
 	echo "Fetching Image"
-	pwd
 	cd /
-	mkdir -p images
+	
 	git clone https://github.com/RPi-Distro/pi-gen 
 	cd pi-gen
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 	ls
+	pwd
 	# Runs pi-gen to create a 1.2gb Raspbian image instead of downloading 5gb one
 	sudo bash ./build-docker.sh	
 	ls -la
+	pwd
 	ls -la ./deploy
 	ls -la ./images
 	cd /
-	mv /pi-gen/deploy/* /images
+	mv /pi-gen/deploy/* /home/travis/build/treehouses/builder/images/*
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
