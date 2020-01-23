@@ -49,8 +49,7 @@ function _get_image {
 	echo "Fetching Image"
 	git clone https://github.com/RPi-Distro/pi-gen
 	touch ./pi-gen/stage2/SKIP_IMAGES
-	pwd
-	ls
+	find ./pi-gen/ -type f -iname "*.sh" -exec chmod +x {} \;
 	cp ./config ./pi-gen/config
 	cp ./pi-gen/stage4/EXPORT_IMAGE ./pi-gen/stage3/EXPORT_IMAGE
 	bash ./pi-gen/build-docker.sh	
