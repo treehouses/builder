@@ -5,7 +5,6 @@ FIRST_USER_NAME=pi
 FIRST_USER_PASS=raspberry
 DEPLOY_ZIP=0
 # Uncomment this if a build fails and you'd like to try again
-CLEAN=1
 IMG_VERSION=100
 IMG_FILENAME=raspbian
 ZIP_FILENAME=raspbian
