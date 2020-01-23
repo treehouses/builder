@@ -38,7 +38,7 @@ function _umount {
     for dir in "$@" ; do
         if grep -q "$dir" /proc/self/mounts ; then
             if ! umount -f "$dir" ; then
-                # shellcheck disable=SC2046,SC2086
+                # shellcheck disable=SC2046,SC2086 deploy
                 die "Could not umount $dir, check running procs:$NL$(lsof 2>/dev/null | grep $(readlink -f $dir))"
             fi
         fi
@@ -48,9 +48,10 @@ function _umount {
 function _get_image {
 	sudo rm -rf temp mnt
 	echo "Fetching Image"
+	cd /
 	mkdir -p images
 	git clone https://github.com/RPi-Distro/pi-gen 
-	mv ./pi-gen/* ./
+	cd pi-gen
 	touch ./stage2/SKIP_IMAGES
 	cp ./stage4/EXPORT_IMAGE ./stage3/EXPORT_IMAGE	
 	ls
@@ -59,6 +60,8 @@ function _get_image {
 	ls -la
 	ls -la ./deploy
 	ls -la ./images
+	cd /
+	mv /pi-gen/deploy/* /images
     #echo -n "Checksum of "
     #sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
