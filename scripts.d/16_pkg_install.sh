@@ -21,6 +21,7 @@ INSTALL_PACKAGES=(
     openvpn
     jq # for parsing json / treehouses command
     net-tools # netstat
+    iproute2 # ss command
     nmap # network mapping package
     htop
     speedtest-cli # speedtest.net
