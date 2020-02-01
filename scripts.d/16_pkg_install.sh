@@ -30,6 +30,7 @@ INSTALL_PACKAGES=(
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
+	iftop # for discover live command
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
