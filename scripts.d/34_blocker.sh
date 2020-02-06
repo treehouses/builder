@@ -6,4 +6,4 @@ wget -q -O 2_hosts https://raw.githubusercontent.com/StevenBlack/hosts/master/al
 wget -q -O 3_hosts https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts
 wget -q -O 4_hosts https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
 wget -q -O 5_hosts https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
-cd mnt/img_root/usr
+cd -
