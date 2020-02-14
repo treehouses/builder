@@ -7,7 +7,5 @@ _op _chroot gcc -o hub-ctrl hub-ctrl.c -lusb
 
 mkdir -p mnt/img_root/usr/local/bin/
 _op _chroot mv hub-ctrl usr/local/bin/.
-_op_chroot rm -f hub-ctrl.c
 chmod +x mnt/img_root/usr/local/bin/hub-ctrl
-
-
+_op _chroot rm -f hub-ctrl.c
