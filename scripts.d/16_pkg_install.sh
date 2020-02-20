@@ -30,6 +30,7 @@ INSTALL_PACKAGES=(
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
+    pagekite # tunnels command
     sl
 )
 
