@@ -31,6 +31,7 @@ INSTALL_PACKAGES=(
     libusb-dev # for usb.sh
     dnsutils
     pagekite # tunnels command
+    sl
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
