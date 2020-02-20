@@ -25,6 +25,13 @@ find_script() {
   done
 }
 
+wifiunblock(){
+  if [ $(rfkill list -o soft -n) == "blocked" ]; then
+    rfkill unblock wifi
+    log "wifi unblocked"
+  fi
+}
+
 autorunonce(){
   log "searching for autorunonce script"
   script=$(find_script "$1/autorunonce")
