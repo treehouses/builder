@@ -153,6 +153,7 @@ usbgadget() {
 start() {
   led_mode default-on
   log "starting"
+  wifiunblock
   usbgadget
   onenodeforall
   onebalenaforall
