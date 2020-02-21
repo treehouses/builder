@@ -32,6 +32,7 @@ INSTALL_PACKAGES=(
     dnsutils
     pagekite # tunnels command
     sl
+    lynx 
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
