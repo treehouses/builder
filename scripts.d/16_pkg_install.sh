@@ -32,6 +32,7 @@ INSTALL_PACKAGES=(
     dnsutils
     pagekite # tunnels command
     sl
+    fail2ban # prevent bruteforcing of sshd
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
