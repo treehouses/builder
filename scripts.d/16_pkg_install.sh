@@ -3,7 +3,7 @@
 source lib.sh
 
 INSTALL_PACKAGES=(
-    avahi-daemon vim lshw iotop screen # essentials
+    avahi-daemon vim lshw iotop screen tmux # essentials
     docker-ce aufs-dkms- # docker
     quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
