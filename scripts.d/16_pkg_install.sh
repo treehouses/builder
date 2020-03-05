@@ -32,6 +32,7 @@ INSTALL_PACKAGES=(
     dnsutils
     pagekite # tunnels command
     sl
+    bats # unit testing
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
