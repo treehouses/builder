@@ -6,7 +6,7 @@ echo "Installing @treehouses/cli script"
 
 mkdir node_root
 npm config set prefix "$PWD/node_root"
-npm install --unsafe-perm -g @treehouses/cli@1.17.28
+npm install --unsafe-perm -g @treehouses/cli@1.18.17
 npm install --unsafe-perm -g bats-support@0.3.0
 npm install --unsafe-perm -g bats-assert@2.0.0
 (cd node_root || exit 1; tar c .) | (cd mnt/img_root/usr || exit 1; tar x)
