@@ -74,9 +74,6 @@ treehouses rename $hostname
 # expands the filesystem
 treehouses expandfs
 
-# store the raspberry pi model
-rpimodel=$(treehouses detectrpi)
-
 # configures the wifi antenna of the raspberry pi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
@@ -95,11 +92,10 @@ case $connectiontype in
     treehouses ap internet treehouses;;
 esac
 
-# sets bluetooth off if RPI2 or RPI3B is being used
+# sets bluetooth to off if there bluetooth device does not exist
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ "$rpimodel" = "RPI2B" ] || [ "$rpimodel" = "RPI3B" ]; then
+if [ "$(treehouses detectbluetooth)" = "false" ]; then
   bluetooth="off"
-  treehouses bluetooth off
 elif [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
   treehouses button bluetooth
 else 
