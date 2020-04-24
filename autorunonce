@@ -92,7 +92,7 @@ case $connectiontype in
     treehouses bridge $wifiname $hotspotname $wifipassword $hotspotpassword;;
   *)
     echo "Unsupported configuration. Switching to default ap internet config";
-    treehouses ap internet treehouses;;s
+    treehouses ap internet treehouses;;
 esac
 
 # sets bluetooth off if RPI2 or RPI3B is being used
