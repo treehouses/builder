@@ -97,7 +97,7 @@ esac
 
 # sets bluetooth off if RPI2 or RPI3B is being used
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ $rpimodel = "RPI2B" ] || [ $rpimodel = "RPI3B" ]; then
+if [ "$rpimodel" = "RPI2B" ] || [ "$rpimodel" = "RPI3B" ]; then
   bluetooth="off"
   treehouses bluetooth off
 elif [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
