@@ -74,9 +74,14 @@ treehouses rename $hostname
 # expands the filesystem
 treehouses expandfs
 
-# configures the wifi antenna of the raspberry pi
+# checks if raspberry pi is able to connnect to wifi
+# if so, then configure the wifi antenna of the raspberry pi
+if iwconfig wlan0 2>&1 | grep -q "No such device"; then
+  connectiontype="none"
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
+  "none")
+    ;;
   "ethernet")
     ;;
   "wifi")
