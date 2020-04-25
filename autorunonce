@@ -81,9 +81,7 @@ if iwconfig wlan0 2>&1 | grep -q "No such device"; then
 fi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
-  "none")
-    ;;
-  "ethernet")
+  "ethernet"|"none")
     ;;
   "wifi")
     treehouses wifi $wifiname $wifipassword;;
