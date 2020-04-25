@@ -9,7 +9,7 @@ hostname='treehouses'
 # If "button", bluetooth is enabled unless GPIO 18 is pulled to ground
 # If "normal", bluetooth is always on.
 # If "off", bluetooth is always off
-# (Default: button)
+# (Default: off)
 bluetooth="off"
 
 # If true, this allows trusted treehouses team members to log on to the system without a password
