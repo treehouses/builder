@@ -8,8 +8,9 @@ hostname='treehouses'
 
 # If "button", bluetooth is enabled unless GPIO 18 is pulled to ground
 # If "normal", bluetooth is always on.
-# (default: button)
-bluetooth="button"
+# If "off", bluetooth is always off
+# (Default: button)
+bluetooth="off"
 
 # If true, this allows trusted treehouses team members to log on to the system without a password
 # It will search for key pairs or authorized_key files directly in /boot folder to incorporate in the ssh server
@@ -92,14 +93,14 @@ case $connectiontype in
     treehouses ap internet treehouses;;
 esac
 
-# sets bluetooth to off if there bluetooth device does not exist
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ "$(treehouses detectbluetooth)" = "false" ]; then
-  bluetooth="off"
-elif [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
-  treehouses button bluetooth
-else 
-  treehouses bluetooth on
+if [ $bluetooth = "off" ] && [ "$(treehouses detectbluetooth)" = "true" ]
+  bluetooth="button"
+  if [ $enablecoralenviroboard = "false" ]; then
+    treehouses button bluetooth
+  else 
+    treehouses bluetooth on
+  fi
 fi
 
 # starts vnc and gui services
