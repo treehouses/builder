@@ -78,6 +78,7 @@ treehouses expandfs
 # if so, then configure the wifi antenna of the raspberry pi
 if iwconfig wlan0 2>&1 | grep -q "No such device"; then
   connectiontype="none"
+fi
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
   "none")
