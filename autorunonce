@@ -9,8 +9,8 @@ hostname='treehouses'
 # If "button", bluetooth is enabled unless GPIO 18 is pulled to ground
 # If "normal", bluetooth is always on.
 # If "off", bluetooth is always off
-# (Default: off)
-bluetooth="off"
+# (Default: button)
+bluetooth="button"
 
 # If true, this allows trusted treehouses team members to log on to the system without a password
 # It will search for key pairs or authorized_key files directly in /boot folder to incorporate in the ssh server
