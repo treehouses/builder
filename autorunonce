@@ -152,7 +152,9 @@ if [ $startplanet = "true" ]; then
     echo
     echo "planet_autorun=true"
     echo
-    treehouses services planet up
+    echo "if [ \"\$planet_autorun\" = true ]; then"
+    echo "  treehouses services planet up"
+    echo "fi"
   } > /boot/autorun
 
   mv /srv/tenalp /srv/planet
