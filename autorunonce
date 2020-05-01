@@ -76,7 +76,7 @@ treehouses expandfs
 
 # checks if raspberry pi is able to connnect to wifi
 # if so, then configure the wifi antenna of the raspberry pi
-if [ "$(treehouses detect wifi)" = "false" ]; then connectiontype="none" fi
+if [ "$(treehouses detect wifi)" = "false" ]; then connectiontype="none"; fi;
 if [ ${#hotspotpassword} -lt 8 ]; then hotspotpassword=''; fi; # no password if the password is < 8 characters long
 case $connectiontype in
   "ethernet"|"none")
