@@ -159,7 +159,6 @@ if [ $startplanet = "true" ]; then
 
   mv /srv/tenalp /srv/planet
   sync;sync;sync
-
   treehouses services planet up
 fi
 
