@@ -160,7 +160,7 @@ if [ $startplanet = "true" ]; then
   mv /srv/tenalp /srv/planet
   sync;sync;sync
 
-  docker-compose -f /srv/planet/planet.yml -f /srv/planet/volumes.yml -p planet up -d
+  treehouses services planet up
 fi
 
 # starts coral environmental board demo
