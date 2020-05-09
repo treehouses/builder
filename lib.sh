@@ -17,7 +17,7 @@ function _chroot {
 }
 
 function _apt {
-    _op _chroot apt-get -o Acquire::ForceIPv4=true -qq "$@"
+    _op _chroot apt-get -o APT::Acquire::Retries=3 install -y $PACKAGES
 }
 
 function _pip3_install {
