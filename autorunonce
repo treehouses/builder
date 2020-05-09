@@ -8,7 +8,8 @@ hostname='treehouses'
 
 # If "button", bluetooth is enabled unless GPIO 18 is pulled to ground
 # If "normal", bluetooth is always on.
-# (default: button)
+# If "off", bluetooth is always off
+# (Default: button)
 bluetooth="button"
 
 # If true, this allows trusted treehouses team members to log on to the system without a password
@@ -93,10 +94,12 @@ case $connectiontype in
 esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
-  treehouses button bluetooth
-else 
-  treehouses bluetooth on
+if [ $bluetooth != "off" ] && [ $(treehouses detect bluetooth) ]; then
+  if [ $enablecoralenviroboard = "false" ]; then
+    treehouses button bluetooth
+  else 
+    treehouses bluetooth on
+  fi
 fi
 
 # starts vnc and gui services
