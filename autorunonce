@@ -172,7 +172,7 @@ if [ "$startcoralenvirodemo" = "true" ] && [ -e /sys/bus/iio/devices/iio:device0
 fi
 
 # boots to console if RPiZero or RPi3A+ (not enough RAM?)
-case "$(treehouses detectrpi)" in
+case "$(treehouses detect rpi)" in
   RPIZW|RPI3A+)
     treehouses bootoption console;;
 esac
