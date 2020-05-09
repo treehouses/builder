@@ -94,7 +94,7 @@ case $connectiontype in
 esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
-if [ $bluetooth -ne "off" ] && [ "$(treehouses detect bluetooth)" = "true" ]; then
+if [ $bluetooth -ne "off" ] && [ $(treehouses detect bluetooth) ]; then
   if [ $enablecoralenviroboard = "false" ]; then
     treehouses button bluetooth
   else 
