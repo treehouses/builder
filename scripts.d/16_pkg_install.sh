@@ -33,6 +33,7 @@ INSTALL_PACKAGES=(
     pagekite # tunnels command
     sl
     bats # unit testing
+    uptimed # for RPi uptime
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
