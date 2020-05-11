@@ -96,7 +96,7 @@ esac
 
 # disables button for bluetooth if Coral Env board is present, or constant bluetooth is selected
 if [ $bluetooth != "off" ] && [ $(treehouses detect bluetooth) ]; then
-  if [ $enablecoralenviroboard = "false" ]; then
+  if [ $bluetooth = "button" ] && [ $enablecoralenviroboard = "false" ]; then
     treehouses button bluetooth
   else 
     treehouses bluetooth on
