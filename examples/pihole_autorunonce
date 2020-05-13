@@ -107,7 +107,7 @@ sync;sync;sync
 
 sync;sync;sync
 
-case "$(treehouses detectrpi)" in
+case "$(treehouses detect rpi)" in
   RPIZW|RPI3A+)
     treehouses bootoption console
 esac
