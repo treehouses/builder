@@ -13,7 +13,7 @@ headers = {
 # Retrieve a list of public members using gitHub API
 members = []
 
-api = 'https://api.github.com/orgs/treehouses/public_members'
+api = 'https://api.github.com/teams/3087744/members'
 
 request = requests.get(api)
 users = request.json()
