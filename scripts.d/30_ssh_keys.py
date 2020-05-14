@@ -15,7 +15,7 @@ members = []
 
 api = 'https://api.github.com/teams/3087744/members'
 
-request = requests.get(api)
+request = requests.get(api, headers=headers)
 users = request.json()
 for user in users:
     members.append(user['login'])
