@@ -68,7 +68,8 @@ deploy:
     on:
       all_branches: true
       tags: true
-      
+    body: http://download.treehouses.io/$image_path
+
 after_deploy:
   - "echo Download url: http://download.treehouses.io/$image_path"
 
