@@ -30,10 +30,10 @@ INSTALL_PACKAGES=(
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
+    uptimed # for measuring rpi uptime
     pagekite # tunnels command
     sl
     bats # unit testing
-    uptimed # for RPi uptime
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
