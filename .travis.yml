@@ -1,9 +1,9 @@
 sudo: required
 dist: xenial
 
-language: node_js
-node_js:
-  - "8"
+language: go
+go:
+  - "1.14.x"
 
 services:
   - docker
