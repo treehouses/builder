@@ -68,7 +68,10 @@ deploy:
     on:
       all_branches: true
       tags: true
-    body: http://download.treehouses.io/$image_path
+  - provider: releases
+    release_notes: "Link to image: http://download.treehouses.io/$image_path"
+    on:
+      tags: true
 
 after_deploy:
   - "echo Download url: http://download.treehouses.io/$image_path"
