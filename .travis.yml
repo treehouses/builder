@@ -72,6 +72,7 @@ deploy:
     release_notes: "Link to image: http://download.treehouses.io/$image_path"
     on:
       tags: true
+      repo: treehouses/builder
 
 after_deploy:
   - "echo Download url: http://download.treehouses.io/$image_path"
