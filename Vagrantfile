@@ -12,6 +12,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
+  keys = YAML.load_file('./.vagrant.yml')#GITHUB_KEY: key 
+  github_key = keys.fetch('GITHUB_KEY')
   config.vm.box = "treehouses/buster64"
   config.vm.box_version = "0.13.3"
 
@@ -79,11 +81,12 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix
+    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix python-requests
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
+    export GITHUB_KEY='#{github_key}'
     python scripts.d/30_ssh_keys.py
     sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
   SHELL
