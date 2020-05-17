@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "treehouses/buster64"
-  config.vm.box_version = "0.1.6"
+  config.vm.box_version = "0.13.3"
 
   config.vm.hostname = "treehouses"
 
