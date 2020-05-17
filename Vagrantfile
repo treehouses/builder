@@ -84,7 +84,7 @@ Vagrant.configure(2) do |config|
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
-    python get_ssh_keys.py
+    python scripts.d/30_ssh_keys.py
     sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
   SHELL
 end
