@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  vyml = YAML.load_file('./.vagrant.yml')#GITHUB_KEY: key 
+  vyml = YAML.load_file('./.vagrant.yml') #GITHUB_KEY: key 
   github_key = vyml.fetch('GITHUB_KEY')
 
   config.vm.box = "treehouses/buster64"
