@@ -88,6 +88,7 @@ Vagrant.configure(2) do |config|
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
     export GITHUB_KEY='#{github_key}'
+    mv /root/.ssh/authorized_keys /root/.ssh/authorized_keys.old
     python scripts.d/30_ssh_keys.py
     sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
   SHELL
