@@ -81,9 +81,8 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    sudo sh -c 'echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list'
     sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix python-requests golang-1.14
+    sudo apt install -y kpartx qemu-user-static aria2 python-requests golang-1.14
     echo "export PATH=$PATH:/usr/lib/go-1.14/bin" >> ~/.profile
     echo "export GOPATH=/home/vagrant/go:$PATH" >> ~/.profile
     source ~/.profile
