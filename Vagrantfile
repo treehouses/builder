@@ -84,6 +84,9 @@ Vagrant.configure(2) do |config|
     sudo sh -c 'echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list'
     sudo apt update
     sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix python-requests golang-1.14
+    echo "export PATH=$PATH:/usr/lib/go-1.14/bin" >> /home/vagrant/.profile
+    echo "export GOPATH=/home/vagrant/go:$PATH" >> /home/vagrant/.profile
+    source /home/vagrant/.profile
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
     cd /vagrant
