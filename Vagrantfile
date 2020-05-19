@@ -12,8 +12,11 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ole/jessie64"
-  config.vm.box_version = "0.1.6"
+  vyml = YAML.load_file('./.vagrant.yml') #GITHUB_KEY: key 
+  github_key = vyml.fetch('GITHUB_KEY')
+
+  config.vm.box = "treehouses/buster64"
+  config.vm.box_version = "0.13.3"
 
   config.vm.hostname = "treehouses"
 
@@ -78,13 +81,18 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+    sudo sh -c 'echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list'
     sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix
+    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix python-requests golang-1.14
+    echo "export PATH=$PATH:/usr/lib/go-1.14/bin" >> ~/.profile
+    echo "export GOPATH=/home/vagrant/go:$PATH" >> ~/.profile
+    source ~/.profile
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
-    python get_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot'
+    export GITHUB_KEY='#{github_key}'
+    python scripts.d/30_ssh_keys.py
+    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot; exec bash'
   SHELL
 end
