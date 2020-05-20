@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
   github_key = vyml.fetch('GITHUB_KEY')
 
   config.vm.box = "treehouses/buster64"
-  config.vm.box_version = "0.13.3"
+  config.vm.box_version = "0.13.6"
 
   config.vm.hostname = "treehouses"
 
@@ -82,16 +82,12 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo sh -c 'echo "deb http://deb.debian.org/debian buster-backports main" >> /etc/apt/sources.list'
-    sudo apt update
-    sudo apt install -y kpartx qemu-user-static parted aria2 wget dos2unix python-requests golang-1.14
-    echo "export PATH=$PATH:/usr/lib/go-1.14/bin" >> /etc/profile
-    echo "export GOPATH=/home/vagrant/go:$PATH" >> /etc/profile
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
     export GITHUB_KEY='#{github_key}'
     python scripts.d/30_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;source /etc/profile;./builder --chroot; exec bash'
+    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin:/usr/lib/go-1.14/bin";export GOPATH="$PATH:/home/vagrant/go";source /etc/profile;cd /vagrant;./builder --chroot; exec bash'
   SHELL
 end
