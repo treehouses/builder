@@ -69,7 +69,7 @@ deploy:
       all_branches: true
       tags: true
   - provider: releases
-    release_notes: "Link to image: http://download.treehouses.io/$image_path"
+    body: "Link to image: http://download.treehouses.io/$image_path"
     on:
       tags: true
       repo: treehouses/builder
