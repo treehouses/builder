@@ -14,15 +14,13 @@
 # ADD_REPO_KEYS=()
 
 # Raspbian
-#RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-07/2020-02-05-raspbian-buster.zip.torrent
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip.torrent
 
-#RASPBIAN_SHA256=c55586bd4c021b09025af02b7cc2f6f8f33783cc0fcbbfb661c729deaca313e8
 RASPBIAN_SHA256=a82ed4139dfad31c3167e60e943bcbe28c404d1858f4713efe5530c08a419f50
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
-EXTRA_IMAGE_SIZE=1800MB
+EXTRA_IMAGE_SIZE=1700MB
 
 MINIMAL_SPACE_LEFT=102400
 
