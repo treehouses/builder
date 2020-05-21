@@ -31,7 +31,7 @@ INSTALL_PACKAGES=(
     libusb-dev # for usb.sh
     dnsutils
     pagekite # tunnels command
-    sl
+    sl mc
     bats # unit testing
 )
 
