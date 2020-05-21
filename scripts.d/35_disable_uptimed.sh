@@ -2,4 +2,4 @@
 
 source lib.sh
 
-_op _chroot systemctl disable uptimed
+_op _chroot /lib/systemd/systemd-sysv-install disable uptimed
