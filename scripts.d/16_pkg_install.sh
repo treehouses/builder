@@ -32,6 +32,7 @@ INSTALL_PACKAGES=(
     dnsutils
     pagekite # tunnels command
     sl
+    ranger
     bats # unit testing
 )
 
