@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
   github_key = vyml.fetch('GITHUB_KEY')
 
   config.vm.box = "treehouses/buster64"
-  config.vm.box_version = "0.13.6"
+  config.vm.box_version = "0.13.3"
 
   config.vm.hostname = "treehouses"
 
