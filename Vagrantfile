@@ -83,15 +83,12 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt update
     sudo apt install -y kpartx qemu-user-static aria2 python-requests golang-1.14
-    echo "export PATH=$PATH:/usr/lib/go-1.14/bin" >> ~/.profile
-    echo "export GOPATH=/home/vagrant/go:$PATH" >> ~/.profile
-    source ~/.profile
     echo "git checkout <branch> ?"
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
     export GITHUB_KEY='#{github_key}'
     python scripts.d/30_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin";cd /vagrant;./builder --chroot; exec bash'
+    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin:/usr/lib/go-1.14/bin";export GOPATH="$PATH:/home/vagrant/go";cd /vagrant;./builder --chroot; exec bash'
   SHELL
 end
