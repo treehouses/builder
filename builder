@@ -1,17 +1,5 @@
 #!/bin/bash
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
-#
-# Open interactive Shell in chroot or write result to SD Card
-#
-# License: GNU General Public License, see http://www.gnu.org/copyleft/gpl.html for full text
-#
-# The following variables and arrays customize the behavior. To change them simply create a configuration
-# file `pirateship-image-creator.config` which overrides them.
-#
-# Add at least the following lines to override the internal configuration:
-# INSTALL_PACKAGES=()
-# ADD_REPOS=()
-# ADD_REPO_KEYS=()
 
 # Raspbian
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip.torrent
@@ -20,11 +8,9 @@ RASPBIAN_SHA256=a82ed4139dfad31c3167e60e943bcbe28c404d1858f4713efe5530c08a419f50
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
-EXTRA_IMAGE_SIZE=1700MB
+EXTRA_IMAGE_SIZE=1850MB
 
-MINIMAL_SPACE_LEFT=102400
-
-############ End of User Customization
+MINIMAL_SPACE_LEFT=111111
 
 source lib.sh
 
