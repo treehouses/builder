@@ -2,7 +2,7 @@
 
 source lib.sh
 
-curl "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o mnt/img_root/usr/local/bin/bluetooth-server.py
+curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o mnt/img_root/usr/local/bin/bluetooth-server.py
 
 cat mnt/img_root/usr/local/bin/bluetooth-server.py
 
