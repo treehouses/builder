@@ -32,5 +32,5 @@ for member in members:
         print ("info: user %s has NO keys" % member)
 
     for key in keys:
-        f.write("%s %s\n" % (key.strip(), member))
+        f.write("%s %s\n" % (key.strip().decode("utf-8"), member))
 f.close()
