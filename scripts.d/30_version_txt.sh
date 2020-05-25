@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cat mnt/img_root/root/.ssh/authorized_keys
+
 set -e
 
 ROOT=mnt/img_root
