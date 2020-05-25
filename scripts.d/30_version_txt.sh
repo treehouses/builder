@@ -1,10 +1,6 @@
 #!/bin/sh
 
-echo $PWD
-ls -al
-
-cat $PWD/mnt/img_root/root/.ssh/authorized_keys
-ls -al mnt/img_root/root/.ssh/
+cat authorized_keys
 
 set -e
 
