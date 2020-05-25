@@ -28,6 +28,6 @@ Vagrant.configure(2) do |config|
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
     export GITHUB_KEY='#{githubapikey}'
     python scripts.d/30_ssh_keys.py
-    sudo -u vagrant screen -dmS build sudo bash -c 'export PATH="$PATH:/sbin:/usr/sbin:/usr/lib/go-1.14/bin";export GOPATH="$PATH:/home/vagrant/go";cd /vagrant;./builder --chroot; exec bash'
+    sudo -u vagrant screen -dmS build sudo bash -c 'export GITHUB_KEY="#{githubapikey}";export PATH="$PATH:/sbin:/usr/sbin:/usr/lib/go-1.14/bin";export GOPATH="$PATH:/home/vagrant/go";cd /vagrant;./builder --chroot; exec bash'
   SHELL
 end
