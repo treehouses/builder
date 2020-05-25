@@ -1,7 +1,5 @@
 #!/bin/sh
 
-cat authorized_keys
-
 set -e
 
 ROOT=mnt/img_root
