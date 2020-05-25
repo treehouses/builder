@@ -58,4 +58,4 @@ cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 _op _chroot adduser pi docker
 
 # installs docker-compose using pip3
-_pip3_install docker-compose
+_pip3_install docker-compose --no-cache-dir
