@@ -68,7 +68,6 @@ deploy:
   - provider: releases
     api_key:
       secure: HaAdh/G7wH2fFy17R7GEXSo43ayhmm+1ii1kZDnFOePkxHBVzgvBnrAjmK5n9Xg7kW+xdnWnHRZ/vb/wzDeTu0IR8XtVx4B6hyXKCi86EFavoKYcEQ1Ykf6jnkUKLeq6oDf35ZyM9HaZYjoqLKbAJln5jRALWztVd7QR3uRg8MAj9k8xJ8qHq/Qwwn/VSDIo9g21K7axk6XWnzKHnmGoL3xX2UEJH1sLdMph+NcOZXiO3DxH7TL57ZDv6qSf/OxYgjfpV6ZXCnJS+jcmoZ/QyeVeJbildJr7UOXlMe+zuCHi3dJZYSn0lOBeacPLQmPEu+S16KHP0TDOnWuwqUpLx1Y40/9HNTy8vqV9HtLZVdnp/dOvCtH4BzME5GnGjbhBzA8XLNHzP+uI889ge0GHMljINq9RZ+ojXy9HQXhT/F15aVBAZUsnpBnFsEb8orW2PruC0MRnUjBSDMxlAMCtJzXDiigbtWfO5TJI/NotOC6k6DXs5GhZx3dmPQiccYM1itYi2wKX5G4lFyIsBxMz73X3AV9siD3GnqM3eVU1kbo6z+RcvWQIWz5ScvbwpbPBmPlFRfpWfkMznck7p4GNGblfn4gnHxZe0tmEaCUusqYKLtcfg9hYU8rGtPWHxTxCitD/Zxqd8TU3yfnnLY53WLdStx5DNloCqKOPI6/ygUk=
-    file: ""
     body: "http://download.treehouses.io/$image_path"
     on:
       all_branches: true
