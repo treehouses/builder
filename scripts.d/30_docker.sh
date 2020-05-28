@@ -34,7 +34,7 @@ mkdir -p "$OLD/mnt/img_root/root/.docker"
 cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
 
 for multi in "${MULTIS[@]}" ; do
-    docker inspect manifest $multi
+    docker manifest inspect "$multi"
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
     hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
