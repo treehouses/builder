@@ -1,4 +1,3 @@
 #!/bin/bash
-source lib.sh
-_op _chroot service uptimed stop
-_op _chroot systemctl disable uptimed
+
+rm -f mnt/img_root/etc/systemd/system/multi-user.target.wants/uptimed.service
