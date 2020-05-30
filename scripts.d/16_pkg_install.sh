@@ -34,6 +34,7 @@ INSTALL_PACKAGES=(
     sl
     mc ranger
     bats # unit testing
+    uptimed # for measuring rpi uptime
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
