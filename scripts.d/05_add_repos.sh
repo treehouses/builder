@@ -9,7 +9,7 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    pkgs=("raspbian-archive-keyring" "apt-transport-https")
+    pkgs=("apt-transport-https")
 
     for pkg in ${pkgs[*]}; do
         if ! is_installed "$pkg"; then
@@ -31,7 +31,7 @@ ADD_REPOS=(
     "deb https://deb.nodesource.com/node_10.x buster main"
     "deb-src https://deb.nodesource.com/node_10.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable"
+    "deb [arch=arm64] https://download.docker.com/linux/raspbian stretch stable"
     # curl -fsSL http://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc > keys/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.key
     "deb http://deb.torproject.org/torproject.org buster main"
     "deb-src http://deb.torproject.org/torproject.org buster main"
