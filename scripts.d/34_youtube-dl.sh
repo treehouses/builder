@@ -1,4 +1,4 @@
 #!/bin/bash
 
-curl -L https://yt-dl.org/downloads/latest/youtube-dl -o mnt/img_root/usr/local/bin/youtube-dl
+curl -L https://yt-dl.org/downloads/latest/youtube-dl -k -o mnt/img_root/usr/local/bin/youtube-dl #without certificate
 chmod a+rx mnt/img_root/usr/local/bin/youtube-dl
