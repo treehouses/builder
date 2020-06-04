@@ -17,7 +17,9 @@ source /usr/local/bin/virtualenvwrapper.sh" >> mnt/img_root/root/.bashrc
 
 _op _chroot source mnt/img_root/root/.bashrc
 
-_op _chroot bash -c 'source /usr/local/bin/virtualenvwrapper.sh;mkvirtualenv cv -p python3;source /root/.virtualenvs/cv/bin/activate'
+_op _chroot source /usr/local/bin/virtualenvwrapper.sh
+_op _chroot mkvirtualenv cv -p python3
+_op _chroot source ~/.virtualenvs/cv/bin/activate
 
 _op _chroot pip3 install "picamera[array]"
 _op _chroot pip3 install opencv-python
