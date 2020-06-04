@@ -6,8 +6,7 @@ _op _chroot pip3 install "picamera[array]" opencv-python opencv-contrib-python
 _op _chroot pip3 install --upgrade imutils
 
 echo "Verify your install worked by the following commands:"
-echo ""
-echo "cd ~"
+echo
 echo "python3"
 echo "import cv2"
 echo "cv2.__version__"
