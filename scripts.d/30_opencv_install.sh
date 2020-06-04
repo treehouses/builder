@@ -1,4 +1,7 @@
-echo "getting necessary packages"
+#!/bin/sh
+source lib.sh
+
+echo "Installing OpenCV dependencies"
 #sudo apt-get update && sudo apt-get upgrade
 #sudo apt-get install -y build-essential cmake pkg-config
 #sudo apt-get install -y libjpeg-dev libtiff5-dev libjasper-dev libpng-dev
@@ -27,9 +30,9 @@ echo "# virtualenv and virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0
-source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+source /usr/local/bin/virtualenvwrapper.sh" >> mnt/img_root/root/.bashrc
 
-source ~/.bashrc
+_op _chroot source mnt/img_root/root/.bashrc
 
 sudo bash -c 'source /usr/local/bin/virtualenvwrapper.sh;mkvirtualenv cv -p python3;source ~/.virtualenvs/cv/bin/activate'
 
