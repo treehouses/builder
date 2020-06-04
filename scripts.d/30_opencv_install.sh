@@ -4,7 +4,6 @@ source lib.sh
 
 echo "Installing OpenCV and NumPy on a virtual envirnonment"
 _op _chroot wget -N https://bootstrap.pypa.io/get-pip.py
-_op _chroot python get-pip.py
 _op _chroot python3 get-pip.py
 _op _chroot rm -rf ~/.cache/pip
 _op _chroot python3 -m pip install virtualenv
