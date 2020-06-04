@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 source lib.sh
 
 echo "Installing OpenCV and NumPy on a virtual envirnonment"
