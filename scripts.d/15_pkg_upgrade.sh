@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 source lib.sh
 
 echo "Holding nodejs Package"
