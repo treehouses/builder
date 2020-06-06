@@ -5,7 +5,7 @@ source lib.sh
 # List of packages to remove
 PURGE_PACKAGES=(
     wolfram-engine
-    apt-listchanges
+   # apt-listchanges
 #    sonic-pi
 #    scratch
 #    squeak-plugins-scratch squeak-vm
