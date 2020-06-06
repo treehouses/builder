@@ -11,7 +11,7 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    pkgs=("apt-transport-https")
+    #pkgs=("apt-transport-https")
 
     for pkg in ${pkgs[*]}; do
         if ! is_installed "$pkg"; then
