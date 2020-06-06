@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 source lib.sh
 
 is_installed() {
@@ -7,23 +9,23 @@ is_installed() {
     _chroot dpkg-query -s "$pkg" 2>/dev/null | grep -qx 'Status: install ok installed'
 }
 
-#install_stuff() {
-    #local need_install
-    #pkgs=("apt-transport-https")
+install_stuff() {
+    local need_install
+    pkgs=("apt-transport-https")
 
-    #for pkg in ${pkgs[*]}; do
-        #if ! is_installed "$pkg"; then
-            #need_install="$need_install $pkg"
-            #echo "need to install $pkg"
-        #fi
-    #done
+    for pkg in ${pkgs[*]}; do
+        if ! is_installed "$pkg"; then
+            need_install="$need_install $pkg"
+            echo "need to install $pkg"
+        fi
+    done
 
-    #if [ -n "$need_install" ]; then
-       # echo "updating package sources"
-        #_apt update --allow-releaseinfo-change || die "Could not update package sources"
-        #_apt install "${pkgs[@]}"
-   # fi
-#}
+    if [ -n "$need_install" ]; then
+        echo "updating package sources"
+        _apt update --allow-releaseinfo-change || die "Could not update package sources"
+        _apt install "${pkgs[@]}"
+    fi
+}
 
 # List of extra APT repositories
 ADD_REPOS=(
