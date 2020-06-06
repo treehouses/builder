@@ -9,9 +9,9 @@ services:
   - docker
 
 before_install:
-  - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ eoan universe"
+  - sudo add-apt-repository "deb http://deb.debian.org/debian buster main contrib"
   - sudo apt-get update
-  - sudo apt-get install qemu-user-static:i386
+  - sudo apt-get install qemu-user-static
 
 addons:
   apt:
