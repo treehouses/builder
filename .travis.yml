@@ -20,7 +20,7 @@ addons:
       - aria2
       - tree
       - python-requests
-      - g++-9-arm-linux-gnueabihf
+      - g++-10-arm-linux-gnueabihf
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
