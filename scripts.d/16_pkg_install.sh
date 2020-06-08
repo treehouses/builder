@@ -35,6 +35,7 @@ INSTALL_PACKAGES=(
     sl
     mc ranger
     bats # unit testing
+    bluez-hcidump libboost-python-dev libboost-thread-dev libglib2.0-dev #ble support 
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
