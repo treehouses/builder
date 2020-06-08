@@ -2,7 +2,7 @@
 
 source lib.sh
 
-_op _chroot pip3 install opencv-python==3.4.6.27 opencv-contrib-python
+_op _chroot pip3 install opencv-python==4.1.0.25 opencv-contrib-python
 _op _chroot pip3 install --upgrade imutils
 
 echo "Verify your install worked by the following commands:"
