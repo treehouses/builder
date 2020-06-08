@@ -12,7 +12,6 @@ before_install:
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ eoan universe"
   - sudo apt-get update
   - sudo apt-get install qemu-user-static:i386
-  - sudo apt search g++-arm-linux-gnueabihf
 
 addons:
   apt:
@@ -21,7 +20,7 @@ addons:
       - aria2
       - tree
       - python-requests
-      - g++-arm-linux-gnueabihf=4:7.4.0-1ubuntu2.3
+      - cpp-arm-linux-gnueabihf
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
