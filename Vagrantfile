@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
 
   config.vm.box = "treehouses/buster64"
-  config.vm.box_version = "0.13.19"
+  config.vm.box_version = "0.13.25"
 # config.vm.box_check_update = false
 
   config.vm.hostname = "treehouses"
@@ -23,8 +23,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     echo "git checkout <branch> ?"
-    apt update
-    apt install -y tree
     mkdir -p /vagrant/images
     cd /vagrant
     dos2unix * */* */*/* */*/*/* */*/*/*/* */*/*/*/*/*
