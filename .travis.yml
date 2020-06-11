@@ -1,5 +1,5 @@
 sudo: required
-dist: bionic
+dist: focal
 
 language: go
 go:
@@ -11,7 +11,7 @@ services:
 before_install:
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ eoan universe"
   - sudo apt-get update
-  - sudo apt-get install qemu-user-static:i386
+  - sudo apt-get install qemu-user-static
 
 addons:
   apt:
