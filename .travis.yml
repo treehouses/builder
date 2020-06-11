@@ -12,7 +12,7 @@ before_install:
   - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 04EE7237B7D453EC 648ACFD622F3D138 DCC9EFBF77E11517
   - sudo add-apt-repository "deb http://deb.debian.org/debian buster main contrib" #"deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ eoan universe"
   - sudo apt-get update
-  - sudo apt-get install qemu-user-static
+  - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
 
 addons:
   apt:
@@ -21,7 +21,6 @@ addons:
       - aria2
       - tree
       - python-requests
-      - g++-arm-linux-gnueabihf
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
