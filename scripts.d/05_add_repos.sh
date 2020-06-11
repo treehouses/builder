@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit 0
-
 source lib.sh
 
 is_installed() {
