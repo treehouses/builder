@@ -16,13 +16,15 @@ MULTIS=(
 
 OLD=$(pwd -P)
 cd /var/lib || die "ERROR: /var/lib folder doesn't exist, exiting"
-
+echo 1
 service docker stop
+echo 2
 mv docker docker.temp
+echo 3
 mkdir -p "$OLD/mnt/img_root/var/lib/docker"
 ln -s "$OLD/mnt/img_root/var/lib/docker" docker
 service docker start
-
+echo 4
 for image in "${IMAGES[@]}" ; do
     docker pull "$image"
 done
@@ -41,7 +43,7 @@ for multi in "${MULTIS[@]}" ; do
     docker pull "$name@$hash"
     docker tag "$name@$hash" "$name:$tag" 
 done
-
+echo 5
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
 
@@ -50,6 +52,7 @@ sync; sync; sync
 docker images
 
 service docker stop
+echo 6
 unlink docker
 mv docker.temp docker
 service docker start
