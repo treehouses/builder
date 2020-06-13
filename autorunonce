@@ -34,6 +34,8 @@ connectiontype="apinternet"
 # (Edit if "connectiontype" is "wifi" or "bridge")
 wifiname=''
 wifipassword=''
+# for WPA-Enterprise only, please leave it blank if you are using WPA-Personal
+identity=''
 
 # hotspotname: Change to the name you want your hotspot to have, raspberry pi will be a hotspot with this name as SSID
 # hotspotpassword:
@@ -82,7 +84,11 @@ case $connectiontype in
   "ethernet")
     ;;
   "wifi")
-    treehouses wifi $wifiname $wifipassword;;
+    if [ -z $identity ]; then
+      treehouses wifi $wifiname $wifipassword
+    else
+      treehouses wifi $wifiname $wifipassword $identity
+    fi;;
   "apinternet")
     treehouses ap internet $hotspotname $hotspotpassword;;
   "aplocal")
