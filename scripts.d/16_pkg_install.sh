@@ -35,6 +35,7 @@ INSTALL_PACKAGES=(
     sl
     mc ranger
     bats # unit testing
+    libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then

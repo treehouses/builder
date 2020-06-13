@@ -6,4 +6,5 @@ ip/
 mnt/
 temp/
 .vagrant/
-.*.sw[nop]
+.*.sw[nop]/
+.vagrant.yml
