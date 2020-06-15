@@ -13,7 +13,7 @@ before_install:
   # sudo add-apt-repository "deb http://deb.debian.org/debian buster main contrib" 
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ eoan universe"
   - sudo apt-get update
-  - sudo apt-get install -t eoan g++-arm-linux-gnueabihf
+  - sudo apt-get install -t eoan g++-9-arm-linux-gnueabihf
   - sudo apt-get install -t eoan qemu-user-static:i386
 
 addons:
