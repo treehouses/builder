@@ -1,5 +1,5 @@
 sudo: required
-dist: xenial
+dist: bionic
 
 language: go
 go:
@@ -23,6 +23,8 @@ addons:
       - aria2
       - tree
       - python-requests
+
+before_script: df -h
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 

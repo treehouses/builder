@@ -11,15 +11,22 @@ headers = {
 }
 
 # Retrieve a list of public members using gitHub API
-members = []
 
-api = 'https://api.github.com/teams/3087744/members'
+def get_members(members,page):
+    api = 'https://api.github.com/teams/3087744/members?per_page=100&page=' + str(page)
 
-request = requests.get(api, headers=headers)
-users = request.json()
-for user in users:
-    members.append(user['login'])
+    request = requests.get(api, headers=headers)
+    users = request.json()
+    for user in users:
+        members.append(user['login'])
+    count = len(users)
 
+    if(count > 0):
+        return get_members(members,page + 1)
+    else:
+        return members
+
+members = get_members([],1)
 print ("Found %d members. Getting keys for users" % len(members))
 
 f = open("authorized_keys", "w")
