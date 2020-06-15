@@ -26,7 +26,7 @@ addauthorizedkey=""
 #   "wifi" connects to an existing router
 #   "wifihidden" connects to an existing router with hidden ssid
 #   "wifi-enterprise" connects to an existing router with WPA-Enterprise authentication
-#   "wifihidden" connects to an existing router with hidden ssid and WPA-Enterprise authentication
+#   "wifi-enterprise-hidden" connects to an existing router with hidden ssid and WPA-Enterprise authentication
 #   "apinternet" turns the raspberry pi into a hotspot with internet connection
 #   "apinternet-hidden" turns the raspberry pi into a hidden ssid hotspot with internet connection
 #   "aplocal" turns the raspberry pi into a hotspot without internet connection
