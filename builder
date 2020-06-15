@@ -124,6 +124,7 @@ function _open_image {
     kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
     # shellcheck disable=SC2162
     read -d '' img_boot_dev img_root_dev <<<"$(grep -o 'loop.p.' <<<"$kpartx")"
+    df -h
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
     img_boot_dev=/dev/mapper/$img_boot_dev
     img_root_dev=/dev/mapper/$img_root_dev
