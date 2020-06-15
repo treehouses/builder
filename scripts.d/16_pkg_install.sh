@@ -4,7 +4,7 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
-    docker-io aufs-dkms- # docker fix later
+    docker-ce aufs-dkms- # docker fix later
     #quicksynergy # dogi fix later
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
