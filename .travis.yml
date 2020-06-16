@@ -21,8 +21,6 @@ addons:
       - tree
       - python-requests
 
-before_script: df -h
-
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
 env:
