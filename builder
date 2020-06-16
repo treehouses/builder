@@ -127,7 +127,6 @@ function _open_image {
     # shellcheck disable=SC2162
     read -d '' img_boot_dev img_root_dev <<<"$(grep -o 'loop.p.' <<<"$kpartx")"
     test "$img_boot_dev" -a "$img_root_dev" || die "Could not extract boot and root loop device from kpartx output:$NL$kpartx"
-    df -h
     img_boot_dev=/dev/mapper/$img_boot_dev
     img_root_dev=/dev/mapper/$img_root_dev
     mkdir -p mnt/img_root
