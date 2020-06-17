@@ -93,8 +93,8 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    losetup /dev/loop1 "$RESIZE_IMAGE_PATH"
-    fdisk /dev/loop1 <<EOF
+    losetup /dev/loop6 "$RESIZE_IMAGE_PATH"
+    fdisk /dev/loop6 <<EOF
 p
 d
 2
@@ -106,11 +106,11 @@ $start_sector
 p
 w
 EOF
-    losetup -d /dev/loop1
-    losetup -o $((start_sector*512)) /dev/loop2 "$RESIZE_IMAGE_PATH"
-    e2fsck -f /dev/loop2
-    resize2fs -f /dev/loop2
-    losetup -d /dev/loop2
+    losetup -d /dev/loop6
+    losetup -o $((start_sector*512)) /dev/loop7 "$RESIZE_IMAGE_PATH"
+    e2fsck -f /dev/loop7
+    resize2fs -f /dev/loop7
+    losetup -d /dev/loop7
     if [[ -L "images" ]];
     then
         rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
@@ -119,6 +119,8 @@ EOF
 }
 
 function _open_image {
+    echo "Stupid Snaps"
+    df -h | grep 'loop'
     echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
@@ -166,7 +168,7 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep 'dev/mapper/loop0p2' | awk '{printf $4}')
+    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf $4}')
     echo "Space left: ${space_left}K"
 }
 
