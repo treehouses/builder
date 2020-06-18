@@ -29,7 +29,7 @@ addauthorizedkey=""
 #   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
 
-# change this value to true if you are using a hidden network
+# (Change this value to true if you are using a hidden network)
 hidden="false"
 
 # wifiname: Insert the name (SSID) of your wifi router
