@@ -9,7 +9,8 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    pkgs=("raspbian-archive-keyring" "apt-transport-https")
+    #pkgs=("raspbian-archive-keyring" "apt-transport-https")
+    pkgs=("apt-transport-https")
 
     for pkg in ${pkgs[*]}; do
         if ! is_installed "$pkg"; then
