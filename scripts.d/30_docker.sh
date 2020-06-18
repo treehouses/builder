@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source lib.sh
+source .travis/utils.sh
 
 IMAGES=(
     portainer/portainer:linux-arm
@@ -59,4 +60,5 @@ cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 _op _chroot adduser pi docker
 
 # installs docker-compose using pip3
+bell &
 _pip3_install docker-compose --no-cache-dir
