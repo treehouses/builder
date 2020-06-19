@@ -24,18 +24,18 @@ INSTALL_PACKAGES=(
     iproute2 # ss command
     nmap # network mapping package
     htop
-    speedtest-cli # speedtest.net
-    libffi-dev # for building docker-compose using pip
-    python3-coral-enviro # Coral environmental board
-    bc # for memory command
-    libusb-dev # for usb.sh
-    dnsutils
-    uptimed # for measuring rpi uptime
-    pagekite # tunnels command
-    sl
-    mc ranger
-    bats # unit testing
-    libhdf5-dev libatlas-base-dev libqt4-test # opencv libjasper1
+#    speedtest-cli # speedtest.net
+#    libffi-dev # for building docker-compose using pip
+#    python3-coral-enviro # Coral environmental board
+#    bc # for memory command
+#    libusb-dev # for usb.sh
+#    dnsutils
+#    uptimed # for measuring rpi uptime
+#    pagekite # tunnels command
+#    sl
+#    mc ranger
+#    bats # unit testing
+#    libhdf5-dev libatlas-base-dev libqt4-test # opencv libjasper1
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
