@@ -6,4 +6,4 @@ source lib.sh
 # mv gh-cli/bin/gh mnt/img_root/usr/local/bin/
 
 wget -N https://github.com/cli/cli/releases/download/v0.10.0/gh_0.10.0_linux_arm64.deb -P mnt/img_root/
-_op _chroot apt install ./gh_*_linux_arm64.deb
+_op _chroot apt install ./gh_0.10.0_linux_arm64.deb -y
