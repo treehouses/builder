@@ -4,7 +4,7 @@ source lib.sh
 
 echo "Balena installation"
 
-_op _chroot curl -sfL https://balena.io/engine/install.sh | _op _chroot sh
+_op _chroot curl -o install.sh -sfL https://balena.io/engine/install.sh
 _op _chroot rm install.sh
 
 # # get the latest version
