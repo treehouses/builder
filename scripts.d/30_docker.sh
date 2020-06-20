@@ -59,12 +59,15 @@ cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 _op _chroot adduser pi docker
 
 # installs docker-compose using pip3
-bell() {
-    while true; do
-        sleep 60
-        echo -e "\\a"
-    done
-}
+# bell() {
+#     while true; do
+#         sleep 60
+#         echo -e "\\a"
+#     done
+# }
 
-bell &
-_pip3_install docker-compose --no-cache-dir
+# bell &
+# _pip3_install docker-compose --no-cache-dir
+
+curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
+chmod +x mnt/img_root/usr/local/bin/docker-compose
