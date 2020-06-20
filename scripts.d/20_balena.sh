@@ -9,8 +9,8 @@ releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases
 aarch64=$(echo "$releases" | tr " " "\\n" | grep aarch64)
 
 # aarch64
-wget -c "$armv7link"
-tar xvzf "$(basename "$armv7link")" ./balena-engine/balena-engine
+wget -c "$aarch64"
+tar xvzf "$(basename "$aarch64")" ./balena-engine/balena-engine
 mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-aarch64
 _op _chroot chown root:root /usr/bin/balena-engine-aarch64
 rm -rf balena-engine/
