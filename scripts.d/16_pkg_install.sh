@@ -34,7 +34,7 @@ INSTALL_PACKAGES=(
     pagekite # tunnels command
     sl
     mc ranger
-    emacs # a popular text editor 
+    libncurses5-dev # dependency for compiling emacs
     bats # unit testing
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
 )
