@@ -4,7 +4,7 @@ source lib.sh
 
 echo "Balena installation"
 
-_op _chroot bash exec 'curl -o install.sh -sfL https://balena.io/engine/install.sh | sh'
+_op _chroot curl -sfL https://balena.io/engine/install.sh | bash
 
 # # get the latest version
 # releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/latest -H "Authorization: token $GITHUB_KEY" | jq -r ".assets[].browser_download_url")
