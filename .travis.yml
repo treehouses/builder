@@ -13,7 +13,7 @@ before_install:
 #  - sudo add-apt-repository "deb http://deb.debian.org/debian buster main contrib"
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
   - sudo apt-get update
-  - sudo apt-get install qemu-user-static aarch64-linux-gnu-g++
+  - sudo apt-get install qemu-user-static g++-aarch64-linux-gnu
 
 addons:
   apt:
