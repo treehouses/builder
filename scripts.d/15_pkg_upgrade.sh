@@ -27,8 +27,8 @@ _apt dist-upgrade || die "Could not upgrade system"
 
 echo
 echo
-echo #
-cat /etc/apt/sources.list
+echo "#"
+_op _chroot cat /etc/apt/sources.list
 echo
-echo *
-cat /etc/apt/sources.list.d/*
+echo "*"
+_op _chroot cat /etc/apt/sources.list.d/*
