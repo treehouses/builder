@@ -13,7 +13,11 @@ before_install:
 #  - sudo add-apt-repository "deb http://deb.debian.org/debian buster main contrib"
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
   - sudo apt-get update
+<<<<<<< HEAD
   - sudo apt-get install qemu-user-static
+=======
+  - sudo apt-get install qemu-user-static:i386 g++-arm-linux-gnueabihf
+>>>>>>> install-tiv
 
 addons:
   apt:
