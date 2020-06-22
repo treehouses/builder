@@ -58,6 +58,10 @@ cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 
 _op _chroot adduser pi docker
 
+# docker-compose
+
+# solution 1
+
 # installs docker-compose using pip3
 # bell() {
 #     while true; do
@@ -69,5 +73,28 @@ _op _chroot adduser pi docker
 # bell &
 # _pip3_install docker-compose --no-cache-dir
 
-curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
-chmod +x mnt/img_root/usr/local/bin/docker-compose
+# solution 2
+
+#curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
+#chmod +x mnt/img_root/usr/local/bin/docker-compose
+
+# solution 3
+
+echo
+echo "#0"
+_op _chroot cat /etc/apt/sources.list
+
+echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > mnt/img_root/etc/apt/sources.list
+
+echo
+echo "#1"
+_op _chroot cat /etc/apt/sources.list
+_apt update || die "Could not update package sources"
+_op _chroot apt show docker-compose
+_apt install docker-compose
+sed -i '$ d' mnt/img_root/etc/apt/sources.list
+_apt update || die "Could not update package sources"
+
+echo
+echo "#2"
+_op _chroot cat /etc/apt/sources.list
