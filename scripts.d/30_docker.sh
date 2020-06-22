@@ -94,7 +94,7 @@ echo "#1"
 _op _chroot cat /etc/apt/sources.list
 _apt update || die "Could not update package sources"
 _op _chroot apt show docker-compose
-_apt install docker-compose
+_op _chroot apt install docker-compose
 sed -i '$ d' mnt/img_root/etc/apt/sources.list
 _apt update || die "Could not update package sources"
 echo "version"
