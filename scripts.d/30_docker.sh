@@ -84,8 +84,10 @@ _op _chroot adduser pi docker
 echo
 echo "#0"
 _op _chroot cat /etc/apt/sources.list
-
-echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> mnt/img_root/etc/apt/sources.list
+_op _chroot sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+_op _chroot sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
+echo "deb http://ports.ubuntu.com/ubuntu-ports focal main universe" >> mnt/img_root/etc/apt/sources.list
+#echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> mnt/img_root/etc/apt/sources.list
 
 echo
 echo "#1"
