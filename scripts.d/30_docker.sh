@@ -103,3 +103,11 @@ _op _chroot docker-compose --version
 echo
 echo "#2"
 _op _chroot cat /etc/apt/sources.list
+
+# solution 4
+
+# wget and dpkg -i
+#Get:1 http://ports.ubuntu.com/ubuntu-ports focal/main arm64 libseccomp2 arm64 2.4.3-1ubuntu1 [39.9 kB]
+#Get:2 http://ports.ubuntu.com/ubuntu-ports focal/main arm64 apparmor arm64 2.13.3-7ubuntu5 [455 kB]
+#Get:3 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 python3-docker all 4.1.0-1 [83.8 kB]
+#Get:4 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 docker-compose all 1.25.0-1 [92.7 kB]
