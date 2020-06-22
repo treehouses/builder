@@ -95,8 +95,8 @@ _op _chroot apt show docker-compose
 _apt install docker-compose
 sed -i '$ d' mnt/img_root/etc/apt/sources.list
 _apt update || die "Could not update package sources"
-_op _chroot dpkg -l | grep docker-compose > temp-docker-compose
-cat temp-docker-compose
+echo "version"
+_op _chroot docker-compose --version
 
 echo
 echo "#2"
