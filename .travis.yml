@@ -24,6 +24,7 @@ addons:
       - aria2
       - tree
       - python-requests
+      - jq
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
