@@ -24,11 +24,3 @@ _apt dist-upgrade || die "Could not upgrade system"
 #_op _chroot apt-mark unhold libfm-modules
 #_op _chroot apt-mark unhold libfm4
 #_op _chroot apt-mark unhold raspberrypi-ui-mods
-
-echo
-echo
-echo "#"
-_op _chroot cat /etc/apt/sources.list
-echo
-echo "*"
-_op _chroot cat /etc/apt/sources.list.d/*
