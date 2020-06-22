@@ -77,6 +77,7 @@ _op _chroot adduser pi docker
 
 #curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
 #chmod +x mnt/img_root/usr/local/bin/docker-compose
+#TODO pre load the docker-compose docker image
 
 # solution 3
 
@@ -84,7 +85,7 @@ echo
 echo "#0"
 _op _chroot cat /etc/apt/sources.list
 
-echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > mnt/img_root/etc/apt/sources.list
+echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> mnt/img_root/etc/apt/sources.list
 
 echo
 echo "#1"
@@ -94,6 +95,7 @@ _op _chroot apt show docker-compose
 _apt install docker-compose
 sed -i '$ d' mnt/img_root/etc/apt/sources.list
 _apt update || die "Could not update package sources"
+_op _chroot dpkg -l | grep docker-compose
 
 echo
 echo "#2"
