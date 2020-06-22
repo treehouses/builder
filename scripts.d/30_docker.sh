@@ -58,6 +58,10 @@ cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 
 _op _chroot adduser pi docker
 
+# docker-compose
+
+# solution 1
+
 # installs docker-compose using pip3
 # bell() {
 #     while true; do
@@ -69,5 +73,41 @@ _op _chroot adduser pi docker
 # bell &
 # _pip3_install docker-compose --no-cache-dir
 
-curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
-chmod +x mnt/img_root/usr/local/bin/docker-compose
+# solution 2
+
+#curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o mnt/img_root/usr/local/bin/docker-compose
+#chmod +x mnt/img_root/usr/local/bin/docker-compose
+#TODO pre load the docker-compose docker image
+
+# solution 3
+
+echo
+echo "#0"
+_op _chroot cat /etc/apt/sources.list
+_op _chroot sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+_op _chroot sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C
+echo "deb http://ports.ubuntu.com/ubuntu-ports focal main universe" >> mnt/img_root/etc/apt/sources.list
+#echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> mnt/img_root/etc/apt/sources.list
+
+echo
+echo "#1"
+_op _chroot cat /etc/apt/sources.list
+_apt update || die "Could not update package sources"
+_op _chroot apt show docker-compose
+_op _chroot apt-get install -y --no-install-recommends docker-compose
+sed -i '$ d' mnt/img_root/etc/apt/sources.list
+_apt update || die "Could not update package sources"
+echo "version"
+_op _chroot docker-compose --version
+
+echo
+echo "#2"
+_op _chroot cat /etc/apt/sources.list
+
+# solution 4
+
+# wget and dpkg -i
+#Get:1 http://ports.ubuntu.com/ubuntu-ports focal/main arm64 libseccomp2 arm64 2.4.3-1ubuntu1 [39.9 kB]
+#Get:2 http://ports.ubuntu.com/ubuntu-ports focal/main arm64 apparmor arm64 2.13.3-7ubuntu5 [455 kB]
+#Get:3 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 python3-docker all 4.1.0-1 [83.8 kB]
+#Get:4 http://ports.ubuntu.com/ubuntu-ports focal/universe arm64 docker-compose all 1.25.0-1 [92.7 kB]
