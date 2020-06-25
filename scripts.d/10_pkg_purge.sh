@@ -8,7 +8,7 @@ PURGE_PACKAGES=(
 #    sonic-pi
 #    scratch
 #    squeak-plugins-scratch squeak-vm
-#    dphys-swapfile
+    dphys-swapfile
 )
 
 # shellcheck disable=SC2207
