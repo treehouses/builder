@@ -93,8 +93,8 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    losetup /dev/loop6 "$RESIZE_IMAGE_PATH"
-    fdisk /dev/loop6 <<EOF
+    losetup /dev/loop0 "$RESIZE_IMAGE_PATH"
+    fdisk /dev/loop0 <<EOF
 p
 d
 2
@@ -110,11 +110,12 @@ EOF
     df -h
     ls -al
     echo $RASPBIAN_IMAGE_FILE
-    losetup -d /dev/loop6
-    losetup -o $((start_sector*512)) /dev/loop7 "$RESIZE_IMAGE_PATH"
-    e2fsck -f /dev/loop7
-    resize2fs -f /dev/loop7
-    losetup -d /dev/loop7
+    echo $RESIZE_IMAGE_PATH
+    losetup -d /dev/loop0
+    losetup -o $((start_sector*512)) /dev/loop1 "$RESIZE_IMAGE_PATH"
+    e2fsck -f /dev/loop1
+    resize2fs -f /dev/loop1
+    losetup -d /dev/loop1
     if [[ -L "images" ]];
     then
         rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
