@@ -105,7 +105,11 @@ $start_sector
 
 p
 w
+
 EOF
+    df -h
+    ls -al
+    echo $RASPBIAN_IMAGE_FILE
     losetup -d /dev/loop6
     losetup -o $((start_sector*512)) /dev/loop7 "$RESIZE_IMAGE_PATH"
     e2fsck -f /dev/loop7
