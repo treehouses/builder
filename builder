@@ -264,6 +264,9 @@ if [ ! -e "$IMAGE_ZIP" ]; then
 fi
 
 losetup
+lsmod | grep loop
+modprobe loop
+lsmod | grep loop
 
 _decompress_image
 _resize_image
