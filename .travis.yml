@@ -1,5 +1,5 @@
 sudo: required
-dist: bionic
+dist: xenial 
 arch: arm64
 os: linux
 
