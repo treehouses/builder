@@ -17,14 +17,14 @@ MINIMAL_SPACE_LEFT=111111
 source lib.sh
 
 missing_deps=()
-for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
+for prog in kpartx wget gpg parted aria2c jq curl; do
     if ! type $prog &>/dev/null ; then
         missing_deps+=( "$prog" )
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
+    On Debian/Ubuntu try 'sudo apt install kpartx parted wget curl jq aria2'"
 
 fi
 
@@ -153,7 +153,6 @@ function _close_image {
 function _prepare_chroot {
     _disable_ld_preload
 
-    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     _chroot date &>/dev/null || die "Could not chroot date"
 
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
