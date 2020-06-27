@@ -263,6 +263,8 @@ if [ ! -e "$IMAGE_ZIP" ]; then
     _get_image
 fi
 
+losetup
+
 _decompress_image
 _resize_image
 _open_image
