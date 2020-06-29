@@ -88,8 +88,8 @@ is now ready to be burned onto the microSD card.
 
 We will need a few hardware and software:
 
-* Raspberry Pi 3 (or Zero W)
-* 5V 2.4A (1.2A for Pi Zero) power suppl with microUSB connector
+* Raspberry Pi 3/4 (or Zero W)
+* 5V 2.4A/3A (1.2A for Pi Zero) power supply with microUSB connector
 * A microSD card reader
 * A [Class 10](https://www.sdcard.org/developers/overview/speed_class/index.html)
   microSD card (minimal 8GB, but we strongly recommend 16GB or greater)
@@ -117,11 +117,3 @@ if a tag is applied to the commit.
   the newly uploaded image and its SHA-1 checksum
 * At this time, both `stable.img.gz` and `branch.img.gz` on [http://dev.ole.org](http://dev.ole.org)
   are manually linked to their specific image
-
-## Relevant Links
-
-[Raspberry Pi project page on github.io](https://open-learning-exchange.github.io/#!pages/robots/rbts-raspberry-pi.md)
-
-## Built with
-
-* [rpi-image-creator](https://github.com/ImmobilienScout24/rpi-image-creator)
