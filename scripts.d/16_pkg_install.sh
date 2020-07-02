@@ -19,6 +19,7 @@ INSTALL_PACKAGES=(
     rng-tools # for ap bridge
     tor=0.3.5.10-1 #TODO bring back to upstream
     openvpn
+    shadowsocks-libev proxychains4 # socks5 proxy
     jq # for parsing json / treehouses command
     net-tools # netstat
     iproute2 # ss command
