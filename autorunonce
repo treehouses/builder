@@ -29,11 +29,18 @@ addauthorizedkey=""
 #   "bridge" connects to an existing router, creates a raspberry pi hotspot and bridges these two connections.
 connectiontype="apinternet"
 
+# Change this value to true if you are using a hidden network
+# (default: false)
+hidden="false"
+
 # wifiname: Insert the name (SSID) of your wifi router
 # wifipassword: Insert the password of your wifi router. Leave field empty for open networks
 # (Edit if "connectiontype" is "wifi" or "bridge")
 wifiname=''
 wifipassword=''
+
+# for Enterprise only, please leave it blank if you are not using WPA2-Enterprise
+identity=''
 
 # hotspotname: Change to the name you want your hotspot to have, raspberry pi will be a hotspot with this name as SSID
 # hotspotpassword:
@@ -82,11 +89,31 @@ case $connectiontype in
   "ethernet")
     ;;
   "wifi")
-    treehouses wifi $wifiname $wifipassword;;
+    if [ "$hidden" == "false" ]; then
+      if [ -z $identity ]; then
+        treehouses wifi $wifiname $wifipassword
+      else
+        treehouses wifi $wifiname $wifipassword $identity
+      fi
+    else
+      if [ -z $identity ]; then
+        treehouses wifihidden $wifiname $wifipassword
+      else
+        treehouses wifihidden $wifiname $wifipassword $identity
+      fi
+    fi;;
   "apinternet")
-    treehouses ap internet $hotspotname $hotspotpassword;;
+    if [ "$hidden" == "false" ]; then
+      treehouses ap internet $hotspotname $hotspotpassword
+    else
+      treehouses aphidden internet $hotspotname $hotspotpassword
+    fi;;
   "aplocal")
-    treehouses ap local $hotspotname $hotspotpassword;;
+    if [ "$hidden" == "false" ]; then
+      treehouses ap local $hotspotname $hotspotpassword
+    else
+      treehouses aphidden local $hotspotname $hotspotpassword
+    fi;;
   "bridge")
     treehouses bridge $wifiname $hotspotname $wifipassword $hotspotpassword;;
   *)
