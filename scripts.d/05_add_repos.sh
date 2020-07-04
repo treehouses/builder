@@ -39,6 +39,7 @@ ADD_REPOS=(
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
     "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
     "deb http://security.debian.org/debian-security jessie/updates main contrib non-free"
+    "deb http://deb.debian.org/debian stretch-backports main"
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
