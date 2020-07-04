@@ -39,9 +39,18 @@ INSTALL_PACKAGES=(
     imagemagick # tiv
 )
 
+INSTALL_BACKPORTS=(
+    quicksynergy
+)
+
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
     _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
+fi
+
+if [[ ${INSTALL_BACKPORTS:-} ]] ; then
+    echo "Installing ${INSTALL_BACKPORTS[*]}"
+    _apt install -t sretch-backports "${INSTALL_BACKPORTS[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
 
 _op _chroot apt-mark hold tor #TODO bring back to upstream
