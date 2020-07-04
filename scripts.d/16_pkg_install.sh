@@ -50,7 +50,7 @@ fi
 
 if [[ ${INSTALL_BACKPORTS:-} ]] ; then
     echo "Installing ${INSTALL_BACKPORTS[*]}"
-    _apt install -t sretch-backports "${INSTALL_BACKPORTS[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
+    _apt install -t stretch-backports "${INSTALL_BACKPORTS[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
 
 _op _chroot apt-mark hold tor #TODO bring back to upstream
