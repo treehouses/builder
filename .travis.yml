@@ -1,49 +1,44 @@
 sudo: required
 dist: bionic
-
 language: go
 go:
-  - "1.14.x"
-
+- 1.14.x
 services:
-  - docker
-
+- docker
 before_install:
-  - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
-  - sudo apt-get update
-  - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
-
+- sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal
+  universe"
+- sudo apt-get update
+- sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
 addons:
   apt:
     packages:
-      - kpartx
-      - aria2
-      - tree
-      - python-requests
-
+    - kpartx
+    - aria2
+    - tree
+    - python-requests
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
-
 env:
   global:
-    - secure: "ukHo+YrG6xulVlk3WuZd9ITOlbUiCKEApWZdy0pHkSb5QvOh4k92aPkQfNYec3Kvy878FaRY4jog2EzYCOfnuuGPilKlywgsEAajr5Ox3wj082D2plRsDVW3UjaHaeUxQjJw5yRPfjd1k3MFJfLrVMS2J8Uf0DzCFlnjAdm77AF+MrQN1HP2XdzWb3AkPqHAE/IgxdJqVf6dlgSerl1cAHhqeLvA2gR4HJPPmPc5OYEH+QCMOmNJ2zONjKd5W3mnZlQwnVJ2AcfT7L7w68uqvS/IulPhWXjFy6VSOYi7HJRxezPzf7thL5W/0z8oCcUPvTgbePNAq+g7N3nP6QGDwdYsTzrWoRTwkcpPkB9biWOwXv+TgAD3PyptWUX9XfgAYfsN4iUBKYqSTiNMsknEdo1YAQCxQomZdELkBfrjxYzXXfeoqv44c2fUUBLso5siDhs+9R1k76JeHFpOObUmwlGBHf/TM9LUhaHTdSSIoscxo44VmHSkx06kUwxvKJVNzRQPJdJQK6phLKf4W4bwiRlX+6mh2Y/El2uTfqv2fNmLVvTpQOa0e5BqO4WpONxWVBIerl//Ccxk3SEdfCbxeLQaDwFeMf0k7NvxF6HNslao0Mp9TutIvYaDWtig+TaVO4X5bA4pNCno0i9EwWcs3MNHFtspCdol3GuSHbM6HO8="
-    - secure: "GBG1xY1vpnL5Popsq/qNGlFsRdnOut5eEMGM1LgPj2aneOf1ioocbizMjYhzQEMVLqYE0w7gm/DZZogZZ442sKSdRWraCGpwcZt+Xf61WbdzRDGQbTbV8oNlNlsJA51+iM/kY5uHjPkBNJIrZLEcxwEyUCgLKWM0FN1cijgG3NMEwVStoXH+2csOtyENG5bWBe0zZzhA9zK/0FxO/vv1OFjE0ICW1iITmRlMJ1zi/GT9g8hGydCM3DZV3Tr9vOFD2K7QodnlJgujm2PNG9bmDLDGI7AWO49hml5wx8zPQoqMqcWszd+2sgIjSxv18LRzNMnJ6b2tK6l0TohxlmNI1fbfiQih/NomuxjG991Z6ypXCURPWp5n8lqyHYrZ2JGqSd30cxqJGZw7lV65YIl7IMRTNnjEWYrXCz2B5UpZGQ2oFWw80hnQb7xe2jEaWfD9wgEYfIvsMU8L/MpTQE8eC7B/ioU4BQ8GvLoDcolXQEcvJ4YsPXlpPsrYPkZBhE+CGCzUuLY80m1YGU7OQhkrk57wyaMuV5vu5ZFYdGHUTAo2aGqg45XFJjhSgAm/VnS4jv10gK/ZGUzO0+cpzN3jhLkeK3U5JXiYc2+mC/32rtb30gDOYsV64/2nRlXPVuyA1UBDX6M2BDq6MrkRPFFMMmyoMsnqaPGFMNc9Iu0e4lk="
-
+  - secure: ukHo+YrG6xulVlk3WuZd9ITOlbUiCKEApWZdy0pHkSb5QvOh4k92aPkQfNYec3Kvy878FaRY4jog2EzYCOfnuuGPilKlywgsEAajr5Ox3wj082D2plRsDVW3UjaHaeUxQjJw5yRPfjd1k3MFJfLrVMS2J8Uf0DzCFlnjAdm77AF+MrQN1HP2XdzWb3AkPqHAE/IgxdJqVf6dlgSerl1cAHhqeLvA2gR4HJPPmPc5OYEH+QCMOmNJ2zONjKd5W3mnZlQwnVJ2AcfT7L7w68uqvS/IulPhWXjFy6VSOYi7HJRxezPzf7thL5W/0z8oCcUPvTgbePNAq+g7N3nP6QGDwdYsTzrWoRTwkcpPkB9biWOwXv+TgAD3PyptWUX9XfgAYfsN4iUBKYqSTiNMsknEdo1YAQCxQomZdELkBfrjxYzXXfeoqv44c2fUUBLso5siDhs+9R1k76JeHFpOObUmwlGBHf/TM9LUhaHTdSSIoscxo44VmHSkx06kUwxvKJVNzRQPJdJQK6phLKf4W4bwiRlX+6mh2Y/El2uTfqv2fNmLVvTpQOa0e5BqO4WpONxWVBIerl//Ccxk3SEdfCbxeLQaDwFeMf0k7NvxF6HNslao0Mp9TutIvYaDWtig+TaVO4X5bA4pNCno0i9EwWcs3MNHFtspCdol3GuSHbM6HO8=
+  - secure: GBG1xY1vpnL5Popsq/qNGlFsRdnOut5eEMGM1LgPj2aneOf1ioocbizMjYhzQEMVLqYE0w7gm/DZZogZZ442sKSdRWraCGpwcZt+Xf61WbdzRDGQbTbV8oNlNlsJA51+iM/kY5uHjPkBNJIrZLEcxwEyUCgLKWM0FN1cijgG3NMEwVStoXH+2csOtyENG5bWBe0zZzhA9zK/0FxO/vv1OFjE0ICW1iITmRlMJ1zi/GT9g8hGydCM3DZV3Tr9vOFD2K7QodnlJgujm2PNG9bmDLDGI7AWO49hml5wx8zPQoqMqcWszd+2sgIjSxv18LRzNMnJ6b2tK6l0TohxlmNI1fbfiQih/NomuxjG991Z6ypXCURPWp5n8lqyHYrZ2JGqSd30cxqJGZw7lV65YIl7IMRTNnjEWYrXCz2B5UpZGQ2oFWw80hnQb7xe2jEaWfD9wgEYfIvsMU8L/MpTQE8eC7B/ioU4BQ8GvLoDcolXQEcvJ4YsPXlpPsrYPkZBhE+CGCzUuLY80m1YGU7OQhkrk57wyaMuV5vu5ZFYdGHUTAo2aGqg45XFJjhSgAm/VnS4jv10gK/ZGUzO0+cpzN3jhLkeK3U5JXiYc2+mC/32rtb30gDOYsV64/2nRlXPVuyA1UBDX6M2BDq6MrkRPFFMMmyoMsnqaPGFMNc9Iu0e4lk=
 before_deploy:
-  - echo "$ssh_deploy_key" | base64 --decode --ignore-garbage > .travis/id_deploy
-  - . .travis/environment.sh
-  - echo "$experiment"
-  - echo "$image_path"
-
+- echo "$ssh_deploy_key" | base64 --decode --ignore-garbage > .travis/id_deploy
+- ". .travis/environment.sh"
+- echo "$experiment"
+- echo "$image_path"
 deploy:
+  matrix:
   - provider: script
-    script: ./.travis/compress.sh
+    script: "./.travis/compress.sh"
     skip_cleanup: true
     on:
       all_branches: true
       tags: true
   - provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
-    secret_access_key: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
+    secret_access_key:
+      secure: w+6uCk8SRSvkGWa91Hu8BUyeBZL4jPKelc2YoQv0d++NmrTIUTpNfKf/uEtFzTJ74zpbfeB4NZFRZTWq6FqCkWiY/HsqTcUpYXtVy/sKoM3TIyHT9cnwgPuaIIklJa7tZdjRAKoV1arTzY+pT1dlGzdPPz0KYBDRokcg9uoeyBZHeVLts1y8vuxRYCwtXb116Lk1lbIvrHlO+QwVbgAVDwxg4mm/C8l1wp9DgraRcnpC8nn5fQY/sfPmLreJsFl94TyPhDdqOFarL0ZRyr/Eun7WBDuq1iAxodJRnemN4UIc7+coM/i4NjsUJNwOY98fukrxqO+VnDGQseOHKw5d3J5Xp+cbX0BKKqphIGp5QrKmZgu7yoaitkHvxmVuhD6sNfsZ4jT8u6ernFc6tqb8gr/wJ6qEgbYGommr6G4jUj2sh
     bucket: treehouses
     local-dir: build
     skip_cleanup: true
@@ -52,7 +47,8 @@ deploy:
       tags: true
   - provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
-    secret_access_key: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
+    secret_access_key:
+      secure: w+6uCk8SRSvkGWa91Hu8BUyeBZL4jPKelc2YoQv0d++NmrTIUTpNfKf/uEtFzTJ74zpbfeB4NZFRZTWq6FqCkWiY/HsqTcUpYXtVy/sKoM3TIyHT9cnwgPuaIIklJa7tZdjRAKoV1arTzY+pT1dlGzdPPz0KYBDRokcg9uoeyBZHeVLts1y8vuxRYCwtXb116Lk1lbIvrHlO+QwVbgAVDwxg4mm/C8l1wp9DgraRcnpC8nn5fQY/sfPmLreJsFl94TyPhDdqOFarL0ZRyr/Eun7WBDuq1iAxodJRnemN4UIc7+coM/i4NjsUJNwOY98fukrxqO+VnDGQseOHKw5d3J5Xp+cbX0BKKqphIGp5QrKmZgu7yoaitkHvxmVuhD6sNfsZ4jT8u6ernFc6tqb8gr/wJ6qEgbYGommr6G4jUj2sh
     bucket: treehouses
     local-dir: build
     upload-dir: experiment
@@ -62,18 +58,18 @@ deploy:
       tags: true
   - provider: script
     skip_cleanup: true
-    script: ./.travis/upload.sh
+    script: "./.travis/upload.sh"
     on:
       all_branches: true
       tags: true
-      
+  secret_access_key:
+    secure: eGWbyJ3ePz7ympo9+AxMJoyMfWOqfXfhaEltKSpknOKQqBxWPcFLw3zyfD0AgpJseGbcWK9IkjdSZ6AvZizOKbf1zBIO9Fn+Cf52UUGYoujQ7KKC/n5bSz8v+kKDQj7NvYfcWMjy+hAJlcFiwH6GzFapaHiZgaFLPMEtZ59hotTHLGj97hdCYMJ1je6JBhSwDVm1GEGoFU3+K7rIn8fwDMa2WXYNw/WX8WpfbcpfABMjaJ06yjEkNoulRw6+3FzpymExa525G/6hYUULoMd8vVS0A8VmMRQFezjMsDbsMjx5BjLA5om315BjhC5sEJy6cAB91wFK6XbnhZNI2+3vPGdoGBVAAeaJWKutRCFp/IphaQFdZDbtiD24QW/slqr74dhWDav4XLFwn+M3WcFfghm3ryc7N+s/Zh85Xdlm3SJ/DQcP9//0wR33w/Nft9nTwxFabyb9D8+OGhM27Ekf0rhmf8KZF0qrEZjGOkoDprAIqVhTjZachTtvBFskcIPxwNXZKNXHxdkyhYBxyXUp5t5ad5sv/KAiQZb22j6OtjTq4cZ02hLPH0aaG8n0pCAjfLL+O+Ar3w5h2Ygs5x5kM0VEvtP3d7NYqBUtyY5nB22WK3XVizQsF3iwOMxbXFjRYPxOIBu2HWTDYCnyglkOYfyRxfPSYmziWrbCgyAigjE=
 after_deploy:
-  - "echo Download url: http://download.treehouses.io/$image_path"
-
+- 'echo Download url: http://download.treehouses.io/$image_path'
 notifications:
   webhooks:
     urls:
-      - secure: "jEmKk13o+RGavkZJ1PpqUX2PvKOEGyec/BmtWZG9h2vBu6xXeW4nN/qfjucGeuYAWUzhYy8bDQTIa+FpFzgejPKyh3+LnSVtKtVSVdfnuJidqFfcS1xEPGbrHyuG8hGikCmicUVY+/s/dmxwTjnHFQRpGGd9uRXFRst1fksujQQFLlusEReRPkXSMrJtwaetiQPTKml+C+37OXOQUgNExQQ/EhDPDN6vl7cCkvF/8eTvRL6yi9BSQEbX0/1pCiMocOHiTHdbBr5nD1jCYMZeSnu/KYuWZbOXTUkEVCj6Mnzl10fTB8xvMxof7P43GrSgGWu9Z2U/ldcgBNIIgQ+ichABHcVDOxhba0bxb3Lb23wZcXJPqr1GYwIMjsecAVxON4FduXvdaUU125pYhnHFQMDY6/RNQs7e5NpiQu135Vo9pUo3QadQZqUkWqWE/AcHp+WTj6oEIao96VGIcAy3kHIbuHGs5UuE4a2mSZI7Z0CH1pKXTZ4BiP1tj6KhqYCYt7C1ESGg8osY+bq4bFc6BxtToxsnqvbKWiSLXippdxRRs5hSc8JZ+rJRVTzWqb1EuKK494LdTJytGXzCp6qrj1uaA/uyleZBNTEQ39RGXE8845yoLApgNwUyS0GyfmVMi8kojx6N6EQ+t0YLjQYkeMrmchhlRv84rA95HsnW01o="
-    on_success: always # one of: always, never, change
+    - secure: jEmKk13o+RGavkZJ1PpqUX2PvKOEGyec/BmtWZG9h2vBu6xXeW4nN/qfjucGeuYAWUzhYy8bDQTIa+FpFzgejPKyh3+LnSVtKtVSVdfnuJidqFfcS1xEPGbrHyuG8hGikCmicUVY+/s/dmxwTjnHFQRpGGd9uRXFRst1fksujQQFLlusEReRPkXSMrJtwaetiQPTKml+C+37OXOQUgNExQQ/EhDPDN6vl7cCkvF/8eTvRL6yi9BSQEbX0/1pCiMocOHiTHdbBr5nD1jCYMZeSnu/KYuWZbOXTUkEVCj6Mnzl10fTB8xvMxof7P43GrSgGWu9Z2U/ldcgBNIIgQ+ichABHcVDOxhba0bxb3Lb23wZcXJPqr1GYwIMjsecAVxON4FduXvdaUU125pYhnHFQMDY6/RNQs7e5NpiQu135Vo9pUo3QadQZqUkWqWE/AcHp+WTj6oEIao96VGIcAy3kHIbuHGs5UuE4a2mSZI7Z0CH1pKXTZ4BiP1tj6KhqYCYt7C1ESGg8osY+bq4bFc6BxtToxsnqvbKWiSLXippdxRRs5hSc8JZ+rJRVTzWqb1EuKK494LdTJytGXzCp6qrj1uaA/uyleZBNTEQ39RGXE8845yoLApgNwUyS0GyfmVMi8kojx6N6EQ+t0YLjQYkeMrmchhlRv84rA95HsnW01o=
+    on_success: always
     on_failure: always
     on_start: always
