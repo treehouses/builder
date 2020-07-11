@@ -27,8 +27,7 @@ before_deploy:
 - echo "$experiment"
 - echo "$image_path"
 deploy:
-  matrix:
-  - provider: script
+    provider: script
     script: "./.travis/compress.sh"
     skip_cleanup: true
     on:
