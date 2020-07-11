@@ -42,8 +42,7 @@ deploy:
       all_branches: true
       tags: true
   - provider: s3
-    access_key_id:
-      secure: ew8R6JpxTi0XnEzidu3Duqy9w6L7C2xkNB4HwLZabRdfJk7zoOWkear/9TRxJ4XdXZJoTGK084dyD+gzPDX2bYSYzAEYLOIbYZlvXfm2zYAn2MuW8A/H5juftcItHANKL6sgt1xCJN8h/4B1uGFUzBAhgwUK8rd8+dB7k48BQpwa/D5cSq6CNmFwzTzzykE6DaehokgMzdYSwMLEl8P6PySMue/bZKbWmqFB4QsXp4E7C+ROjbc1Bvopx4UfL1BxCR1sDvd5ZFABe8vvhiwCHIKSwYAgnCWWvmpYYRl83gox0i85tNHk3YmdLrIRGlew351Kbi6nFHFJh/t8PwtrLAiyfxovgkMk844M1FlIOrxa5ZYn0earpnNJG/20wmsKB0Ks/RycHdL4xrXLUGO/DOj8mXVBojJls2fs0wwNUYYl2EEROdE2JaBudaMQhtdRf0uA/hUrjU6Rg/iICYr4g/Oc+IVAXBMkeoCmsC+vH2e
+    access_key_id: AKIATDYQ6VBWOJQCDJ4F
     secret_access_key:
       secure: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
     bucket: treehouses
@@ -53,8 +52,7 @@ deploy:
       condition: "$experiment = latest"
       tags: true
   - provider: s3
-    access_key_id:
-      secure: ew8R6JpxTi0XnEzidu3Duqy9w6L7C2xkNB4HwLZabRdfJk7zoOWkear/9TRxJ4XdXZJoTGK084dyD+gzPDX2bYSYzAEYLOIbYZlvXfm2zYAn2MuW8A/H5juftcItHANKL6sgt1xCJN8h/4B1uGFUzBAhgwUK8rd8+dB7k48BQpwa/D5cSq6CNmFwzTzzykE6DaehokgMzdYSwMLEl8P6PySMue/bZKbWmqFB4QsXp4E7C+ROjbc1Bvopx4UfL1BxCR1sDvd5ZFABe8vvhiwCHIKSwYAgnCWWvmpYYRl83gox0i85tNHk3YmdLrIRGlew351Kbi6nFHFJh/t8PwtrLAiyfxovgkMk844M1FlIOrxa5ZYn0earpnNJG/20wmsKB0Ks/RycHdL4xrXLUGO/DOj8mXVBojJls2fs0wwNUYYl2EEROdE2JaBudaMQhtdRf0uA/hUrjU6Rg/iICYr4g/Oc+IVAXBMkeoCmsC+vH2e
+    access_key_id: AKIATDYQ6VBWOJQCDJ4F
     secret_access_key:
       secure: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
     bucket: treehouses
