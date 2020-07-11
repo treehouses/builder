@@ -43,8 +43,7 @@ deploy:
       tags: true
   - provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
-    secret_access_key:
-      secure: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
+    secret_access_key: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
     bucket: treehouses
     local-dir: build
     skip_cleanup: true
@@ -53,8 +52,7 @@ deploy:
       tags: true
   - provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
-    secret_access_key:
-      secure: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
+    secret_access_key: S2GC+amSYOit6C7ZLrjmpnSa3+g2ab+l/3hsCdhwdkFu1ef4xPRaRZTDFa+CFVzPARV0Xd0MKMprpGc5Vb3QAPBpN8t9csarDIHItktfTHxKOmZvOLUCRH9PquUUamVH0QU0Nbw02mKtDfJpaTsOuW22XoHyPCXSgNSFfe8iZFqOxT2UCI82aiSpC26EYKY4zqdw2QH2NIYQXG+m+bi5li+y70jhmK3SY+lgr/9pP5+GpX6VXTP0axjGq/NsKA6xOKYfFdiEy3mLerVIls1WLJ7EKS/2wDiXd58ziRoNBlmMurbBvXuSS45JBLEFwgxo/SBOJtV7fYxBmj77xpLaZOWOafyDg6wF0lKOt97/Xixgl0vEvV5Rd16nVnDXN5PjDdX73w9w6Bv3w/zPQlm62ixz5UIGIS5RsgmhxkJSrBxqjABcfwwDqm5D80X8u3XJ/4D03XsgGLtX4z2MFxWSUD9i5BaCj6RrujTwOypAE/W
     bucket: treehouses
     local-dir: build
     upload-dir: experiment
