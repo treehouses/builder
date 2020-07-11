@@ -37,6 +37,7 @@ INSTALL_PACKAGES=(
     bats # unit testing
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
     imagemagick # tiv
+    python3-bcrypt python3-nacl # fix slow pip
 )
 
 #INSTALL_BACKPORTS=(
