@@ -6,8 +6,7 @@ go:
 services:
 - docker
 before_install:
-- sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal
-  universe"
+- sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
 - sudo apt-get update
 - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
 addons:
@@ -62,8 +61,6 @@ deploy:
     on:
       all_branches: true
       tags: true
-  secret_access_key:
-    secure: eGWbyJ3ePz7ympo9+AxMJoyMfWOqfXfhaEltKSpknOKQqBxWPcFLw3zyfD0AgpJseGbcWK9IkjdSZ6AvZizOKbf1zBIO9Fn+Cf52UUGYoujQ7KKC/n5bSz8v+kKDQj7NvYfcWMjy+hAJlcFiwH6GzFapaHiZgaFLPMEtZ59hotTHLGj97hdCYMJ1je6JBhSwDVm1GEGoFU3+K7rIn8fwDMa2WXYNw/WX8WpfbcpfABMjaJ06yjEkNoulRw6+3FzpymExa525G/6hYUULoMd8vVS0A8VmMRQFezjMsDbsMjx5BjLA5om315BjhC5sEJy6cAB91wFK6XbnhZNI2+3vPGdoGBVAAeaJWKutRCFp/IphaQFdZDbtiD24QW/slqr74dhWDav4XLFwn+M3WcFfghm3ryc7N+s/Zh85Xdlm3SJ/DQcP9//0wR33w/Nft9nTwxFabyb9D8+OGhM27Ekf0rhmf8KZF0qrEZjGOkoDprAIqVhTjZachTtvBFskcIPxwNXZKNXHxdkyhYBxyXUp5t5ad5sv/KAiQZb22j6OtjTq4cZ02hLPH0aaG8n0pCAjfLL+O+Ar3w5h2Ygs5x5kM0VEvtP3d7NYqBUtyY5nB22WK3XVizQsF3iwOMxbXFjRYPxOIBu2HWTDYCnyglkOYfyRxfPSYmziWrbCgyAigjE=
 after_deploy:
 - 'echo Download url: http://download.treehouses.io/$image_path'
 notifications:
