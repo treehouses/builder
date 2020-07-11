@@ -37,7 +37,7 @@ INSTALL_PACKAGES=(
     bats # unit testing
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
     imagemagick # tiv
-    python-bcrypt # fix slow pip
+    python-bcrypt python-nacl # fix slow pip
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
