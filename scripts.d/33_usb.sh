@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 source lib.sh
 
 _op _chroot wget https://raw.githubusercontent.com/codazoda/hub-ctrl.c/master/hub-ctrl.c
