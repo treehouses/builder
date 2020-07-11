@@ -34,20 +34,20 @@ deploy:
     on:
       all_branches: true
       tags: true
-  - provider: s3
+    provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
     secret_access_key:
-      secure: w+6uCk8SRSvkGWa91Hu8BUyeBZL4jPKelc2YoQv0d++NmrTIUTpNfKf/uEtFzTJ74zpbfeB4NZFRZTWq6FqCkWiY/HsqTcUpYXtVy/sKoM3TIyHT9cnwgPuaIIklJa7tZdjRAKoV1arTzY+pT1dlGzdPPz0KYBDRokcg9uoeyBZHeVLts1y8vuxRYCwtXb116Lk1lbIvrHlO+QwVbgAVDwxg4mm/C8l1wp9DgraRcnpC8nn5fQY/sfPmLreJsFl94TyPhDdqOFarL0ZRyr/Eun7WBDuq1iAxodJRnemN4UIc7+coM/i4NjsUJNwOY98fukrxqO+VnDGQseOHKw5d3J5Xp+cbX0BKKqphIGp5QrKmZgu7yoaitkHvxmVuhD6sNfsZ4jT8u6ernFc6tqb8gr/wJ6qEgbYGommr6G4jUj2sh
+      secure: NjG9I0UftIZeU81cw6lVHKqbVD2tktHbNatRDtRWOe/TUVqJVC6MJ3zTy6xyNWo0OzzXQJWVG63m9NLKk+oMKsMQptxcfE3tNIHF6ZDLnKjF6zQDbMBPd0XMoHT/2m+Qr/FClj0qESYeejLRUsiAcuhOSflN1Z2ZYxAwOkeZeOBLx60511HQjw/UueZMerSXPP/Ktzjup3Es8rV0BMxSa9I8C3h/8kP/utmpr6gzCxck8u8ZbreCjqFXCl9O4I3KF9yLAMkKTVAPdTeT/pnZXiqJnlbAl7YwrgPGLWeDIGvBLzZv4mdOT9S+Zp4sL/rMIgoHHcRL1DjnQjCrZ4MwhXfSZnk8R7SBPiYKyuBqg6kIxlb93r1DZR7Ax1QUiNvIYjKTuhT3CX/lO/pYok6dMm
     bucket: treehouses
     local-dir: build
     skip_cleanup: true
     on:
       condition: "$experiment = latest"
       tags: true
-  - provider: s3
+    provider: s3
     access_key_id: AKIATDYQ6VBWOJQCDJ4F
     secret_access_key:
-      secure: w+6uCk8SRSvkGWa91Hu8BUyeBZL4jPKelc2YoQv0d++NmrTIUTpNfKf/uEtFzTJ74zpbfeB4NZFRZTWq6FqCkWiY/HsqTcUpYXtVy/sKoM3TIyHT9cnwgPuaIIklJa7tZdjRAKoV1arTzY+pT1dlGzdPPz0KYBDRokcg9uoeyBZHeVLts1y8vuxRYCwtXb116Lk1lbIvrHlO+QwVbgAVDwxg4mm/C8l1wp9DgraRcnpC8nn5fQY/sfPmLreJsFl94TyPhDdqOFarL0ZRyr/Eun7WBDuq1iAxodJRnemN4UIc7+coM/i4NjsUJNwOY98fukrxqO+VnDGQseOHKw5d3J5Xp+cbX0BKKqphIGp5QrKmZgu7yoaitkHvxmVuhD6sNfsZ4jT8u6ernFc6tqb8gr/wJ6qEgbYGommr6G4jUj2sh
+      secure: NjG9I0UftIZeU81cw6lVHKqbVD2tktHbNatRDtRWOe/TUVqJVC6MJ3zTy6xyNWo0OzzXQJWVG63m9NLKk+oMKsMQptxcfE3tNIHF6ZDLnKjF6zQDbMBPd0XMoHT/2m+Qr/FClj0qESYeejLRUsiAcuhOSflN1Z2ZYxAwOkeZeOBLx60511HQjw/UueZMerSXPP/Ktzjup3Es8rV0BMxSa9I8C3h/8kP/utmpr6gzCxck8u8ZbreCjqFXCl9O4I3KF9yLAMkKTVAPdTeT/pnZXiqJnlbAl7YwrgPGLWeDIGvBLzZv4mdOT9S+Zp4sL/rMIgoHHcRL1DjnQjCrZ4MwhXfSZnk8R7SBPiYKyuBqg6kIxlb93r1DZR7Ax1QUiNvIYjKTuhT3CX/lO/pYok6dMm
     bucket: treehouses
     local-dir: build
     upload-dir: experiment
@@ -55,7 +55,7 @@ deploy:
     on:
       condition: "$experiment = branch"
       tags: true
-  - provider: script
+    provider: script
     skip_cleanup: true
     script: "./.travis/upload.sh"
     on:
