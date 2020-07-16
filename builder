@@ -148,7 +148,7 @@ function _close_image {
 function _prepare_chroot {
     _disable_ld_preload
 
-    cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
+    cp -a "$(type -p qemu-aarch64-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     _chroot date &>/dev/null || die "Could not chroot date"
 
     mount -t devpts devpts -o noexec,nosuid,gid=5,mode=620 mnt/img_root/dev/pts || die "Could not mount /dev/pts"
@@ -260,7 +260,15 @@ if [ ! -e "$IMAGE_ZIP" ]; then
 fi
 
 _decompress_image
-_resize_image
+_resize_imageN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-05-28/2020-05-27-raspios-buster-arm64.zip.torrent
+
+#RASPBIAN_SHA256=b9a5c5321b3145e605b3bcd297ca9ffc350ecb1844880afd8fb75a7589b7bd04
+RASPBIAN_SHA256=d06d8eecfa3980e18f9061777ca2dac50d98037373e1bd04e8726d79467dc7c7
+
+RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
+
+EXTRA_IMAGE_SIZE=1850MB
+
 _open_image
 
 if [[ "$1" == "--chroot" ]] ; then
