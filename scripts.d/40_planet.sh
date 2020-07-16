@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 source lib.sh
 
 planetdir='tenalp'
