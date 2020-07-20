@@ -20,6 +20,7 @@ INSTALL_PACKAGES=(
     tor=0.3.5.10-1 #TODO bring back to upstream
     openvpn
     shadowsocks-libev proxychains4 # socks5 proxy
+    libpam-google-authenticator # two factor authentication
     jq # for parsing json / treehouses command
     net-tools # netstat
     iproute2 # ss command
