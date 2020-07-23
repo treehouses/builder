@@ -168,8 +168,8 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf("%dK\n",$4)}')
-    echo "Space left: ${space_left}"
+    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf("%d\n",$4)}')
+    echo "Space left: ${space_left}K"
 }
 
 function _count_authorized_keys_lines {
