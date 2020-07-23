@@ -168,7 +168,11 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf("%d\n",$4)}')
+    echo "dftest1"
+    df
+    echo "dftest2"
+    df | grep "dev/mapper"
+    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf $4}')
     echo "Space left: ${space_left}K"
 }
 
