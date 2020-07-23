@@ -275,10 +275,10 @@ else
     die "Usage error. Try $0 --help"
 fi
 
-if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
-    echo "Not enough space left."
-    exit 1
-fi
+#if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
+#    echo "Not enough space left."
+#    exit 1
+#fi
 
 if [[ $authorized_keys_lines -le 20 ]]; then
     echo "/root/.ssh/authorized_keys has 20 line or less."
