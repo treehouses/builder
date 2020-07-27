@@ -175,7 +175,7 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep "dev/mapper/loop$BASE_LOOP\p2" | awk '{printf $4}')
+    space_left=$(df | grep "dev/mapper/loop$LOOP_BASE\p2" | awk '{printf $4}')
     echo "Space left: ${space_left}K"
 }
 
