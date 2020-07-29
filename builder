@@ -93,7 +93,7 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    LOOP_BASE=$(df | grep 'loop' | wc -l) #formerly loop0, loop1, loop2
+    LOOP_BASE=$(losetup -a | grep 'loop' | wc -l) #formerly loop0, loop1, loop2
     echo "LOOP BASE: $LOOP_BASE"
     LOOP_ONE=$(( $LOOP_BASE + 1 ))
     echo "LOOP ONE: $LOOP_ONE"
@@ -127,7 +127,7 @@ EOF
 
 function _open_image {
     echo "Stupid Snaps"
-    df -h | grep 'loop'
+    losetup -a | grep 'loop'
     echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
