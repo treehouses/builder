@@ -93,11 +93,11 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    LOOP_BASE=$(losetup -a | grep 'loop' | wc -l) #formerly loop0, loop1, loop2
+    LOOP_BASE=$(losetup -a | grep -c 'loop') #formerly loop0, loop1, loop2
     echo "LOOP BASE: $LOOP_BASE"
-    LOOP_ONE=$(( $LOOP_BASE + 1 ))
+    LOOP_ONE=$(( LOOP_BASE + 1 ))
     echo "LOOP ONE: $LOOP_ONE"
-    LOOP_TWO=$(( $LOOP_BASE + 2 ))
+    LOOP_TWO=$(( LOOP_BASE + 2 ))
     echo "LOOP TWO: $LOOP_TWO"
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
     losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
