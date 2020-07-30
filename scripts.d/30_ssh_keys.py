@@ -1,6 +1,6 @@
-# #!/usr/bin/env python3
+#!/usr/bin/env python3
 # # Obtain the public ssh keys of each of the public members of open-learning-exchange organization
-
+print("Hello")
 # import requests
 # import os
 
