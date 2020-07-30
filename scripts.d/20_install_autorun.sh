@@ -18,5 +18,5 @@ WantedBy=multi-user.target
 
 EOF
 
-mkdir -p "mnt/img_root/etc/systemd/system/multi-user.target"
-_op _chroot ln -sr /etc/systemd/system/autorun.service /etc/systemd/system/multi-user.target/autorun.service
+mkdir -p "mnt/img_root/etc/systemd/system/multi-user.target.wants"
+_op _chroot ln -sr /etc/systemd/system/autorun.service /etc/systemd/system/multi-user.target.wants/autorun.service
