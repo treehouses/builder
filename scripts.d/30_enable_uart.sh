@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0 
 set -e
 
 ROOT=mnt/img_root

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+exit 0 
 # Obtain the public ssh keys of each of the public members of open-learning-exchange organization
 
 import requests

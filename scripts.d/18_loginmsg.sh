@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0 
 motd=mnt/img_root/etc/motd
 green="\033[1;32m"
 red="\033[0;31m"

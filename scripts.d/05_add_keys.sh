@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0 
 source lib.sh
 
 # List of extra GPG keys to import from the LOCAL SYSTEM!

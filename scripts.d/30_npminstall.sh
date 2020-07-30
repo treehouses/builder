@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0 
 source lib.sh
 
 echo "Installing @treehouses/cli script"
