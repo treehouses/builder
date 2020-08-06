@@ -19,7 +19,7 @@ INSTALL_PACKAGES=(
     rng-tools # for ap bridge
     tor=0.3.5.10-1 #TODO bring back to upstream
     openvpn
-    libreadline-dev libconfig-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev libssl1.0-dev # telegram-cli
+    libreadline-dev libconfig-dev lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev libssl-dev libgcrypt20-dev # telegram-cli
     shadowsocks-libev proxychains4 # socks5 proxy
     libpam-google-authenticator # two factor authentication
     jq # for parsing json / treehouses command
