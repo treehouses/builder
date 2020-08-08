@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << EOF > /etc/rc.local
+cat << EOF > mnt/img_root/etc/rc.local
 #!/bin/sh -e
 #
 # rc.local
