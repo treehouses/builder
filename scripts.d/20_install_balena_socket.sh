@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << EOF > /etc/systemd/system/balena.socket
+cat << EOF > mnt/img_root/etc/systemd/system/balena.socket
 [Unit]
 Description=Balena Socket for the API
 PartOf=balena.service
