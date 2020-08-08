@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << EOF > /usr/local/bin/do_autorun
+cat << EOF > mnt/img_root/usr/local/bin/do_autorun
 #!/bin/bash
 
 rebootrequired=0
