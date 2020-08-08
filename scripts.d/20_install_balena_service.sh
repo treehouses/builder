@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << EOF > /etc/systemd/system/balena.service
+cat << EOF > mnt/img_root/etc/systemd/system/balena.service
 [Unit]
 Description=Balena Application Container Engine
 Documentation=https://www.balena.io/engine/
