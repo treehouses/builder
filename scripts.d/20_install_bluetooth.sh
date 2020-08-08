@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat << EOF > /etc/systemd/system/rpibluetooth.service
+cat << EOF > mnt/img_root/etc/systemd/system/rpibluetooth.service
 [Unit]
 Description=Bluetooth server
 After=rpibluetooth.service
