@@ -1,5 +1,6 @@
 #!/bin/bash
 
+_apt update || die "Could not update package sources"
 exit 0
 
 source lib.sh
