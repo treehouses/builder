@@ -29,6 +29,17 @@ _op _chroot apt-mark hold lxplug-network
 _op _chroot apt-mark hold lxplug-ptbatt
 _op _chroot apt-mark hold lxplug-volume
 
+_op _chroot apt-mark hold libraspberrypi-bin
+_op _chroot apt-mark hold libraspberrypi-dev
+_op _chroot apt-mark hold libraspberrypi-doc
+_op _chroot apt-mark hold libraspberrypi0
+_op _chroot apt-mark hold pi-bluetooth
+_op _chroot apt-mark hold pi-greeter
+_op _chroot apt-mark hold pi-package
+_op _chroot apt-mark hold pi-package-data
+_op _chroot apt-mark hold pi-package-session
+_op _chroot apt-mark hold raspberrypi-sys-mods
+
 
 echo "Installing Updates"
 _apt update || die "Could not update package sources"
@@ -55,6 +66,18 @@ _op _chroot apt-mark unhold lxplug-network
 _op _chroot apt-mark unhold lxplug-ptbatt
 _op _chroot apt-mark unhold lxplug-volume
 
+_op _chroot apt-mark unhold libraspberrypi-bin
+_op _chroot apt-mark unhold libraspberrypi-dev
+_op _chroot apt-mark unhold libraspberrypi-doc
+_op _chroot apt-mark unhold libraspberrypi0
+_op _chroot apt-mark unhold pi-bluetooth
+_op _chroot apt-mark unhold pi-greeter
+_op _chroot apt-mark unhold pi-package
+_op _chroot apt-mark unhold pi-package-data
+_op _chroot apt-mark unhold pi-package-session
+_op _chroot apt-mark unhold raspberrypi-sys-mods
+
+
 exit 0
 
 libinput-bin
@@ -66,20 +89,11 @@ libnss3
 libopenmpt-modplug1
 libopenmpt0
 libpostproc55
-libraspberrypi-bin
-libraspberrypi-dev
-libraspberrypi-doc
-libraspberrypi0
 libswresample3
 libswscale5
 libunwind8
 libwebkit2gtk-4.0-37
 pcmanfm
-pi-bluetooth
-pi-greeter
-pi-package
-pi-package-data
-pi-package-session
 piclone
 pipanel
 piwiz
@@ -87,7 +101,6 @@ pprompt
 raspberrypi-bootloader
 raspberrypi-kernel
 raspberrypi-kernel-headers
-raspberrypi-sys-mods
 raspi-config
 realvnc-vnc-server
 rp-bookshelf
