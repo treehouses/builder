@@ -13,6 +13,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
   - sudo apt-get install gnupg2 pass
+  - sudo apt-get upgrade
 addons:
   apt:
     packages:
@@ -20,7 +21,6 @@ addons:
       - aria2
       - tree
       - python-requests
-      - gnupg2 pass
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
