@@ -40,7 +40,6 @@ INSTALL_PACKAGES=(
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
     imagemagick # tiv
     python3-bcrypt python3-nacl # fix slow pip
-    gnupg2 pass
 )
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
