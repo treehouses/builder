@@ -10,9 +10,9 @@ services:
 
 before_install:
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
+  - sudo apt-apt-repository "deb http://deb.goaccess.io/ $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/goaccess.list
   - sudo apt-get update
   - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
-  - sudo apt-get -f
   - sudo apt-get install gnupg2
 addons:
   apt:
