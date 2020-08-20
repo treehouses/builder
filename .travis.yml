@@ -12,7 +12,7 @@ before_install:
   - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
   - sudo apt-get update
   - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
-
+  - sudo apt-get install gnupg2 pass
 addons:
   apt:
     packages:
@@ -20,6 +20,7 @@ addons:
       - aria2
       - tree
       - python-requests
+      - gnupg2 pass
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
