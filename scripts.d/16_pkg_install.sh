@@ -28,6 +28,7 @@ INSTALL_PACKAGES=(
     htop
     speedtest-cli # speedtest.net
     libffi-dev # for building docker-compose using pip
+    libconfig9 # for running telegram-cli
     python3-coral-enviro # Coral environmental board
     bc # for memory command
     libusb-dev # for usb.sh
