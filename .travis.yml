@@ -26,9 +26,12 @@ addons:
       - liblua5.2-dev
       - libevent-dev
       - libpython-dev
+      - libpython3-dev
       - libjansson-dev
-      - libssl1.0-dev
-      - libgcrypt20-dev
+      - libssl-dev
+      - libgcrypt-dev
+      - zlib1g-dev
+      - lua-lgi
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
