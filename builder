@@ -3,7 +3,7 @@
 
 # Raspbian
 #RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-05-28/2020-05-27-raspios-buster-arm64.zip.torrent
-#RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-08-24/2020-08-20-raspios-buster-arm64.zip.torrent
+RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-08-24/2020-08-20-raspios-buster-arm64.zip.torrent
 
 #RASPBIAN_SHA256=d06d8eecfa3980e18f9061777ca2dac50d98037373e1bd04e8726d79467dc7c7
 RASPBIAN_SHA256=6ce59adc2b432f4a6c0a8827041b472b837c4f165ab7751fdc35f2d1c3ac518c
