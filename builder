@@ -93,8 +93,15 @@ function _resize_image {
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    losetup /dev/loop6 "$RESIZE_IMAGE_PATH"
-    fdisk /dev/loop6 <<EOF
+    LOOP_BASE=$(losetup -a | grep -c 'loop') #formerly loop0, loop1, loop2
+    echo "LOOP BASE: $LOOP_BASE"
+    LOOP_ONE=$(( LOOP_BASE + 1 ))
+    echo "LOOP ONE: $LOOP_ONE"
+    LOOP_TWO=$(( LOOP_BASE + 2 ))
+    echo "LOOP TWO: $LOOP_TWO"
+    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
+    losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
+    fdisk "/dev/loop$LOOP_ONE" <<EOF
 p
 d
 2
@@ -106,11 +113,11 @@ $start_sector
 p
 w
 EOF
-    losetup -d /dev/loop6
-    losetup -o $((start_sector*512)) /dev/loop7 "$RESIZE_IMAGE_PATH"
-    e2fsck -f /dev/loop7
-    resize2fs -f /dev/loop7
-    losetup -d /dev/loop7
+    losetup -d "/dev/loop$LOOP_ONE"
+    losetup -o $((start_sector*512)) "/dev/loop$LOOP_TWO" "$RESIZE_IMAGE_PATH"
+    e2fsck -f "/dev/loop$LOOP_TWO"
+    resize2fs -f "/dev/loop$LOOP_TWO"
+    losetup -d "/dev/loop$LOOP_TWO"
     if [[ -L "images" ]];
     then
         rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
@@ -120,7 +127,7 @@ EOF
 
 function _open_image {
     echo "Stupid Snaps"
-    df -h | grep 'loop'
+    losetup -a | grep 'loop'
     echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
@@ -168,7 +175,7 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep 'dev/mapper/loop5p2' | awk '{printf $4}')
+    space_left=$(df | grep "dev/mapper/loop$LOOP_BASE\p2" | awk '{printf $4}')
     echo "Space left: ${space_left}K"
 }
 
