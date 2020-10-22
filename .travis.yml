@@ -1,5 +1,5 @@
 sudo: required
-dist: focal
+dist: bionic
 
 language: go
 go:
@@ -11,7 +11,7 @@ services:
 addons:
   apt:
     sources:
-      - sourceline: "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ groovy universe"
+      - sourceline: "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
     packages:
       - qemu-user-static 
       - g++-arm-linux-gnueabihf
