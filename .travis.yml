@@ -17,8 +17,6 @@ before_install:
 
 addons:
   apt:
-    #sources:
-    #  - sourceline: "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
     packages:
       - qemu-user-static 
       - g++-arm-linux-gnueabihf
