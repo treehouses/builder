@@ -16,6 +16,8 @@ before_install:
   - sudo ls /snap/core/
   - sudo umount "/snap/core/*"
   - sudo apt purge snapd
+  - sudo apt-get update
+  - sudo apt-get install -t bionic kpartx
 
 addons:
   apt:
@@ -24,7 +26,7 @@ addons:
     packages:
       - qemu-user-static 
       - g++-arm-linux-gnueabihf
-      - kpartx
+     # - kpartx
       - aria2
       - tree
       - python3-requests
