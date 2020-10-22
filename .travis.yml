@@ -10,12 +10,12 @@ services:
 
 addons:
   apt:
-    sources:
-      - sourceline: "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
+    #sources:
+    #  - sourceline: "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
     packages:
       - qemu-user-static 
       - g++-arm-linux-gnueabihf
-      - kpartx=0.7.4-2ubuntu3
+      - kpartx
       - aria2
       - tree
       - python3-requests
