@@ -18,7 +18,7 @@ addons:
       - kpartx
       - aria2
       - tree
-      - python-requests
+      - python3-requests
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
