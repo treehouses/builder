@@ -10,7 +10,9 @@ services:
 
 before_install: 
   - snap list
-  - sudo snap remove google-cloud-sdk lxd snapcraft core18 snapd
+  - sudo snap remove google-cloud-sdk lxd snapcraft 
+  - sudo snap remove core18 
+  - sudo snap remove snapd
   - sudo umount /snap/core/*
   - sudo apt purge snapd
 
