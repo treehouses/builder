@@ -13,7 +13,7 @@ before_install:
   - sudo snap remove google-cloud-sdk lxd snapcraft 
   - sudo snap remove core18 
   - sudo snap remove snapd
-  - sudo umount -A
+  # - sudo umount -A
   - sudo apt purge snapd
   - sudo apt-get update
   - sudo apt-get install -t bionic kpartx
