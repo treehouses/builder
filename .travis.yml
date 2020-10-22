@@ -1,5 +1,5 @@
 sudo: required
-dist: bionic
+dist: focal
 
 language: go
 go:
@@ -7,6 +7,12 @@ go:
 
 services:
   - docker
+
+before_install: 
+  - snap list
+  - sudo snap remove snap-store gtk-common-themes gnome-3-34-1804 core18 snapd
+  - sudo umount /snap/core/*
+  - sudo apt purge snapd
 
 addons:
   apt:
