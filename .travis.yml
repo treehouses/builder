@@ -1,5 +1,5 @@
 sudo: required
-dist: bionic
+dist: focal
 
 language: go
 go:
@@ -8,18 +8,15 @@ go:
 services:
   - docker
 
-before_install:
-  - sudo add-apt-repository "deb http://us-east-1.ec2.archive.ubuntu.com/ubuntu/ focal universe"
-  - sudo apt-get update
-  - sudo apt-get install qemu-user-static g++-arm-linux-gnueabihf
-
 addons:
   apt:
     packages:
       - kpartx
       - aria2
       - tree
-      - python-requests
+      - python3-requests
+      - qemu-user-static
+      - g++-arm-linux-gnueabihf
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
