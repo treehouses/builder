@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 source lib.sh
 
 cp mnt/img_root/etc/apt/sources.list mnt/img_root/etc/apt/sources.list.orig
