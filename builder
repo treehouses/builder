@@ -191,7 +191,7 @@ function _modify_image {
 
 #    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
 #        die "Image modification scripts failed"
-    run-parts --exit-on-error -v --regex '0[a-zA-Z.-_]*' scripts.d ||\
+    run-parts --exit-on-error -v --regex '0[1-9][a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
     run-parts --exit-on-error -v --regex '16[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
