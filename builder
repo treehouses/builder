@@ -193,6 +193,8 @@ function _modify_image {
 #        die "Image modification scripts failed"
     run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*py' scripts.d ||\
         die "Image modification scripts failed"
+    run-parts --exit-on-error -v --regex '31[a-zA-Z.-_]*' scripts.d ||\
+        die "Image modification scripts failed"
 
     _enable_daemons
     _check_space_left
