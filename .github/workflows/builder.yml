@@ -1,0 +1,10 @@
+name: Builder
+on:
+  push:
+jobs:
+  Build:
+    runs-on: bionic-latest
+    steps:
+      - name: Create Directory
+        run: |
+          mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive && touch ../images/.gitkeep
