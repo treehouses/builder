@@ -1,0 +1,16 @@
+name: builder-docker-image-build
+
+on:
+  push:
+  schedule:
+    - cron: '0 */8 * * *'
+
+jobs:
+  builder-docker-image-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: docker login
+        run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
