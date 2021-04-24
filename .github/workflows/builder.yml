@@ -14,3 +14,9 @@ jobs:
         uses: actions/checkout@v2
       - name: docker login
         run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
+      - name: builder
+        run: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+          repo="rjpadilla/builder"
+          sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree 
+          sudo pip install request
