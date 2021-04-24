@@ -288,7 +288,7 @@ fi
 
 if [[ $authorized_keys_lines -le 20 ]]; then
     echo "/root/.ssh/authorized_keys has 20 line or less."
-    exit 1
+    # exit 1
 fi
 
 # vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
