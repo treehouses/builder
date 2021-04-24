@@ -6,7 +6,7 @@ on:
     - cron: '0 */8 * * *'
 
 jobs:
-  builder-docker-image-build
+  builder-docker-image-build:
     runs-on: ubuntu-latest
 
     steps:
