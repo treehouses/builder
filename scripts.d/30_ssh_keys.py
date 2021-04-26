@@ -33,15 +33,26 @@ for user in users:
 # members = get_members([],1)
 print ("Found %d members. Getting keys for users" % len(members))
 
-f = open("authorized_keys", "w")
-for member in members:
-    keys_content = requests.get('https://github.com/' + member + '.keys', headers=headers).content
-    keys = keys_content.splitlines()
+with open('authorized_keys', 'w') as keylog:
+  for member in members:
+    keys_content = requests.get('https://github.com/' + member +'.keys', auth=(os.environ.get("USERNAME"), os.environ.get("APIKEY")))
+    keys = (keys_content.text.splitlines())
+    print(keys)
     if len(keys):
-        print ("info: user %s has keys" % member)
+      print("info: user %s has keys" % member)
     else:
-        print ("info: user %s has NO keys" % member)
-
+      print("info: user %s has NO keys" % member)
     for key in keys:
-        f.write("%s %s\n" % (key.strip().decode("utf-8"), member))
-f.close()
+      keylog.write("%s %s\n" % (key.strip().encode("utf-8"), member))
+# f = open("authorized_keys", "w")
+# for member in members:
+    # keys_content = requests.get('https://github.com/' + member + '.keys', headers=headers).content
+    # keys = keys_content.splitlines()
+    # if len(keys):
+        # print ("info: user %s has keys" % member)
+    # else:
+        # print ("info: user %s has NO keys" % member)
+# 
+    # for key in keys:
+        # f.write("%s %s\n" % (key.strip().decode("utf-8"), member))
+# f.close()
