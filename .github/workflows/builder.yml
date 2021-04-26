@@ -15,7 +15,7 @@ jobs:
         run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
       - name: builder
         env:
-          #APIKEY: ${{ secrets.APIKEY }}
+          APIKEY: ${{ secrets.APIKEY }}
           USERNAME: ${{ secrets.USERNAME }}
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
@@ -23,4 +23,4 @@ jobs:
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree 
           sudo pip install requests
           echo $USERNAME
-          mkdir images && sudo USERNAME=${{ secrets.USERNAME }} APIKEY=${{ secrets.APIKEY }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+          mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
