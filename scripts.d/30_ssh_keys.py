@@ -11,6 +11,7 @@ import os
 # }
 r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.environ.get("USERNAME"), os.environ.get("APIKEY"))
 print(os.environ.get("USERNAME")
+print(r)
 users = r.json()
 members = []
 for user in users:
