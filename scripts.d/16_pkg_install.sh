@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source lib.sh
+exit 0
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
