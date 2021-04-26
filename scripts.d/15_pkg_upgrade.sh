@@ -2,7 +2,6 @@
 
 source lib.sh
 _apt update || die "Could not update package sources"
-_apt dist-upgrade || die "Could not upgrade system"
 exit 0
 
 echo "Holding nodejs Package"
