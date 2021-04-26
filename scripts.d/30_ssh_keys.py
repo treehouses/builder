@@ -9,8 +9,8 @@ import os
 #     "Authorization": "token %s" % os.environ.get("APIKEY"),
 #     "Connection": "close"
 # }
-r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.environ.get("USERNAME"), os.environ.get("APIKEY"))
-print(os.environ.get("USERNAME")
+r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.getenv("USERNAME"), os.getenv("APIKEY"))
+print(os.getenv("USERNAME"))
 print(r)
 users = r.json()
 members = []
@@ -37,7 +37,7 @@ print ("Found %d members. Getting keys for users" % len(members))
 
 with open('authorized_keys', 'w') as keylog:
   for member in members:
-    keys_content = requests.get('https://github.com/' + member +'.keys', auth=(os.environ.get("USERNAME"), os.environ.get("APIKEY")))
+    keys_content = requests.get('https://github.com/' + member +'.keys', auth=(os.getenv("USERNAME"), os.getenv("APIKEY")))
     keys = (keys_content.text.splitlines())
     print(keys)
     if len(keys):
