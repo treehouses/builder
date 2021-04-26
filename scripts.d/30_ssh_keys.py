@@ -10,7 +10,6 @@ import os
 #     "Connection": "close"
 # }
 r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.getenv("USERNAME"), os.getenv("APIKEY"))
-print(os.getenv("USERNAME"))
 print(r)
 users = r.json()
 members = []
