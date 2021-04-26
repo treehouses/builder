@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source lib.sh
-exit 0
 
 echo "Holding nodejs Package"
 _op _chroot apt-mark hold nodejs
