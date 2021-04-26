@@ -23,4 +23,4 @@ jobs:
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree 
           sudo pip install requests
           echo $USERNAME
-          mkdir images && sudo export USERNAME=${{ env.USERNAME }} && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
+          mkdir images && export USERNAME=${{ env.USERNAME }} && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
