@@ -9,8 +9,8 @@ jobs:
   builder-docker-image-build:
     runs-on: ubuntu-latest
     env:
-      APIKEY: ${{ secrets.APIKEY }}
-      USERNAME: ${{ secrets.USERNAME }}
+      #APIKEY: ${{ secrets.APIKEY }}
+      USERNAME: rjpadilla
     steps:
       - name: Checkout
         uses: actions/checkout@v2
