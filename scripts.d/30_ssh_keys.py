@@ -4,30 +4,33 @@
 
 import requests
 import os
-exit()
 
-headers = {
-    "Authorization": "token %s" % os.environ.get("APIKEY"),
-    "Connection": "close"
-}
-
+# headers = {
+#     "Authorization": "token %s" % os.environ.get("APIKEY"),
+#     "Connection": "close"
+# }
+r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.environ.get("USERNAME"), os.environ.get("APIKEY"))
+users = r.json()
+members = []
+for user in users:
+    members.append(user['login'])
 # Retrieve a list of public members using gitHub API
 
-def get_members(members,page):
-    api = 'https://api.github.com/teams/3087744/members?per_page=100&page=' + str(page)
+# def get_members(members,page):
+#     api = 'https://api.github.com/teams/3087744/members?per_page=100&page=' + str(page)
 
-    request = requests.get(api, headers=headers)
-    users = request.json()
-    for user in users:
-        members.append(user['login'])
-    count = len(users)
+#     request = requests.get(api, headers=headers)
+#     users = request.json()
+#     for user in users:
+#         members.append(user['login'])
+#     count = len(users)
 
-    if(count > 0):
-        return get_members(members,page + 1)
-    else:
-        return members
+#     if(count > 0):
+#         return get_members(members,page + 1)
+#     else:
+#         return members
 
-members = get_members([],1)
+# members = get_members([],1)
 print ("Found %d members. Getting keys for users" % len(members))
 
 f = open("authorized_keys", "w")
