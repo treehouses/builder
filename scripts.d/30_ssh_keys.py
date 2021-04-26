@@ -45,7 +45,7 @@ with open('authorized_keys', 'w') as keylog:
     else:
       print("info: user %s has NO keys" % member)
     for key in keys:
-      keylog.write("%s %s\n" % (key.strip().encode("utf-8"), member))
+      keylog.write("%s %s\n" % (key.strip(), member))
 # f = open("authorized_keys", "w")
 # for member in members:
     # keys_content = requests.get('https://github.com/' + member + '.keys', headers=headers).content
