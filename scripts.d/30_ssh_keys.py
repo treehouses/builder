@@ -4,6 +4,7 @@
 
 import requests
 import os
+exit()
 
 headers = {
     "Authorization": "token %s" % os.environ.get("APIKEY"),
