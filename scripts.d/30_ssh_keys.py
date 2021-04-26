@@ -9,7 +9,7 @@ import os
 #     "Authorization": "token %s" % os.environ.get("APIKEY"),
 #     "Connection": "close"
 # }
-r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.getenv("USERNAME"), os.getenv("APIKEY"))
+r = requests.get('https://api.github.com/orgs/treehouses/teams/support/members', auth=(os.getenv("USERNAME"), os.getenv("APIKEY")))
 print(r)
 users = r.json()
 members = []
