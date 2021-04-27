@@ -24,4 +24,4 @@ jobs:
           sudo pip install requests
           env
           echo $USERNAME
-          mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+          mkdir images && sudo env PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
