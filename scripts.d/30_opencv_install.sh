@@ -17,3 +17,6 @@ echo "Upon reboot, run the following to verify the camera works: "
 echo "sudo raspistill -e png -n -o /home/pi/Pictures/activation_test.png"
 echo
 echo "Trained classifiers for detecting objects can be found at https://github.com/opencv/opencv/tree/master/data/haarcascades"
+
+echo "****************************************************************************************************"
+env
