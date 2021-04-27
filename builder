@@ -216,7 +216,7 @@ function _shell {
     _cleanup_chroot
 }
 
-export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8"
+export LANG="C" LANGUAGE="C" LC_ALL="C.UTF-8" USERNAME="$USERNAME" APIKEY="$APIKEY" 
 shopt -s nullglob
 
 if [[ $# -eq 0 || "$*" == *-h* ]] ; then
