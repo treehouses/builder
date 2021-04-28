@@ -14,12 +14,6 @@ jobs:
       - name: docker login
         run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
       - name: builder
-<<<<<<< HEAD
-=======
-        with:
-          APIKEY: ${{ secrets.APIKEY }}
-          USERNAME: ${{ secrets.USERNAME }}
->>>>>>> d3d700030bbf2b70ae9844096d034a9c0b93791e
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           export ACTIONS_RUNNER_DEBUG=true
