@@ -19,6 +19,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
+          export ACTIONS_RUNNER_DEBUG=true
           repo="rjpadilla/builder"
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree 
           sudo pip install requests
