@@ -14,9 +14,6 @@ jobs:
       - name: docker login
         run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
       - name: builder
-        env:
-          APIKEY: ${{ secrets.APIKEY }}
-          USERNAME: ${{ secrets.USERNAME }}
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           export ACTIONS_RUNNER_DEBUG=true
@@ -25,4 +22,7 @@ jobs:
           sudo pip install requests
           env
           echo $USERNAME
-          mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+          mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+        with:
+          APIKEY: ${{ secrets.APIKEY }}
+          USERNAME: ${{ secrets.USERNAME }}
