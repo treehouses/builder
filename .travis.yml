@@ -20,6 +20,18 @@ addons:
       - aria2
       - tree
       - python-requests
+      - libreadline-dev
+      - libconfig-dev
+      - lua5.2
+      - liblua5.2-dev
+      - libevent-dev
+      - libpython-dev
+      - libpython3-dev
+      - libjansson-dev
+      - libssl-dev
+      - libgcrypt-dev
+      - zlib1g-dev
+      - lua-lgi
 
 script: mkdir images && sudo PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 
