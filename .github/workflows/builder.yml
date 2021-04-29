@@ -28,3 +28,4 @@ jobs:
           echo "$experiment"
           echo "$image_path"
           source .travis/compress.sh
+          source ./.travis/upload.sh
