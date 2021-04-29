@@ -16,9 +16,12 @@ jobs:
       - name: builder
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          export ACTIONS_RUNNER_DEBUG=true
           repo="rjpadilla/builder"
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree 
           sudo pip install requests
           echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+      - name: compress
+        run: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+          source .travis/compress.sh
