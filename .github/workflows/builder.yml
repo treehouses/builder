@@ -1,7 +1,7 @@
 name: builder-docker-image-build
 
 on: 
-  push:
+  # push:
   tags:
     - release-*
 
