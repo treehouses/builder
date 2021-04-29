@@ -1,8 +1,8 @@
 name: builder-docker-image-build
 
 on: 
-  tags:
-    - release-*
+  release:
+    types: [created]
 
 jobs:
   builder-docker-image-build:
