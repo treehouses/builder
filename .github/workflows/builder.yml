@@ -21,7 +21,4 @@ jobs:
           sudo pip install requests
           echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
-      - name: compress
-        run: |
-          export DOCKER_CLI_EXPERIMENTAL=enabled
           source .travis/compress.sh
