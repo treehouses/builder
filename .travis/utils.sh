@@ -19,7 +19,7 @@ make_name() {
     release=$(get_release)
 
     if [ -z "$release" ]; then
-        die "No release tag found; quitting"
+        #die "No release tag found; quitting"
     fi
 
     name=$prefix-$release
