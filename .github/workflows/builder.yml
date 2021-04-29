@@ -2,7 +2,7 @@ name: builder-docker-image-build
 
 on: 
   push:
-  tag:
+  tags:
     - release-*
 
 jobs:

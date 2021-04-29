@@ -18,9 +18,9 @@ release_is_number() {
 make_name() {
     release=$(get_release)
 
-    # if [ -z "$release" ]; then
-        #die "No release tag found; quitting"
-    # fi
+    if [ -z "$release" ]; then
+        die "No release tag found; quitting"
+    fi
 
     name=$prefix-$release
 } 
