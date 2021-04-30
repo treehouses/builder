@@ -31,5 +31,5 @@ jobs:
           echo "$experiment"
           echo "$image_path"
           cat .travis/id_deploy
-          ./.travis/upload.sh
           .travis/compress.sh
+          ./.travis/upload.sh
