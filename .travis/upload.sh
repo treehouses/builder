@@ -5,7 +5,6 @@ source .travis/utils.sh
 echo "Uploading image to dev"
 echo "echoing out $image_gz"
 echo "echoing out $image_sha1"
-cat .travis/id_deploy 
 echo "blar" > test-file
 # rsync -vP .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
 rsync -P .travis/ssh.sh test-file deploy@download.ole.org:/data/images/.rj

@@ -47,4 +47,4 @@ fi
 image_gz="build/$name.img.gz"
 image_sha1=$image_gz.sha1
 set -e
-chmod 600 .travis/id_deploy
+# chmod 600 .travis/id_deploy
