@@ -14,6 +14,10 @@ jobs:
         uses: actions/checkout@v2
       - name: docker login
         run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERAPIKEY }} 
+      - name: add sshkey
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSHKEY }}
       - name: builder
         env:
           ssh_deploy_key: ukHo+YrG6xulVlk3WuZd9ITOlbUiCKEApWZdy0pHkSb5QvOh4k92aPkQfNYec3Kvy878FaRY4jog2EzYCOfnuuGPilKlywgsEAajr5Ox3wj082D2plRsDVW3UjaHaeUxQjJw5yRPfjd1k3MFJfLrVMS2J8Uf0DzCFlnjAdm77AF+MrQN1HP2XdzWb3AkPqHAE/IgxdJqVf6dlgSerl1cAHhqeLvA2gR4HJPPmPc5OYEH+QCMOmNJ2zONjKd5W3mnZlQwnVJ2AcfT7L7w68uqvS/IulPhWXjFy6VSOYi7HJRxezPzf7thL5W/0z8oCcUPvTgbePNAq+g7N3nP6QGDwdYsTzrWoRTwkcpPkB9biWOwXv+TgAD3PyptWUX9XfgAYfsN4iUBKYqSTiNMsknEdo1YAQCxQomZdELkBfrjxYzXXfeoqv44c2fUUBLso5siDhs+9R1k76JeHFpOObUmwlGBHf/TM9LUhaHTdSSIoscxo44VmHSkx06kUwxvKJVNzRQPJdJQK6phLKf4W4bwiRlX+6mh2Y/El2uTfqv2fNmLVvTpQOa0e5BqO4WpONxWVBIerl//Ccxk3SEdfCbxeLQaDwFeMf0k7NvxF6HNslao0Mp9TutIvYaDWtig+TaVO4X5bA4pNCno0i9EwWcs3MNHFtspCdol3GuSHbM6HO8=
@@ -26,11 +30,6 @@ jobs:
           sudo pip install requests
           echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
-          echo "${{ secrets.SSHTEST }}" | tr [:lower:] [:upper:] > sshtest
-          cat sshtest 
-          echo "${{ secrets.SSHKEY }}" > .travis/id_deploy
-          ssh-add -l
-          ssh-add .travis/id_deploy
           ssh-add -l
           . .travis/environment.sh
           echo "$experiment"
