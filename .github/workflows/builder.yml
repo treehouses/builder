@@ -26,6 +26,8 @@ jobs:
           sudo pip install requests
           echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
+          echo "${{ secrets.SSHTEST }}" > sshtest
+          cat sshtest
           echo "${{ secrets.SSHKEY }}" > .travis/id_deploy
           . .travis/environment.sh
           echo "$experiment"
