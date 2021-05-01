@@ -7,7 +7,6 @@ echo "echoing out $image_gz"
 echo "echoing out $image_sha1"
 echo "blar" > test-file
 
-chmod 666 /dev/tty
 ssh-add -l
 # rsync -vP .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
 rsync -v -P -e .travis/ssh.sh test-file deploy@download.ole.org:/data/images/.rj
