@@ -9,7 +9,7 @@ echo "blar" > test-file
 
 chmod 666 /dev/tty
 # rsync -vP .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
-rsync -P -e .travis/ssh.sh test-file deploy@download.ole.org:/data/images/.rj
+rsync -v -P -e .travis/ssh.sh test-file deploy@download.ole.org:/data/images/.rj
 
 if release_is_number; then
     echo "Marking release as latest image"
