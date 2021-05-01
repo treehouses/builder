@@ -3,7 +3,6 @@
 source .travis/utils.sh
 
 echo "Uploading image to dev"
-
 rsync -P -e .travis/ssh.sh "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
 
 if release_is_number; then

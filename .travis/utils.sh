@@ -6,7 +6,7 @@ die() {
 }
 
 get_release() {
-    # Does this commit have an associated release tag??
+    # Does this commit have an associated release tag?
     git tag --points-at HEAD | tail -n1 2>/dev/null |
         sed -e 's/^release-//'
 }
@@ -47,4 +47,3 @@ fi
 image_gz="build/$name.img.gz"
 image_sha1=$image_gz.sha1
 set -e
-# chmod 600 .travis/id_deploy

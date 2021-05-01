@@ -1,4 +1,3 @@
 #!/bin/sh
 # shellcheck disable=SC2029
-ssh -vvv -o "GlobalKnownHostsFile .travis/known_hosts" "$@"
-# ssh -i .travis/id_deploy -o "GlobalKnownHostsFile .travis/known_hosts" "$@"
+ssh -o "GlobalKnownHostsFile .travis/known_hosts" "$@"
