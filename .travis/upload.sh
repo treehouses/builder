@@ -7,7 +7,7 @@ echo "echoing out $image_gz"
 echo "echoing out $image_sha1"
 cat .travis/id_deploy 
 #touch test-file
-rsync -P .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
+rsync -vP .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
 # rsync -P -e .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj
 
 if release_is_number; then
