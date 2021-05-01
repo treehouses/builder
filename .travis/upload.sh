@@ -8,7 +8,7 @@ echo "echoing out $image_sha1"
 cat .travis/id_deploy 
 #touch test-file
 # rsync -vP .travis/id_deploy "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
-rsync -P -e .travis/ssh.sh "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj
+rsync -P .travis/ssh.sh "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj
 
 if release_is_number; then
     echo "Marking release as latest image"
