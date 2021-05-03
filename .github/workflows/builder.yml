@@ -28,6 +28,9 @@ jobs:
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
           sudo pip install requests
           echo $USERNAME
+          mkdir s3-bucket
+          echo "${{ secrets.ACCESS_KEY_ID }}:${{ secrets.SECRET_ACCESS_KEY }}" > .passwd-s3fs
+          cat .passwd-s3fs
           # mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
           # . .travis/environment.sh
           # .travis/compress.sh
