@@ -7,7 +7,7 @@ on:
     types: [created]
 
 jobs:
-  builder-docker-image-build:
+  build-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,3 +40,18 @@ jobs:
           . .travis/environment.sh
           .travis/compress.sh
           ./.travis/upload.sh
+  deploy-to-s3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploying to s3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: treehouses
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          SOURCE_DIR: build
+          DEST_DIR: experiment
