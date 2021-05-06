@@ -59,11 +59,11 @@ jobs:
           sudo ls -la /etc/apache2/sites-enabled
           sudo cat /etc/apache2/sites-enabled/000-default.conf
           echo 6
-          sudo curl http://localhost -o var/www/html/index.html.new
+          sudo curl http://localhost -o index.html
           echo 7
           # sudo wget -P var/www/html http://localhost/index.html
           echo 8
           sudo sync 
           # sudo cat /var/www/html/index.html 
           echo 9
-          sudo mv /var/www/html/index.html.new /var/www/html/index.html 
+          sudo mv ./index.html /var/www/html 
