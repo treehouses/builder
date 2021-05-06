@@ -54,7 +54,7 @@ jobs:
           echo 1
           sudo curl http://localhost
           echo 2
-          sudo wget -P var/www/html http://localhost/index.html
+          # sudo wget -P var/www/html http://localhost/index.html
           echo 3
           sudo sync 
           sudo mv /var/www/html/index.html.new /var/www/html/index.html 
