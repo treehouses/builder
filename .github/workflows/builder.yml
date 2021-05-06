@@ -45,7 +45,7 @@ jobs:
           sudo systemctl start apache2
           sudo systemctl status apache2
           echo 1
-          sudo wget -P var/www/html http://localhost
+          sudo wget -P var/www/html http://localhost/index.html
           echo 2
           sudo curl http://localhost
           echo 3
