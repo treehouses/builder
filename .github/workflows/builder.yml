@@ -27,7 +27,7 @@ jobs:
           repo="rjpadilla/builder"
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs apache2
           sudo pip install requests
-          ps xauf
+          ps -aux
           echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
           # . .travis/environment.sh
