@@ -45,5 +45,6 @@ jobs:
           sudo systemctl start apache2
           sudo systemctl status apache2
           sudo wget -O var/www/html/index.html.new http://localhost
+          sudo curl http://localhost
           sudo sync 
           sudo mv /var/www/html/index.html.new /var/www/html/index.html 
