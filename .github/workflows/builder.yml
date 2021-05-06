@@ -44,6 +44,7 @@ jobs:
           sudo sync 
           sudo systemctl start apache2
           sudo systemctl status apache2
+          sudo cat /etc/apache2/apache2.conf
           echo 1
           sudo wget -P var/www/html http://localhost/index.html
           echo 2
