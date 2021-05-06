@@ -34,6 +34,9 @@ jobs:
           # .travis/compress.sh
           # find / -name "treehouse*"
           # ./.travis/upload.sh
+          sudo systemctl start apache2
+          sudo curl http://localhost
+          sudo systemctl stop apache2
           echo "${{ secrets.ACCESS_KEY_ID }}:${{ secrets.SECRET_ACCESS_KEY }}" > .passwd-s3fs
           chmod 600 .passwd-s3fs
           sudo ls -la /var/www/html
@@ -49,9 +52,9 @@ jobs:
           sudo ls -la /etc/apache2/sites-enabled
           sudo cat /etc/apache2/sites-enabled/000-default.conf
           echo 1
-          sudo wget -P var/www/html http://localhost/index.html
-          echo 2
           sudo curl http://localhost
+          echo 2
+          sudo wget -P var/www/html http://localhost/index.html
           echo 3
           sudo sync 
           sudo mv /var/www/html/index.html.new /var/www/html/index.html 
