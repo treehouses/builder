@@ -27,43 +27,29 @@ jobs:
           repo="rjpadilla/builder"
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs apache2
           sudo pip install requests
-          ps -aux
-          echo $USERNAME
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
           # . .travis/environment.sh
           # .travis/compress.sh
           # find / -name "treehouse*"
           # ./.travis/upload.sh
-          echo 0
-          sudo systemctl start apache2
-          sudo curl http://localhost
-          sudo systemctl stop apache2
-          echo 1
           echo "${{ secrets.ACCESS_KEY_ID }}:${{ secrets.SECRET_ACCESS_KEY }}" > .passwd-s3fs
           chmod 600 .passwd-s3fs
-          sudo ls -la /var/www/html
-          echo 2
           sudo rm -rf /var/www/html
           sudo mkdir -p /var/www/html
           sudo chmod 666 /var/www/html
-          echo 3
           sudo s3fs treehouses /var/www/html -o passwd_file=./.passwd-s3fs -o allow_other 
-          sudo ls -la /var/www/html
           sudo mv /var/www/html/index.html /var/www/html/index.html.old 
-          echo 4
           sudo sync 
           sudo systemctl start apache2
-          sudo systemctl status apache2
-          sudo cat /etc/apache2/apache2.conf
-          echo 5
-          sudo ls -la /etc/apache2/sites-enabled
-          sudo cat /etc/apache2/sites-enabled/000-default.conf
-          echo 6
           sudo curl http://localhost -o index.html
-          echo 7
-          # sudo wget -P var/www/html http://localhost/index.html
-          echo 8
           sudo sync 
-          # sudo cat /var/www/html/index.html 
-          echo 9
-          sudo mv ./index.html /var/www/html 
+          sudo mv ./index.html /var/www/html
+          sudo rm /var/www/html/index.html.old 
+      - name: invalidate
+      uses: chetan/invalidate-cloudfront-action@master
+      env:
+        DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
+        PATHS: '/index.html'
+        AWS_REGION: 'us-east-1'
+        AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
