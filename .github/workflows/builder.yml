@@ -57,4 +57,5 @@ jobs:
           # sudo wget -P var/www/html http://localhost/index.html
           echo 3
           sudo sync 
+          sudo cat /var/www/html/index.html 
           sudo mv /var/www/html/index.html.new /var/www/html/index.html 
