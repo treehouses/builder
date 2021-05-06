@@ -59,7 +59,7 @@ jobs:
           sudo ls -la /etc/apache2/sites-enabled
           sudo cat /etc/apache2/sites-enabled/000-default.conf
           echo 6
-          sudo curl http://localhost
+          sudo curl -O var/www/html/index.html.new http://localhost
           echo 7
           # sudo wget -P var/www/html http://localhost/index.html
           echo 8
