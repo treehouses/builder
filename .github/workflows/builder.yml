@@ -30,4 +30,4 @@ jobs:
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
           . .travis/environment.sh
           .travis/compress.sh
-          ./.travis/upload.sh
+          #./.travis/upload.sh
