@@ -25,7 +25,7 @@ jobs:
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           repo="rjpadilla/builder"
-          sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs 
+          sudo apt-get update && apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs 
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
           . .travis/environment.sh
