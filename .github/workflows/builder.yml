@@ -47,22 +47,12 @@ jobs:
             get_release | grep -Eqx "[0-9]+"
           }
 
-          make_name() {
-            release=$(get_release)
-
-            [[ -z "$release" ]] && die "No Release tag found; quitting"
-
-            name=$prefix-$release
-          } 
-
-
           prefix=treehouse
           image=$(find images/*.img | head -1) # XXX
           test -n "$image" || die "image not found"
-          make_name
-          if [ ! -d "build" ]; then
-            mkdir build/
-          fi
+          release=$(get_release)
+          [[ -z "$release" ]] && die "No Release tag found; quitting" || name=$prefix-$release
+          [[ ! -d "build" ]] && mkdir build/
           image_gz="build/$name.img.gz"
           image_sha1=$image_gz.sha1
           set -e
@@ -96,14 +86,15 @@ jobs:
           [[ -f "build/$build_type.img.gz.sha1" ]] && rm -rf "build/$build_type.img.gz.sha1"
           rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
 
-          echo "**************Start of upload.sh**************"
-          ssh -o "GlobalKnownHostsFile .travis/known_hosts" 
-          rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
-          if release_is_number; then
-            echo "Marking release as latest image"
-            ssh -o "GlobalKnownHostsFile .travis/known_hosts" deploy@download.ole.org:/data/images/.rj/ -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
-          fi
-          echo "**************End of upload.sh**************"
+          # echo "**************Start of upload.sh**************"
+          # echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" >> .ssh/known_hosts
+          # ssh -o "GlobalKnownHostsFile /k" 
+          # rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
+          # if release_is_number; then
+            # echo "Marking release as latest image"
+            # ssh -o "GlobalKnownHostsFile .travis/known_hosts" deploy@download.ole.org:/data/images/.rj/ -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
+          # fi
+          # echo "**************End of upload.sh**************"
           #. .travis/environment.sh
           #.travis/compress.sh
           #./.travis/upload.sh
