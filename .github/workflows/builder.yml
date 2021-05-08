@@ -50,9 +50,7 @@ jobs:
           make_name() {
             release=$(get_release)
 
-            if [ -z "$release" ]; then
-                die "No release tag found; quitting"
-            fi
+            [[ -z "$release" ]] && die "No Release tag found; quitting"
 
             name=$prefix-$release
           } 
@@ -113,7 +111,7 @@ jobs:
           rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
 
           echo "**************Start of upload.sh**************"
-          ssh -o "GlobalKnownHostsFile .travis/known_hosts" "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
+          ssh -o "GlobalKnownHostsFile .travis/known_hosts" deploy@download.ole.org:/data/images/.rj/
           rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
           if release_is_number; then
             echo "Marking release as latest image"
