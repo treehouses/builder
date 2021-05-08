@@ -20,11 +20,8 @@ jobs:
           ssh-private-key: ${{ secrets.SSHKEY }}
       - name: builder
         env:
-          ssh_deploy_key: ukHo+YrG6xulVlk3WuZd9ITOlbUiCKEApWZdy0pHkSb5QvOh4k92aPkQfNYec3Kvy878FaRY4jog2EzYCOfnuuGPilKlywgsEAajr5Ox3wj082D2plRsDVW3UjaHaeUxQjJw5yRPfjd1k3MFJfLrVMS2J8Uf0DzCFlnjAdm77AF+MrQN1HP2XdzWb3AkPqHAE/IgxdJqVf6dlgSerl1cAHhqeLvA2gR4HJPPmPc5OYEH+QCMOmNJ2zONjKd5W3mnZlQwnVJ2AcfT7L7w68uqvS/IulPhWXjFy6VSOYi7HJRxezPzf7thL5W/0z8oCcUPvTgbePNAq+g7N3nP6QGDwdYsTzrWoRTwkcpPkB9biWOwXv+TgAD3PyptWUX9XfgAYfsN4iUBKYqSTiNMsknEdo1YAQCxQomZdELkBfrjxYzXXfeoqv44c2fUUBLso5siDhs+9R1k76JeHFpOObUmwlGBHf/TM9LUhaHTdSSIoscxo44VmHSkx06kUwxvKJVNzRQPJdJQK6phLKf4W4bwiRlX+6mh2Y/El2uTfqv2fNmLVvTpQOa0e5BqO4WpONxWVBIerl//Ccxk3SEdfCbxeLQaDwFeMf0k7NvxF6HNslao0Mp9TutIvYaDWtig+TaVO4X5bA4pNCno0i9EwWcs3MNHFtspCdol3GuSHbM6HO8=
-          GITHUB_KEY: GBG1xY1vpnL5Popsq/qNGlFsRdnOut5eEMGM1LgPj2aneOf1ioocbizMjYhzQEMVLqYE0w7gm/DZZogZZ442sKSdRWraCGpwcZt+Xf61WbdzRDGQbTbV8oNlNlsJA51+iM/kY5uHjPkBNJIrZLEcxwEyUCgLKWM0FN1cijgG3NMEwVStoXH+2csOtyENG5bWBe0zZzhA9zK/0FxO/vv1OFjE0ICW1iITmRlMJ1zi/GT9g8hGydCM3DZV3Tr9vOFD2K7QodnlJgujm2PNG9bmDLDGI7AWO49hml5wx8zPQoqMqcWszd+2sgIjSxv18LRzNMnJ6b2tK6l0TohxlmNI1fbfiQih/NomuxjG991Z6ypXCURPWp5n8lqyHYrZ2JGqSd30cxqJGZw7lV65YIl7IMRTNnjEWYrXCz2B5UpZGQ2oFWw80hnQb7xe2jEaWfD9wgEYfIvsMU8L/MpTQE8eC7B/ioU4BQ8GvLoDcolXQEcvJ4YsPXlpPsrYPkZBhE+CGCzUuLY80m1YGU7OQhkrk57wyaMuV5vu5ZFYdGHUTAo2aGqg45XFJjhSgAm/VnS4jv10gK/ZGUzO0+cpzN3jhLkeK3U5JXiYc2+mC/32rtb30gDOYsV64/2nRlXPVuyA1UBDX6M2BDq6MrkRPFFMMmyoMsnqaPGFMNc9Iu0e4lk=
+          DOCKER_CLI_EXPERIMENTAL=enabled
         run: |
-          export DOCKER_CLI_EXPERIMENTAL=enabled
-          repo="rjpadilla/builder"
           sudo apt-get update  
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs 
           sudo pip install requests
@@ -52,7 +49,7 @@ jobs:
           test -n "$image" || die "image not found"
           release=$(get_release)
           [[ -z "$release" ]] && die "No Release tag found; quitting" || name=$prefix-$release
-          [[ ! -d "build" ]] && mkdir build/
+          mkdir -p build
           image_gz="build/$name.img.gz"
           image_sha1=$image_gz.sha1
           set -e
@@ -64,19 +61,15 @@ jobs:
             build_type="latest" 
             image_dir="" 
           fi
-          export experiment="$build_type"
-          export image_path="$image_dir$name.img.gz"
+          experiment="$build_type"
+          image_path="$image_dir$name.img.gz"
 
           echo "**************Start of compress.sh**************"
-          compress() {
-            if [[ ! -e "$image_gz" ]] || [[ "$image_gz" -ot "$image" ]]; then
-              echo "Compressing image"
-              gzip -c -9 < "$image" > "$image_gz"
-            fi
-          }
 
-          echo "Deploying as $name"
-          compress
+          if [[ ! -e "$image_gz" ]] || [[ "$image_gz" -ot "$image" ]]; then
+            echo "Compressing image"
+            gzip -c -9 < "$image" > "$image_gz"
+          fi
           sync
           sha1sum "$image_gz" > "$image_sha1"
           sync
