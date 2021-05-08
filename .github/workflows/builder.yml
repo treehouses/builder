@@ -90,8 +90,10 @@ jobs:
           rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
 
           echo "**************Start of upload.sh**************"
-          echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" >> .ssh/known_hosts
-          rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" > ~/.ssh/known_hosts
+          rsync -Pav "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
           # ssh -o "GlobalKnownHostsFile /k" 
           # rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
           # if release_is_number; then
