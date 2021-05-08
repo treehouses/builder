@@ -77,6 +77,9 @@ jobs:
 
           echo "Deploying as $name"
           compress
+          sync
+          sha1sum "$image_gz" > "$image_sha1"
+          sync
 
           build_type="branch"
           [[ $release_is_number ]] && build_type="latest"
