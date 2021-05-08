@@ -55,11 +55,6 @@ jobs:
             name=$prefix-$release
           } 
 
-          checksum() {
-            echo "computing SHA1"
-            sha1sum "$image_gz" > "$image_sha1"
-          }
-
 
           prefix=treehouse
           image=$(find images/*.img | head -1) # XXX
@@ -92,26 +87,17 @@ jobs:
 
           echo "Deploying as $name"
           compress
-          checksum
-
 
           build_type="branch"
-          if release_is_number; then
-            build_type="latest"
-          fi
-
-          if [[ -f "build/$build_type.img.gz" ]]; then
-            rm -rf "build/$build_type.img.gz"
-          fi
+          [[ $release_is_number ]] && build_type="latest"
+          [[ -f "build/$build_type.img.gz" ]] && rm -rf "build/$build_type.img.gz"
           rsync -Pav "$image_gz" "build/$build_type.img.gz"
 
-          if [[ -f "build/$build_type.img.gz.sha1" ]]; then
-            rm -rf "build/$build_type.img.gz.sha1"
-          fi
+          [[ -f "build/$build_type.img.gz.sha1" ]] && rm -rf "build/$build_type.img.gz.sha1"
           rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
 
           echo "**************Start of upload.sh**************"
-          ssh -o "GlobalKnownHostsFile .travis/known_hosts" deploy@download.ole.org:/data/images/.rj/
+          ssh -o "GlobalKnownHostsFile .travis/known_hosts" 
           rsync -P -e "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/
           if release_is_number; then
             echo "Marking release as latest image"
