@@ -38,7 +38,7 @@ jobs:
             image_dir="" 
           fi
           export experiment="$build_type"
-          export image_path="$image_dir$name.img.gz
+          export image_path="$image_dir$name.img.gz"
           #. .travis/environment.sh
           #.travis/compress.sh
           #./.travis/upload.sh
