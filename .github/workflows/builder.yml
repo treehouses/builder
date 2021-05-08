@@ -118,6 +118,15 @@ jobs:
             rm -rf "build/$build_type.img.gz.sha1"
           fi
           rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
+
+          echo "**************Start of upload.sh**************"
+          ssh_hosts =$(ssh -o "GlobalKnownHostsFile .travis/known_hosts" "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/.rj/)
+          rsync -P -e "$ssh_hosts"
+          if release_is_number; then
+            echo "Marking release as latest image"
+            ssh -o "GlobalKnownHostsFile .travis/known_hosts" deploy@download.ole.org:/data/images/.rj/ -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
+          fi
+          echo "**************End of upload.sh**************"
           #. .travis/environment.sh
           #.travis/compress.sh
           #./.travis/upload.sh
