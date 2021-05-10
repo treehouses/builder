@@ -1,8 +1,6 @@
 #!/bin/bash
 
 source lib.sh
-_apt update || die "Could not update package sources"
-exit 0
 
 echo "Holding nodejs Package"
 _op _chroot apt-mark hold nodejs
