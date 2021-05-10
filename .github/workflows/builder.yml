@@ -30,26 +30,18 @@ jobs:
             exit 1
           }
 
-          get_release() {
-            # Does this commit have an associated release tag?
-            git tag --points-at HEAD | tail -n1 2>/dev/null |
-              sed -e 's/^release-//'
-          }
-
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
 
           release_is_number() {
             echo "$release" | grep -Eqx "[0-9]+"
           }
-
-          prefix=treehouse
-          image=$(find images/*.img | head -1) # XXX
-          test -n "$image" || die "image not found"
-          [[ -z "$release" ]] && die "No Release tag found; quitting" || name=$prefix-$release
+          image=$(find images/*.img | head -1) 
+          [[ -n "$image" ]] || die "image not found"
+          [[ -z "$release" ]] && die "No Release tag found; quitting" 
+          name="treehouse-$release"
           mkdir -p build
           image_gz="build/$name.img.gz"
           image_sha1=$image_gz.sha1
-          set -e
           
           echo "**************Start of environment.sh**************"
           build_type="branch"
