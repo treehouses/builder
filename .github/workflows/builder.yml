@@ -36,14 +36,15 @@ jobs:
               sed -e 's/^release-//'
           }
 
+          release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
+
           release_is_number() {
-            get_release | grep -Eqx "[0-9]+"
+            echo "$release" | grep -Eqx "[0-9]+"
           }
 
           prefix=treehouse
           image=$(find images/*.img | head -1) # XXX
           test -n "$image" || die "image not found"
-          release=$(get_release)
           [[ -z "$release" ]] && die "No Release tag found; quitting" || name=$prefix-$release
           mkdir -p build
           image_gz="build/$name.img.gz"
@@ -69,14 +70,6 @@ jobs:
           sync
           sha1sum "$image_gz" > "$image_sha1"
           sync
-
-          build_type="branch"
-          [[ $release_is_number ]] && build_type="latest"
-          [[ -f "build/$build_type.img.gz" ]] && rm -rf "build/$build_type.img.gz"
-          rsync -Pav "$image_gz" "build/$build_type.img.gz"
-
-          [[ -f "build/$build_type.img.gz.sha1" ]] && rm -rf "build/$build_type.img.gz.sha1"
-          rsync -Pav "$image_gz.sha1" "build/$build_type.img.gz.sha1"
 
           echo "**************Start of upload.sh**************"
           mkdir -p ~/.ssh
