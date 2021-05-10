@@ -16,9 +16,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.SSHKEY }}
-      - name: Set release tag
-        id: release-tag
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - name: builder
         run: |
           sudo apt-get update  
@@ -26,35 +23,23 @@ jobs:
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
 
-          echo "**************Start of utils.sh**************"
-          #source .travis/utils.sh
-          die() {
-            echo "$1" >&2
-            exit 1
-          }
-
-          release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
-
-          echo ${{ steps.release-tag.outputs.tag }}
-          release_is_number() {
-            echo "$release" | grep -Eqx "[0-9]+"
-          }
+          echo "**************Finding image**************"
           image=$(find images/*.img | head -1) 
-          [[ -n "$image" ]] || die "image not found"
-          [[ -z "$release" ]] && echo "No Release tag found; quitting" >&2 && exit 0
+          [[ -n "$image" ]] || echo "image not found" && exit 1
+          echo "**************Build finish**************"
+          release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
+          [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
+          echo "**************Assigning Variables*************"
+          release_is_number() { echo "$release" | grep -Eqx "[0-9]+" }
           name="treehouse-$release"
-          mkdir -p build
-          image_gz="build/$name.img.gz"
+          image_gz="$name.img.gz"
           image_sha1=$image_gz.sha1
           
-          echo "**************Start of environment.sh**************"
-          build_type="branch"
           image_dir="experiment/"
           if release_is_number; then 
             build_type="latest" 
             image_dir="" 
           fi
-          experiment="$build_type"
           image_path="$image_dir$name.img.gz"
 
           echo "**************Start of compress.sh**************"
