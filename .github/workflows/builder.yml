@@ -41,7 +41,7 @@ jobs:
           }
           image=$(find images/*.img | head -1) 
           [[ -n "$image" ]] || die "image not found"
-          [[ -z "$release" ]] && die "No Release tag found; quitting" 
+          [[ -z "$release" ]] && echo "No Release tag found; quitting" >&2 && exit 0
           name="treehouse-$release"
           mkdir -p build
           image_gz="build/$name.img.gz"
