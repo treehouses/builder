@@ -30,7 +30,7 @@ jobs:
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
           echo "**************Assigning Variables*************"
-          release_is_number() { echo "$release" | grep -Eqx "[0-9]+" }
+          release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
           name="treehouse-$release"
           image_gz="$name.img.gz"
           image_sha1=$image_gz.sha1
