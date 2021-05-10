@@ -19,7 +19,7 @@ jobs:
       - name: builder
         run: |
           sudo apt-get update  
-          sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs 
+          sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs pv
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.APIKEY }} USERNAME=${{ secrets.USERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive  
 
@@ -42,12 +42,9 @@ jobs:
           fi
           image_path="$image_dir$name.img.gz"
 
-          echo "**************Start of compress.sh**************"
-
-          if [[ ! -e "$image_gz" ]] || [[ "$image_gz" -ot "$image" ]]; then
-            echo "Compressing image"
-            gzip -c -9 < "$image" > "$image_gz"
-          fi
+          echo "**************Compressing image**************"
+          # gzip -c -9 < "$image" > "$image_gz"
+          pv "$image" | gzip -c -9 > "$image_gz"
           sync
           sha1sum "$image_gz" > "$image_sha1"
           sync
