@@ -25,7 +25,7 @@ jobs:
 
           echo "**************Finding image**************"
           image=$(find images/*.img | head -1) 
-          [[ -n "$image" ]] || echo "image not found" && exit 1
+          [[ -n "$image" ]] || exit 1
           echo "**************Build finish**************"
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
