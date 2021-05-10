@@ -16,6 +16,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.SSHKEY }}
+      - name: Set release tag
+        id: release-tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - name: builder
         run: |
           sudo apt-get update  
@@ -32,6 +35,7 @@ jobs:
 
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
 
+          echo ${{ steps.release-tag.outputs.tag }}
           release_is_number() {
             echo "$release" | grep -Eqx "[0-9]+"
           }
