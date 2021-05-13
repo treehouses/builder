@@ -25,6 +25,8 @@ install_stuff() {
     fi
 }
 
+# Saving key from from curl
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
 # List of extra APT repositories
 ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
@@ -35,7 +37,6 @@ ADD_REPOS=(
     # curl -fsSL http://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc > keys/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.key
     "deb http://deb.torproject.org/torproject.org buster main"
     "deb-src http://deb.torproject.org/torproject.org buster main"
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
     "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
 
