@@ -21,10 +21,10 @@ jobs:
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive
-          image=$(find images/*.img | head -1) 
-          [[ -n "$image" ]] || exit 1
       - name: release
         run: |
+          image=$(find images/*.img | head -1) 
+          [[ -n "$image" ]] || exit 1
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
