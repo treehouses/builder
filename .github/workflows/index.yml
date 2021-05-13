@@ -1,10 +1,10 @@
-name: builder
+name: indexer
 
 on: 
   workflow_dispatch:
 
 jobs:
-  build-image:
+  indexer:
     runs-on: ubuntu-latest
     steps:
       - name: install
