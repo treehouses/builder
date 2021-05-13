@@ -36,7 +36,7 @@ ADD_REPOS=(
     "deb http://deb.torproject.org/torproject.org buster main"
     "deb-src http://deb.torproject.org/torproject.org buster main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
-    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
+    # "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
