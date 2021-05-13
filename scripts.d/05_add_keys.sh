@@ -6,7 +6,6 @@ source lib.sh
 ADD_REPO_KEYS=(
     68576280 # nodesource
     0EBFCD88 # Docker Release (CE deb)
-    A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 # Tor
     # 6A030B21BA07F4FB # Coral
 )
 
