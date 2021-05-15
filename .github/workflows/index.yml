@@ -1,7 +1,6 @@
 name: indexer
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
