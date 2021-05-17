@@ -50,9 +50,11 @@ jobs:
           chmod 700 ~/.ssh
           echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" > ~/.ssh/known_hosts
           rsync -Pav "$image_gz" "$image_sha1" deploy@download.ole.org:/data/images/
+          echo "Download url: http://download.ole.org/$image_gz"
           if release_is_number; then
             echo "Marking release as latest image"
             ssh deploy@download.ole.org sh -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
+            echo "Download url: http://download.treehouses.io/$image_gz"
           fi
       - name: apache index
         run: |
