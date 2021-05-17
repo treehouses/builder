@@ -27,6 +27,13 @@ jobs:
           [[ -n "$image" ]] || exit 1
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
+          echo "::set-name name=RELEASE::$release"
+          echo "::set-name name=IMAGE::$image"
+      - name: release
+        if: ${{ env.RELEASE }}
+        run: |
+          image= ${{ env.IMAGE }}
+          release= ${{ env.RELEASE }}
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
           name="treehouse-$release"
           image_gz="$name.img.gz"
@@ -55,6 +62,7 @@ jobs:
             ssh deploy@download.ole.org sh -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
           fi
       - name: apache index
+        if: ${{ env.RELEASE }}
         run: |
           sudo mv /var/www/html/index.html index.html.old
           sudo sync
@@ -65,6 +73,7 @@ jobs:
           sudo mv ./index.html /var/www/html
           sudo rm /var/www/html/index.html.old
       - name: new index.html
+        if: ${{ env.RELEASE }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.AWSDISTRIBUTIONID }}
