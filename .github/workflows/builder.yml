@@ -27,6 +27,7 @@ jobs:
           [[ -n "$image" ]] || exit 1
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
+          echo "::set-name name=success_build::$release"
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
           name="treehouse-$release"
           image_gz="$name.img.gz"
@@ -57,6 +58,7 @@ jobs:
           fi
           echo "Download url: http://download.treehouses.io//$image_dir$image_gz"
       - name: apache index
+        if: ${{ env.success_build }}
         run: |
           sudo mv /var/www/html/index.html index.html.old
           sudo sync
@@ -67,6 +69,7 @@ jobs:
           sudo mv ./index.html /var/www/html
           sudo rm /var/www/html/index.html.old
       - name: new index.html
+        if: ${{ env.success_build }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.AWSDISTRIBUTIONID }}
