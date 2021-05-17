@@ -17,13 +17,13 @@ jobs:
           ssh-private-key: ${{ secrets.SSHKEY }}
       - name: build
         run: |
-          sudo apt-get update  
+          sudo apt-get update
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive
       - name: release
         run: |
-          image=$(find images/*.img | head -1) 
+          image=$(find images/*.img | head -1)
           [[ -n "$image" ]] || exit 1
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
@@ -32,8 +32,8 @@ jobs:
           image_gz="$name.img.gz"
           image_sha1=$image_gz.sha1
           image_dir="experiment/"
-          if release_is_number; then 
-            image_dir="" 
+          if release_is_number; then
+            image_dir=""
           fi
           gzip -c -9 < "$image" > "$image_gz"
           sync
@@ -46,9 +46,24 @@ jobs:
           sudo chmod 666 /var/www/html
           sudo s3fs treehouses /var/www/html -o passwd_file=./.passwd-s3fs -o allow_other
           sudo cp "$image_gz" "$image_sha1" "/var/www/html/$image_dir"
-          echo "$image_gz"
-          echo "$image_sha1"
-          echo "/var/www/html/$image_dir"
+          echo "   ______________________________"
+          echo " / \                             \."
+          echo "|   |                            |."
+          echo " \_ |                            |."
+          echo "    |  $image_gz                   "
+          echo "    |  $image_sha1                 "
+          echo "    |  /var/www/html/$image_dir    "
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |                            |."
+          echo "    |   _________________________|___"
+          echo "    |  /                            /."
+          echo "    \_/dc__________________________/."
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" > ~/.ssh/known_hosts
