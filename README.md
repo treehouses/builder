@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/treehouses/builder.svg?branch=master)](https://travis-ci.org/treehouses/builder) [![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/treehouses/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://github.com/treehouses/builder/workflows/builder/badge.svg)](https://github.com/treehouses/builder/actions) [![Maintainability](https://api.codeclimate.com/v1/badges/748aa39277c63aa17d1a/maintainability)](https://codeclimate.com/github/treehouses/builder/maintainability) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/treehouses/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # builder
 
@@ -104,10 +104,9 @@ so make sure to select the right one.
 
 ## Release
 
-This project use Travis CI to automatically build and upload new treehouse image
-to [http://dev.ole.org](http://dev.ole.org). `.travis.yml` configuration file
-tells Travis CI to run the deployment script at `.travis/deploy.sh`
-if a tag is applied to the commit.
+This project uses Github Actions to automatically build and upload a new treehouse image
+to [http://dev.ole.org](http://dev.ole.org). The `builder.yml` configuration file
+tells Github Actions to run the deployment if a tag is applied to the commit.
 
 * New image's name will be `treehouse-` followed by
   whatever is after `release-` in the tag
