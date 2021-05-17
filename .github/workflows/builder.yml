@@ -67,6 +67,7 @@ jobs:
           sudo mv ./index.html /var/www/html
           sudo rm /var/www/html/index.html.old
       - name: new index.html
+        if: ${{ env.success_build }}
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.AWSDISTRIBUTIONID }}
