@@ -27,8 +27,8 @@ jobs:
           [[ -n "$image" ]] || exit 1
           release=$(git tag --points-at HEAD | tail -n2 2>/dev/null | sed -e 's/^release-//')
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
-          echo "::set-name name=RELEASE::$release"
-          echo "::set-name name=IMAGE::$image"
+          echo "RELEASE=$release" >> $GITHUB_ENV
+          echo "IMAGE=$image" >> $GITHUB_ENV
       - name: deploy
         if: ${{ env.RELEASE }}
         run: |
