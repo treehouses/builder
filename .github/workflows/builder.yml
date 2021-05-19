@@ -32,8 +32,8 @@ jobs:
       - name: deploy
         if: ${{ env.RELEASE }}
         run: |
-          image= ${{ env.IMAGE }}
-          release= ${{ env.RELEASE }}
+          image=${{ env.IMAGE }}
+          release=${{ env.RELEASE }}
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
           name="treehouse-$release"
           image_gz="$name.img.gz"
