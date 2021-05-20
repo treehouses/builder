@@ -33,7 +33,7 @@ ADD_REPOS=(
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
     "deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
-    "deb https://packages.cloud.google.com/apt coral-coral-stable main"
+    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
