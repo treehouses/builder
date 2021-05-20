@@ -34,7 +34,7 @@ ADD_REPOS=(
     "deb [arch=armhf] https://download.docker.com/linux/raspbian stretch stable"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
     # "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
-    "deb [arch=armhf]  https://cli.github.com/packages buster main" 
+    "deb [arch=armhf] https://cli.github.com/packages buster main" 
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
