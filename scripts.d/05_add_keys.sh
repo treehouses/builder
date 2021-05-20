@@ -7,6 +7,7 @@ ADD_REPO_KEYS=(
     68576280 # nodesource
     0EBFCD88 # Docker Release (CE deb)
     # 6A030B21BA07F4FB # Coral
+    gh_public # gh
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
