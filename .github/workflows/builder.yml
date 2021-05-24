@@ -11,10 +11,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: sshagent
-        uses: webfactory/ssh-agent@v0.5.2
-        with:
-          ssh-private-key: ${{ secrets.SSHKEY }}
       - name: build
         run: |
           sudo apt-get update  
@@ -29,6 +25,10 @@ jobs:
           [[ -z "$release" ]] && echo "Build Successful; no release" >&2 && exit 0
           echo "RELEASE=$release" >> $GITHUB_ENV
           echo "IMAGE=$image" >> $GITHUB_ENV
+      - name: sshagent
+        uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSHKEY }}
       - name: deploy
         if: ${{ env.RELEASE }}
         run: |
