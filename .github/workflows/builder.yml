@@ -82,4 +82,4 @@ jobs:
           PATHS: '/index.html'
           AWS_REGION: 'us-east-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWSACCESSKEYID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSACCESSKEYSECRET }} 
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWSACCESSKEYSECRET }}
