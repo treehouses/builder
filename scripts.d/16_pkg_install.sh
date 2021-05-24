@@ -35,6 +35,7 @@ INSTALL_PACKAGES=(
     uptimed # for measuring rpi uptime
     pagekite # tunnels command
     sl
+    gh
     mc ranger
     bats # unit testing
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
