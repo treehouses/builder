@@ -17,7 +17,7 @@ INSTALL_PACKAGES=(
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
-    tor=0.3.5.10-1 #TODO bring back to upstream
+    tor
     openvpn
     shadowsocks-libev proxychains4 # socks5 proxy
     libpam-google-authenticator # two factor authentication
@@ -28,13 +28,14 @@ INSTALL_PACKAGES=(
     htop
     speedtest-cli # speedtest.net
     libffi-dev # for building docker-compose using pip
-    python3-coral-enviro # Coral environmental board
+    #python3-coral-enviro # Coral environmental board # breaks with new kernel
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
     uptimed # for measuring rpi uptime
     pagekite # tunnels command
     sl
+    gh
     mc ranger
     bats # unit testing
     libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv

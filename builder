@@ -2,11 +2,9 @@
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
 # Raspbian
-#RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip.torrent
-RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2020-05-28/2020-05-27-raspios-buster-armhf.zip.torrent
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
 
-#RASPBIAN_SHA256=a82ed4139dfad31c3167e60e943bcbe28c404d1858f4713efe5530c08a419f50
-RASPBIAN_SHA256=b9a5c5321b3145e605b3bcd297ca9ffc350ecb1844880afd8fb75a7589b7bd04
+RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
@@ -92,9 +90,15 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
+    LOOP_BASE=$(losetup -a | grep -c 'loop') #formerly loop0, loop1, loop2
+    echo "LOOP BASE: $LOOP_BASE"
+    LOOP_ONE=$(( LOOP_BASE + 1 ))
+    echo "LOOP ONE: $LOOP_ONE"
+    LOOP_TWO=$(( LOOP_BASE + 2 ))
+    echo "LOOP TWO: $LOOP_TWO"
     truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    losetup /dev/loop7 "$RESIZE_IMAGE_PATH"
-    fdisk /dev/loop7 <<EOF
+    losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
+    fdisk "/dev/loop$LOOP_ONE" <<EOF
 p
 d
 2
@@ -106,11 +110,11 @@ $start_sector
 p
 w
 EOF
-    losetup -d /dev/loop7
-    losetup -o $((start_sector*512)) /dev/loop8 "$RESIZE_IMAGE_PATH"
-    e2fsck -f /dev/loop8
-    resize2fs -f /dev/loop8
-    losetup -d /dev/loop8
+    losetup -d "/dev/loop$LOOP_ONE"
+    losetup -o $((start_sector*512)) "/dev/loop$LOOP_TWO" "$RESIZE_IMAGE_PATH"
+    e2fsck -f "/dev/loop$LOOP_TWO"
+    resize2fs -f "/dev/loop$LOOP_TWO"
+    losetup -d "/dev/loop$LOOP_TWO"
     if [[ -L "images" ]];
     then
         rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
@@ -120,7 +124,7 @@ EOF
 
 function _open_image {
     echo "Stupid Snaps"
-    df -h | grep 'loop'
+    losetup -a | grep 'loop'
     echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
     kpartx="$(kpartx -sav images/$RASPBIAN_IMAGE_FILE)" || die "Could not setup loop-back access to $RASPBIAN_IMAGE_FILE:$NL$kpartx"
@@ -168,7 +172,7 @@ function _cleanup_chroot {
 }
 
 function _check_space_left {
-    space_left=$(df | grep 'dev/mapper/loop6p2' | awk '{printf $4}')
+    space_left=$(df | grep "dev/mapper/loop$LOOP_BASE\p2" | awk '{printf $4}')
     echo "Space left: ${space_left}K"
 }
 

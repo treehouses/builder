@@ -5,9 +5,9 @@ source lib.sh
 # List of extra GPG keys to import from the LOCAL SYSTEM!
 ADD_REPO_KEYS=(
     68576280 # nodesource
-    0EBFCD88 # Docker Release (CE deb)
-    A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 # Tor
-    6A030B21BA07F4FB # Coral
+    0EBFCD88 # docker release (ce deb)
+    C99B11DEB97541F0 # gh
+    8B57C5C2836F4BEB # coral
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
@@ -30,4 +30,3 @@ $GPG "$KEYRING" --export "${ADD_REPO_KEYS[@]}" | \
     $GPG mnt/img_root/etc/apt/trusted.gpg --trustdb-name mnt/img_root/etc/apt/trustdb.gpg --import - || \
     die "Could not import GPG keys ${ADD_REPO_KEYS[*]} for apt"
 rm -f "$KEYRING"
-
