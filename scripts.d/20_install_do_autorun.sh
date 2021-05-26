@@ -205,4 +205,4 @@ exit 0
 
 EOF
 
-_op _chroot chmod +x /usr/local/bin/do_autorun
+#_op _chroot chmod +x /usr/local/bin/do_autorun
