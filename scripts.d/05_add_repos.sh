@@ -30,7 +30,7 @@ ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
     "deb https://deb.nodesource.com/node_10.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb  https://download.docker.com/linux/debian buster stable"
+    "deb [arch=arm64] https://download.docker.com/linux/debian buster stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
     "deb [arch=arm64] https://cli.github.com/packages buster main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key

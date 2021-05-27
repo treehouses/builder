@@ -8,6 +8,7 @@ ADD_REPO_KEYS=(
     0EBFCD88 # docker release (ce deb)
     C99B11DEB97541F0 # gh
     8B57C5C2836F4BEB # coral
+    9165938D90FDDD2E # raspberrypi mirror
 )
 
 GPG="gpg --no-permission-warning --no-default-keyring --quiet --keyring "
