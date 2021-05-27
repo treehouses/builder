@@ -45,7 +45,7 @@ function _get_image {
     if [ ! -f "$RASPBIAN_TORRENT" ]; then
       wget "$RASPBIAN_TORRENT_URL" -O "$RASPBIAN_TORRENT" || die "Download of $RASPBIAN_TORRENT failed"
     fi
-    aria2c --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
+    aria2c --enable-dht=true --bt-enable-lpd=true --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
     echo -n "Checksum of "
     sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
@@ -92,7 +92,6 @@ function _resize_image {
     fi
 
     start_sector=$(fdisk -l "$RESIZE_IMAGE_PATH" | awk -F" "  '{ print $2 }' | sed '/^$/d' | sed -e '$!d')
-    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
     LOOP_BASE=$(losetup -a | grep -c 'loop') #formerly loop0, loop1, loop2
     echo "LOOP BASE: $LOOP_BASE"
     LOOP_ONE=$(( LOOP_BASE + 1 ))
@@ -282,10 +281,10 @@ else
     die "Usage error. Try $0 --help"
 fi
 
-if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
-    echo "Not enough space left."
-    exit 1
-fi
+#if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
+#    echo "Not enough space left."
+#    exit 1
+#fi
 
 if [[ $authorized_keys_lines -le 20 ]]; then
     echo "/root/.ssh/authorized_keys has 20 line or less."

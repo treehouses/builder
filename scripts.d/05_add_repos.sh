@@ -30,13 +30,11 @@ install_stuff() {
 ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
     "deb https://deb.nodesource.com/node_10.x buster main"
-    "deb-src https://deb.nodesource.com/node_10.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
     "deb [arch=arm64] https://download.docker.com/linux/debian buster stable"
-    # curl -fsSL http://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc > keys/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.key
-    "deb http://deb.torproject.org/torproject.org buster main"
-    "deb-src http://deb.torproject.org/torproject.org buster main"
-    # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/6A030B21BA07F4FB.key
+    # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
+    "deb [arch=arm64] https://cli.github.com/packages buster main"
+    # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
     "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
     #"deb http://deb.debian.org/debian stretch-backports main"
 )
