@@ -1,5 +1,5 @@
 #!/bin/bash
-
+source lib.sh
 cat << EOF > mnt/img_root/usr/local/bin/do_autorun
 #!/bin/bash
 
