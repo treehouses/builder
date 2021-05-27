@@ -5,7 +5,7 @@ source lib.sh
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
     docker-ce aufs-dkms- # docker
-    #quicksynergy # dogi
+    quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks links lynx # text mode web browser
@@ -38,23 +38,14 @@ INSTALL_PACKAGES=(
     gh
     mc ranger
     bats # unit testing
-    libhdf5-dev libatlas-base-dev libqt4-test # opencv # libjasper1
+    libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv 
     imagemagick # tiv
     python3-bcrypt python3-nacl # fix slow pip
 )
-
-#INSTALL_BACKPORTS=(
-    #quicksynergy
-#)
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
     _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
-
-#if [[ ${INSTALL_BACKPORTS:-} ]] ; then
-    #echo "Installing ${INSTALL_BACKPORTS[*]}"
-    #_apt install -t stretch-backports "${INSTALL_BACKPORTS[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
-#fi
 
 _op _chroot apt-mark hold tor #TODO bring back to upstream
