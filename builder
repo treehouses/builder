@@ -2,9 +2,9 @@
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
 # Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
+RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-04-09/2021-03-04-raspios-buster-arm64.zip.torrent
 
-RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
+RASPBIAN_SHA256=a30a3650c3ef22a69f6f025760c6b04611a5992961a8c2cd44468f1c429d68bb
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
