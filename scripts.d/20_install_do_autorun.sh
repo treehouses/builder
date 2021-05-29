@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
 
@@ -209,4 +208,5 @@ exit 0
 
 EOF
 
+source lib.sh
 _op _chroot chmod +x /usr/local/bin/do_autorun
