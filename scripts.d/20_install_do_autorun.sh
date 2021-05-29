@@ -4,7 +4,8 @@ source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
 NewFile=mnt/img_root/usr/local/bin/do_autorun
-(cat <<EOF 
+(
+cat <<'EOF' 
 #!/bin/bash
 
 rebootrequired=0
