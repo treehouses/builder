@@ -4,7 +4,7 @@ source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
 
-cat << EOF > mnt/img_root/usr/local/bin/do_autorun
+cat <<EOF > mnt/img_root/usr/local/bin/do_autorun
 #!/bin/bash
 
 rebootrequired=0
