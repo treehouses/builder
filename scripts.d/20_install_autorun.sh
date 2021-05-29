@@ -20,3 +20,4 @@ EOF
 
 mkdir -p "mnt/img_root/etc/systemd/system/multi-user.target.wants"
 _op _chroot ln -sn /etc/systemd/system/autorun.service /etc/systemd/system/multi-user.target.wants/autorun.service
+_op _chroot chmod +x /etc/systemd/system/multi-user.target.wants/autorun.service
