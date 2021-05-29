@@ -7,6 +7,9 @@ on:
 
 jobs:
   build-image:
+    strategy:
+      matrix:
+        args: [noninteractive]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -16,7 +19,7 @@ jobs:
           sudo apt-get update  
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
           sudo pip install requests
-          mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive
+          mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --${{ matrix.args }}
       - name: release
         run: |
           image=$(find images/*.img | head -1) 
