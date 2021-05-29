@@ -9,7 +9,7 @@ jobs:
   build-image:
     strategy:
       matrix:
-        args: [noninteractive]
+        args: [noninteractive, chroot, shell]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
