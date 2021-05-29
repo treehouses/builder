@@ -3,9 +3,9 @@
 
 mkdir -p mnt/img_root/usr/local/bin
 
-cat << EOF > mnt/img_root/usr/local/bin/do_autorun
+cat <<EOF > mnt/img_root/usr/local/bin/do_autorun
 #!/bin/bash
-echo 0
+
 rebootrequired=0
 
 led_mode() {
@@ -59,7 +59,7 @@ autorunonce(){
   bash "$newscript"
   log "autorunonce script is done"
 }
-echo 1
+
 autorun(){
   log "searching for autorun script"
   script=$(find_script "$1/autorun")
@@ -155,7 +155,7 @@ usbgadget() {
             fi
   esac
 }
-echo 2
+
 start() {
   led_mode default-on
   log "starting"
@@ -189,7 +189,7 @@ stop() {
 
 # Some things that run always
 touch /var/lock/autorun
-echo 3
+
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
