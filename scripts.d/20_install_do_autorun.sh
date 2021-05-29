@@ -3,7 +3,7 @@
 
 mkdir -p mnt/img_root/usr/local/bin
 
-cat <<EOF > mnt/img_root/usr/local/bin/do_autorun
+cat << EOF > mnt/img_root/usr/local/bin/do_autorun
 #!/bin/bash
 echo 0
 rebootrequired=0
