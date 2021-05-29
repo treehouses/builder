@@ -3,8 +3,8 @@
 source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
-
-cat <<EOF > mnt/img_root/usr/local/bin/do_autorun
+NewFile=mnt/img_root/usr/local/bin/do_autorun
+(cat <<EOF 
 #!/bin/bash
 
 rebootrequired=0
@@ -208,5 +208,6 @@ esac
 exit 0
 
 EOF
+) > $NewFile
 
 _op _chroot chmod +x /usr/local/bin/do_autorun
