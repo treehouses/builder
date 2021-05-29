@@ -94,3 +94,6 @@ StartLimitInterval=60s
 [Install]
 WantedBy=multi-user.target
 EOF
+
+_op _chroot chmod +x /etc/systemd/system/balena.service
+_op _chroot chmod +x /etc/systemd/system/balena.socket
