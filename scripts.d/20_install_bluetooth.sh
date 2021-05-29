@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source lib.sh
+
 cat << EOF > mnt/img_root/etc/systemd/system/rpibluetooth.service
 [Unit]
 Description=Bluetooth server
@@ -18,3 +20,5 @@ ExecStart=/usr/bin/python3 /usr/local/bin/bluetooth-server.py &
 [Install]
 WantedBy=multi-user.target
 EOF
+
+_op _chroot chmod +x /etc/systemd/system/rpibluetooth.service
