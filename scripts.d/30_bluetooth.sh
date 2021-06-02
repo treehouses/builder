@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 source lib.sh
 
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o mnt/img_root/usr/local/bin/bluetooth-server.py
