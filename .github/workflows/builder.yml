@@ -14,7 +14,7 @@ jobs:
       - name: build
         run: |
           sudo apt-get update  
-          sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
+          sudo apt install qemu-user-static g++-aarch64-linux-gnu kpartx aria2 tree s3fs
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive
       - name: release
