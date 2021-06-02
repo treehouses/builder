@@ -9,8 +9,9 @@ jobs:
   build-image:
     strategy:
       matrix:
-        args: [noninteractive, chroot]
-        arch: [arm]
+        arch: [arm, arm64]
+        # arch: [arm]
+        # arch: [arm64]
     runs-on: ubuntu-latest
     steps:
       - name: checkout
