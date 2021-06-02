@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 git clone https://github.com/stefanhaustein/TerminalImageViewer.git
 (
   cd TerminalImageViewer || exit 0
