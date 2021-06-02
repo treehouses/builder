@@ -7,7 +7,6 @@ ADD_REPO_KEYS=(
     9165938D90FDDD2E # pi arm64
     68576280 # nodesource
     0EBFCD88 # docker release (ce deb)
-    C99B11DEB97541F0 # gh
     8B57C5C2836F4BEB # coral
 )
 
