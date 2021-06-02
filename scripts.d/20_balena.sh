@@ -9,26 +9,11 @@ releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases
 armv6link=$(echo "$releases" | tr " " "\\n" | grep armv6)
 armv7link=$(echo "$releases" | tr " " "\\n" | grep armv7)
 
-<<<<<<< HEAD
-# armv7
-wget -c "$armv7link"
-tar xvzf "$(basename "$armv7link")" ./balena-engine/balena-engine
-mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-armv7l
-_op _chroot chown root:root /usr/bin/balena-engine-armv7l
-rm -rf balena-engine/
-
-# armv6
-wget -c "$armv6link"
-tar xvzf "$(basename "$armv6link")" ./balena-engine/balena-engine
-mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-armv6l
-_op _chroot chown root:root /usr/bin/balena-engine-armv6l
-=======
 # aarch64
 wget -c "$aarch64"
 tar xvzf "$(basename "$aarch64")" ./balena-engine/balena-engine
 mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-aarch64
 _op _chroot chown root:root /usr/bin/balena-engine-aarch64
->>>>>>> 00ba9d1... aarch64
 rm -rf balena-engine/
 
 _op _chroot touch /usr/bin/balena-engine
