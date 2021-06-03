@@ -2,7 +2,8 @@
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
 # Raspbian
-case "$2" in
+architecture="$2"
+case "$architecture" in
   "arm" | "")
     RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
     RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
@@ -194,7 +195,7 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    run-parts --arg="$2" --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
+    run-parts --arg="$architecture" --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
 
     _enable_daemons
