@@ -1,5 +1,12 @@
 #!/bin/bash
 
+source lib.sh
+
+mkdir -p mnt/img_root/usr/local/bin
+
+cat <<'EOF' > mnt/img_root/usr/local/bin/do_autorun
+#!/bin/bash
+
 rebootrequired=0
 
 led_mode() {
@@ -199,3 +206,7 @@ case "$1" in
 esac
 
 exit 0
+
+EOF
+
+_op _chroot chmod +x /usr/local/bin/do_autorun

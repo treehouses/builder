@@ -1,3 +1,6 @@
+#!/bin/bash
+
+cat << EOF > mnt/img_root/etc/rc.local
 #!/bin/sh -e
 #
 # rc.local
@@ -23,3 +26,5 @@ then
 fi
 
 exit 0
+
+EOF
