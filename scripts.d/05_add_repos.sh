@@ -9,8 +9,8 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    pkgs=("raspbian-archive-keyring" "apt-transport-https")
-    case "$1" in
+    architecture="$1"
+    case "$architecture" in
         "arm" | "")
             pkgs=("raspbian-archive-keyring" "apt-transport-https")
         ;;
