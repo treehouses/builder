@@ -41,7 +41,11 @@ jobs:
           image=${{ env.IMAGE }}
           release=${{ env.RELEASE }}
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
-          name="treehouse-$release"
+          architecture=${{ matrix.arch }}
+          name="treehouse-$release-$architecture"
+          if [ "$architecture" == arm ]; then 
+            name="treehouse-$release"
+          fi
           image_gz="$name.img.gz"
           image_sha1=$image_gz.sha1
           image_dir="experiment/"
