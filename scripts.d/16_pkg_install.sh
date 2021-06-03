@@ -36,6 +36,7 @@ INSTALL_PACKAGES=(
     pagekite # tunnels command
     sl
     gh
+    netcat # for arm64
     mc ranger
     bats # unit testing
     libhdf5-dev libatlas-base-dev libqt4-test # opencv # libjasper1 
