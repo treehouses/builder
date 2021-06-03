@@ -1,5 +1,6 @@
 #!/bin/bash
 
+architecture="$1"
 source lib.sh
 
 is_installed() {
@@ -9,7 +10,6 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    architecture="$1"
     case "$architecture" in
         "arm" | "")
             pkgs=("raspbian-archive-keyring" "apt-transport-https")
