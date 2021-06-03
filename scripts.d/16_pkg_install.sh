@@ -38,7 +38,7 @@ INSTALL_PACKAGES=(
     gh
     mc ranger
     bats # unit testing
-    # libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
+    libhdf5-dev libatlas-base-dev libqt4-test # opencv # libjasper1 
     imagemagick # tiv
     python3-bcrypt python3-nacl # fix slow pip
 )
