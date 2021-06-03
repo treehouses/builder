@@ -4,7 +4,7 @@ architecture="$1"
 source lib.sh
 
 case "$architecture"  in
-  "arm" | "")
+  "armhf" | "")
     cat << EOF > mnt/img_root/etc/apt/sources.list
 deb http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
 #deb http://mirrors.ocf.berkeley.edu/raspbian/raspbian buster main contrib non-free rpi

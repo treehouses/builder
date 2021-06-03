@@ -4,7 +4,7 @@
 # Raspbian
 architecture="$2"
 case "$architecture" in
-  "arm" | "")
+  "armhf" | "")
     RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
     RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
   ;;
