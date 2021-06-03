@@ -10,8 +10,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [arm, arm64]
-        # arch: [arm]
+        arch: [armhf, arm64]
+        # arch: [armhf]
         # arch: [arm64]
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +43,7 @@ jobs:
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
           architecture=${{ matrix.arch }}
           name="treehouse-$release-$architecture"
-          if [ "$architecture" == arm ]; then 
+          if [ "$architecture" == armhf ]; then 
             name="treehouse-$release"
           fi
           image_gz="$name.img.gz"
