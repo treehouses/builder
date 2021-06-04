@@ -13,9 +13,6 @@ jobs:
         uses: actions/checkout@v2
       - name: build
         run: |
-          sudo npm install -g @treehouses/cli
-          export gitter_channel="${{ secrets.CHANNEL }}"
-          treehouses feedback "what inside of builder"
           sudo apt-get update  
           sudo apt install qemu-user-static g++-arm-linux-gnueabihf kpartx aria2 tree s3fs
           sudo pip install requests
@@ -35,6 +32,8 @@ jobs:
       - name: deploy
         if: ${{ env.RELEASE }}
         run: |
+          sudo npm install -g @treehouses/cli
+          export gitter_channel="${{ secrets.CHANNEL }}"
           image=${{ env.IMAGE }}
           release=${{ env.RELEASE }}
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
@@ -66,6 +65,7 @@ jobs:
             ssh deploy@download.ole.org sh -c ":; cd /data/images; ln -sf $name.img.gz latest.img.gz; ln -sf $name.img.gz.sha1 latest.img.gz.sha1"
           fi
           echo "Download url: http://download.treehouses.io/$image_dir$image_gz"
+          treehouses feedback "Download url: http://download.treehouses.io/$image_dir$image_gz"
       - name: apache index
         if: ${{ env.RELEASE }}
         run: |
