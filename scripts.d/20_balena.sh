@@ -8,6 +8,14 @@ echo "Balena installation"
 releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/latest -H "Authorization: token $APIKEY" | jq -r ".assets[].browser_download_url")
 armv6link=$(echo "$releases" | tr " " "\\n" | grep armv6)
 armv7link=$(echo "$releases" | tr " " "\\n" | grep armv7)
+aarch64link=$(echo "$releases" | tr " " "\\n" | grep aarch64)
+
+# arm64
+wget -c "$aarch64link"
+tar xvzf "$(basename "$aarch64link")" ./balena-engine/balena-engine
+mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-aarch64l
+_op _chroot chown root:root /usr/bin/balena-engine-aarch64l
+rm -rf balena-engine/
 
 # armv7
 wget -c "$armv7link"
@@ -32,7 +40,7 @@ _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-proxy
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-runc
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena
 _op _chroot rm /usr/bin/balena-engine
-_op _chroot ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
+_op _chroot ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
 
 _op _chroot groupadd balena
 _op _chroot usermod -aG balena pi
