@@ -1,5 +1,16 @@
 #!/bin/bash
 
+architecture="$1"
+
+case "$architecture" in
+    "armhf" | "")
+      archlink=aarch64l
+    ;;
+    "arm64")
+      archlink=armv7l
+    ;;
+esac
+
 source lib.sh
 
 echo "Balena installation"
@@ -40,7 +51,7 @@ _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-proxy
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena-engine-runc
 _op _chroot ln -sr /usr/bin/balena-engine /usr/bin/balena
 _op _chroot rm /usr/bin/balena-engine
-_op _chroot ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
+_op _chroot ln -sr /usr/bin/balena-engine-$archlink /usr/bin/balena-engine
 
 _op _chroot groupadd balena
 _op _chroot usermod -aG balena pi
