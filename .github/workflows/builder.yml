@@ -38,6 +38,8 @@ jobs:
       - name: deploy
         if: ${{ env.RELEASE }}
         run: |
+          sudo npm install -g @treehouses/cli
+          export gitter_channel="${{ secrets.CHANNEL }}"
           image=${{ env.IMAGE }}
           release=${{ env.RELEASE }}
           release_is_number() { echo "$release" | grep -Eqx "[0-9]+" ; }
@@ -64,6 +66,7 @@ jobs:
           sudo s3fs treehouses /var/www/html -o passwd_file=./.passwd-s3fs -o allow_other
           sudo cp "$image_gz" "$image_sha1" "/var/www/html/$image_dir"
           echo "Download url: http://download.treehouses.io/$image_dir$image_gz"
+          treehouses feedback "Download url: http://download.treehouses.io/$image_dir$image_gz"
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           echo "download.ole.org ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK6diybdi0R/Iptq9qGSP/ZU5zaJ8XrfGSuGvmsVFGKdQAPJsS4GhRm4cq8ucAYoatz9gx/mgJBWgPV6JPbkxiU=" > ~/.ssh/known_hosts
