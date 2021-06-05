@@ -3,6 +3,17 @@
 architecture="$1"
 source lib.sh
 
+case "$architecture" in
+    "armhf" | "")
+        pkgs=("raspbian-archive-keyring" "apt-transport-https")
+        os=raspian
+    ;;
+    "arm64")
+        pkgs=("apt-transport-https")
+        os=debian
+    ;;
+esac
+
 is_installed() {
     pkg="$1"
     _chroot dpkg-query -s "$pkg" 2>/dev/null | grep -qx 'Status: install ok installed'
@@ -10,14 +21,6 @@ is_installed() {
 
 install_stuff() {
     local need_install
-    case "$architecture" in
-        "armhf" | "")
-            pkgs=("raspbian-archive-keyring" "apt-transport-https")
-        ;;
-        "arm64")
-            pkgs=("apt-transport-https")
-        ;;
-    esac
 
 
 
@@ -40,7 +43,7 @@ ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
     "deb https://deb.nodesource.com/node_10.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=armhf] https://download.docker.com/linux/raspbian buster stable"
+    "deb [arch=$architecture] https://download.docker.com/linux/$os buster stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
     "deb [arch=$architecture] https://cli.github.com/packages buster main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
