@@ -6,7 +6,7 @@ source lib.sh
 case "$architecture" in
     "armhf" | "")
         pkgs=("raspbian-archive-keyring" "apt-transport-https")
-        os=raspian
+        os=raspbian
     ;;
     "arm64")
         pkgs=("apt-transport-https")
