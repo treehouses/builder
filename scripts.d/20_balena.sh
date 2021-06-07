@@ -4,10 +4,10 @@ architecture="$1"
 
 case "$architecture" in
     "armhf" | "")
-      archlink=aarch64l
+      archlink=armv7l
     ;;
     "arm64")
-      archlink=armv7l
+      archlink=aarch64l
     ;;
 esac
 

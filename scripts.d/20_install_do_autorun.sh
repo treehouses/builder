@@ -122,6 +122,14 @@ onebalenaforall() {
       unlink /usr/bin/balena-engine
       ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
     fi
+  elif [ "$arch" == "aarch64l" ]
+  then
+    log "$arch - rpi2/3"
+    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
+    then
+      unlink /usr/bin/balena-engine
+      ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
+    fi
   else
     log "$arch - something went wrong"
   fi
