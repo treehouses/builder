@@ -1,17 +1,22 @@
 #!/bin/bash
 
+architecture="$1"
+
+[[ $architecture == "" ]] && architecture=armhf
+
 source lib.sh
 
-IMAGES=(
-    portainer/portainer:linux-arm
-    #pihole/pihole:4.3.1-4_armhf 
-    #firehol/netdata:armv7hf
-)
+# IMAGES=(
+#     portainer/portainer:linux-arm
+#     #pihole/pihole:4.3.1-4_armhf 
+#     #firehol/netdata:armv7hf
+# )
 
 MULTIS=(
     treehouses/couchdb:2.3.1
     treehouses/planet:latest
     treehouses/planet:db-init
+    portainer/portainer:alpine
 )
 
 OLD=$(pwd -P)
@@ -23,9 +28,9 @@ mkdir -p "$OLD/mnt/img_root/var/lib/docker"
 ln -s "$OLD/mnt/img_root/var/lib/docker" docker
 service docker start
 
-for image in "${IMAGES[@]}" ; do
-    docker pull "$image"
-done
+# for image in "${IMAGES[@]}" ; do
+#     docker pull "$image"
+# done
 
 mkdir -p ~/.docker
 echo '{"experimental": "enabled"}' > ~/.docker/config.json
@@ -37,7 +42,7 @@ for multi in "${MULTIS[@]}" ; do
     docker manifest inspect "$multi"
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
-    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c 'map(select(.platform.architecture | contains("arm")))' | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains($architecture)))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
     docker pull "$name@$hash"
     docker tag "$name@$hash" "$name:$tag" 
 done
