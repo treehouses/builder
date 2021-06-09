@@ -98,6 +98,14 @@ onenodeforall() {
       unlink /usr/bin/node
       ln -sr /usr/bin/node-armv7l /usr/bin/node
     fi
+  elif [ "$arch" == "armv64l" ]
+  then
+    log "$arch - rpi2/3"
+    if [ "$(readlink -- /usr/bin/node)" != "node-armv64l" ]
+    then
+      unlink /usr/bin/node
+      ln -sr /usr/bin/node-armv64l /usr/bin/node
+    fi
   else
     log "$arch - something went wrong"
   fi  
