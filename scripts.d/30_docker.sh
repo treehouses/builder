@@ -43,7 +43,7 @@ for multi in "${MULTIS[@]}" ; do
     docker manifest inspect "$multi"
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
-    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains($architecture)))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"$architecture\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
     docker pull "$name@$hash"
     docker tag "$name@$hash" "$name:$tag" 
 done
