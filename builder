@@ -2,9 +2,17 @@
 # Download Raspbian Image, remove first-boot stuff, add repos and install packages.
 
 # Raspbian
-RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
-
-RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
+architecture="$2"
+case "$architecture" in
+  "armhf" | "")
+    RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
+    RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
+  ;;
+  "arm64")
+    RASPBIAN_TORRENT_URL=http://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2020-08-24/2020-08-20-raspios-buster-arm64.zip.torrent
+    RASPBIAN_SHA256=6ce59adc2b432f4a6c0a8827041b472b837c4f165ab7751fdc35f2d1c3ac518c 
+  ;;
+esac
 
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
 
@@ -187,7 +195,7 @@ function _modify_image {
     _prepare_chroot
     _disable_daemons
 
-    run-parts --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
+    run-parts --arg="$architecture" --exit-on-error -v --regex '[a-zA-Z.-_]*' scripts.d ||\
         die "Image modification scripts failed"
 
     _enable_daemons

@@ -98,6 +98,14 @@ onenodeforall() {
       unlink /usr/bin/node
       ln -sr /usr/bin/node-armv7l /usr/bin/node
     fi
+  elif [ "$arch" == "armv64l" ]
+  then
+    log "$arch - rpi2/3"
+    if [ "$(readlink -- /usr/bin/node)" != "node-arm64" ]
+    then
+      unlink /usr/bin/node
+      ln -sr /usr/bin/node-arm64 /usr/bin/node
+    fi
   else
     log "$arch - something went wrong"
   fi  
@@ -121,6 +129,14 @@ onebalenaforall() {
     then
       unlink /usr/bin/balena-engine
       ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
+    fi
+  elif [ "$arch" == "aarch64l" ]
+  then
+    log "$arch - rpi2/3"
+    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
+    then
+      unlink /usr/bin/balena-engine
+      ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
     fi
   else
     log "$arch - something went wrong"

@@ -13,3 +13,7 @@ rm -rf node-v10.16.0-linux-armv6l
 # armv7l
 _op _chroot mv /usr/bin/node /usr/bin/node-armv7l
 _op _chroot ln -sr /usr/bin/node-armv7l /usr/bin/node
+
+# arm64
+_op _chroot mv /usr/bin/node /usr/bin/node-arm64
+_op _chroot ln -sr /usr/bin/node-arm64 /usr/bin/node

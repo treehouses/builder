@@ -5,7 +5,7 @@ source lib.sh
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
     docker-ce aufs-dkms- # docker
-    quicksynergy # dogi
+    # quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks links lynx # text mode web browser
@@ -36,9 +36,10 @@ INSTALL_PACKAGES=(
     pagekite # tunnels command
     sl
     gh
+    netcat-openbsd # for arm64
     mc ranger
     bats # unit testing
-    libhdf5-dev libatlas-base-dev libjasper1 libqt4-test # opencv
+    libhdf5-dev libatlas-base-dev libqt4-test # opencv # libjasper1 
     imagemagick # tiv
     python3-bcrypt python3-nacl # fix slow pip
 )
