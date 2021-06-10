@@ -2,7 +2,8 @@
 
 architecture="$1"
 
-[[ $architecture == "" ]] && architecture=armhf
+[[ $architecture == "" ]] && architecture=arm
+[[ $architecture == "armhf" ]] && architecture=arm
 
 source lib.sh
 
