@@ -54,7 +54,7 @@ jobs:
           if release_is_number; then 
             image_dir="" 
           fi
-          gzip -c -9 < "$image" > "$image_gz"
+          echo "compressing" & gzip -c -9 < "$image" > "$image_gz"
           sync
           sha1sum "$image_gz" > "$image_sha1"
           sync
