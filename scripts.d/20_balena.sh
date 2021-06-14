@@ -2,44 +2,29 @@
 
 architecture="$1"
 
-case "$architecture" in
-    "armhf" | "")
-      archlink=armv7l
-    ;;
-    "arm64")
-      archlink=aarch64l
-    ;;
-esac
-
 source lib.sh
 
 echo "Balena installation"
 
 # get the latest version
 releases=$(curl -s https://api.github.com/repos/balena-os/balena-engine/releases/latest -H "Authorization: token $APIKEY" | jq -r ".assets[].browser_download_url")
-armv6link=$(echo "$releases" | tr " " "\\n" | grep armv6)
-armv7link=$(echo "$releases" | tr " " "\\n" | grep armv7)
-aarch64link=$(echo "$releases" | tr " " "\\n" | grep aarch64)
 
-# arm64
-wget -c "$aarch64link"
-tar xvzf "$(basename "$aarch64link")" ./balena-engine/balena-engine
-mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-aarch64l
-_op _chroot chown root:root /usr/bin/balena-engine-aarch64l
-rm -rf balena-engine/
+# Sets the release and link variable based on architecture
+case "$architecture" in
+    "armhf" | "")
+      archlink=armv7l
+      armrelease=$(echo "$releases" | tr " " "\\n" | grep armv7)
+    ;;
+    "arm64")
+      archlink=aarch64l
+      armrelease=$(echo "$releases" | tr " " "\\n" | grep aarch64)
+    ;;
+esac
 
-# armv7
-wget -c "$armv7link"
-tar xvzf "$(basename "$armv7link")" ./balena-engine/balena-engine
-mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-armv7l
-_op _chroot chown root:root /usr/bin/balena-engine-armv7l
-rm -rf balena-engine/
-
-# armv6
-wget -c "$armv6link"
-tar xvzf "$(basename "$armv6link")" ./balena-engine/balena-engine
-mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-armv6l
-_op _chroot chown root:root /usr/bin/balena-engine-armv6l
+wget -c "$armrelease"
+tar xvzf "$(basename "$armrelease")" ./balena-engine/balena-engine
+mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-$archlink
+_op _chroot chown root:root /usr/bin/balena-engine-$archlink
 rm -rf balena-engine/
 
 _op _chroot touch /usr/bin/balena-engine
