@@ -79,68 +79,39 @@ autorun(){
   log "autorun script started in screen"
 }
 
-onenodeforall() {
+oneforall() {
+  service=$1
   arch=$(uname -m)
-  log "onenodeforall"
+  log "one${service}forall"
+  symlink=$service
+  [[ $symlink == balena ]] && symlink=${symlink}-engine
   if [ "$arch" == "armv6l" ]
   then
     log "$arch - rpi0/1"
-    if [ "$(readlink -- /usr/bin/node)" != "node-armv6l" ]
+    if [ "$(readlink -- /usr/bin/${service})" != "${symlink}-armv6l" ]
     then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-armv6l /usr/bin/node
+      unlink /usr/bin/${symlink}
+      ln -sr /usr/bin/${symlink}-armv6l /usr/bin/${symlink}
     fi
   elif [ "$arch" == "armv7l" ]
   then
     log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/node)" != "node-armv7l" ]
+    if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-armv7l" ]
     then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-armv7l /usr/bin/node
+      unlink /usr/bin/${symlink}
+      ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
     fi
   elif [ "$arch" == "armv64l" ]
   then
     log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/node)" != "node-arm64" ]
+    if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-arm64" ]
     then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-arm64 /usr/bin/node
+      unlink /usr/bin/${symlink}
+      ln -sr /usr/bin/${symlink}-arm64 /usr/bin/${symlink}
     fi
   else
     log "$arch - something went wrong"
   fi  
-}
-
-onebalenaforall() {
-  arch=$(uname -m)
-  log "onebalenaforall"
-  if [ "$arch" == "armv6l" ]
-  then
-    log "$arch - rpi0/1"
-    if [ "$(readlink -- /usr/bin/balena)" != "balena-engine-armv6l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-armv6l /usr/bin/balena-engine
-    fi
-  elif [ "$arch" == "armv7l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-armv7l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
-    fi
-  elif [ "$arch" == "aarch64l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
-    fi
-  else
-    log "$arch - something went wrong"
-  fi
 }
 
 usbgadget() {
@@ -178,8 +149,10 @@ start() {
   log "starting"
   wifiunblock
   usbgadget
-  onenodeforall
-  onebalenaforall
+  installs=(node balena)
+  for install in "${!installs[@]}"; do
+    oneforall "${installs{install}}"
+  done
   if [[ rebootrequired -eq 1 ]]
   then
     reboot
