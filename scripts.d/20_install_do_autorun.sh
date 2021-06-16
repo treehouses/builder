@@ -85,33 +85,35 @@ oneforall() {
   log "one${service}forall"
   symlink=$service
   [[ $symlink == balena ]] && symlink=${symlink}-engine
-  if [ "$arch" == "armv6l" ]
-  then
-    log "$arch - rpi0/1"
-    if [ "$(readlink -- /usr/bin/${service})" != "${symlink}-armv6l" ]
-    then
-      unlink /usr/bin/${symlink}
-      ln -sr /usr/bin/${symlink}-armv6l /usr/bin/${symlink}
-    fi
-  elif [ "$arch" == "armv7l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-armv7l" ]
-    then
-      unlink /usr/bin/${symlink}
-      ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
-    fi
-  elif [ "$arch" == "armv64l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-arm64" ]
-    then
-      unlink /usr/bin/${symlink}
-      ln -sr /usr/bin/${symlink}-arm64 /usr/bin/${symlink}
-    fi
-  else
-    log "$arch - something went wrong"
-  fi  
+  case "$arch" in 
+    "armv6l")
+      log "$arch - rpi0/1"
+      if [ "$(readlink -- /usr/bin/${service})" != "${symlink}-armv6l" ]
+      then
+        unlink /usr/bin/${symlink}
+        ln -sr /usr/bin/${symlink}-armv6l /usr/bin/${symlink}
+      fi
+    ;;
+    "armv7l")
+      log "$arch - rpi2/3"
+      if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-armv7l" ]
+      then
+        unlink /usr/bin/${symlink}
+        ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
+      fi
+    ;;
+    "armv64l")
+      log "$arch - rpi2/3"
+      if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-arm64" ]
+      then
+        unlink /usr/bin/${symlink}
+        ln -sr /usr/bin/${symlink}-arm64 /usr/bin/${symlink}
+      fi
+    ;;
+    *)
+      log "$arch - something went wrong"
+    ;;
+  esac
 }
 
 usbgadget() {
