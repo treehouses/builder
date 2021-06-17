@@ -102,7 +102,7 @@ oneforall() {
         ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
       fi
     ;;
-    "armv64l")
+    "aarch64")
       log "$arch - rpi2/3"
       if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-arm64" ]
       then
@@ -151,10 +151,8 @@ start() {
   log "starting"
   wifiunblock
   usbgadget
-  installs=(node balena)
-  for install in "${!installs[@]}"; do
-    oneforall "${installs{install}}"
-  done
+  oneforall node
+  oneforall balena
   if [[ rebootrequired -eq 1 ]]
   then
     reboot
