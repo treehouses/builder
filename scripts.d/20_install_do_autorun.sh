@@ -135,7 +135,7 @@ onebalenaforall() {
      if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
       then
         unlink /usr/bin/balena-engine
-        ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
+        ln -sr /usr/bin/balena-engine-arm64 /usr/bin/balena-engine
       fi
     "*")
       log "$arch - something went wrong"
