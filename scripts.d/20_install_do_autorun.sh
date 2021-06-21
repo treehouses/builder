@@ -114,32 +114,30 @@ onenodeforall() {
 onebalenaforall() {
   arch=$(uname -m)
   log "onebalenaforall"
-  if [ "$arch" == "armv6l" ]
-  then
-    log "$arch - rpi0/1"
-    if [ "$(readlink -- /usr/bin/balena)" != "balena-engine-armv6l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-armv6l /usr/bin/balena-engine
-    fi
-  elif [ "$arch" == "armv7l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-armv7l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
-    fi
-  elif [ "$arch" == "aarch64l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
-    then
-      unlink /usr/bin/balena-engine
-      ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
-    fi
-  else
-    log "$arch - something went wrong"
+  case "$arch" in
+    "armv6l")
+      log "$arch - rpi0/1"
+      if [ "$(readlink -- /usr/bin/balena)" != "balena-engine-armv6l" ]
+      then
+        unlink /usr/bin/balena-engine
+        ln -sr /usr/bin/balena-engine-armv6l /usr/bin/balena-engine
+      fi
+    "armv7l")
+      log "$arch - rpi2/3"
+      if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-armv7l" ]
+      then
+        unlink /usr/bin/balena-engine
+        ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
+      fi
+    "aarch64")
+     log "$arch - rpi2/3"
+     if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
+      then
+        unlink /usr/bin/balena-engine
+        ln -sr /usr/bin/balena-engine-aarch64l /usr/bin/balena-engine
+      fi
+    "*")
+      log "$arch - something went wrong"
   fi
 }
 
