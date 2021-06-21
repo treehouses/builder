@@ -29,12 +29,12 @@ case "$architecture" in
       rm -rf balena-engine/
     ;;
     "arm64")
-      archlink=aarch64l
+      archlink=arm64
       aarch64link=$(echo "$releases" | tr " " "\\n" | grep aarch64)
       wget -c "$aarch64link"
       tar xvzf "$(basename "$aarch64link")" ./balena-engine/balena-engine
-      mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-aarch64l
-      _op _chroot chown root:root /usr/bin/balena-engine-aarch64l
+      mv balena-engine/balena-engine mnt/img_root/usr/bin/balena-engine-arm64
+      _op _chroot chown root:root /usr/bin/balena-engine-arm64
       rm -rf balena-engine/
     ;;
 esac
