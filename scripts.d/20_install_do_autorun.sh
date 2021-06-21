@@ -122,6 +122,7 @@ onebalenaforall() {
         unlink /usr/bin/balena-engine
         ln -sr /usr/bin/balena-engine-armv6l /usr/bin/balena-engine
       fi
+    ;;
     "armv7l")
       log "$arch - rpi2/3"
       if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-armv7l" ]
@@ -138,7 +139,8 @@ onebalenaforall() {
       fi
     "*")
       log "$arch - something went wrong"
-  fi
+    ;;
+  esac
 }
 
 usbgadget() {
