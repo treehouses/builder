@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 architecture="$1"
 source lib.sh
 
