@@ -130,6 +130,7 @@ onebalenaforall() {
         unlink /usr/bin/balena-engine
         ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
       fi
+    ;;
     "aarch64")
      log "$arch - rpi2/3"
      if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-aarch64l" ]
@@ -137,6 +138,7 @@ onebalenaforall() {
         unlink /usr/bin/balena-engine
         ln -sr /usr/bin/balena-engine-arm64 /usr/bin/balena-engine
       fi
+    ;;
     "*")
       log "$arch - something went wrong"
     ;;
