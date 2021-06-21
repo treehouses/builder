@@ -82,33 +82,35 @@ autorun(){
 onenodeforall() {
   arch=$(uname -m)
   log "onenodeforall"
-  if [ "$arch" == "armv6l" ]
-  then
-    log "$arch - rpi0/1"
-    if [ "$(readlink -- /usr/bin/node)" != "node-armv6l" ]
-    then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-armv6l /usr/bin/node
-    fi
-  elif [ "$arch" == "armv7l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/node)" != "node-armv7l" ]
-    then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-armv7l /usr/bin/node
-    fi
-  elif [ "$arch" == "armv64l" ]
-  then
-    log "$arch - rpi2/3"
-    if [ "$(readlink -- /usr/bin/node)" != "node-arm64" ]
-    then
-      unlink /usr/bin/node
-      ln -sr /usr/bin/node-arm64 /usr/bin/node
-    fi
-  else
-    log "$arch - something went wrong"
-  fi  
+  case "$arch" in
+    "armv6l")
+      log "$arch - rpi0/1"
+      if [ "$(readlink -- /usr/bin/node)" != "node-armv6l" ]
+      then
+        unlink /usr/bin/node
+        ln -sr /usr/bin/node-armv6l /usr/bin/node
+      fi
+    ;;
+    "armv7l")
+      log "$arch - rpi2/3"
+      if [ "$(readlink -- /usr/bin/node)" != "node-armv7l" ]
+      then
+        unlink /usr/bin/node
+        ln -sr /usr/bin/node-armv7l /usr/bin/node
+      fi
+    ;;
+    "aarch64")
+      log "$arch - rpi2/3"
+      if [ "$(readlink -- /usr/bin/node)" != "node-arm64" ]
+      then
+        unlink /usr/bin/node
+        ln -sr /usr/bin/node-arm64 /usr/bin/node
+      fi
+    ;;
+    "*")
+      log "$arch - something went wrong"
+    ;;
+  esac
 }
 
 onebalenaforall() {
