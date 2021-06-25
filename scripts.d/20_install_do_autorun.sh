@@ -1,6 +1,5 @@
 #!/bin/bash
 
-architecture="$1"
 source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
@@ -103,6 +102,8 @@ oneforall() {
         ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
       fi
     ;;
+    "aarch64")
+      echo "This is arm64 silly, :P"
     *)
       log "$arch - something went wrong"
     ;;
