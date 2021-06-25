@@ -1,5 +1,6 @@
 #!/bin/bash
 
+architecture="$1"
 source lib.sh
 
 mkdir -p mnt/img_root/usr/local/bin
@@ -79,69 +80,30 @@ autorun(){
   log "autorun script started in screen"
 }
 
-onenodeforall() {
+oneforall() {
+  service=$1
   arch=$(uname -m)
-  log "onenodeforall"
-  case "$arch" in
+  log "one${service}forall"
+  symlink=$service
+  [[ $symlink == balena ]] && symlink=${symlink}-engine
+  case "$arch" in 
     "armv6l")
       log "$arch - rpi0/1"
-      if [ "$(readlink -- /usr/bin/node)" != "node-armv6l" ]
+      if [ "$(readlink -- /usr/bin/${service})" != "${symlink}-armv6l" ]
       then
-        unlink /usr/bin/node
-        ln -sr /usr/bin/node-armv6l /usr/bin/node
+        unlink /usr/bin/${symlink}
+        ln -sr /usr/bin/${symlink}-armv6l /usr/bin/${symlink}
       fi
     ;;
     "armv7l")
       log "$arch - rpi2/3"
-      if [ "$(readlink -- /usr/bin/node)" != "node-armv7l" ]
+      if [ "$(readlink -- /usr/bin/${symlink})" != "${symlink}-armv7l" ]
       then
-        unlink /usr/bin/node
-        ln -sr /usr/bin/node-armv7l /usr/bin/node
+        unlink /usr/bin/${symlink}
+        ln -sr /usr/bin/${symlink}-armv7l /usr/bin/${symlink}
       fi
     ;;
-    "aarch64")
-      log "$arch - rpi2/3"
-      if [ "$(readlink -- /usr/bin/node)" != "node-arm64" ]
-      then
-        unlink /usr/bin/node
-        ln -sr /usr/bin/node-arm64 /usr/bin/node
-      fi
-    ;;
-    "*")
-      log "$arch - something went wrong"
-    ;;
-  esac
-}
-
-onebalenaforall() {
-  arch=$(uname -m)
-  log "onebalenaforall"
-  case "$arch" in
-    "armv6l")
-      log "$arch - rpi0/1"
-      if [ "$(readlink -- /usr/bin/balena)" != "balena-engine-armv6l" ]
-      then
-        unlink /usr/bin/balena-engine
-        ln -sr /usr/bin/balena-engine-armv6l /usr/bin/balena-engine
-      fi
-    ;;
-    "armv7l")
-      log "$arch - rpi2/3"
-      if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-armv7l" ]
-      then
-        unlink /usr/bin/balena-engine
-        ln -sr /usr/bin/balena-engine-armv7l /usr/bin/balena-engine
-      fi
-    ;;
-    "aarch64")
-      log "$arch - rpi2/3"
-      if [ "$(readlink -- /usr/bin/balena-engine)" != "balena-engine-arm64" ]
-      then
-        unlink /usr/bin/balena-engine
-        ln -sr /usr/bin/balena-engine-arm64 /usr/bin/balena-engine
-      fi
-    ;;
-    "*")
+    *)
       log "$arch - something went wrong"
     ;;
   esac
@@ -182,8 +144,8 @@ start() {
   log "starting"
   wifiunblock
   usbgadget
-  onenodeforall
-  onebalenaforall
+  oneforall balena
+  oneforall node
   if [[ rebootrequired -eq 1 ]]
   then
     reboot
