@@ -104,6 +104,7 @@ oneforall() {
     ;;
     "aarch64")
       echo "This is arm64 silly, :P"
+    ;;
     *)
       log "$arch - something went wrong"
     ;;
