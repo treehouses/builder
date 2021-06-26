@@ -103,7 +103,7 @@ oneforall() {
       fi
     ;;
     "aarch64")
-      echo "This is arm64 silly, :P"
+      log "$arch - arm64"
     ;;
     *)
       log "$arch - something went wrong"
