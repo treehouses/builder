@@ -176,7 +176,7 @@ if [ $startplanet = "true" ]; then
   {    
     echo "#!/bin/sh"
     echo
-    echo "if [ \"$(treehouses container)\" = \"balena\" ]; then"
+    echo "if echo \"\$(treehouses container)\" | grep \"balena\" ; then"
     echo "  export DOCKER_HOST=localhost:2375"
     echo "fi"
     echo "sleep 1"
