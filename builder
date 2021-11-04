@@ -5,8 +5,8 @@
 architecture="$2"
 case "$architecture" in
   "armhf" | "")
-    RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.torrent
-    RASPBIAN_SHA256=d3de1a33d2d4f4990345b6369960b04c70b577519e6f25f4d7ec601e305e932a 
+    RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-05-28/2021-05-07-raspios-buster-armhf.zip.torrent
+    RASPBIAN_SHA256=b6c04b34d231f522278fc822d913fed3828d0849e1e7d786db72f52c28036c62
   ;;
   "arm64")
     RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/2021-05-07-raspios-buster-arm64.zip.torrent
