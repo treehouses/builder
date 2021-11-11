@@ -9,7 +9,7 @@ case "$architecture" in
     RASPBIAN_SHA256=b6c04b34d231f522278fc822d913fed3828d0849e1e7d786db72f52c28036c62
   ;;
   "arm64")
-    RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/2021-05-07-raspios-buster-arm64.zip.torrent
+    RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/2021-05-07-raspios-buster-arm64.zip.torrent
     RASPBIAN_SHA256=f882c4c7202074277938b04fa770411c4b8a12f49e9ad2c2d70966e168b7bcb4
   ;;
 esac
