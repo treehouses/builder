@@ -250,7 +250,7 @@ RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
 IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
 echo "$IMAGE_ZIP"
-IMAGE=${IMAGE_ZIP%.zip}.img
+IMAGE=${IMAGE_ZIP%.xz}
 echo "$IMAGE"
 
 if [ ! -e "$IMAGE_ZIP" ]; then
