@@ -1,18 +1,8 @@
 #!/bin/bash
-
-architecture="$1"
 source lib.sh
 
-case "$architecture" in
-    "armhf" | "")
-        pkgs=("raspbian-archive-keyring" "apt-transport-https")
-        os=raspbian
-    ;;
-    "arm64")
-        pkgs=("apt-transport-https")
-        os=debian
-    ;;
-esac
+pkgs=("apt-transport-https")
+os=debian
 
 is_installed() {
     pkg="$1"
@@ -21,8 +11,6 @@ is_installed() {
 
 install_stuff() {
     local need_install
-
-
 
     for pkg in ${pkgs[*]}; do
         if ! is_installed "$pkg"; then
@@ -41,13 +29,13 @@ install_stuff() {
 # List of extra APT repositories
 ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
-    "deb https://deb.nodesource.com/node_10.x buster main"
+#    "deb https://deb.nodesource.com/node_10.x buster main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=$architecture] https://download.docker.com/linux/$os buster stable"
+#    "deb [arch=$architecture] https://download.docker.com/linux/$os buster stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
-    "deb [arch=$architecture] https://cli.github.com/packages buster main"
+#    "deb [arch=$architecture] https://cli.github.com/packages buster main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
-    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
+#    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
 
 LIST=mnt/img_root/etc/apt/sources.list.d/treehouses.list
