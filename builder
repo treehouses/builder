@@ -1,26 +1,12 @@
 #!/bin/bash
-# Download Raspbian Image, remove first-boot stuff, add repos and install packages.
+source lib.sh
 
 # Raspbian
-architecture="$2"
-case "$architecture" in
-  "armhf" | "")
-    RASPBIAN_TORRENT_URL=https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-05-28/2021-05-07-raspios-buster-armhf.zip.torrent
-    RASPBIAN_SHA256=b6c04b34d231f522278fc822d913fed3828d0849e1e7d786db72f52c28036c62
-  ;;
-  "arm64")
-    RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/2021-05-07-raspios-buster-arm64.zip.torrent
-    RASPBIAN_SHA256=f882c4c7202074277938b04fa770411c4b8a12f49e9ad2c2d70966e168b7bcb4
-  ;;
-esac
-
-RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.zip.torrent/.img/g")
-
+RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64.img.xz.torrent
+RASPBIAN_SHA256=ea6e68c48d14c3d78af5471c0b288bbf6522fdd775241f74d8295d106d344300
+RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.xz.torrent//g")
 EXTRA_IMAGE_SIZE=1850MB
-
 MINIMAL_SPACE_LEFT=111111
-
-source lib.sh
 
 missing_deps=()
 for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
