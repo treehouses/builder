@@ -43,7 +43,8 @@ function _get_image {
 }
 
 function _decompress_image {
-    tar -xJf "$IMAGE_XZ" -C images || die "Could not extract $IMAGE_XZ"
+    unxz -kf "$IMAGE_XZ" || die "Could not decompress $IMAGE_XZ"
+    mv "${IMAGE_XZ%.xz}" images/ || die "Could not move decompressed file"
 }
 
 function _disable_daemons {
