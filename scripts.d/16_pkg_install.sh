@@ -35,7 +35,7 @@ INSTALL_PACKAGES=(
 #    uptimed # for measuring rpi uptime
     ##pagekite # tunnels command
     sl
-    gh
+    #gh
     netcat-openbsd # for arm64
     mc ranger
     bats # unit testing
