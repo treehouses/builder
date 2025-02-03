@@ -5,7 +5,7 @@ source lib.sh
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64.img.xz.torrent
 RASPBIAN_SHA256=ea6e68c48d14c3d78af5471c0b288bbf6522fdd775241f74d8295d106d344300
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.xz.torrent//g")
-EXTRA_IMAGE_SIZE=1850MB
+EXTRA_IMAGE_SIZE=2350MB
 MINIMAL_SPACE_LEFT=111111
 
 missing_deps=()
@@ -16,7 +16,6 @@ for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
-    On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
 fi
 
 function _umount {
