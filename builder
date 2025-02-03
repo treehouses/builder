@@ -120,7 +120,7 @@ EOF
 }
 
 function _open_image {
-    echo "Stupid Snaps"
+    echo "Mount"
     losetup -a | grep 'loop'
     echo "Loop-back mounting" "images/$RASPBIAN_IMAGE_FILE"
     # shellcheck disable=SC2086
