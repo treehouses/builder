@@ -32,7 +32,7 @@ ADD_REPOS=(
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
     "deb [arch=aarch64] https://download.docker.com/linux/debian bookworm stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
-    "deb [arch=aarch64] https://cli.github.com/packages bookworm main"
+    "deb [arch=aarch64] https://cli.github.com/packages stable main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
 #    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
