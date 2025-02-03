@@ -104,8 +104,9 @@ $start_sector
 p
 w
 EOF
-    partprobe "/dev/loop$LOOP_ONE"
+    partx -u "/dev/loop$LOOP_ONE"
     losetup -d "/dev/loop$LOOP_ONE"
+    losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
     losetup -o $((start_sector*512)) "/dev/loop$LOOP_TWO" "$RESIZE_IMAGE_PATH"
     e2fsck -f -y "/dev/loop$LOOP_TWO"
     resize2fs -f "/dev/loop$LOOP_TWO"
