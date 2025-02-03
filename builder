@@ -17,7 +17,6 @@ done
 if (( ${#missing_deps[@]} > 0 )) ; then
     die "Missing required programs: ${missing_deps[*]}
     On Debian/Ubuntu try 'sudo apt install kpartx qemu-user-static parted wget curl jq aria2'"
-
 fi
 
 function _umount {
@@ -91,8 +90,9 @@ function _resize_image {
     echo "LOOP ONE: $LOOP_ONE"
     LOOP_TWO=$(( LOOP_BASE + 2 ))
     echo "LOOP TWO: $LOOP_TWO"
-    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
+    truncate -s $(( ($(stat -c%s "$RESIZE_IMAGE_PATH") / 512) * 512 )) "$RESIZE_IMAGE_PATH"
     losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
+
     fdisk "/dev/loop$LOOP_ONE" <<EOF
 p
 d
@@ -105,11 +105,13 @@ $start_sector
 p
 w
 EOF
+    partprobe "/dev/loop$LOOP_ONE"
     losetup -d "/dev/loop$LOOP_ONE"
     losetup -o $((start_sector*512)) "/dev/loop$LOOP_TWO" "$RESIZE_IMAGE_PATH"
-    e2fsck -f "/dev/loop$LOOP_TWO"
+    e2fsck -f -y "/dev/loop$LOOP_TWO"
     resize2fs -f "/dev/loop$LOOP_TWO"
     losetup -d "/dev/loop$LOOP_TWO"
+
     if [[ -L "images" ]];
     then
         rsync -Pav "$RASPBIAN_IMAGE_FILE" images/
