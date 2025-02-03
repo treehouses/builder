@@ -4,7 +4,7 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
-    docker-ce aufs-dkms- # docker
+    ##docker-ce aufs-dkms- # docker
     # quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
@@ -27,15 +27,15 @@ INSTALL_PACKAGES=(
     nmap # network mapping package
     htop
     speedtest-cli # speedtest.net
-    libffi-dev # for building docker-compose using pip
+    ##libffi-dev # for building docker-compose using pip
     #python3-coral-enviro # Coral environmental board # breaks with new kernel
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
     uptimed # for measuring rpi uptime
-    pagekite # tunnels command
+    ##pagekite # tunnels command
     sl
-    gh
+    ##gh
     netcat-openbsd # for arm64
     mc ranger
     bats # unit testing
