@@ -2,7 +2,6 @@
 source lib.sh
 
 pkgs=("apt-transport-https")
-os=debian
 
 is_installed() {
     pkg="$1"
@@ -29,11 +28,11 @@ install_stuff() {
 # List of extra APT repositories
 ADD_REPOS=(
     # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
-#    "deb https://deb.nodesource.com/node_10.x buster main"
+    "deb https://deb.nodesource.com/node_20.x bookworm main"
     # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=aarch64] https://download.docker.com/linux/$os bookworm stable"
+    "deb [arch=aarch64] https://download.docker.com/linux/debian bookworm stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
-#    "deb [arch=$architecture] https://cli.github.com/packages buster main"
+    "deb [arch=aarch64] https://cli.github.com/packages bookworm main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
 #    "deb https://packages.cloud.google.com/apt coral-cloud-stable main"
 )
