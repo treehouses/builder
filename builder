@@ -38,7 +38,7 @@ function _get_image {
     fi
     aria2c --enable-dht=true --bt-enable-lpd=true --continue "$RASPBIAN_TORRENT" -d images --seed-time 0
     echo -n "Checksum of "
-    sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_ZIP" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
+    sha256sum --strict --check - <<<"$RASPBIAN_SHA256 *$IMAGE_XZ" || die "Download checksum validation failed, please check http://www.raspberrypi.org/downloads"
 }
 
 function _decompress_image {
