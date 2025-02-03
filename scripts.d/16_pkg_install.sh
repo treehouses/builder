@@ -3,24 +3,23 @@
 source lib.sh
 
 INSTALL_PACKAGES=(
-#    avahi-daemon
-    vim lshw iotop screen tmux # essentials
+    avahi-daemon vim lshw iotop screen tmux # essentials
     ##docker-ce aufs-dkms- # docker
     # quicksynergy # dogi
-#    matchbox-keyboard # virtual keyboard
+    matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks links lynx # text mode web browser
-#    hostapd dnsmasq # rpi access point
+    hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
 #    nodejs # version 8.5.0-1nodesource1
     autossh
     python3-pip python3-dbus
-#    bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
-#    avahi-autoipd # for usb0
-#    rng-tools # for ap bridge
-#    tor
+    bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
+    avahi-autoipd # for usb0
+    rng-tools # for ap bridge
+    tor
 #    openvpn
-#    shadowsocks-libev proxychains4 # socks5 proxy
+    shadowsocks-libev proxychains4 # socks5 proxy
     libpam-google-authenticator # two factor authentication
     jq # for parsing json / treehouses command
     net-tools # netstat
@@ -41,7 +40,7 @@ INSTALL_PACKAGES=(
     mc ranger
     bats # unit testing
     ##libhdf5-dev libatlas-base-dev libqt4-test # opencv # libjasper1 
-#    imagemagick # tiv
+    imagemagick # tiv
 #    python3-bcrypt python3-nacl # fix slow pip
 )
 
