@@ -4,14 +4,14 @@ source lib.sh
 
 INSTALL_PACKAGES=(
     avahi-daemon vim lshw iotop screen tmux # essentials
-    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin # docker
+#    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin # docker
     # quicksynergy # dogi
     matchbox-keyboard # virtual keyboard
     mdadm initramfs-tools rsync # for RAID1
     elinks links lynx # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
-    nodejs # version 8.5.0-1nodesource1
+#    nodejs # version 8.5.0-1nodesource1
     autossh
     python3-pip python3-dbus
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
