@@ -15,7 +15,7 @@ for prog in kpartx wget gpg parted qemu-arm-static aria2c jq curl; do
     fi
 done
 if (( ${#missing_deps[@]} > 0 )) ; then
-    die "Missing required programs: ${missing_deps[*]}
+    die "Missing required programs: ${missing_deps[*]}"
 fi
 
 function _umount {
