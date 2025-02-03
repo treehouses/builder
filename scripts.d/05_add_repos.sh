@@ -3,34 +3,18 @@ source lib.sh
 
 pkgs=("apt-transport-https")
 
-is_installed() {
-    pkg="$1"
-    _chroot dpkg-query -s "$pkg" 2>/dev/null | grep -qx 'Status: install ok installed'
-}
+echo "updating package sources"
+_apt update --allow-releaseinfo-change || die "Could not update package sources"
+_apt install "${pkgs[@]}"
 
-install_stuff() {
-    local need_install
-
-    for pkg in ${pkgs[*]}; do
-        if ! is_installed "$pkg"; then
-            need_install="$need_install $pkg"
-            echo "need to install $pkg"
-        fi
-    done
-
-    if [ -n "$need_install" ]; then
-        echo "updating package sources"
-        _apt update --allow-releaseinfo-change || die "Could not update package sources"
-        _apt install "${pkgs[@]}"
-    fi
-}
+mkdir -p /etc/apt/trusted.gpg.d/
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o mnt/img_root/etc/apt/trusted.gpg.d/docker.gpg
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o mnt/img_root/etc/apt/trusted.gpg.d/nodesource.gpg
 
 # List of extra APT repositories
 ADD_REPOS=(
-    # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key > keys/68576280.key
-    "deb https://deb.nodesource.com/node_20.x bookworm main"
-    # curl -fsSL https://download.docker.com/linux/debian/gpg > keys/0EBFCD88.key
-    "deb [arch=aarch64] https://download.docker.com/linux/debian bookworm stable"
+    "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_20.x bookworm main"
+    "deb [signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/debian bookworm stable"
     # curl https://cli.github.com/packages/githubcli-archive-keyring.gpg > keys/C99B11DEB97541F0.key
     #"deb [arch=aarch64] https://cli.github.com/packages stable main"
     # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg > keys/8B57C5C2836F4BEB.key
