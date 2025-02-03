@@ -147,7 +147,7 @@ function _close_image {
 }
 
 function _prepare_chroot {
-    _disable_ld_preload
+    #_disable_ld_preload
 
     cp -a "$(type -p qemu-arm-static)" mnt/img_root/usr/bin/ || die "Could not copy qemu-arm-static"
     _chroot date &>/dev/null || die "Could not chroot date"
@@ -165,7 +165,7 @@ function _cleanup_chroot {
     _umount mnt/img_root/var/cache/apt/archives \
         mnt/img_root/{proc,sys,run,dev/pts}
     _enable_daemons
-    _enable_ld_preload
+    #_enable_ld_preload
 }
 
 function _check_space_left {
@@ -252,34 +252,19 @@ _print_tag
 RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
 IMAGE_XZ=${RASPBIAN_TORRENT%.torrent}
-IMAGE_ZIP=$IMAGE_XZ
 echo "$IMAGE_XZ"
-IMAGE=${IMAGE_ZIP%.xz}
+IMAGE=${IMAGE_XZ%.xz}
 echo "$IMAGE"
 
-if [ ! -e "$IMAGE_ZIP" ]; then
-    _get_image
-fi
+IMAGE_ZIP=$IMAGE_XZ
 
-echo 0
+[ -e "$IMAGE_XZ" ] || _get_image
 _decompress_image
-echo 1
 _resize_image
-echo 2
 _open_image
-echo 3
-
-if [[ "$1" == "--chroot" ]] ; then
-    _modify_image
-    echo "Starting interactive Shell in image chroot"
-    _shell
-elif [[ "$1" == "--noninteractive" ]] ; then
-    _modify_image
-elif [[ "$1" == "--shell" ]]; then
-    _shell
-else
-    die "Usage error. Try $0 --help"
-fi
+[[ "$1" =~ ^(--chroot|--noninteractive)$ ]] && _modify_image
+[[ "$1" =~ ^(--chroot|--shell)$ ]] && echo "Starting interactive Shell in image chroot" && _shell
+[[ ! "$1" =~ ^(--chroot|--noninteractive|--shell)$ ]] && die "Usage error. Try $0 --help"
 
 #if [[ $space_left -lt $MINIMAL_SPACE_LEFT ]]; then
 #    echo "Not enough space left."
