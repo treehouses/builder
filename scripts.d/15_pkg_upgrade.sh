@@ -14,6 +14,8 @@ _op _chroot apt-mark hold libfm4
 _op _chroot apt-mark hold raspberrypi-ui-mods
 _op _chroot apt-mark hold linux-headers-rpi-v8
 _op _chroot apt-mark hold linux-image-rpi-v8
+_op _chroot apt-mark hold linux-headers-rpi-2712
+_op _chroot apt-mark hold linux-image-rpi-2712
 
 echo "Installing Updates"
 _apt update || die "Could not update package sources"
@@ -28,3 +30,5 @@ _op _chroot apt-mark unhold libfm4
 _op _chroot apt-mark unhold raspberrypi-ui-mods
 _op _chroot apt-mark unhold linux-headers-rpi-v8
 _op _chroot apt-mark unhold linux-image-rpi-v8
+_op _chroot apt-mark unhold linux-headers-rpi-2712
+_op _chroot apt-mark unhold linux-image-rpi-2712
