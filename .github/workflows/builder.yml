@@ -9,7 +9,7 @@ jobs:
   build-image:
     strategy:
       fail-fast: false
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: checkout
         uses: actions/checkout@v4
