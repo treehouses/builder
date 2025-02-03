@@ -43,7 +43,7 @@ function _get_image {
 }
 
 function _decompress_image {
-    unzip -o "$IMAGE_ZIP" -d images || die "Could not unzip $IMAGE_ZIP"
+    tar -xJf "$IMAGE_XZ" -C images || die "Could not extract $IMAGE_XZ"
 }
 
 function _disable_daemons {
@@ -248,8 +248,9 @@ _print_tag
 
 RASPBIAN_TORRENT=images/$(basename $RASPBIAN_TORRENT_URL)
 echo "$RASPBIAN_TORRENT"
-IMAGE_ZIP=${RASPBIAN_TORRENT%.torrent}
-echo "$IMAGE_ZIP"
+IMAGE_XZ=${RASPBIAN_TORRENT%.torrent}
+IMAGE_ZIP=$IMAGE_XZ
+echo "$IMAGE_XZ"
 IMAGE=${IMAGE_ZIP%.xz}
 echo "$IMAGE"
 
