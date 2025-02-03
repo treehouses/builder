@@ -256,8 +256,6 @@ echo "$IMAGE_XZ"
 IMAGE=${IMAGE_XZ%.xz}
 echo "$IMAGE"
 
-IMAGE_ZIP=$IMAGE_XZ
-
 [ -e "$IMAGE_XZ" ] || _get_image
 _decompress_image
 _resize_image
