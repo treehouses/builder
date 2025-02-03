@@ -4,8 +4,8 @@ source lib.sh
 
 # List of extra GPG keys to import from the LOCAL SYSTEM!
 ADD_REPO_KEYS=(
-    68576280 # nodesource
-    0EBFCD88 # docker release (ce deb)
+    #68576280 # nodesource
+    #0EBFCD88 # docker release (ce deb)
     #C99B11DEB97541F0 # gh
     #8B57C5C2836F4BEB # coral
 )
