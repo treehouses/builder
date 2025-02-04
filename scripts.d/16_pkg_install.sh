@@ -51,7 +51,7 @@ _op _chroot apt-mark hold linux-image-rpi-2712
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
-    _apt install "${INSTALL_PACKAGES[@]}" || die "Could not install ${INSTALL_PACKAGES[*]}"
+    _apt install "${INSTALL_PACKAGES[@]}" # || die "Could not install ${INSTALL_PACKAGES[*]}"
 fi
 
 #for package in "${INSTALL_PACKAGES[@]}"; do
