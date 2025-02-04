@@ -89,7 +89,7 @@ function _resize_image {
     LOOP_TWO=$(( LOOP_BASE + 2 ))
     echo "LOOP TWO: $LOOP_TWO"
     #truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    truncate -s $(( ($(stat -c%s "$RESIZE_IMAGE_PATH") / 512 + (EXTRA_IMAGE_SIZE / 512)) * 512 )) "$RESIZE_IMAGE_PATH"
+    truncate -s $(( ($(stat -c%s "$RESIZE_IMAGE_PATH") + $(echo "$EXTRA_IMAGE_SIZE" | sed 's/MB//') * 1024 * 1024) / 512 * 512 )) "$RESIZE_IMAGE_PATH"
     losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
 
     fdisk "/dev/loop$LOOP_ONE" <<EOF
