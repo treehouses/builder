@@ -5,7 +5,7 @@ source lib.sh
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64.img.xz.torrent
 RASPBIAN_SHA256=ea6e68c48d14c3d78af5471c0b288bbf6522fdd775241f74d8295d106d344300
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.xz.torrent//g")
-EXTRA_IMAGE_SIZE=2350MB
+EXTRA_IMAGE_SIZE=1850MB
 MINIMAL_SPACE_LEFT=111111
 
 missing_deps=()
@@ -42,7 +42,6 @@ function _get_image {
 
 function _decompress_image {
     unxz -kf "$IMAGE_XZ" || die "Could not decompress $IMAGE_XZ"
-    #mv "${IMAGE_XZ%.xz}" images/ || die "Could not move decompressed file"
 }
 
 function _disable_daemons {
@@ -89,8 +88,8 @@ function _resize_image {
     echo "LOOP ONE: $LOOP_ONE"
     LOOP_TWO=$(( LOOP_BASE + 2 ))
     echo "LOOP TWO: $LOOP_TWO"
-    truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
-    #truncate -s $(( ($(stat -c%s "$RESIZE_IMAGE_PATH") / 512) * 512 )) "$RESIZE_IMAGE_PATH"
+    #truncate -s +$EXTRA_IMAGE_SIZE "$RESIZE_IMAGE_PATH"
+    truncate -s $(( ($(stat -c%s "$RESIZE_IMAGE_PATH") / 512 + (EXTRA_IMAGE_SIZE / 512)) * 512 )) "$RESIZE_IMAGE_PATH"
     losetup "/dev/loop$LOOP_ONE" "$RESIZE_IMAGE_PATH"
 
     fdisk "/dev/loop$LOOP_ONE" <<EOF
