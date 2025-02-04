@@ -11,14 +11,14 @@ INSTALL_PACKAGES=(
     elinks links lynx # text mode web browser
     hostapd dnsmasq # rpi access point
     dos2unix # for converting dos characters to unix in autorunonce
-#    nodejs # version 8.5.0-1nodesource1
+    nodejs # version 8.5.0-1nodesource1
     autossh
     python3-pip python3-dbus
     bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
     tor
-#    openvpn
+    openvpn
     shadowsocks-libev proxychains4 # socks5 proxy
     libpam-google-authenticator # two factor authentication
     jq # for parsing json / treehouses command
@@ -26,14 +26,14 @@ INSTALL_PACKAGES=(
     iproute2 # ss command
     nmap # network mapping package
     htop
-#    speedtest-cli # speedtest.net
+    speedtest-cli # speedtest.net
     ##libffi-dev # for building docker-compose using pip
     #python3-coral-enviro # Coral environmental board # breaks with new kernel
     bc # for memory command
     libusb-dev # for usb.sh
     dnsutils
-#    uptimed # for measuring rpi uptime
-    ##pagekite # tunnels command
+    uptimed # for measuring rpi uptime
+    pagekite # tunnels command
     sl
     gh
     netcat-openbsd # for arm64
