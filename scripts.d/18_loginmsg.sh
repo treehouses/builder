@@ -15,7 +15,7 @@ reset="\033[0m"
   echo -e "#${red}                      Welcome to the treehouses project!                      ${red}#"
   echo -e "#${red}           For more information, please visit: ${reset}http://treehouses.io           ${red}#"
   echo -e "#${red}                To begin using treehouses type ${reset}treehouses help                ${red}#"
-  echo -e "#${red}   Please feel free to contact us in the ${reset}https://gitter.im/treehouses/Lobby   ${red}#"
+  echo -e "#${red}     Please feel free to contact us in the ${reset}https://discord.gg/mtgGD4EnYW      ${red}#"
   echo -e "${red}################################################################################${reset}"
 } > $motd
 
