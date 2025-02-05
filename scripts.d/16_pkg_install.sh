@@ -14,7 +14,7 @@ INSTALL_PACKAGES=(
     nodejs # version 8.5.0-1nodesource1
     autossh
     python3-pip python3-dbus
-    bluez minicom bluez-tools libbluetooth-dev # bluetooth hotspot
+    bluez minicom bluez-tools python3-bluez libbluetooth-dev # bluetooth hotspot
     avahi-autoipd # for usb0
     rng-tools # for ap bridge
     tor
