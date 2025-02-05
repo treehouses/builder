@@ -173,10 +173,10 @@ function _check_space_left {
     echo "Space left: ${space_left}K"
 }
 
-function _count_authorized_keys_lines {
-    authorized_keys_lines=$(wc -l < mnt/img_root/root/.ssh/authorized_keys)
-    echo "There are ${authorized_keys_lines} line(s) in /root/.ssh/authorized_keys"
-}
+#function _count_authorized_keys_lines {
+#    authorized_keys_lines=$(wc -l < mnt/img_root/root/.ssh/authorized_keys)
+#    echo "There are ${authorized_keys_lines} line(s) in /root/.ssh/authorized_keys"
+#}
 
 function _modify_image {
     echo "Modifying Image"
@@ -189,7 +189,7 @@ function _modify_image {
 
     _enable_daemons
     _check_space_left
-    #_count_authorized_keys_lines
+    # _count_authorized_keys_lines
     _cleanup_chroot
 }
 
