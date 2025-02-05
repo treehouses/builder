@@ -1,5 +1,5 @@
 #!/bin/bash
-
+exit 0
 source lib.sh
 
 _op _chroot curl -Lo log2ram.tar.gz https://github.com/azlux/log2ram/archive/master.tar.gz
