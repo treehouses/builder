@@ -23,6 +23,7 @@ touch .chat.env
 
 sync; sync; sync
 
+docker pull treehouses/couchdb:2.3.1
 docker pull treehouses/planet:latest
 docker pull treehouses/planet:db-init
 docker pull treehouses/planet:chatapi
@@ -45,7 +46,6 @@ echo "couch is up"
 cp -a planet.yml install.yml volumes.yml .chat.env "mnt/img_root/srv/$planetdir/"
 
 # temporary couchdb local.ini fix
-
 {
   echo "; CouchDB Configuration Settings"
   echo ""
@@ -73,8 +73,9 @@ mkdir "mnt/img_root/srv/$planetdir/conf/"
 cp -a local.ini "mnt/img_root/srv/$planetdir/conf/"
 tree -f "mnt/img_root/srv/$planetdir/conf"
 
+docker ps -f name=planet_db-init* -a -q
 # check if couch-db docker has finish
-while [[ "$(docker inspect -f '{{.State.Running}}' $(docker ps -f name=planet_db-init* -a -q))" == "true" ]]; do
+while [[ $(docker inspect -f '{{.State.Running}}' "$(docker ps -f name=planet_db-init* -a -q)") == "true" ]]; do
   sleep 1
 done
 echo "couch has finished"
