@@ -8,6 +8,7 @@ planetdir='tenalp'
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
 wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
+touch .chat.env
 
 {
   echo "services:"
@@ -37,7 +38,7 @@ while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
 done
 echo "couch is up"
 
-cp -a planet.yml install.yml volumes.yml "mnt/img_root/srv/$planetdir/"
+cp -a planet.yml install.yml volumes.yml .chat.env "mnt/img_root/srv/$planetdir/"
 
 # temporary couchdb local.ini fix
 
