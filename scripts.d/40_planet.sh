@@ -29,6 +29,7 @@ docker pull treehouses/planet:chatapi
 docker tag treehouses/planet:latest treehouses/planet:local
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:chatapi treehouses/planet:chatapi-local
+docker images
 docker compose -f planet.yml -f volumestravis.yml -f install.yml -p planet pull
 
 sync; sync; sync
@@ -73,7 +74,7 @@ cp -a local.ini "mnt/img_root/srv/$planetdir/conf/"
 tree -f "mnt/img_root/srv/$planetdir/conf"
 
 # check if couch-db docker has finish
-while $(docker inspect -f "{{.State.Running}}" "$(docker ps -f name=planet_db-init* -a -q)") == "true"; do
+while [[ "$(docker inspect -f '{{.State.Running}}' "$(docker ps -f name=planet_db-init* -a -q)")" == "true" ]]; do
   sleep 1
 done
 echo "couch has finished"
