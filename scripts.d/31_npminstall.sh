@@ -17,4 +17,11 @@ npm config delete prefix
 rm -rf node_root
 
 _op _chroot treehouses sshkey github adduser dogi
+_op _chroot treehouses sshkey github adduser mutugiii
+_op _chroot treehouses sshkey github adduser okuro3499
+_op _chroot treehouses sshkey github adduser xyb994
+_op _chroot treehouses sshkey github adduser hirotochigi
+_op _chroot treehouses sshkey github adduser jessewashburn
+_op _chroot treehouses sshkey github adduser pavi38
+_op _chroot treehouses sshkey github adduser paulbert
 #_op _chroot treehouses sshkey github addteam treehouses support $APIKEY
