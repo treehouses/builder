@@ -1,10 +1,4 @@
 #!/bin/bash
-
-architecture="$1"
-
-[[ $architecture == "" ]] && architecture=arm
-[[ $architecture == "armhf" ]] && architecture=arm
-
 source lib.sh
 
 # IMAGES=(
@@ -17,6 +11,7 @@ MULTIS=(
     treehouses/couchdb:2.3.1
     treehouses/planet:latest
     treehouses/planet:db-init
+    treehouses/planet:chatapi
     portainer/portainer:alpine
 )
 
@@ -43,13 +38,14 @@ for multi in "${MULTIS[@]}" ; do
     docker manifest inspect "$multi"
     name=$(echo "$multi" | cut -d ":" -f 1)
     tag=$(echo "$multi" | cut -d ":" -f 2)
-    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"$architecture\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"arm64\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
     docker pull "$name@$hash"
     docker tag "$name@$hash" "$name:$tag" 
 done
 
-docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:chatapi treehouses/planet:chatapi-local
 
 sync; sync; sync
 
