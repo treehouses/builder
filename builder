@@ -189,7 +189,7 @@ function _modify_image {
 
     _enable_daemons
     _check_space_left
-    _count_authorized_keys_lines
+    #_count_authorized_keys_lines
     _cleanup_chroot
 }
 
