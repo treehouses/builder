@@ -15,3 +15,6 @@ if [ ! -L "$PWD/mnt/img_root/etc/bash_completion.d/_treehouses" ]; then ln -sr "
 ls -al "$PWD/mnt/img_root/etc/bash_completion.d/_treehouses"
 npm config delete prefix
 rm -rf node_root
+
+_op _chroot treehouses sshkey github adduser dogi
+#_op _chroot treehouses sshkey github addteam treehouses support $APIKEY
