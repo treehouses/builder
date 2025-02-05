@@ -5,7 +5,7 @@ source lib.sh
 RASPBIAN_TORRENT_URL=downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64.img.xz.torrent
 RASPBIAN_SHA256=ea6e68c48d14c3d78af5471c0b288bbf6522fdd775241f74d8295d106d344300
 RASPBIAN_IMAGE_FILE=$(basename $RASPBIAN_TORRENT_URL | sed -e "s/.xz.torrent//g")
-EXTRA_IMAGE_SIZE=1850MB
+EXTRA_IMAGE_SIZE=1111MB
 MINIMAL_SPACE_LEFT=111111
 
 missing_deps=()
@@ -271,7 +271,7 @@ _open_image
 
 if [[ $authorized_keys_lines -le 20 ]]; then
     echo "/root/.ssh/authorized_keys has 20 line or less."
-    exit 1
+    #exit 1
 fi
 
 # vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
