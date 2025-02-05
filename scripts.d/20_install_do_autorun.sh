@@ -145,9 +145,9 @@ start() {
   led_mode default-on
   log "starting"
   wifiunblock
-  usbgadget
-  oneforall balena
-  oneforall node
+  #usbgadget
+  #oneforall balena
+  #oneforall node
   if [[ rebootrequired -eq 1 ]]
   then
     reboot
