@@ -24,8 +24,9 @@ touch .chat.env
 sync; sync; sync
 
 docker compose -f planet.yml -f volumestravis.yml -f install.yml -p planet pull
-docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:latest treehouses/planet:local
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:chatapi treehouses/planet:chatapi-local
 
 sync; sync; sync
 
