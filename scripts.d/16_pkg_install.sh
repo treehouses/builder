@@ -53,6 +53,7 @@ _op _chroot apt-mark hold linux-image-rpi-2712
 #    _apt install "${INSTALL_PACKAGES[@]}" # || die "Could not install ${INSTALL_PACKAGES[*]}"
 #fi
 
+_apt update
 for package in "${INSTALL_PACKAGES[@]}"; do
     _apt install -y "$package"
     if [[ $? -ne 0 ]]; then
