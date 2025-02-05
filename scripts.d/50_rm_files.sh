@@ -3,8 +3,6 @@
 source lib.sh
 # List of files/directories to remove
 REMOVE=(
-    /home/pi/MagPi
-    /home/travis
 )
 
 for file in "${REMOVE[@]}" ; do
@@ -13,4 +11,4 @@ for file in "${REMOVE[@]}" ; do
 done
 
 sync; sync; sync
-# _op _chroot tree /home/
+_op _chroot tree /home/
