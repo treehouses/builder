@@ -274,4 +274,4 @@ _open_image
 #    exit 1
 #fi
 
-# vim:autoindent:tabstop=2:shiftwidth=2:expandtab:softtabstop=2:
+echo "THE END"
