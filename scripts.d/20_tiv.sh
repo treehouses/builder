@@ -9,5 +9,5 @@ git clone https://github.com/stefanhaustein/TerminalImageViewer.git
   git checkout $workingver
 )
 
-CXX=aarch64-linux-gnu-g++ make -C TerminalImageViewer/src/main/cpp
+CXX=aarch64-linux-gnu-g++ CXXFLAGS="-Wno-misleading-indentation" make -C TerminalImageViewer/src/main/cpp
 mv TerminalImageViewer/src/main/cpp/tiv mnt/img_root/usr/local/bin/
