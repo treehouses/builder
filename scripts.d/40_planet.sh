@@ -19,7 +19,6 @@ touch .chat.env
   echo "  planet:"
   echo "    volumes:"
   echo "      - \"$(pwd -P)/mnt/img_root/srv/$planetdir/pwd:/usr/share/nginx/html/credentials\""
-  echo "version: \"2\""
 } > volumestravis.yml
 
 sync; sync; sync
