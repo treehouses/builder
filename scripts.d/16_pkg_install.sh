@@ -27,7 +27,6 @@ INSTALL_PACKAGES=(
     nmap # network mapping package
     htop
     speedtest-cli # speedtest.net
-    ##libffi-dev # for building docker-compose using pip
     #python3-coral-enviro # Coral environmental board # breaks with new kernel
     bc # for memory command
     libusb-dev # for usb.sh
