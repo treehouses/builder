@@ -7,13 +7,13 @@ source lib.sh
 #     #firehol/netdata:armv7hf
 # )
 
-MULTIS=(
-    treehouses/couchdb:2.3.1
-    treehouses/planet:latest
-    treehouses/planet:db-init
-    treehouses/planet:chatapi
-    portainer/portainer:alpine
-)
+#MULTIS=(
+#    treehouses/couchdb:2.3.1
+#    treehouses/planet:latest
+#    treehouses/planet:db-init
+#    treehouses/planet:chatapi
+#    portainer/portainer:alpine
+#)
 
 OLD=$(pwd -P)
 cd /var/lib || die "ERROR: /var/lib folder doesn't exist, exiting"
@@ -34,14 +34,18 @@ echo '{"experimental": "enabled"}' > ~/.docker/config.json
 mkdir -p "$OLD/mnt/img_root/root/.docker"
 cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
 
-for multi in "${MULTIS[@]}" ; do
-    docker manifest inspect "$multi"
-    name=$(echo "$multi" | cut -d ":" -f 1)
-    tag=$(echo "$multi" | cut -d ":" -f 2)
-    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"arm64\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
-    docker pull "$name@$hash"
-    docker tag "$name@$hash" "$name:$tag" 
-done
+#for multi in "${MULTIS[@]}" ; do
+#    docker manifest inspect "$multi"
+#    name=$(echo "$multi" | cut -d ":" -f 1)
+#    tag=$(echo "$multi" | cut -d ":" -f 2)
+#    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"arm64\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+#    docker pull "$name@$hash"
+#    docker tag "$name@$hash" "$name:$tag" 
+#done
+
+docker pull treehouses/planet:latest
+docker pull treehouses/planet:db-init
+docker pull treehouses/planet:chatapi
 
 docker tag treehouses/planet:latest treehouses/planet:local
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
