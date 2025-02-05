@@ -8,7 +8,3 @@ cat mnt/img_root/usr/local/bin/bluetooth-server.py | grep ^class
 
 echo "Switching bluetooth device class to 0x00010c - computer"
 sed -i -e 's/#Class = .*/Class = 0x00010c/g' mnt/img_root/etc/bluetooth/main.conf
-
-#_pip3_install 'pybluez==0.23'
-_apt show python3-bluez
-_apt install python3-bluez
