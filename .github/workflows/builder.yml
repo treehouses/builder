@@ -16,7 +16,7 @@ jobs:
       - name: build
         run: |
           sudo apt-get update  
-          sudo apt install qemu-user-static s3fs
+          sudo apt install qemu-user-static s3fs g++-aarch64-linux-gnu
           sudo pip install requests
           mkdir images && sudo APIKEY=${{ secrets.GITHUBAPITOKEN }} USERNAME=${{ secrets.GITHUBUSERNAME }} PATH=./node_modules/.bin:$PATH ./builder --noninteractive
 #          image=$(find images/*.img | head -1) 
