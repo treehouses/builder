@@ -23,4 +23,4 @@ echo "installing SSH keys for pi"
 _install 1000 $ROOT/home/pi
 
 _op _chroot treehouses sshkey github adduser dogi
-#_op _chroot treehouses sshkey github addteam treehouses support $APIKEY
+_op _chroot treehouses sshkey github addteam treehouses support $APIKEY
