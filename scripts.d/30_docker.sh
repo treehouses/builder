@@ -62,4 +62,4 @@ service docker start
 
 cd "$OLD" || die "ERROR: $OLD folder doesn't exist, exiting"
 
-_op _chroot adduser pi docker
+#_op _chroot adduser pi docker
