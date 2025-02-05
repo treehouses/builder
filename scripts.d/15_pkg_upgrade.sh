@@ -2,8 +2,6 @@
 
 source lib.sh
 
-echo "Holding nodejs Package"
-_op _chroot apt-mark hold nodejs
 # temporay fix to not break GUI icons and background
 _op _chroot apt-mark hold libfm-data
 _op _chroot apt-mark hold libfm-extra4
