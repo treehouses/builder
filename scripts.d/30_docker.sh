@@ -46,11 +46,12 @@ cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
 docker pull treehouses/planet:latest
 docker pull treehouses/planet:db-init
 docker pull treehouses/planet:chatapi
-docker pull treehouses/couchdb:2.3.1
+docker pull couchdb:2.3.1
 
 docker tag treehouses/planet:latest treehouses/planet:local
 docker tag treehouses/planet:db-init treehouses/planet:db-init-local
 docker tag treehouses/planet:chatapi treehouses/planet:chatapi-local
+docker tag couchdb:2.3.1 treehouses/couchdb:2.3.1
 
 sync; sync; sync
 
