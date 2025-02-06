@@ -1,5 +1,5 @@
 #!/bin/bash
-#exit 0
+exit 0
 source lib.sh
 
 # temporay fix to not break GUI icons and background
