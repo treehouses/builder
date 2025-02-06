@@ -133,7 +133,8 @@ function _open_image {
     mkdir -p mnt/img_root
     mount -t ext4 "$img_root_dev" mnt/img_root || die "Could not mount $img_root_dev mnt/img_root"
     mkdir -p mnt/img_root/boot || die "Could not mkdir mnt/img_root/boot"
-    mount -t vfat "$img_boot_dev" mnt/img_root/boot || die "Could not mount $img_boot_dev mnt/img_root/boot"
+    mkdir -p mnt/img_root/boot/firmware || die "Could not mkdir mnt/img_root/boot/formware"
+    mount -t vfat "$img_boot_dev" mnt/img_root/boot/firmware || die "Could not mount $img_boot_dev mnt/img_root/boot/firmware"
     echo "Raspbian Image Details:"
     df -h mnt/img_root/boot mnt/img_root | sed -e "s#$(pwd)/##"
 }
