@@ -159,8 +159,10 @@ fi
 if [ $updateplanet = "true" ] && [ "$(treehouses internet)" ]; then
   docker pull treehouses/planet:latest
   docker pull treehouses/planet:db-init
+  docker pull treehouses/planet:chatapi
   docker tag treehouses/planet:latest treehouses/planet:local
   docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+  docker tag treehouses/planet:chatapi treehouses/planet:chatapi-local
 fi
 
 # removes treehouses team members sshkeys and places keys to .ssh folder
@@ -175,11 +177,6 @@ fi
 if [ $startplanet = "true" ]; then
   {    
     echo "#!/bin/sh"
-    echo
-    echo "if [ \"$(treehouses container)\" = \"balena\" ]; then"
-    echo "  export DOCKER_HOST=localhost:2375"
-    echo "fi"
-    echo "sleep 1"
     echo
     echo "planet_autorun=true"
     echo
