@@ -39,7 +39,8 @@ docker compose -f planet.yml -f volumestravis.yml -p planet up -d
 
 # check if couch-db is working
 while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
-  sleep 1
+  sleep 5
+  docker ps -a
 done
 echo "couch is up"
 
