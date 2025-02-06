@@ -142,7 +142,7 @@ function _open_image {
 function _close_image {
     _umount mnt/img_root/var/cache/apt/archives \
         mnt/img_root/{proc,sys,run,dev/pts} \
-        mnt/sd_root/bo?t mnt/img_root/boot \
+        mnt/sd_root/bo?t mnt/img_root/boot/firmware \
         mnt/sd_ro?t mnt/img_root
     kpartx -d "images/$RASPBIAN_IMAGE_FILE" >/dev/null
 }
