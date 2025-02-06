@@ -43,7 +43,7 @@ cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
 #    docker tag "$name@$hash" "$name:$tag" 
 #done
 
-docker pull treehouses/couchdb:2.3.1
+#docker pull treehouses/couchdb:2.3.1
 docker pull treehouses/planet:latest
 docker pull treehouses/planet:db-init
 docker pull treehouses/planet:chatapi
