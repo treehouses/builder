@@ -47,6 +47,7 @@ _op _chroot apt-mark hold linux-headers-rpi-v8
 _op _chroot apt-mark hold linux-image-rpi-v8
 _op _chroot apt-mark hold linux-headers-rpi-2712
 _op _chroot apt-mark hold linux-image-rpi-2712
+_op _chroot apt-mark hold initramfs-tools
 
 if [[ ${INSTALL_PACKAGES:-} ]] ; then
     echo "Installing ${INSTALL_PACKAGES[*]}"
@@ -65,3 +66,4 @@ _op _chroot apt-mark unhold linux-headers-rpi-v8
 _op _chroot apt-mark unhold linux-image-rpi-v8
 _op _chroot apt-mark unhold linux-headers-rpi-2712
 _op _chroot apt-mark unhold linux-image-rpi-2712
+_op _chroot apt-mark unhold initramfs-tools
