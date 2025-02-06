@@ -43,17 +43,17 @@ _op _chroot apt-mark hold linux-headers-rpi-2712
 _op _chroot apt-mark hold linux-image-rpi-2712
 _op _chroot apt-mark hold initramfs-tools
 
-#if [[ ${INSTALL_PACKAGES:-} ]] ; then
-#    echo "Installing ${INSTALL_PACKAGES[*]}"
-#    _apt install "${INSTALL_PACKAGES[@]}" # || die "Could not install ${INSTALL_PACKAGES[*]}"
-#fi
+if [[ ${INSTALL_PACKAGES:-} ]] ; then
+    echo "Installing ${INSTALL_PACKAGES[*]}"
+    _apt install "${INSTALL_PACKAGES[@]}" # || die "Could not install ${INSTALL_PACKAGES[*]}"
+fi
 
-for package in "${INSTALL_PACKAGES[@]}"; do
-    _apt install -y "$package"
-    if [[ $? -ne 0 ]]; then
-        echo "Error installing $package. Continuing..."
-    fi
-done
+#for package in "${INSTALL_PACKAGES[@]}"; do
+#    _apt install -y "$package"
+#    if [[ $? -ne 0 ]]; then
+#        echo "Error installing $package. Continuing..."
+#    fi
+#done
 
 _op _chroot apt-mark hold tor #TODO bring back to upstream
 _op _chroot apt-mark unhold linux-headers-rpi-v8
