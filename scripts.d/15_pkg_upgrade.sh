@@ -26,16 +26,20 @@ else
     installable_packages=()
     for pkg in "${upgradeable_packages[@]}"; do
         echo "Checking dependencies for $pkg"
-        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' )
-        upgrade_needed=false
-        for dep in $dependencies; do
-            if printf '%s\n' "${upgradeable_packages[@]}" | grep -q "^$dep$"; then
-                upgrade_needed=true
-                break
-            fi
-        done
-        if [ "$upgrade_needed" = false ]; then
+        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' ) || continue
+        if [ -z "$dependencies" ]; then
             installable_packages+=("$pkg")
+        else
+            upgrade_needed=false
+            for dep in $dependencies; do
+                if printf '%s\n' "${upgradeable_packages[@]}" | grep -q "^$dep$"; then
+                    upgrade_needed=true
+                    break
+                fi
+            done
+            if [ "$upgrade_needed" = false ]; then
+                installable_packages+=("$pkg")
+            fi
         fi
     done
     
