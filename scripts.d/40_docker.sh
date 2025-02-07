@@ -34,6 +34,9 @@ echo '{"experimental": "enabled"}' > ~/.docker/config.json
 mkdir -p "$OLD/mnt/img_root/root/.docker"
 cp ~/.docker/config.json "$OLD/mnt/img_root/root/.docker/."
 
+uname -m
+docker info
+
 #for multi in "${MULTIS[@]}" ; do
 #    docker manifest inspect "$multi"
 #    name=$(echo "$multi" | cut -d ":" -f 1)
