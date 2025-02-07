@@ -17,7 +17,7 @@ _apt update || die "Could not update package sources"
 
 while true; do
     echo "Fetching list of upgradeable packages"
-    mapfile -t upgradeable_packages < <(_op _chroot apt list --upgradable 2>/dev/null | tail -n +2 | awk -F/ '{print $1}' | grep -v '^$')
+    mapfile -t upgradeable_packages < <(_op _chroot apt list --upgradable 2>/dev/null | awk -F/ 'NR>1 {print $1}' | grep -v '^WARNING' | grep -v '^$' | grep '^Listing')
     
     if [ ${#upgradeable_packages[@]} -eq 0 ]; then
         echo "No more packages to upgrade. Exiting loop."
@@ -27,8 +27,14 @@ while true; do
     echo "Upgradeable packages:"
     printf '%s\n' "${upgradeable_packages[@]}"
     
-    echo "Upgrading first package: ${upgradeable_packages[0]}"
-    _op _chroot apt install -y "${upgradeable_packages[0]}" || die "Failed to upgrade ${upgradeable_packages[0]}"
+    first_package="${upgradeable_packages[0]}"
+    if [[ -z "$first_package" || "$first_package" == *WARNING* ]]; then
+        echo "Invalid package name detected, skipping..."
+        continue
+    fi
+    
+    echo "Upgrading first package: $first_package"
+    _op _chroot apt install -y "$first_package" || die "Failed to upgrade $first_package"
 done
 
 echo "Releasing held packages..."
