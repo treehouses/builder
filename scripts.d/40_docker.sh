@@ -105,7 +105,7 @@ while [[ $(docker inspect -f '{{.State.Running}}' "$(docker ps -f name=planet_db
 done
 echo "couch has finished"
 
-tree -f "mnt/img_root/srv/$planetdir"
+tree -f "$OLD/mnt/img_root/srv/$planetdir"
 
 # sync and stop docker
 sync; sync; sync
