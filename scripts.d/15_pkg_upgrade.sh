@@ -5,7 +5,7 @@ source lib.sh
 packages_to_hold=(
     libfm-data libfm-extra4 libfm-gtk-data libfm-gtk4 libfm-modules libfm4 raspberrypi-ui-mods
     linux-headers-rpi-v8 linux-image-rpi-v8 linux-headers-rpi-2712 linux-image-rpi-2712
-    initramfs-tools initramfs-tools-core udev libpam-systemd
+    initramfs-tools initramfs-tools-core udev libpam-systemd libsystemd-shared
 )
 
 for pkg in "${packages_to_hold[@]}"; do
