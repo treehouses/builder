@@ -27,14 +27,14 @@ while true; do
     echo "Upgradeable packages:"
     printf '%s\n' "${upgradeable_packages[@]}"
     
-    first_package="${upgradeable_packages[0]}"
-    if [[ -z "$first_package" || "$first_package" == *WARNING* || "$first_package" == "Listing" ]]; then
+    last_package="${upgradeable_packages[-1]}"
+    if [[ -z "$last_package" || "$last_package" == *WARNING* || "$last_package" == "Listing" ]]; then
         echo "Invalid package name detected, skipping..."
         continue
     fi
     
-    echo "Upgrading first package: $first_package"
-    _op _chroot apt install -y "$first_package" || die "Failed to upgrade $first_package"
+    echo "Upgrading last package: $last_package"
+    _op _chroot apt install -y "$last_package" || die "Failed to upgrade $last_package"
 done
 
 echo "Releasing held packages..."
