@@ -57,6 +57,55 @@ sync; sync; sync
 
 docker images
 
+planetdir='tenalp'
+mkdir -p "$OLD/mnt/img_root/srv/$planetdir"
+cd "$OLD/mnt/img_root/srv/$planetdir"
+
+# download Planet
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/planet.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/install.yml
+wget https://raw.githubusercontent.com/open-learning-exchange/planet/master/docker/volumes.yml
+touch .chat.env
+
+{
+  echo "services:"
+  echo "  couchdb:"
+  echo "    volumes:"
+  echo "      - \"$OLD/mnt/img_root/srv/$planetdir/data:/opt/couchdb/data\""
+  echo "      - \"$OLD/mnt/img_root/srv/$planetdir/log:/opt/couchdb/var/log\""
+  echo "  planet:"
+  echo "    volumes:"
+  echo "      - \"$OLD/mnt/img_root/srv/$planetdir/pwd:/usr/share/nginx/html/credentials\""
+} > volumestravis.yml
+
+sync; sync; sync
+
+docker compose -f planet.yml -f volumestravis.yml -p planet up -d
+
+# check if couch-db is working
+while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
+  sleep 5
+  docker ps -a
+done
+echo "couch is up"
+
+sync; sync; sync
+
+docker ps -f name=planet_db-init* -a -q
+# check if couch-db docker has finish
+while [[ $(docker inspect -f '{{.State.Running}}' "$(docker ps -f name=planet_db-init* -a -q)") == "true" ]]; do
+  sleep 1
+done
+echo "couch has finished"
+
+tree -f "mnt/img_root/srv/$planetdir"
+
+# sync and stop docker
+sync; sync; sync
+docker compose -f planet.yml -f volumestravis.yml -p planet stop
+
+cd -
+
 service docker stop
 unlink docker
 mv docker.temp docker
