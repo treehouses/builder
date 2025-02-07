@@ -12,52 +12,21 @@ for pkg in "${packages_to_hold[@]}"; do
     _op _chroot apt-mark hold "$pkg"
 done
 
-echo "Updating package lists"
+echo "Installing Updates"
 _apt update || die "Could not update package sources"
 
-echo "Fetching list of upgradeable packages without dependencies"
-upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
-
-echo "Found ${#upgradeable_packages[@]} upgradeable packages:"
-printf '%s\n' "${upgradeable_packages[@]}"
-
-if [ ${#upgradeable_packages[@]} -eq 0 ]; then
-    echo "No packages to upgrade."
-else
-    installable_packages=()
-    for pkg in "${upgradeable_packages[@]}"; do
-        echo "Checking dependencies for $pkg"
-        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' )
-        echo "Dependencies for $pkg: $dependencies"
-        if [ -z "$dependencies" ]; then
-            installable_packages+=("$pkg")
-        else
-            upgrade_needed=false
-            for dep in $dependencies; do
-                if [[ " ${upgradeable_packages[@]} " =~ " $dep " ]]; then
-                    upgrade_needed=true
-                    break
-                fi
-            done
-            if [ "$upgrade_needed" = false ]; then
-                installable_packages+=("$pkg")
-            fi
-        fi
-    done
+while true; do
+    echo "Fetching list of upgradeable packages"
+    upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
     
-    echo "Found ${#installable_packages[@]} standalone packages to upgrade:"
-    printf '%s\n' "${installable_packages[@]}"
-    
-    if [ ${#installable_packages[@]} -eq 0 ]; then
-        echo "No standalone packages to upgrade."
-    else
-        echo "Upgrading standalone packages"
-        for pkg in "${installable_packages[@]}"; do
-            echo "Upgrading $pkg"
-            _op _chroot apt install -y "$pkg" || die "Failed to upgrade $pkg"
-        done
+    if [ ${#upgradeable_packages[@]} -eq 0 ]; then
+        echo "No more packages to upgrade. Exiting loop."
+        break
     fi
-fi
+    
+    echo "Upgrading first package: ${upgradeable_packages[0]}"
+    _op _chroot apt install -y "${upgradeable_packages[0]}" || die "Failed to upgrade ${upgradeable_packages[0]}"
+done
 
 echo "Releasing held packages..."
 for pkg in "${packages_to_hold[@]}"; do
