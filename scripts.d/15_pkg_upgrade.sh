@@ -18,7 +18,8 @@ _apt update || die "Could not update package sources"
 echo "Fetching list of upgradeable packages without dependencies"
 upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
 
-echo "Found ${#upgradeable_packages[@]} upgradeable packages."
+echo "Found ${#upgradeable_packages[@]} upgradeable packages:"
+printf '%s\n' "${upgradeable_packages[@]}"
 
 if [ ${#upgradeable_packages[@]} -eq 0 ]; then
     echo "No packages to upgrade."
@@ -26,13 +27,14 @@ else
     installable_packages=()
     for pkg in "${upgradeable_packages[@]}"; do
         echo "Checking dependencies for $pkg"
-        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' ) || continue
+        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' )
+        echo "Dependencies for $pkg: $dependencies"
         if [ -z "$dependencies" ]; then
             installable_packages+=("$pkg")
         else
             upgrade_needed=false
             for dep in $dependencies; do
-                if printf '%s\n' "${upgradeable_packages[@]}" | grep -q "^$dep$"; then
+                if [[ " ${upgradeable_packages[@]} " =~ " $dep " ]]; then
                     upgrade_needed=true
                     break
                 fi
@@ -43,7 +45,8 @@ else
         fi
     done
     
-    echo "Found ${#installable_packages[@]} standalone packages to upgrade."
+    echo "Found ${#installable_packages[@]} standalone packages to upgrade:"
+    printf '%s\n' "${installable_packages[@]}"
     
     if [ ${#installable_packages[@]} -eq 0 ]; then
         echo "No standalone packages to upgrade."
