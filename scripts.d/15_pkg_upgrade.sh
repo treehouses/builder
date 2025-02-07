@@ -17,7 +17,7 @@ _apt update || die "Could not update package sources"
 
 while true; do
     echo "Fetching list of upgradeable packages"
-    mapfile -t upgradeable_packages < <(_op _chroot apt list --upgradable 2>/dev/null | awk -F/ 'NR>1 {print $1}' | grep -v '^$')
+    mapfile -t upgradeable_packages < <(_op _chroot apt list --upgradable 2>/dev/null | tail -n +2 | awk -F/ '{print $1}' | grep -v '^$')
     
     if [ ${#upgradeable_packages[@]} -eq 0 ]; then
         echo "No more packages to upgrade. Exiting loop."
