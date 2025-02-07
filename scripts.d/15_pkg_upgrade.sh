@@ -20,28 +20,34 @@ _apt update || die "Could not update package sources"
 
 while true; do
     echo "Fetching list of upgradeable packages"
-    mapfile -t upgradeable_packages < <(_chroot apt list --upgradable 2>/dev/null | awk -F/ 'NR>1 {print $1}' | grep -v '^WARNING' | grep -v '^Listing' | grep -v '^$')
+    mapfile -t all_upgradeable_packages < <(_chroot apt list --upgradable 2>/dev/null | awk -F/ 'NR>1 {print $1}' | grep -v '^WARNING' | grep -v '^Listing' | grep -v '^$')
     
-    if [ ${#upgradeable_packages[@]} -eq 0 ]; then
+    if [ ${#all_upgradeable_packages[@]} -eq 0 ]; then
         echo "No more packages to upgrade. Exiting loop."
         break
     fi
     
-    echo "Upgradeable packages:"
-    printf '%s\n' "${upgradeable_packages[@]}"
-    
-    # Remove held packages from upgrade list
-    upgradeable_packages=($(printf "%s\n" "${upgradeable_packages[@]}" | grep -v -E "$(printf "|%s" "${packages_to_hold[@]}")"))
+    echo "Filtering out held packages..."
+    upgradeable_packages=()
+    for pkg in "${all_upgradeable_packages[@]}"; do
+        if [[ " ${packages_to_hold[*]} " =~ " $pkg " ]]; then
+            echo "Skipping held package: $pkg"
+        else
+            upgradeable_packages+=("$pkg")
+        fi
+    done
     
     if [ ${#upgradeable_packages[@]} -eq 0 ]; then
         echo "No more non-held packages to upgrade. Exiting loop."
         break
     fi
     
-    last_package="${upgradeable_packages[-1]}"
+    echo "Upgradeable packages:"
+    printf '%s\n' "${upgradeable_packages[@]}"
     
-    echo "Upgrading last package: $last_package"
-    _op _chroot apt install -y "$last_package" || die "Failed to upgrade $last_package"
+    echo "Upgrading package: ${upgradeable_packages[0]}"
+    _op _chroot apt install -y "${upgradeable_packages[0]}" || echo "Failed to upgrade ${upgradeable_packages[0]}"
+
 done
 
 echo "Releasing held packages..."
