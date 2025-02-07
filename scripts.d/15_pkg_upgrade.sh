@@ -26,14 +26,22 @@ echo "Packages to be upgraded: ${upgradable_array[*]}"
 # Function to install a package and its dependencies
 install_package_with_deps() {
     local package=$1
+
+    # Skip if package is empty (prevents infinite loop issues)
+    if [[ -z "$package" ]]; then
+        echo "ERROR: Empty package name encountered. Skipping..."
+        return
+    fi
+
     echo "Processing $package..."
-    
+
     # Get package dependencies
-    dependencies=$(apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}')
-    
+    dependencies=$(apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<")
+
     if [[ -n "$dependencies" ]]; then
         echo "Dependencies found for $package: $dependencies"
         for dep in $dependencies; do
+            # Only upgrade dependencies that are in the upgradable list
             if [[ " ${upgradable_array[*]} " =~ " ${dep} " ]]; then
                 echo "Upgrading dependency first: $dep"
                 _apt install --only-upgrade -y "$dep" || echo "Failed to upgrade $dep"
@@ -50,12 +58,18 @@ install_package_with_deps() {
     _apt install --only-upgrade -y "$package" || echo "Failed to upgrade $package"
 
     # Remove package from the upgradable list
-    upgradable_array=("${upgradable_array[@]/$package}")
+    for i in "${!upgradable_array[@]}"; do
+        if [[ "${upgradable_array[i]}" == "$package" ]]; then
+            unset "upgradable_array[i]"
+            break
+        fi
+    done
 }
 
 # Loop through upgradable packages and process them one by one
 while [[ ${#upgradable_array[@]} -gt 0 ]]; do
     install_package_with_deps "${upgradable_array[0]}"
+    upgradable_array=("${upgradable_array[@]}")  # Remove empty array slots
 done
 
 echo "Releasing held packages..."
