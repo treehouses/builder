@@ -86,6 +86,7 @@ docker compose -f planet.yml -f volumestravis.yml -p planet up -d
 while ! curl -X GET http://127.0.0.1:2200/_all_dbs ; do
   sleep 5
   docker ps -a
+  docker logs planet-couchdb-1
 done
 echo "couch is up"
 
