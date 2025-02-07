@@ -15,11 +15,8 @@ done
 echo "Fetching list of upgradable packages..."
 _apt update || die "Could not update package sources"
 
-# Get the list of upgradable packages
-upgradable_packages=$(apt list --upgradable 2>/dev/null | awk -F'/' 'NR>1 {print $1}')
-
-# Convert the list into an array
-mapfile -t upgradable_array <<< "$upgradable_packages"
+# Get the list of upgradable packages and store in an array
+mapfile -t upgradable_array < <(apt list --upgradable 2>/dev/null | awk -F'/' 'NR>1 {print $1}' | sort -u)
 
 echo "Packages to be upgraded: ${upgradable_array[*]}"
 
@@ -27,7 +24,7 @@ echo "Packages to be upgraded: ${upgradable_array[*]}"
 install_package_with_deps() {
     local package=$1
 
-    # Skip empty package names
+    # Ensure we don’t process empty or null values
     if [[ -z "$package" ]]; then
         echo "ERROR: Empty package name encountered. Skipping..."
         return
@@ -36,39 +33,36 @@ install_package_with_deps() {
     echo "Processing $package..."
 
     # Get package dependencies
-    dependencies=$(apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<")
+    dependencies=$(apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<" | sort -u)
 
     if [[ -n "$dependencies" ]]; then
         echo "Dependencies found for $package: $dependencies"
         for dep in $dependencies; do
-            # Ensure dependency is in the upgrade list
+            # Ensure the dependency is in the upgradable list
             if [[ " ${upgradable_array[*]} " =~ " ${dep} " ]]; then
                 echo "Upgrading dependency first: $dep"
                 _apt install --only-upgrade -y "$dep" || echo "Failed to upgrade $dep"
-                
-                # Properly remove the dependency from the list
+
+                # Remove installed dependency from the array
                 upgradable_array=("${upgradable_array[@]/$dep}")
-                upgradable_array=("${upgradable_array[@]}")  # Clean up empty slots
             fi
         done
     else
         echo "No dependencies found for $package"
     fi
 
-    # Upgrade the main package
+    # Install the main package
     echo "Upgrading $package..."
     _apt install --only-upgrade -y "$package" || echo "Failed to upgrade $package"
 
-    # Properly remove the installed package
-    for i in "${!upgradable_array[@]}"; do
-        if [[ "${upgradable_array[i]}" == "$package" ]]; then
-            unset "upgradable_array[i]"
-        fi
-    done
-    upgradable_array=("${upgradable_array[@]}")  # Clean up empty slots
+    # Remove the installed package from the list
+    upgradable_array=("${upgradable_array[@]/$package}")
+
+    # Rebuild the array to remove empty slots
+    upgradable_array=($(echo "${upgradable_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 }
 
-# Process each package and its dependencies
+# Process each package in the queue
 while [[ ${#upgradable_array[@]} -gt 0 ]]; do
     install_package_with_deps "${upgradable_array[0]}"
 done
