@@ -15,59 +15,49 @@ done
 echo "Fetching list of upgradable packages..."
 _apt update || die "Could not update package sources"
 
-# Get the list of upgradable packages and store in an array
+# Get the list of upgradable packages
 mapfile -t upgradable_array < <(_apt list --upgradable 2>/dev/null | awk -F'/' 'NR>1 {print $1}' | sort -u)
 
-echo "Packages to be upgraded: ${upgradable_array[*]}"
+declare -A dependency_count
 
-# Function to install a package and its dependencies
-install_package_with_deps() {
-    local package=$1
+echo "Grouping packages by dependency count..."
+for pkg in "${upgradable_array[@]}"; do
+    dep_count=$(_op _chroot apt-cache depends "$pkg" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<" | wc -l)
+    dependency_count[$pkg]=$dep_count
 
-    # Ensure we don’t process empty or null values
-    if [[ -z "$package" ]]; then
-        echo "ERROR: Empty package name encountered. Skipping..."
-        return
+done
+
+max_round=10  # Prevent infinite loops
+round=0
+
+while [[ ${#dependency_count[@]} -gt 0 && $round -lt $max_round ]]; do
+    echo "Starting round $((round+1))..."
+    
+    # Find packages with the current dependency count
+    selected_packages=()
+    for pkg in "${!dependency_count[@]}"; do
+        if [[ ${dependency_count[$pkg]} -eq $round ]]; then
+            selected_packages+=("$pkg")
+        fi
+    done
+    
+    if [[ ${#selected_packages[@]} -eq 0 ]]; then
+        ((round++))
+        continue
     fi
-
-    echo "Processing $package..."
-
-    # Get package dependencies
-    dependencies=$(_op _chroot apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<" | sort -u)
-
-    if [[ -n "$dependencies" ]]; then
-        echo "Dependencies found for $package: $dependencies"
-        for dep in $dependencies; do
-            # Ensure the dependency is in the upgradable list
-            if [[ " ${upgradable_array[*]} " =~ " ${dep} " ]]; then
-                echo "Upgrading dependency first: $dep"
-                _apt install --only-upgrade -y "$dep" || echo "Failed to upgrade $dep"
-
-                # Remove installed dependency from the array
-                upgradable_array=("${upgradable_array[@]/$dep}")
-            fi
-        done
-    else
-        echo "No dependencies found for $package"
-    fi
-
-    # Install the main package
-    echo "Upgrading $package..."
-    _apt install --only-upgrade -y "$package" || echo "Failed to upgrade $package"
-
-    # Remove the installed package from the list
-    upgradable_array=("${upgradable_array[@]/$package}")
-
-    # Rebuild the array to remove empty slots
-    upgradable_array=($(echo "${upgradable_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
-}
-
-# Process each package in the queue
-while [[ ${#upgradable_array[@]} -gt 0 ]]; do
-    install_package_with_deps "${upgradable_array[0]}"
+    
+    echo "Upgrading: ${selected_packages[*]}"
+    for pkg in "${selected_packages[@]}"; do
+        _apt install --only-upgrade -y "$pkg" || echo "Failed to upgrade $pkg" >> upgrade_errors.log
+        unset dependency_count[$pkg]  # Remove upgraded package
+    done
+    
+    ((round++))
 done
 
 echo "Releasing held packages..."
 for pkg in "${packages_to_hold[@]}"; do
     _op _chroot apt-mark unhold "$pkg"
 done
+
+echo "Upgrade process completed."
