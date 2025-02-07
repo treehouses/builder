@@ -27,7 +27,7 @@ echo "Packages to be upgraded: ${upgradable_array[*]}"
 install_package_with_deps() {
     local package=$1
 
-    # Skip if package is empty (prevents infinite loop issues)
+    # Skip empty package names
     if [[ -z "$package" ]]; then
         echo "ERROR: Empty package name encountered. Skipping..."
         return
@@ -41,35 +41,36 @@ install_package_with_deps() {
     if [[ -n "$dependencies" ]]; then
         echo "Dependencies found for $package: $dependencies"
         for dep in $dependencies; do
-            # Only upgrade dependencies that are in the upgradable list
+            # Ensure dependency is in the upgrade list
             if [[ " ${upgradable_array[*]} " =~ " ${dep} " ]]; then
                 echo "Upgrading dependency first: $dep"
                 _apt install --only-upgrade -y "$dep" || echo "Failed to upgrade $dep"
-                # Remove the dependency from the list of upgradable packages
+                
+                # Properly remove the dependency from the list
                 upgradable_array=("${upgradable_array[@]/$dep}")
+                upgradable_array=("${upgradable_array[@]}")  # Clean up empty slots
             fi
         done
     else
         echo "No dependencies found for $package"
     fi
 
-    # Install the main package
+    # Upgrade the main package
     echo "Upgrading $package..."
     _apt install --only-upgrade -y "$package" || echo "Failed to upgrade $package"
 
-    # Remove package from the upgradable list
+    # Properly remove the installed package
     for i in "${!upgradable_array[@]}"; do
         if [[ "${upgradable_array[i]}" == "$package" ]]; then
             unset "upgradable_array[i]"
-            break
         fi
     done
+    upgradable_array=("${upgradable_array[@]}")  # Clean up empty slots
 }
 
-# Loop through upgradable packages and process them one by one
+# Process each package and its dependencies
 while [[ ${#upgradable_array[@]} -gt 0 ]]; do
     install_package_with_deps "${upgradable_array[0]}"
-    upgradable_array=("${upgradable_array[@]}")  # Remove empty array slots
 done
 
 echo "Releasing held packages..."
