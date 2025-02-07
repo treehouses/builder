@@ -12,6 +12,9 @@ for pkg in "${packages_to_hold[@]}"; do
     _op _chroot apt-mark hold "$pkg"
 done
 
+echo "Checking held packages..."
+_chroot apt-mark showhold
+
 echo "Installing Updates"
 _apt update || die "Could not update package sources"
 
@@ -27,11 +30,15 @@ while true; do
     echo "Upgradeable packages:"
     printf '%s\n' "${upgradeable_packages[@]}"
     
-    last_package="${upgradeable_packages[-1]}"
-    if [[ -z "$last_package" || "$last_package" == *WARNING* || "$last_package" == "Listing" ]]; then
-        echo "Invalid package name detected, skipping..."
-        continue
+    # Remove held packages from upgrade list
+    upgradeable_packages=($(printf "%s\n" "${upgradeable_packages[@]}" | grep -v -E "$(printf "|%s" "${packages_to_hold[@]}")"))
+    
+    if [ ${#upgradeable_packages[@]} -eq 0 ]; then
+        echo "No more non-held packages to upgrade. Exiting loop."
+        break
     fi
+    
+    last_package="${upgradeable_packages[-1]}"
     
     echo "Upgrading last package: $last_package"
     _op _chroot apt install -y "$last_package" || die "Failed to upgrade $last_package"
