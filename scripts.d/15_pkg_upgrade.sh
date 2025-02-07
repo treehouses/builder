@@ -16,31 +16,35 @@ echo "Updating package lists"
 _apt update || die "Could not update package sources"
 
 echo "Fetching list of upgradeable packages without dependencies"
-upgradeable_packages=($(_op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}'))
+upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
 
-installable_packages=()
-for pkg in "${upgradeable_packages[@]}"; do
-    dependencies=$(_op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}')
-    upgrade_needed=false
-    for dep in $dependencies; do
-        if [[ " ${upgradeable_packages[@]} " =~ " $dep " ]]; then
-            upgrade_needed=true
-            break
+if [ ${#upgradeable_packages[@]} -eq 0 ]; then
+    echo "No packages to upgrade."
+else
+    installable_packages=()
+    for pkg in "${upgradeable_packages[@]}"; do
+        dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' )
+        upgrade_needed=false
+        for dep in $dependencies; do
+            if printf '%s\n' "${upgradeable_packages[@]}" | grep -q "^$dep$"; then
+                upgrade_needed=true
+                break
+            fi
+        done
+        if [ "$upgrade_needed" = false ]; then
+            installable_packages+=("$pkg")
         fi
     done
-    if [ "$upgrade_needed" = false ]; then
-        installable_packages+=("$pkg")
+    
+    if [ ${#installable_packages[@]} -eq 0 ]; then
+        echo "No standalone packages to upgrade."
+    else
+        echo "Upgrading standalone packages"
+        for pkg in "${installable_packages[@]}"; do
+            echo "Upgrading $pkg"
+            _op _chroot apt install -y "$pkg" || die "Failed to upgrade $pkg"
+        done
     fi
-done
-
-if [ ${#installable_packages[@]} -eq 0 ]; then
-    echo "No standalone packages to upgrade."
-else
-    echo "Upgrading standalone packages"
-    for pkg in "${installable_packages[@]}"; do
-        echo "Upgrading $pkg"
-        _op _chroot apt install -y "$pkg" || die "Failed to upgrade $pkg"
-    done
 fi
 
 echo "Releasing held packages..."
