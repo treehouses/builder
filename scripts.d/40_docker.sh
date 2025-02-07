@@ -59,6 +59,9 @@ docker tag couchdb:2.3.1 treehouses/couchdb:2.3.1
 sync; sync; sync
 
 docker images
+df -h
+df -i
+docker system df
 
 planetdir='tenalp'
 mkdir -p "$OLD/mnt/img_root/srv/$planetdir"
