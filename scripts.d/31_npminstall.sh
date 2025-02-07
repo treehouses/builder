@@ -24,4 +24,5 @@ _op _chroot treehouses sshkey github adduser hirotochigi
 _op _chroot treehouses sshkey github adduser jessewashburn
 _op _chroot treehouses sshkey github adduser pavi38
 _op _chroot treehouses sshkey github adduser paulbert
+_op _chroot treehouses sshkey github adduser plataformasinformaticas
 #_op _chroot treehouses sshkey github addteam treehouses support $APIKEY
