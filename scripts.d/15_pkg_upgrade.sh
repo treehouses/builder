@@ -16,7 +16,7 @@ echo "Fetching list of upgradable packages..."
 _apt update || die "Could not update package sources"
 
 # Get the list of upgradable packages and store in an array
-mapfile -t upgradable_array < <(apt list --upgradable 2>/dev/null | awk -F'/' 'NR>1 {print $1}' | sort -u)
+mapfile -t upgradable_array < <(_apt list --upgradable 2>/dev/null | awk -F'/' 'NR>1 {print $1}' | sort -u)
 
 echo "Packages to be upgraded: ${upgradable_array[*]}"
 
@@ -33,7 +33,7 @@ install_package_with_deps() {
     echo "Processing $package..."
 
     # Get package dependencies
-    dependencies=$(apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<" | sort -u)
+    dependencies=$(_op _chroot apt-cache depends "$package" 2>/dev/null | awk '/Depends:/ {print $2}' | grep -v "<" | sort -u)
 
     if [[ -n "$dependencies" ]]; then
         echo "Dependencies found for $package: $dependencies"
