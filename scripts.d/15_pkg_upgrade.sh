@@ -1,5 +1,8 @@
 #!/bin/bash
+
 source lib.sh
+
+#MODE="debug"  # Comment for "default" for bulk upgrade mode
 
 # Temporary fix to not break GUI icons and background
 packages_to_hold=(
@@ -8,8 +11,6 @@ packages_to_hold=(
     initramfs-tools initramfs-tools-core udev libudev1
     systemd-timesyncd systemd libpam-systemd libsystemd-shared libsystemd0
 )
-
-MODE="debug"  # Comment for "default" for bulk upgrade mode
 
 for pkg in "${packages_to_hold[@]}"; do
     _op _chroot apt-mark hold "$pkg"
