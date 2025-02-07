@@ -18,11 +18,14 @@ _apt update || die "Could not update package sources"
 echo "Fetching list of upgradeable packages without dependencies"
 upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
 
+echo "Found ${#upgradeable_packages[@]} upgradeable packages."
+
 if [ ${#upgradeable_packages[@]} -eq 0 ]; then
     echo "No packages to upgrade."
 else
     installable_packages=()
     for pkg in "${upgradeable_packages[@]}"; do
+        echo "Checking dependencies for $pkg"
         dependencies=$( _op _chroot apt-cache depends "$pkg" | grep "Depends:" | awk '{print $2}' )
         upgrade_needed=false
         for dep in $dependencies; do
@@ -35,6 +38,8 @@ else
             installable_packages+=("$pkg")
         fi
     done
+    
+    echo "Found ${#installable_packages[@]} standalone packages to upgrade."
     
     if [ ${#installable_packages[@]} -eq 0 ]; then
         echo "No standalone packages to upgrade."
