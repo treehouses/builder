@@ -17,12 +17,15 @@ _apt update || die "Could not update package sources"
 
 while true; do
     echo "Fetching list of upgradeable packages"
-    upgradeable_packages=($( _op _chroot apt list --upgradable | awk -F/ 'NR>1 {print $1}' ))
+    mapfile -t upgradeable_packages < <(_op _chroot apt list --upgradable 2>/dev/null | awk -F/ 'NR>1 {print $1}' | grep -v '^$')
     
     if [ ${#upgradeable_packages[@]} -eq 0 ]; then
         echo "No more packages to upgrade. Exiting loop."
         break
     fi
+    
+    echo "Upgradeable packages:"
+    printf '%s\n' "${upgradeable_packages[@]}"
     
     echo "Upgrading first package: ${upgradeable_packages[0]}"
     _op _chroot apt install -y "${upgradeable_packages[0]}" || die "Failed to upgrade ${upgradeable_packages[0]}"
