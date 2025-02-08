@@ -10,3 +10,4 @@ echo "Switching bluetooth device class to 0x00010c - computer"
 sed -i -e 's/#Class = .*/Class = 0x00010c/g' mnt/img_root/etc/bluetooth/main.conf
 
 sed -i -e 's#libexec/bluetooth/bluetoothd#sbin/bluetoothd --noplugin=sap#' mnt/img_root/lib/systemd/system/bluetooth.service
+cat mnt/img_root/lib/systemd/system/bluetooth.service hi
