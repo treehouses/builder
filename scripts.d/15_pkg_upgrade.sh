@@ -2,7 +2,7 @@
 
 source lib.sh
 
-MODE="debug"  # Comment for "default" for bulk upgrade mode
+#MODE="debug"  # Comment for "default" for bulk upgrade mode
 
 # Temporary fix to not break GUI icons and background
 packages_to_hold=(
