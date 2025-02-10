@@ -5,7 +5,7 @@ source lib.sh
 cat << EOF > mnt/img_root/etc/systemd/system/rpibluetooth.service
 [Unit]
 Description=Bluetooth server
-After=rpibluetooth.service
+After=bluetooth.service
 Requires=rpibluetooth.service bluetooth.service
 
 StartLimitIntervalSec=500
