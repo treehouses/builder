@@ -2,6 +2,8 @@ name: builder
 
 on: 
   push:
+    branches:
+      - '*'
     tags-ignore:
       - '*'
   release:
