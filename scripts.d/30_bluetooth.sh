@@ -17,5 +17,6 @@ cat mnt/img_root/etc/bluetooth/main.conf
 sed -i -e 's#libexec/bluetooth/bluetoothd#sbin/bluetoothd#' mnt/img_root/lib/systemd/system/bluetooth.service
 cat mnt/img_root/lib/systemd/system/bluetooth.service
 
+mkdir -p mnt/img_root/etc/systemd/system/bluetooth.service.d
 echo "[Service]\nExecStart=\nExecStart=/usr/sbin/bluetoothd --compat" > mnt/img_root/etc/systemd/system/bluetooth.service.d/override.conf
 cat mnt/img_root/etc/systemd/system/bluetooth.service.d/override.conf
