@@ -39,5 +39,5 @@ RestartSec=5s
 WantedBy=multi-user.target
 EOF
 
-_op _chroot chmod +x /etc/systemd/system/rpibluetooth.service
+_op _chroot chmod 644 /etc/systemd/system/rpibluetooth.service
 _op _chroot systemctl enable rpibluetooth
