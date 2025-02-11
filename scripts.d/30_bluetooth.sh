@@ -11,7 +11,6 @@ sed -i -e 's/#Class = .*/Class = 0x00010c/g' mnt/img_root/etc/bluetooth/main.con
 sed -i -e 's/#DiscoverableTimeout = 0/DiscoverableTimeout = 0/g' mnt/img_root/etc/bluetooth/main.conf
 sed -i -e 's/#JustWorksRepairing = never/JustWorksRepairing = always/g' mnt/img_root/etc/bluetooth/main.conf
 sed -i -e 's/#FastConnectable = false/FastConnectable = true/g' mnt/img_root/etc/bluetooth/main.conf
-echo -e "\n[Agent]\nDefaultAgent = true\nEnableSecurity = false" >> mnt/img_root/etc/bluetooth/main.conf
 cat mnt/img_root/etc/bluetooth/main.conf
 
 sed -i -e 's#libexec/bluetooth/bluetoothd#sbin/bluetoothd#' mnt/img_root/lib/systemd/system/bluetooth.service
