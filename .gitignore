@@ -8,3 +8,4 @@ temp/
 .vagrant/
 .*.sw[nop]/
 .vagrant.yml
+.aider*
